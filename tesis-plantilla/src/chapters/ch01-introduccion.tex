@@ -1,0 +1,93 @@
+\chapter{Introducción}
+
+\section{Contexto}
+
+En la última década, el crecimiento explosivo del internet y las plataformas digitales ha transformado la forma en que las personas se comunican, comparten ideas y participan en comunidades. Sin embargo, este avance ha traído consigo un problema creciente: el uso del lenguaje ofensivo, el discurso de odio y la toxicidad en línea.
+
+Diversos estudios han demostrado que el lenguaje ofensivo ha aumentado significativamente en redes sociales como X (antes Twitter), Facebook y TikTok, así como en plataformas de videojuegos y streaming como Twitch, Kick. Por ejemplo, una investigación reciente de la Universidad del Sur de California reveló un incremento del 50\% en el discurso de odio en X tras la modificación de sus políticas de moderación \cite{hickey2025x}. De forma paralela, más del 90\% de los gamers ha experimentado o presenciado acoso en línea, según un informe de Preply \cite{preply2022games}.
+
+\section{Descripción del Problema}
+
+En los espacios digitales actuales, es cada vez más común encontrar mensajes con un tono hostil o agresivo. Este tipo de interacción no solo afecta el bienestar emocional de los usuarios ---sobre todo en el caso de mujeres y jóvenes---, sino que también perjudica la calidad del debate y la participación en línea. El lenguaje ofensivo, cuando no se modera adecuadamente, tiende a reforzar dinámicas de exclusión y polarización, e incluso puede derivar en formas de violencia simbólica o verbal.
+
+Aunque ya existen sistemas de moderación automática, su desempeño sigue siendo limitado. Estos mecanismos a menudo cometen errores, pasan por alto ciertos matices del lenguaje o no logran adaptarse a contextos culturales distintos. Esto ocurre especialmente en entornos donde el idioma predominante no es el inglés, como en el caso del español. Ante esta situación, se vuelve imprescindible contar con herramientas que no solo sean más precisas, sino que también estén alineadas con las particularidades lingüísticas y sociales del público hispanohablante.
+
+\section{Solución Tecnológica}
+
+La solución tecnológica propuesta consiste en el desarrollo de un modelo de aprendizaje automático basado en arquitecturas de transformers, específicamente entrenado para detectar lenguaje ofensivo en
+
+
+
+
+\vspace{0.5cm}
+
+textos en español. Para ello, utilizamos el dataset OffendES \cite{plazadelarco2021offendes}, un corpus anotado en español que distingue entre lenguaje ofensivo y no ofensivo, el cual permite abordar el problema como una tarea de clasificación.
+
+\section{Referencias a tomar en cuenta}
+
+\subsection{Referencia 1: Detección de ciberacoso en internet y redes sociales mediante técnicas de procesamiento de lenguaje natural}
+
+En este trabajo de fin de grado se aborda la problemática del ciberacoso en entornos digitales, para lo cual la autora propone un enfoque basado en técnicas de Procesamiento del Lenguaje Natural (PLN) para su detección. El trabajo busca detectar comentarios ofensivos de idioma español e inglés orientados al feminismo y comentarios machistas, utilizando técnicas más modernas como modelos preentrenados que han dejado atrás a métodos más clásicos. Entre los factores de aporte podemos rescatar:
+
+\begin{itemize}
+    \item \textbf{Factor de Aporte 1:} El uso de datasets públicos como opción a la elaboración manual de estos, sin embargo, esto se hizo solo para el idioma inglés y para el idioma español se elaboró uno propio recolectando tweets de la red social X.
+    \item \textbf{Factor de Aporte 2:} Utiliza modelos más modernos como los modelos Transformers y modelos híbridos que complementan estos primeros con la adición de metadatos lingüísticos.
+\end{itemize}
+
+\subsection{Referencia 2: Identificación de lenguaje ofensivo en textos en español utilizando técnicas de aprendizaje supervisado y lexicones}
+
+Este trabajo de investigación, al igual que el presente estudio, aborda la problemática del incremento de expresiones ofensivas en entornos digitales, así como la escasez de herramientas eficaces para abordarlo en lengua española. Su propósito principal fue desarrollar un sistema para detectar lenguaje ofensivo dirigido, con énfasis en contenidos relacionados con la comunidad LGBTIQ+, utilizando seis enfoques distintos de aprendizaje supervisado.
+
+Entre los elementos más relevantes de esta tesis, destacan los siguientes:
+
+\begin{itemize}
+    \item \textbf{Factor de Aporte 3:} A partir de técnicas de procesamiento del lenguaje natural, se elaboró un lexicón especializado enfocado en identificar términos ofensivos dirigidos a personas LGBTIQ+. Este recurso fue construido a partir de comentarios recopilados en la plataforma Twitter (hoy conocida como X), con el objetivo de ofrecer una alternativa más específica y contextualizada frente a otros lexicones genéricos ya existentes.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item \textbf{Factor de Aporte 4:} El estudio logró fortalecer sus resultados combinando modelos supervisados con el lexicón especializado, lo que permitió mejorar la precisión en la identificación de lenguaje ofensivo en comparación con enfoques que utilizan únicamente una de estas técnicas.
+\end{itemize}
+
+\section{Estado del Arte}
+
+\subsection{Referencia 1: Detección de ciberacoso en internet y redes sociales mediante técnicas de procesamiento de lenguaje natural}
+
+Este trabajo ha servido como base fundamental, con grandes puntos de vista y aspectos claves para la elaboración de la presente tesis. Por lo que se busca reforzar los siguientes factores:
+
+\begin{itemize}
+    \item \textbf{Innovación del Factor de Aporte 1:} A diferencia del Trabajo de Fin de Grado, que recolectó tweets únicamente de Twitter, nosotros utilizaremos el corpus OfffendES, que presenta comentarios de más plataformas \cite{plazadelarco2021offendes}.
+    \item \textbf{Innovación del Factor de Aporte 2:} Si bien, también se usarán modelos preentrenados, el enfoque que se dará es uno con orientación práctica, dándole una utilidad a las predicciones obtenidas.
+\end{itemize}
+
+\subsection{Referencia 2: Identificación de lenguaje ofensivo en textos en español utilizando técnicas de aprendizaje supervisado y lexicones}
+
+Aunque esta tesis representa un aporte fundamental para el desarrollo de herramientas de detección de lenguaje ofensivo en español, el presente trabajo introduce nuevos enfoques y ampliaciones relevantes:
+
+\begin{itemize}
+    \item \textbf{Innovación del Factor de Aporte 3:} Mientras que la tesis se enfoca en mensajes dirigidos exclusivamente a la comunidad LGBTIQ+, esta investigación propone una aproximación más amplia donde el lenguaje ofensivo es frecuente, especialmente hacia adolescentes, mujeres y minorías.
+    \item \textbf{Innovación del Factor de Aporte 4:} En cuanto a la arquitectura de detección, se busca incorporar modelos más modernos y robustos, como los Transformers preentrenados en español, que ofrecen mayor capacidad de comprensión semántica que los métodos clásicos utilizados en la tesis mencionada.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+

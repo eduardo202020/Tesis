@@ -1,0 +1,293 @@
+\chapter{Anexos}
+
+\section{Funciones para Datos Tokenizados}
+
+A continuación, se muestran funciones adicionales del proyecto para con los datos tokenizados:
+
+\subsection{Tokenización de los datos}
+
+\begin{center}
+\textbf{Listing A.1.} Función para Tokenizar los Datos
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def save_tokenized_data(df_dict, max_length=None):
+    """
+    Convierte los datos tokenizados (diccionario de arrays) a DatasetDict de
+    Hugging Face
+    y los guarda en disco.
+    """
+
+    tokenizer=load_tokenizer()
+
+    hf_datasets = DatasetDict()
+
+    for subset, df in df_dict.items():
+        # Tokenizar los comentarios
+        tokenized = tokenizer(
+            df["comment"].tolist(),
+            padding=True,
+            truncation=max_length is not None,
+            max_length=max_length,
+            return_tensors="np"
+        )
+
+        # Crear Dataset
+        hf_dataset = Dataset.from_dict({
+            "input_ids": tokenized["input_ids"],
+            "attention_mask": tokenized["attention_mask"],
+            "labels": np.array(df["label"])
+        })
+
+        hf_datasets[subset] = hf_dataset
+\end{lstlisting}
+
+% =========================
+% Página 70
+% =========================
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=pythoncode]
+    tokenize_path = Path(os.environ.get("TOKENIZE_PATH"))
+    tokenize_path.mkdir(parents=True, exist_ok=True)
+    hf_datasets.save_to_disk(tokenize_path)
+
+    return {
+        "message": "Tokenización de la data exitosa",
+        "ruta_de_guardado": str(tokenize_path)
+    }
+\end{lstlisting}
+
+\section{Muestra de un Dato Tokenizado}
+
+A continuación, se muestra la función que mostró un ejemplo de dato tokenizado en el capítulo 9, además de un segundo ejemplo de salida.
+
+\begin{center}
+\textbf{Listing A.2.} Función para mostrar un Dato Tokenizado
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def show_tokenized_example(subset="train", idx=None):
+    """
+    Muestra los datos tokenizados.
+    """
+
+    # Cargar el DatasetDict desde disco
+    tokenize_path = Path(os.environ.get("TOKENIZE_PATH"))
+    hf_datasets = DatasetDict.load_from_disk(tokenize_path)
+
+    dataset = hf_datasets[subset]
+    if idx is None:
+        idx = random.randint(0, len(dataset) - 1)
+
+    example = dataset[idx]
+    tokenizer = load_tokenizer()
+    text = tokenizer.decode(example['input_ids'], skip_special_tokens=True)
+    tokens = tokenizer.convert_ids_to_tokens(example['input_ids'])
+
+    return {
+        "message": "Ejemplo de dato tokenizado",
+        "indice": idx,
+        "texto_decodificado": text,
+        "tokens": tokens[:10],
+        "input_ids": example['input_ids'][:5],
+        "attention_mask": example['attention_mask'][:5],
+        "etiqueta": example['labels']
+    }
+\end{lstlisting}
+
+% =========================
+% Página 71
+% =========================
+
+\begin{lstlisting}[style=jsoncode]
+{
+    "message": "Ejemplo de dato tokenizado",
+    "índice": 3701,
+    "texto decodificado": "Sinceramente... Después de ver el proceso creativo del logo de totalmente horrible lmao",
+    "tokens": [
+        "[CLS]",
+        "Sinceramente",
+        ".",
+        ".",
+        ".",
+        "Después",
+        "de",
+        "ver",
+        "el",
+        "proceso"
+    ],
+    "input_ids": [
+        4,
+        27235,
+        1009,
+        1009,
+        1009
+    ],
+    "attention_mask": [
+        1,
+        1,
+        1,
+        1,
+        1
+    ],
+    "etiqueta": 0
+}
+\end{lstlisting}
+
+\section*{A.3. Funciones para el Modelo}
+
+A continuación, se muestran funciones adicionales del proyecto para con el modelo entrenado:
+
+\begin{center}
+71
+\end{center}
+
+\newpage
+
+% =========================
+% Página 72
+% =========================
+
+\subsection*{A.3.1. Entrenamiento del Modelo}
+
+\begin{center}
+\textbf{Listing A.3. Función para Entrenar el Modelo}
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def train_model():
+    """
+    Ejecuta el entrenamiento
+    """
+
+    trainer=config_trainer()
+
+    trainer.train()
+
+    best_model_path = Path(os.environ.get("TRANSFORMER_PATH")) / "best_model"
+    trainer.save_model(best_model_path)
+
+    return {
+        "message": "Modelo entrenado y guardado con éxito.",
+        "ruta del modelo": str(best_model_path)
+    }
+\end{lstlisting}
+
+\subsection*{A.3.2. Métricas del Modelo}
+
+\begin{center}
+\textbf{Listing A.4. Función para Obtener Métricas del Modelo}
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def load_metrics(dataset_type="test"):
+    """
+    Carga las métricas guardadas desde disco.
+    """
+
+    metrics_path = Path(os.environ.get("TRANSFORMER_PATH")) / f"metrics_{dataset_type}.json"
+
+    if not metrics_path.exists():
+        raise FileNotFoundError(f"No se encontró el archivo de métricas en: {metrics_path}")
+
+    with open(metrics_path, "r") as f:
+        metrics = json.load(f)
+
+    return {
+        "message": f"Métricas cargadas desde {dataset_type}.",
+        "métricas": metrics
+    }
+\end{lstlisting}
+
+\begin{center}
+72
+\end{center}
+
+\newpage
+
+% =========================
+% Página 73
+% =========================
+
+\subsection*{A.3.3. Pipeline del Modelo}
+
+\begin{center}
+\textbf{Listing A.5. Función para Guardar un Pipeline del Modelo}
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def save_pipeline():
+    """
+    Guarda el pipeline listo para producción (modelo + tokenizador)
+    """
+
+    model_path = Path(os.environ.get("TRANSFORMER_PATH")) / "best_model"
+    tokenizer = tok.load_tokenizer()
+
+    # Crear pipeline
+    classifier = pipeline(
+        "text-classification",
+        model=str(model_path),
+        tokenizer=tokenizer
+    )
+
+    # Guardar pipeline
+    pipeline_path = Path(os.environ.get("TRANSFORMER_PATH")) / "pipeline"
+    classifier.save_pretrained(pipeline_path)
+
+    return {
+        "message": "Pipeline guardado con éxito.",
+        "ruta del pipeline": str(pipeline_path)
+    }
+\end{lstlisting}
+
+\section*{A.4. Ejemplos de textos clasificados}
+
+A continuación, se muestran salidas de textos clasificados por la función \textit{classifier} vista en el capítulo 9.
+
+\begin{lstlisting}[style=jsoncode]
+{
+    "mensaje": "Clasificación completada.",
+    "resultado": {
+        "texto": "Impresora negra",
+        "etiqueta": "no ofensivo",
+        "confianza": 0.9693416357040405
+    }
+}
+\end{lstlisting}
+
+\begin{center}
+73
+\end{center}
+
+\newpage
+
+% =========================
+% Página 74
+% =========================
+
+\begin{lstlisting}[style=jsoncode]
+{
+    "mensaje": "Clasificación completada.",
+    "resultado": {
+        "texto": "calla negra",
+        "etiqueta": "ofensivo",
+        "confianza": 0.9984779953956604
+    }
+}
+\end{lstlisting}
+
+\begin{center}
+74
+\end{center}
+
+\newpage
+
+% =========================
+% Página 75
+% =========================
+\thispagestyle{plain}
+
+

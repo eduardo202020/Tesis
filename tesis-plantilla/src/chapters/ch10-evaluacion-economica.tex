@@ -1,0 +1,458 @@
+\chapter{Evaluación Económica Financiera}
+
+\section{Estimación del Alcance}
+
+El presente proyecto tiene como objetivo ofrecer un servicio de detección automática de lenguaje ofensivo en redes sociales y plataformas digitales, haciendo uso de modelos basados en arquitecturas Transformers. El servicio está diseñado para ser integrado principalmente por medios digitales —como portales de noticias y diarios en línea— que actualmente han restringido o eliminado la funcionalidad de comentarios por dificultades en su moderación. Asimismo, se proyecta como una solución viable para medios televisivos que requieren mostrar comentarios del público en transmisiones en vivo, garantizando previamente su moderación.
+
+El valor agregado del servicio radica en su capacidad para filtrar, en tiempo real, contenido ofensivo o inapropiado proveniente de usuarios, asegurando que las interacciones públicas cumplan con estándares de respeto y convivencia digital. Esta funcionalidad permitirá a los medios:
+
+\begin{itemize}
+    \item Reactivar espacios de comentarios sin temor al contenido ofensivo.
+    \item Mostrar en vivo interacciones del público en emisiones televisivas con moderación automática.
+    \item Ofrecer entornos seguros en sus propias plataformas para fomentar la participación del público.
+\end{itemize}
+
+A futuro, se contempla la expansión del servicio hacia canales de transmisión en línea (como Kick) y comunidades virtuales (como foros especializados o aplicaciones de mensajería grupal), donde el volumen y la inmediatez de los mensajes hacen indispensable una moderación automatizada.
+
+\section{Costos de Operación}
+
+\subsection{Mano de Obra Directa}
+
+Para la etapa inicial del proyecto se contempla una estructura mínima de personal. Esta decisión busca optimizar recursos sin comprometer la calidad funcional del MVP. Conforme se validen hipótesis del mercado y aumente la base de usuarios, se contempla incorporar personal adicional.
+
+Partiendo desde un equipo de desarrollo conformado por:
+
+\begin{itemize}
+    \item Desarrollador Full Stack: Se encarga tanto del backend (API de detección) como del frontend (extensión, panel), integrando la funcionalidad del modelo y las interfaces.
+\end{itemize}
+
+% =========================
+% Página 50
+% =========================
+
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item Especialista DevOps: Administra la infraestructura en la nube, automatiza los despliegues y garantiza la seguridad, escalabilidad y disponibilidad del sistema.
+\end{itemize}
+
+Y llegando hasta la agregación de los siguientes cargos:
+
+\begin{itemize}
+    \item Científico/a de Datos: Encargado/a del diseño, entrenamiento y mejora continua del modelo de clasificación de lenguaje ofensivo, así como del análisis de métricas y validación del rendimiento.
+
+    \item Ingenieros/as de Software (2): Responsables del desarrollo y mantenimiento del backend (API de detección), frontend (interfaz y extensión) e integraciones con plataformas de terceros.
+
+    \item Asistente de Soporte Técnico (1): Brinda atención a los usuarios del servicio, realiza pruebas funcionales, monitorea el sistema y apoya en tareas operativas y de documentación.
+\end{itemize}
+
+A continuación se muestra la evolución de las planillas.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_1.png}
+    \caption{Mano de obra directa año 1 - Medio Tiempo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_2.png}
+    \caption{Mano de obra directa año 2 - Medio Tiempo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_3.png}
+    \caption{Mano de obra directa año 3 - Medio Tiempo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_4.png}
+    \caption{Mano de obra directa año 4 - Tiempo Completo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+% =========================
+% Página 51
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_5.png}
+    \caption{Mano de obra directa año 5 - Tiempo Completo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_6.png}
+    \caption{Mano de obra directa año 6 - Tiempo Completo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Costos Indirectos}
+
+Los costos indirectos comprenden aquellos gastos no directamente atribuibles a la mano de obra, pero indispensables para garantizar el funcionamiento continuo y seguro del servicio. Su comportamiento está estrechamente relacionado con la evolución del equipo técnico y del volumen de usuarios atendidos.
+
+A medida que se incorporan nuevos perfiles y crece la base de clientes, se incrementan proporcionalmente ciertos rubros como el uso de servicios en la nube, la necesidad de herramientas de monitoreo, y los servicios de apoyo administrativo y legal.
+
+\begin{itemize}
+    \item Energía Eléctrica.
+    \item Suministro de Agua.
+    \item Herramientas de Servicio.
+    \item Depreciación Mobiliario.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_7.png}
+    \caption{Costos de Energía Eléctrica \textbf{[Elaboración Propia]}}
+\end{figure}
+
+% =========================
+% Página 52
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_8.png}
+    \caption{Costos de Herramientas de Servicio \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_9.png}
+    \caption{Costos Indirectos \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\section{Gastos Administrativos y Comerciales}
+
+\subsection{Gastos Administrativos}
+
+Los gastos administrativos incluyen los costos asociados al funcionamiento interno de la organización, estos se muestran en la Figura 10.10
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_10.png}
+    \caption{Gastos Administrativos \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Gastos de Venta}
+
+Los gastos de ventas y marketing están enfocados en posicionar el servicio de detección de lenguaje ofensivo ante los medios digitales, televisivos y futuros socios estratégicos, además de otros gastos varios. Observar la Figura 10.11
+
+% =========================
+% Página 53
+% =========================
+% NO ENVIADA
+
+% =========================
+% Página 54
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_13.png}
+    \caption{Gastos Financieros \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\section{Costos Totales}
+
+Los costos totales del servicio comprenden la suma de todos los egresos necesarios para el desarrollo, operación, administración, promoción y sostenimiento financiero del proyecto. Esta agrupación permite tener una visión integral del esfuerzo económico requerido para mantener en funcionamiento el servicio de detección de lenguaje ofensivo en redes sociales.
+
+A continuación, en la Figura 10.14 se presenta un resumen de los principales componentes de costo anual, considerando la estructura de personal definida, los costos indirectos proyectados, los gastos administrativos, comerciales y financieros estimados a partir del primer año de operación.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_14.png}
+    \caption{Costo Total del Servicio \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\section{Proyección a la inversión}
+
+\subsection{Estimación de la Inversión Total}
+
+Para el inicio de las operaciones se ha estimado hacer una inversión total de S/ 18,450.00 los cuales cubrirían la compra de los equipos para cada equipo del proyecto.
+
+El equipo de desarrollo necesita equipos con alta GPU para poder entrenar modelos inteligentes, Debido a este requerimiento se entiende porque el las computadoras personales resultan más costosas que la de los demás equipos.
+
+% =========================
+% Página 55
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.72\textwidth]{figura_10_15.png}
+    \caption{Mobiliario de Administración \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.72\textwidth]{figura_10_16.png}
+    \caption{Mobiliario de Desarrollo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.72\textwidth]{figura_10_17.png}
+    \caption{Mobiliario de Ventas \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Depreciación total de activos tangibles}
+
+Dentro de la inversión inicial, los activos tangibles ---principalmente los equipos tecnológicos--- están sujetos a depreciación contable, según el método de línea recta. Se estima una vida útil de 6 años, considerando la rapidez de obsolescencia en entornos tecnológicos. Los detalles se muestran en la Figura 10.14
+
+% =========================
+% Página 56
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=\textwidth]{figura_10_18.png}
+    \caption{Depreciación de Activos tangibles \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Plan de Inversión y Capital de Trabajo}
+
+Para realizar el plan de inversión tomamos en cuenta tres aspectos fundamentales: el total de nuestros activos fijos (mobiliario y equipos que deben estar incluidos en nuestras depreciaciones). El capital de trabajo necesario para comenzar a trabajar y los activos nominales.
+
+En la Figura 10.19 se determina cuánto será el dinero que se debe gestionar como financiamiento y el que debe invertirse por los socios del proyecto o el inversionista. Los fondos de financiamiento son los que se utilizan para el cálculo de los gastos financieros en la Figura 10.13
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_19.png}
+    \caption{Plan de Inversión \textbf{[Elaboración Propia]}}
+\end{figure}
+
+El cálculo del capital de trabajo dependerá de muchos factores como es el tiempo en que la empresa
+
+% =========================
+% Página 57
+% =========================
+
+\vspace{0.5cm}
+
+tardará en comenzar a recibir efectivo propio de la inversión. Para ello tomaremos tantos factores como sean necesarios al proyecto, además restamos el porcentaje de las ventas de contado por ser el dinero que ya estamos recibiendo.
+
+De acuerdo a la estructura del plan de inversión para la producción del servicio mostrado en la Figura 10.19, necesitamos un monto total de S/ 21,154.29, de los cuales el 69.07\%, es decir aproximadamente S/25,125.67 corresponde a fondos propios de la sociedad y el 30.93\% restante debe ser cubierto por el sistema financiero mediante una Operación de Leasing.
+
+El Leasing debe ser entendido como una operación de carácter financiero que consiste en la adquisición por parte la entidad financiera del equipamiento y la infraestructura y la cesión simultánea de uso durante un período de tiempo determinado que en nuestro caso es de seis años, a un precio que se distribuye en cuotas periódicas.
+
+\subsection{Balance de Apertura}
+
+El Balance mostrado en la Figura 10.20 se elabora en base al Plan de Inversión de la Figura 10.19; caja y bancos es igual al capital de trabajo necesitado para iniciar operaciones. El pasivo es igual al saldo del financiamiento: se toma como pasivo a corto plazo el importe del primer pago a capital según la forma de pago escogida; cuota nivelada o cuota de saldos insolutos. En este proyecto se decidió por la cuota nivelada Figura 10.13. El pasivo a largo plazo sería la diferencia entre lo que se tiene que pagar en este año y el importe total del financiamiento. El patrimonio será igual al total de activo fijo, es decir, lo que hemos invertido en el proyecto.
+
+% =========================
+% Página 58
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_20.png}
+    \caption{Balance de Apertura \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\section{Proyección de los Ingresos}
+
+La estimación de ingresos del proyecto parte de un modelo de negocio basado en el cobro por consumo, mediante una tarifa por cada mil mensajes procesados (requests). Esta modalidad permite a los medios digitales, televisivos y otros futuros clientes contratar el servicio de detección de lenguaje ofensivo con flexibilidad y en función del volumen real de uso, lo cual favorece su adopción progresiva.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_21.png}
+    \caption{Proyección de ingresos \textbf{[Elaboración Propia]}}
+\end{figure}
+
+% =========================
+% Página 59
+% =========================
+
+\vspace{0.5cm}
+
+En la Figura 10.22 se muestra el porcentaje de ventas al contado y el nivel de ventas a crédito. Se observa que se está estimando que solo el 5 \% de las ventas tendrán cobros al contado y el 95 \% será al crédito.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_22.png}
+    \caption{Ventas al contado y al crédito \textbf{[Elaboración Propia]}}
+\end{figure}
+
+En la Figura 10.23 se observa el nivel de ventas al contado y la recuperación de las cuentas por cobrar, que al sumar totaliza el nivel de ingresos de efectivo que tendrá en proyecto.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_23.png}
+    \caption{Determinación de Ingresos Efectivo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\section{Evaluación Financiera}
+
+\subsection{Estado de Pérdidas y Ganancias}
+
+En la Figura 10.24 se muestra el estado de resultados proyectado hasta el año 6 del proyecto.
+
+% =========================
+% Página 60
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_24.png}
+    \caption{Estado de Resultados \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Presupuesto caja y flujo de caja}
+
+En el presupuesto de caja para el año 0 interviene el monto de los fondos propios, el financiamiento para conocer el total de los ingresos, para conocer a su vez el total de los egresos, la compra de activos fijos y activos Nominales (vienen de la Figura 10.19). En dicha tabla encontramos dos valores: total ingresos y total egresos que se restan para obtener el flujo de efectivo que será el saldo final del año 0.
+
+Para los siguientes años se hace una estimación de los egresos e ingresos. Observar la Figura 10.25.
+
+% =========================
+% Página 61
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_25.png}
+    \caption{Presupuesto Caja \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsection{Balance General Proyectado}
+
+\subsection{Activos}
+
+El Año 0 es igual al balance de apertura (Figura 10.20). El activo circulante lo componen; caja y banco que surge del saldo final del presupuesto de caja (Figura 10.25), cuentas por cobrar (Figura 10.22). La suma de estos tres elementos da como resultado el total de los activos circulantes.
+
+Para el total de activo fijo del año 1 va a permanecer igual que el año 0, pero en el año 1 se coloca la suma de todas las depreciaciones para ser restadas en el total de activo fijo neto. En los años subsiguientes se va restando la parte de depreciación correspondiente a cada activo.
+
+Para los activos nominales es el mismo procedimiento pero con la variante que aquí se utiliza, la amortización de estos activos. La suma de los totales de estos activos nos da como resultado el total de
+
+% =========================
+% Página 62
+% =========================
+
+\vspace{0.5cm}
+
+activo en cada año respectivamente.
+
+\subsection{Pasivos}
+
+El pasivo circulante lo componen las sumas de Préstamos a corto plazo, que corresponde al primer pago de abono capital (Figura 10.13), e impuesto a la renta que se calculó en el estado de resultado (Figura 10.24).
+
+El pasivo a largo plazo es el préstamo a largo plazo que se calcula de la siguiente forma para cuota nivelada: el saldo del año en evaluación (Figura 10.24) menos préstamo.
+
+El patrimonio lo conforman la suma de: patrimonio que es el mismo del balance de apertura en todos los años, utilidad a distribuir del estado de resultados, reserva legal y la utilidad acumulada, que es la suma de la utilidad a distribuir del año anterior más la utilidad acumulada de ese mismo año anterior.
+
+El balance general proyectado semuestra en la Figura 10.26.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{figura_10_26.png}
+    \caption{Balance General Proyectado \textbf{[Elaboración Propia]}}
+\end{figure}
+
+% =========================
+% Página 63
+% =========================
+
+\vspace{0.5cm}
+
+\subsection{Análisis de los indicadores financieros de rentabilidad: VAN, TIR, IR}
+
+\subsubsection*{Flujo de Efectivo}
+
+Se elabora en base a los datos obtenidos en el presupuesto de caja (Figura 10.25). Primero colocamos el valor de la inversión que viene del plan de inversión (Figura 10.19). Para conocer el flujo neto de efectivo restamos el flujo de ingresos del flujo de egresos y en el año 6 sumamos la liquidación más cuentas x cobrar (Figura 10.26), liquidación inventarios finales (Figura 10.26) y el valor de salvamento (Figura 10.18) menos los pasivos circulantes (balance proyectado año 10 Tabla 35). Observar la (Figura 10.27)
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.86\textwidth]{figura_10_27.png}
+    \caption{Flujo Neto de Efectivo \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsubsection*{Tasa de Corte}
+
+Primero encontramos el costo de capital para ello necesitamos conocer cuánto representa el total de nuestra inversión respecto del financiamiento que utilizaremos 14.91\% y 85.09\% respectivamente y el valor de la tasa máxima a la cual podríamos invertir los fondos propios en el sistema bancario o financiero y la tasa mejor a la que lograríamos conseguir el financiamiento del préstamo, 6\% y 12\% respectivamente.Todo esto se resumen en la Figura 10.28
+
+% =========================
+% Página 64
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.9\textwidth]{figura_10_28.png}
+    \caption{Costo de Capital \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsubsection*{Valor Actual Neto VAN}
+
+El valor actual neto responde a la siguiente fórmula en Excel =VAN(tasa de corte, flujo año1, flujo año2, flujo año3, flujo año4, flujo año5, flujo año6).
+
+\subsubsection*{Periodo de Recuperación}
+
+El análisis del periodo de recuperación utilizando flujos descontados permite determinar en qué momento el proyecto logra recuperar la inversión inicial considerando el valor del dinero en el tiempo. En este caso, la inversión inicial asciende a S/ 21,154.29. Al descontar los flujos de caja netos proyectados para cada año, se observa que el acumulado aún es negativo al finalizar el segundo año. No obstante, en el tercer año, el flujo descontado (S/ 99,829.15) permite cubrir el saldo pendiente, alcanzando un valor acumulado positivo. Mediante interpolación, se estima que el punto de equilibrio ocurre a los 2.79 años. Esto significa que el proyecto recupera su inversión inicial a través de los flujos netos descontados aproximadamente entre el segundo y tercer año de operación, lo cual refleja una recuperación relativamente rápida considerando la naturaleza tecnológica del servicio.
+
+% =========================
+% Página 65
+% =========================
+
+\vspace{0.5cm}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.92\textwidth]{figura_10_29.png}
+    \caption{Valor Neto Actual y Periodo de Recuperación \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsubsection*{Tasa Interna de Retorno}
+
+La tasa interna de retorno se calcula en Excel así =TIR (celda de la inversión en negativo: último flujo) =IRR(A1:A5)
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.78\textwidth]{figura_10_30.png}
+    \caption{Tasa interna de retorno \textbf{[Elaboración Propia]}}
+\end{figure}
+
+\subsubsection*{Índice de Rentabilidad}
+
+El índice de Rentabilidad es la suma de los flujos descontados entre el valor de la inversión:
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.78\textwidth]{figura_10_31.png}
+    \caption{Índice de Rentabilidad \textbf{[Elaboración Propia]}}
+\end{figure}
+
+% =========================
+% Página 65 repetida en el escaneo
+% =========================
+
+\vspace{0.5cm}
+
+\subsection{Viabilidad Económica y Financiera}
+
+El análisis de los diversos datos estudiados a lo largo del capítulo nos permite concluir que el proyecto ``Detección de Lenguaje Ofensivo usado en Redes Sociales empleando modelos Transformers'' presenta una viabilidad económica y financiera favorable, especialmente a mediano y largo plazo.
+
+A pesar de que el primer y segundo año presentan un desfase entre ingresos y costos operativos, propio de una etapa de inversión intensiva y posicionamiento, la progresión proyectada muestra un crecimiento sostenido en la facturación que permite cubrir los costos totales a partir del tercer o cuarto año. Esto implica un horizonte razonable para alcanzar el punto de equilibrio financiero.
+
+Además, de acuerdo con el análisis de los estados financieros proyectados de la empresa (que incorporan estos elementos) y el de los indicadores derivados a partir de ellos, es posible afirmar que el proyecto es una inversión rentable, con lo cual se asegura la viabilidad del negocio.
+
+% =========================
+% Página 66
+% =========================
+

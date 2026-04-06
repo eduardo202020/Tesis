@@ -1,0 +1,84 @@
+\chapter{Diseño de los datos de entrada}
+
+Para la preparación de los datos de entrada en el Producto Mínimo Viable (MVP), se decidió reestructurar el esquema de etiquetado original —que contemplaba cuatro categorías— hacia una clasificación binaria: ofensivo y no ofensivo. Esta simplificación permite evaluar el desempeño del modelo en un escenario generalizado de detección de lenguaje ofensivo.
+
+Adicionalmente, se realizó una limpieza de los metadatos presentes en el corpus, conservando únicamente los campos relevantes: comment y label. El conjunto de datos fue obtenido desde un repositorio público en GitHub \cite{fmplaza2025github}.
+
+Inicialmente, se parte de un total de 30.416 comentarios, cuya distribución por categorías se presenta en la Figura 8.1.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.72\textwidth]{figura_8_1.png}
+    \caption{Distribución general de etiquetado \textbf{[Elaboración Propia]}}
+\end{figure}
+
+A continuación, se muestran ejemplos de comentarios etiquetados, seleccionados aleatoriamente:
+
+\begin{itemize}
+    \item \textbf{NO:} Yo ya quiero verloooo! Sois increíbles, a veces es tan complicado trabajar con otra personas, por la diferencia de ideas ect y ustedes os competreéis muy bien!!!
+    \item \textbf{OFP:} MAS TONTA QUE UN ZAPATO.
+    \item \textbf{NOE:} Estoy es pura mierda
+\end{itemize}
+
+
+
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item \textbf{OFG:} Bueno donde estan esas feministas que se ponen la medallita de buena persona diciendo "la víctima nunca es culpable" por en este caso tu hermana es la víctima de estas personas asquerosas, acosadores de mierda.
+\end{itemize}
+
+Posteriormente, el conjunto de datos se dividió en tres subconjuntos para el desarrollo del modelo:
+
+\begin{itemize}
+    \item \textbf{Entrenamiento (train):} Utilizado para ajustar los parámetros del modelo.
+    \item \textbf{Validación (dev):} Sirve para ajustar los hiperparámetros y evaluar el desempeño durante el entrenamiento.
+    \item \textbf{Prueba (test):} Permite medir el rendimiento final del modelo sobre datos no vistos previamente.
+\end{itemize}
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.82\textwidth]{figura_8_2.png}
+    \caption{Distribución de etiquetado por conjunto \textbf{[Elaboración Propia]}}
+\end{figure}
+
+Posteriormente, se redujo la cantidad de datos para disminuir la carga computacional a la hora de entrenar el modelo y se llevó a cabo la recategorización del etiquetado original hacia la clasificación binaria mencionada previamente. La distribución resultante se muestra en la Figura 8.3.
+
+\begin{figure}[h!]
+    \centering
+    % \includegraphics[width=0.82\textwidth]{figura_8_3.png}
+    \caption{Distribución actualizada del etiquetado binario \textbf{[Elaboración Propia]}}
+\end{figure}
+
+
+
+
+
+
+\vspace{0.5cm}
+
+Los gráficos presentados en este capítulo fueron generados mediante las bibliotecas \textit{pandas} y \textit{matplotlib} de Python, ampliamente utilizadas para el análisis y visualización de datos. Además, estos datasets modificados se guardan a partir de la función \textit{load\_processed\_offendes} en Listado 8.1.
+
+\begin{center}
+\textbf{Listing 8.1.} Función load\_processed\_offendes
+\end{center}
+
+\begin{verbatim}
+def load_processed_offendes():
+    """Carga los archivos TSV procesados."""
+    return {
+        "train": pd.read_csv(os.environ.get("OF_PROCESSED_PATH")+
+            "train_processed.csv").copy(),
+        "dev": pd.read_csv(os.environ.get("OF_PROCESSED_PATH")+
+            "dev_processed.csv").copy(),
+        "test": pd.read_csv(os.environ.get("OF_PROCESSED_PATH")+
+            "test_processed.csv").copy()
+    }
+\end{verbatim}
+
+
+
+
+
+
+

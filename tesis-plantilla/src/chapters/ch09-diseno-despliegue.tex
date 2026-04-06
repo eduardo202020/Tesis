@@ -1,0 +1,265 @@
+\chapter{Diseño y Despliegue del modelo de clasificación}
+
+\section{Diseño del Modelo}
+
+\subsection{Tokenización}
+
+Luego de ajustar los datos de entrada, el siguiente paso es el de la tokenización que consiste en dividir un texto en unidades más pequeñas (tokens), que pueden ser palabras, subpalabras o caracteres. Para modelos como BETO (basado en BERT), se usan subpalabras para manejar vocabulario limitado y palabras desconocidas.
+
+Cargaremos el tokenizador oficial de BETO, que ya conoce las reglas del español y su vocabulario preentrenado, en Listado 9.1.
+
+\begin{center}
+\textbf{Listing 9.1.} Función load\_tokenizer
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def load_tokenizer():
+    """
+    Carga el tokenizador desde el modelo preentrenado.
+    """
+
+    # Cargar el tokenizador
+    tokenizer = AutoTokenizer.from_pretrained("dccuchile/bert-base-spanish-wwm
+        -cased")
+
+    return tokenizer
+\end{lstlisting}
+
+A continuación, tras realizar la limpieza de los datos (ver Listado 8.1) y cargar el tokenizador correspondiente (ver Listado 9.1), se procede a aplicar la tokenización sobre los comentarios del conjunto de datos. Para ilustrar este proceso, se implementó una función que permite seleccionar un comentario aleatorio y mostrar los resultados de su tokenización. A continuación, se muestra la salida de dicha función:
+
+\begin{lstlisting}[style=jsoncode]
+"mensaje": "Ejemplo de dato tokenizado",
+"indice": 12614,
+"texto decodificado": "Aclaro : el es un trastorno psiquiátrico que consiste en que la
+    persona que lo
+\end{lstlisting}
+
+
+
+
+
+
+
+
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=jsoncode]
+padece se autolesiona o pone en riesgo su salud para enfermar o resultar herido con el afán
+    de conseguir
+atención médica. No es como un hipocondríaco que piensa que está enfermo y exige pruebas
+    médicas. El falsea
+pruebas o se daña a sí mismo a sabiendas que no está enfermo, sino sólo para recibir atención
+    y cuidados de su
+entorno. El por poderes es lo mismo, sólo que el paciente que lo padece en vez de
+    autolesionarse, lesiona a
+otra persona / falsea pruebas para recibir indirectamente esa atención médica que se le
+    presta al otro. Lo
+típico es madres - hijos, cuidadores - ancianos, etc.",
+"tokens": [
+    "[CLS]",
+    "Ac",
+    "##laro",
+    ":",
+    "el",
+    "[UNK]",
+    "es",
+    "un",
+    "trastorno",
+    "psiquiá"
+],
+"input_ids": [
+    4,
+    2810,
+    2316,
+    1181,
+    1040
+],
+"attention_mask": [
+    1,
+    1,
+    1,
+    1,
+    1
+],
+"etiqueta": 0
+}
+\end{lstlisting}
+
+A modo ilustrativo, se presenta un ejemplo de los resultados obtenidos tras aplicar la tokenización a uno de los comentarios del dataset:
+
+\begin{itemize}
+    \item \textbf{índice:} Indica el índice o la posición del comentario en el dataset.
+\end{itemize}
+
+
+
+
+% =========================
+% Página 45
+% =========================
+
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item \textbf{texto\_decodificado:} Reconstrucción del texto original a partir de los IDs de los tokens \textit{input\_ids}.
+
+    \item \textbf{tokens:} Lista de subpalabras/palabras generadas por el tokenizador. Incluye:
+    \begin{itemize}
+        \item \textbf{[CLS]:} Token especial para clasificación (usado en modelos como BERT).
+        \item \textbf{[UNK]:} Token desconocido (indica que una palabra no está en el vocabulario del tokenizador).
+        \item \textbf{\#\#:} Prefijo que indica que se trata de una continuación del token anterior.
+    \end{itemize}
+
+    \item \textbf{input\_ids:} Representan los identificadores numéricos asignados a cada token. Esta secuencia es la que efectivamente se proporciona como entrada al modelo Transformer.
+
+    \item \textbf{attention\_mask:} Una secuencia binaria que indica qué posiciones deben ser consideradas (valor 1) y cuáles ignoradas (valor 0), generalmente usada para distinguir entre contenido real y padding.
+
+    \item \textbf{etiqueta:} corresponde a la clase a la que pertenece según la tarea de, en este caso 0 indica no ofensivo; mientras que 1, ofensivo.
+\end{itemize}
+
+\subsection{Entrenamiento del Modelo}
+
+Tras la tokenización de los datos, el siguiente paso es la carga del modelo BETO definido en el Listado 9.2 y los datasets tokenizados previamente.
+
+\begin{center}
+\textbf{Listing 9.2.} Función load\_model
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def load_model():
+    """
+    Carga el modelo desde el modelo preentrenado.
+    """
+
+    # Cargar el modelo
+    model = AutoModelForSequenceClassification.from_pretrained(os.environ.get(
+        "TRANSFORMER_MODEL"),
+        num_labels=2,
+        id2label={0: "no_ofensivo", 1: "ofensivo"},
+        label2id={"no_ofensivo": 0, "ofensivo": 1}
+    )
+
+    return model
+\end{lstlisting}
+
+Luego, se especifican parámetros clave para el entrenamiento, como el tamaño del batch o número de épocas y también se evalúa el desempeño del modelo en cada época usando la métrica F1.
+
+% =========================
+% Página 46
+% =========================
+
+\vspace{0.5cm}
+
+\subsection{Validación del Modelo}
+
+Tras ejecutar el proceso de entrenamiento del modelo, se procede a evaluar el modelo con el subconjunto de datos `test' y se obtienen métricas fundamentales como el f1-score, la precisión y el recall, que permiten analizar el rendimiento del modelo en el conjunto de prueba.
+
+A continuación se presentan las métricas obtenidas durante la evaluación del modelo binario. Estas permiten analizar su comportamiento en términos de precisión. cobertura y confiabilidad.
+
+\begin{lstlisting}[style=jsoncode]
+"message": "Métricas cargadas desde test.",
+    "métricas": {
+        "eval_loss": 0.7105175256729126,
+        "eval_model_preparation_time": 0.001,
+        "eval_precision": 0.32032322000304925,
+        "eval_recall": 0.8235985887887103,
+        "eval_f1": 0.46125137211855105,
+    }
+}
+\end{lstlisting}
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|p{7cm}|}
+        \hline
+        \textbf{Métrica} & \textbf{Valor} & \textbf{Interpretación} \\
+        \hline
+        eval\_precision & 0.32 (32\%) & Alta tasa de falsos positivos: clasifica como ofensivos textos que no lo son. \\
+        eval\_recall & 0.82 (82\%) & Detecta correctamente los ofensivos. \\
+        eval\_f1 & 0.46 (46\%) & Balance entre precisión y recall (idealmente >0.7). \\
+        eval\_loss & 0.71 & Pérdida elevada: el modelo tiene poca confianza en sus predicciones. \\
+        \hline
+    \end{tabular}
+    \caption{Análisis de métricas del modelo \textbf{[Elaboración Propia]}}
+\end{table}
+
+\section{Despliegue del Modelo}
+
+Finalizada la etapa de entrenamiento y evaluación, el siguiente paso consiste en preparar el modelo para su integración en entornos reales. Esto implica generar una versión optimizada para producción, que pueda ser utilizada directamente para la clasificación de nuevos textos sin requerir intervención manual en el procesamiento.
+
+Para lograrlo, se construye un pipeline de inferencia que agrupa tanto el modelo entrenado como el tokenizador correspondiente. Este pipeline permite automatizar y simplificar el proceso de predicción, facilitando su integración en servicios web, aplicaciones o interfaces programáticas.
+
+La herramienta utilizada para este fin es la función pipeline del módulo \texttt{transformers} de Hugging Face, la cual proporciona una interfaz estándar para aplicar modelos de procesamiento de lenguaje
+
+% =========================
+% Página 47
+% =========================
+
+\vspace{0.5cm}
+
+natural ya entrenados. Su principal ventaja radica en la capacidad de encapsular todos los componentes necesarios —modelo, tokenizador y configuración— en un objeto reutilizable y listo para producción.
+
+Una vez almacenado el pipeline, es posible invocarlo de forma directa para realizar inferencias sobre nuevos textos. En este contexto, se implementa la función \texttt{classifier} (ver Listado 9.3), encargada de cargar el pipeline desde disco y aplicarlo a una entrada textual provista por el usuario. Como resultado, se obtiene la etiqueta asignada por el modelo y el nivel de confianza asociado a dicha predicción.
+
+\begin{center}
+\textbf{Listing 9.3.} Función classifier
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def classifier(event):
+    #Cargar el pipeline guardado
+    classifier = pipeline(
+        "text-classification",
+        model=Path(os.environ.get("TRANSFORMER_PATH")) / "pipeline",
+        tokenizer = tok.load_tokenizer()
+    )
+
+    #Clasificar un texto nuevo
+    resultado = classifier(event['texto'])
+
+    return {
+        "mensaje": "Clasificación completada.",
+        "resultado": {
+            "texto": event['texto'],
+            "etiqueta": resultado[0]['label'],
+            "confianza": resultado[0]['score'],
+        }
+    }
+\end{lstlisting}
+
+A continuación, se muestra dos evaluaciones hechas por el modelo.
+
+\begin{lstlisting}[style=jsoncode]
+{
+    "mensaje": "Clasificación completada.",
+    "resultado": {
+        "texto": "Silencio por favor",
+        "etiqueta": "no_ofensivo",
+        "confianza": 0.9671836495399475
+    }
+}
+
+{
+    "mensaje": "Clasificación completada.",
+    "resultado": {
+        "texto": "Calla idiota",
+\end{lstlisting}
+
+% =========================
+% Página 48
+% =========================
+
+\vspace{0.5cm}
+
+\begin{lstlisting}[style=jsoncode]
+        "etiqueta": "ofensivo",
+        "confianza": 0.9985875063374023
+    }
+}
+\end{lstlisting}
+
+% =========================
+% Página 49
+% =========================
+

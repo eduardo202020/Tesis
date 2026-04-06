@@ -1,0 +1,136 @@
+\chapter{Oferta Tecnológica Mundial}
+
+\section{Tecnologías Utilizadas en la Detección de Lenguaje Ofensivo}
+
+En respuesta al aumento de contenido ofensivo y discursos de odio en entornos digitales, diversas empresas tecnológicas han implementado soluciones propias de moderación, basadas principalmente en inteligencia artificial. Algunas de estas tecnologías se mantienen de uso interno, mientras que otras se ofrecen como servicios comerciales para su integración en plataformas de terceros. A continuación, se presentan las principales compañías y sus respectivas soluciones.
+
+\subsection{Google}
+
+Jigsaw, una incubadora tecnológica de Google, desarrolló en 2017 Perspective API. La creación de esta herramienta respondió a la creciente preocupación por los comentarios abusivos y el discurso de odio en línea, especialmente en secciones de comentarios de medios digitales y redes sociales \cite{perspective2025research}.
+
+La herramienta utiliza técnicas avanzadas de PLN y aprendizaje profundo (deep learning), basadas principalmente en modelos de redes neuronales profundas, principalmente basado en modelo de tipo transformer. Si bien se diseñó inicialmente para el idioma inglés, ha tenido implementaciones experimentales en otros idiomas.
+
+Perspective es de disponibilidad pública y gratuita mediante Application Programming Interface (API). Utilizada por medios como The New York Times y Wikipedia.
+
+\subsection{Meta}
+
+Meta (anteriormente Facebook Inc.) ha invertido durante más de una década en el desarrollo de tecnologías propias para combatir el lenguaje ofensivo, el discurso de odio y el acoso en sus plataformas. La compañía ha consolidado un enfoque mixto, combinando algoritmos de IA con equipos de moderadores humanos distribuidos globalmente \cite{meta2025transparency}.
+
+Meta emplea modelos avanzados de deep learning y PLN. A continuación, se detallan inversiones realizadas en tecnología por parte de Meta:
+
+\begin{itemize}
+    \item Linformer: Analiza contenido en Facebook e Instagram en diversas regiones de todo el mundo.
+    \item Reinforced Integrity Optimizer: Aprende de las señales online para mejorar su capacidad de detectar el lenguaje que incita al odio.
+\end{itemize}
+
+
+
+
+
+
+
+
+\vspace{0.5cm}
+
+\begin{itemize}
+    \item XLM y XLM-R: Herramientas de idiomas con las que se crean clasificadores que entienden el mismo concepto en varios idiomas. Se incorpora el modelo transformer Roberta.
+\end{itemize}
+
+Estas tecnologías se aplican directamente en las plataformas de Meta para filtrar, ocultar o eliminar contenido ofensivo antes de que sea ampliamente distribuido.
+
+\subsection{Microsoft}
+
+Microsoft ha desarrollado diversas soluciones enfocadas en la moderación de contenido, integradas en su ecosistema de servicios en la nube Azure. Inicialmente, esta necesidad fue cubierta por \textit{Azure Content Moderator}, una herramienta diseñada para identificar automáticamente contenido ofensivo o inapropiado en texto, imágenes y videos, con aplicaciones en foros, redes sociales, chats en línea y otras plataformas de interacción digital.
+
+No obstante, esta solución fue declarada obsoleta en febrero de 2024 y será retirada por completo en 2027 \cite{microsoft2025contentmoderator}. En su reemplazo, Microsoft presentó \textbf{Azure AI Content Safety}, una alternativa más moderna y robusta, orientada tanto a contenido generado por usuarios como por modelos de inteligencia artificial generativa.
+
+Azure AI Content Safety emplea técnicas avanzadas de aprendizaje automático y procesamiento de lenguaje natural para analizar contenido textual e imágenes, categorizándolos según su nivel de riesgo en las siguientes áreas:
+
+\begin{itemize}
+    \item \textbf{Odio:} discursos discriminatorios o incitaciones a la violencia.
+    \item \textbf{Sexual:} material explícito o sugestivo.
+    \item \textbf{Violencia:} representaciones gráficas o amenazas explícitas.
+    \item \textbf{Autolesiones:} contenido relacionado con suicidio o daño autoinfligido.
+\end{itemize}
+
+Esta herramienta está disponible como API REST dentro del entorno Azure, con un esquema comercial de pago por uso. Su flexibilidad permite su integración en aplicaciones web, servicios de atención al cliente, plataformas educativas, entre otros.
+
+\subsection{Twitch}
+
+Twitch, la reconocida plataforma de streaming en vivo propiedad de Amazon, ha implementado un sistema mixto de moderación que combina inteligencia artificial, parámetros configurables y participación activa de moderadores humanos. Uno de sus desarrollos más relevantes es \textbf{AutoMod}, una herramienta integrada que analiza en tiempo real los mensajes del chat durante las transmisiones en vivo \cite{twitch2025chattools}.
+
+
+
+
+
+
+\vspace{0.5cm}
+
+AutoMod está basado en modelos de lenguaje que han sido entrenados para identificar expresiones ofensivas, discriminatorias o inapropiadas. Entre los principales tipos de contenido que detecta se encuentran:
+
+\begin{itemize}
+    \item Insultos, lenguaje sexual o vulgaridades.
+    \item Discursos de odio o incitación a la violencia.
+    \item Comentarios contextualmente dañinos según la comunidad.
+\end{itemize}
+
+A diferencia de sistemas que eliminan contenido automáticamente, AutoMod actúa como un filtro intermedio: retiene los mensajes sospechosos y permite a los moderadores humanos decidir si deben ser publicados o descartados. Esta funcionalidad está integrada en la plataforma y disponible para todos los canales de Twitch, aunque no se encuentra habilitada como producto independiente para otras plataformas.
+
+\subsection{Otras Plataformas}
+
+Plataformas como Discord y Telegram han consolidado su papel como espacios de interacción comunitaria, permitiendo la formación de grupos temáticos con altos niveles de autonomía. Esta arquitectura descentralizada, donde cada servidor o canal establece sus propias reglas de convivencia, ha impulsado la necesidad de herramientas flexibles para la moderación automatizada.
+
+Discord, por ejemplo, incorporó en 2022 una funcionalidad nativa denominada \textbf{AutoMod}, orientada a prevenir la publicación de mensajes con lenguaje ofensivo, contenido sensible o comportamientos considerados spam, antes de que sean visibles públicamente \cite{discord2025automod}. A ello se suma la posibilidad de integrar bots externos como Dyno, MEE6 o Carl-bot, algunos de los cuales emplean técnicas de inteligencia artificial o se vinculan con servicios externos como Perspective API para mejorar la calidad de la moderación.
+
+En el caso de Telegram, la plataforma destaca por ofrecer una API altamente personalizable, lo que ha favorecido el desarrollo de bots de moderación por parte de su comunidad. Aunque no cuenta con un sistema nativo de moderación automática comparable al de Discord, su flexibilidad ha permitido implementar soluciones que abordan tareas como el control de spam, la detección de palabras sensibles o la gestión dinámica de participantes en canales y grupos \cite{telegram2025bots}.
+
+\section{Precio del Mercado}
+
+Los servicios actuales cuentan con una disponibilidad variada y tienen los siguientes precios mostrados en la Tabla 4.1.
+
+
+
+\vspace{0.5cm}
+
+\begin{table}[h!]
+    \centering
+    \small
+    \begin{tabular}{|>{\raggedright\arraybackslash}p{2.5cm}|>{\raggedright\arraybackslash}p{3.6cm}|>{\raggedright\arraybackslash}p{2.8cm}|>{\raggedright\arraybackslash}p{3.8cm}|}
+        \hline
+        \textbf{Plataforma} & \textbf{Servicio} & \textbf{Categoría} & \textbf{Precio} \\
+        \hline
+        Google & Perspective API & API Pública & Gratuita, 1 consulta por segundo \\
+        ZPK System & ZPK Moderator & API Pública & \$ 1.1 / 1000 requests (<500 caracteres) \\
+        Azure & Azure AI Content Safety & API Pública & \$ 0,38 / 1.000 requests (1000 caracteres) \\
+        Komprehend.\allowbreak io & Abusive Content Classifier API & API Privada & Bajo contacto con proveedor \\
+        Hive AI & Hive Moderation & API Privada & \$0.50 / 1000 requests \\
+        Microsoft & Community Sift & Servicio de Moderación & Depende de Contrato \\
+        Shaip & Moderación de Contenido & Servicio de Moderación & Depende de Contrato \\
+        Gearinc & Moderación de Contenido & Servicio de Moderación & Depende de Contrato \\
+        Twitch & Automod & Nativo en Twitch & Gratuito \\
+        Discord & Automod & Nativo en Discord & Gratuito \\
+        Discord & Dyno & Nativo en Discord & Plan Estándar 4.99 \$/mes \\
+        Telegram & Combot & Nativo en Telegram & Gratuito \\
+        \hline
+    \end{tabular}
+    \caption{Servicios de moderación de contenido disponibles en distintas plataformas (elaboración propia a partir de información pública de los sitios oficiales) \textbf{[Elaboración Propia]}}
+\end{table}
+
+Plataformas como Telegram y Discord admiten y contienen numerosos bots creados por la comunidad y terceros que cuentan con sus propios planes de pago, los cuales ofrecen servicios adicionales diseñados para automatizar tareas, fomentar la participación, moderar de manera superficial mediante filtros de palabras, integrarse con servicios externos (Youtube, Twitch, etc). Sin embargo, la mayoría de estos bots no emplean tecnologías avanzadas para la moderación de contenido, y muchos no están preparados para manejar el idioma español de manera eficiente, esto es debido a que están enfocados en la gestión de comunidades y moderación basada en listas de palabras.
+
+\section{Limitaciones de la Oferta Actual}
+
+Pese a los avances tecnológicos, las soluciones actuales para la moderación automática de contenido presentan diversas limitaciones que restringen su efectividad en contextos hispanohablantes:
+
+\begin{itemize}
+    \item \textbf{Idioma y regionalismos:} la mayoría de los sistemas están entrenados para inglés y no logran buenos resultados con expresiones ofensivas en español, sobre todo en países latinoamericanos.
+    \item \textbf{Accesibilidad:} muchas herramientas de moderación no son abiertas o requieren acuerdos comerciales complejos para acceder a APIs completas.
+    \item \textbf{Enfoque generalista:} los modelos actuales suelen enfocarse en términos ofensivos genéricos, sin comprender contexto, ironía, o nuevas formas de lenguaje dañino.
+\end{itemize}
+
+
+
+
+
+
+

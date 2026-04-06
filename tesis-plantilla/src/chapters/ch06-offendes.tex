@@ -1,0 +1,58 @@
+\chapter{OffendES y su aplicación en el proyecto}
+
+El corpus OffendES representa un aporte fundamental para la comunidad hispana de PLN, esto es debido a que la mayoría de los recursos disponibles para entrenar y evaluar estos sistemas han sido desarrollados para el idioma inglés, lo que limita significativamente la investigación y el desarrollo de soluciones adaptadas a contextos hispanohablantes.
+
+OffendES, se trata de un conjunto de datos en español diseñado específicamente para la detección de lenguaje ofensivo, compuesto por comentarios recolectados de diferentes redes sociales y anotados manualmente.
+
+\section{Características del corpus OffendES}
+
+\subsection{Fuentes de datos y recolección}
+
+El proceso de recolección de datos se llevó a cabo entre febrero y marzo de 2020, tomando como referencia tres plataformas ampliamente utilizadas por usuarios jóvenes (entre 18 y 24 años): Twitter, Instagram y YouTube. Estas redes sociales fueron seleccionadas por su alto nivel de interacción y su relevancia en el ecosistema digital.
+
+Se eligieron 12 personalidades influyentes del entorno español, seis hombres y seis mujeres, que se caracterizan por su alta exposición mediática y participación en controversias en línea. Para cada uno de ellos, se extrajeron los comentarios correspondientes a sus últimas 50 publicaciones. En el caso de Twitter y YouTube, la recopilación se realizó mediante APIs oficiales; para Instagram, se utilizaron técnicas de web scraping, estableciendo un máximo de 2,000 respuestas por publicación.
+
+Como resultado, se recolectaron un total de 283,622 comentarios, de los cuales 23,788 incluían términos con potencial ofensivo, identificados a partir de lexicones previamente definidos. Posteriormente, se conformó un conjunto final de 60,000 comentarios (23,788 ofensivos y 36,212 no ofensivos), aplicando criterios de diversidad léxica para evitar redundancias y asegurar representatividad.
+
+\subsection{Esquema de anotación}
+
+La anotación del corpus fue realizada mediante la plataforma de \textit{crowdsourcing} Amazon Mechanical Turk (MTurk), empleando únicamente trabajadores ubicados en España para asegurar la comprensión contextual del lenguaje.
+
+
+
+\vspace{0.5cm}
+
+Se utilizó un esquema de cinco etiquetas diferenciadas, con el objetivo de capturar distintos matices del lenguaje ofensivo:
+
+\begin{itemize}
+    \item \textbf{OFP} (Ofensivo hacia una persona): Comentarios que agreden directamente a un individuo.
+    \item \textbf{OFG} (Ofensivo hacia un grupo): Comentarios dirigidos contra colectivos específicos, como género, etnia, orientación sexual o ideología.
+    \item \textbf{OFO} (Ofensivo hacia otras entidades): Comentarios que atacan instituciones, marcas, eventos u organizaciones.
+    \item \textbf{NOE} (No ofensivo con lenguaje vulgar): Uso de lenguaje soez sin intención de ofender.
+    \item \textbf{NO} (No ofensivo): Comentarios neutros o sin lenguaje perjudicial.
+\end{itemize}
+
+El corpus se organizó en dos subconjuntos según la cantidad de anotadores por comentario:
+
+\begin{itemize}
+    \item \textbf{3-Ann:} Conjunto de 44,951 comentarios, cada uno anotado por tres personas.
+    \item \textbf{10-Ann:} Conjunto de 14,989 comentarios, cada uno evaluado por diez anotadores, lo que permite generar vectores de confianza para tareas avanzadas como clasificación multietiqueta.
+\end{itemize}
+
+Los atributos presentes en el corpus son los siguientes:
+
+\begin{itemize}
+    \item \textbf{comment\_id:} Identificador únic o de cada comentario. \textbf{media:} Plataforma de origen del comentario (Instagram, Twitter o YouTube).
+    \item \textbf{influencer:} Nombre del influencer asociado a la publicación.
+    \item \textbf{influencer\_gender:} Género del influencer (man o woman). \textbf{comment:} Texto completo del comentario.
+    \item \textbf{ann1 -- ann10:} Etiquetas asignadas por cada anotador individual. Los valores posibles son: OFP, OFG, OFO, NOE, NO y None.
+    \item \textbf{label:} Etiqueta final asignada a cada comentario, resultante de un proceso de consenso entre los anotadores.
+\end{itemize}
+
+\subsection{Distribución y diversidad}
+
+Una característica notable del corpus es su desbalance natural: tanto las etiquetas como las plataformas e influencers no están distribuidos uniformemente. La mayoría de los comentarios provienen de YouTube (alrededor del 75\%), seguido de Instagram (18\%) y Twitter (6\%). Del mismo modo, ciertos influencers como Dalas concentran más del 25\% de los comentarios.
+
+En cuanto a la longitud y variedad del lenguaje, los comentarios muestran diferencias significativas según la plataforma. Por ejemplo, los comentarios de YouTube tienden a ser más extensos (promediode 189 caracteres) y diversos en vocabulario, mientras que los de Instagram son más breves (114 caracteres en promedio) y lexicalmente más pobres. La medida de diversidad léxica también reveló que los comentarios ofensivos (especialmente OFP y NOE) tienden a tener una menor riqueza léxica que los no ofensivos.
+
+

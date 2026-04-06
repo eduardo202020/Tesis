@@ -1,0 +1,32 @@
+.codex
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
+.idea/
+
+# LaTeX auxiliary/build files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.nav
+*.out
+*.ps
+*.run.xml
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+*.xdv
+
+# Generated PDFs
+tesis/tesis.pdf
+tesis/informe.pdf
+tesis-plantilla/tesis-plantilla.pdf

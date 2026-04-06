@@ -1,0 +1,46 @@
+\chapter{Modelos Transformers y su aplicación en el proyecto}
+
+Los modelos transformers son un tipo de modelo de Deep Learning, que evolucionaron significativamente el campo del PLN, los cuales han demostrado un rendimiento sobresaliente en tareas como clasificación de texto, análisis de sentimientos y detección de lenguaje ofensivo \cite{ibm2025transformer}.
+
+Introducidos por Vaswani et al. (2017) en el artículo \textit{Attention Is All You Need}, los transformers reemplazan las estructuras secuenciales tradicionales como las Redes Neuronales Recurrentes (RNN) o la Memoria a Corto Plazo (LSTM) por mecanismos de atención, permitiendo que el modelo evalúe de forma paralela todas las palabras de un texto y determine las relaciones contextuales entre ellas. Esto ha resultado en modelos más precisos y rápidos para tareas de lenguaje natural \cite{vaswani2017attention}.
+
+\section{Ventajas del Modelo}
+
+Los modelos basados en la arquitectura Transformer destacan por emplear un mecanismo denominado self-attention, que les permite analizar la relevancia de cada palabra dentro de un texto en relación con todas las demás, sin importar su posición. Esto representa una ventaja frente a modelos secuenciales, que tienden a perder contexto cuando las dependencias entre palabras son muy largas.
+
+Gracias a esta capacidad, los Transformers son especialmente eficaces para capturar relaciones complejas y de largo alcance dentro del lenguaje natural. Además, su arquitectura completamente paralelizable posibilita una aceleración significativa en los tiempos de entrenamiento, superando en eficiencia a modelos tradicionales.
+
+La estructura de un Transformer está compuesta por codificadores (encoders) y decodificadores (decoders). Para tareas de clasificación de texto, como la detección de lenguaje ofensivo, se hace uso únicamente de los encoders. Un ejemplo representativo de este enfoque es el modelo Bidirectional Encoder Representations from Transformers (BERT), que ha demostrado un desempeño sobresaliente en múltiples tareas de comprensión del lenguaje.
+
+El uso de Transformers ha marcado un antes y un después en el procesamiento de lenguaje natural, mejorando significativamente tareas como análisis de sentimientos, clasificación textual, traducción automática y respuesta a preguntas. En este proyecto, se aprovechan sus capacidades contextuales avanzadas para identificar lenguaje ofensivo en español con mayor precisión.
+
+
+
+
+\vspace{0.5cm}
+
+\section{Proceso en el Proyecto}
+
+A continuación, se describe el funcionamiento interno que cumple el modelo Transformer:
+
+\begin{enumerate}
+    \item \textbf{Tokenización y Embedding:} El texto de entrada se segmenta en subpalabras o tokens mediante un tokenizador especializado. Posteriormente, cada token es convertido en un vector numérico, conocido como embedding, que contiene información semántica aprendida durante el preentrenamiento del modelo.
+
+    \item \textbf{Codificación con Capas de Atención:} Estos vectores se procesan a través de varias capas de atención. En cada una, el modelo calcula la relación entre palabras mediante pesos de atención, permitiéndole interpretar el texto de forma contextual. Este mecanismo es clave para comprender el significado global, incluso en frases complejas o ambiguas.
+
+    \item \textbf{Normalización y Proyección:} Tras cada capa de atención, se aplican técnicas de normalización y conexiones residuales que estabilizan el aprendizaje y ayudan a conservar información significativa durante el flujo de datos por el modelo.
+
+    \item \textbf{Capa de Clasificación:} Finalmente, el vector resultante es procesado por una capa final de clasificación, que produce una salida binaria (ofensivo o no ofensivo) en función de la probabilidad asignada a cada clase.
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+
+
+

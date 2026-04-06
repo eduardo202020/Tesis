@@ -1,0 +1,118 @@
+\documentclass[12pt]{report}
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{xurl}
+\usepackage{fancyhdr}
+\usepackage{array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{listings}
+\usepackage[svgnames]{xcolor}
+
+\renewcommand{\bibname}{Referencias}
+
+\definecolor{CodeBg}{HTML}{F7F7F5}
+\definecolor{CodeBorder}{HTML}{C9CDD3}
+\definecolor{CodeNumber}{HTML}{6B7280}
+\definecolor{PyKeyword}{HTML}{1D4ED8}
+\definecolor{PyComment}{HTML}{6B7280}
+\definecolor{PyString}{HTML}{B45309}
+\definecolor{PyBuiltin}{HTML}{7C3AED}
+\definecolor{JsonString}{HTML}{9A3412}
+
+\lstdefinestyle{codebase}{
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  breakatwhitespace=false,
+  columns=fullflexible,
+  keepspaces=true,
+  frame=single,
+  framerule=0.6pt,
+  rulecolor=\color{CodeBorder},
+  numbers=left,
+  numberstyle=\scriptsize\color{CodeNumber},
+  stepnumber=1,
+  numbersep=8pt,
+  showstringspaces=false,
+  tabsize=4,
+  xleftmargin=1.2em,
+  framexleftmargin=1em,
+  aboveskip=0.8em,
+  belowskip=0.8em,
+  backgroundcolor=\color{CodeBg}
+}
+
+\lstdefinestyle{pythoncode}{
+  style=codebase,
+  language=Python,
+  keywordstyle=\bfseries\color{PyKeyword},
+  commentstyle=\itshape\color{PyComment},
+  stringstyle=\color{PyString},
+  identifierstyle=\color{Black},
+  emph={Path,pipeline,Dataset,DatasetDict,AutoTokenizer,AutoModelForSequenceClassification},
+  emphstyle=\bfseries\color{PyBuiltin},
+  moredelim=[is][\itshape]{''' }{ '''},
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+}
+
+\lstdefinestyle{jsoncode}{
+  style=codebase,
+  language={},
+  keywordstyle=\bfseries\color{Black},
+  commentstyle=\color{PyComment},
+  stringstyle=\color{JsonString},
+  literate=
+    {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+    {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+    {ñ}{{\~n}}1 {Ñ}{{\~N}}1
+}
+
+\setlength{\headheight}{15pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\textit{Detección de Lenguaje Ofensivo}}
+\fancyhead[R]{\textit{Fabio  v2Rosales Aliaga}}
+\renewcommand{\headrulewidth}{0pt}
+
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{\textit{Detección de Lenguaje Ofensivo}}
+  \fancyhead[R]{\textit{Fabio Rosales Aliaga}}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+\begin{document}
+
+\input{src/frontmatter/titlepage}
+\input{src/frontmatter/dedication}
+\input{src/frontmatter/acknowledgements}
+\input{src/frontmatter/index-general}
+\input{src/frontmatter/lista-tablas}
+\input{src/frontmatter/lista-acronimos}
+\input{src/frontmatter/resumen}
+\input{src/frontmatter/abstract}
+
+\include{src/chapters/ch01-introduccion}
+\include{src/chapters/ch02-panorama-actual}
+\include{src/chapters/ch03-mercado-objetivo}
+\include{src/chapters/ch04-oferta-tecnologica}
+\include{src/chapters/ch05-flujo-ingresos}
+\include{src/chapters/ch06-offendes}
+\include{src/chapters/ch07-transformers}
+\include{src/chapters/ch08-datos-entrada}
+\include{src/chapters/ch09-diseno-despliegue}
+\include{src/chapters/ch10-evaluacion-economica}
+\include{src/chapters/ch11-normas-tecnicas}
+\include{src/chapters/ch12-conclusiones}
+
+\appendix
+\include{src/appendices/anexos}
+\cleardoublepage
+\bibliographystyle{unsrt}
+\bibliography{src/backmatter/referencias}
+
+\end{document}
