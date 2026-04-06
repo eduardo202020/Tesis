@@ -26,7 +26,4 @@ Thumbs.db
 *.vrb
 *.xdv
 
-# Generated PDFs
-tesis/tesis.pdf
-tesis/informe.pdf
-tesis-plantilla/tesis-plantilla.pdf
+

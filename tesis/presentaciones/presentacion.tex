@@ -1,0 +1,136 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{ragged2e}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\definecolor{MuseBlue}{HTML}{123C69}
+\definecolor{MuseGold}{HTML}{D9A441}
+\definecolor{MuseLight}{HTML}{F5F7FA}
+\definecolor{MuseText}{HTML}{1F2933}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\setbeamertemplate{navigation symbols}{}
+
+\setbeamercolor{normal text}{fg=MuseText,bg=white}
+\setbeamercolor{structure}{fg=MuseBlue}
+\setbeamercolor{frametitle}{fg=white,bg=MuseBlue}
+\setbeamercolor{title}{fg=white,bg=MuseBlue}
+\setbeamercolor{block title}{fg=white,bg=MuseBlue}
+\setbeamercolor{block body}{fg=MuseText,bg=MuseLight}
+\setbeamercolor{item projected}{fg=white,bg=MuseGold}
+
+\setbeamertemplate{title page}{
+  \begin{center}
+    \vspace{1cm}
+    {\usebeamerfont{title}\color{MuseBlue}\inserttitle\par}
+    \vspace{0.6cm}
+    {\usebeamerfont{subtitle}\color{MuseGold}\insertsubtitle\par}
+    \vspace{1cm}
+    {\usebeamerfont{author}\insertauthor\par}
+    \vspace{0.2cm}
+    {\usebeamerfont{institute}\insertinstitute\par}
+    \vspace{0.2cm}
+    {\usebeamerfont{date}\insertdate\par}
+    \vfill
+  \end{center}
+}
+
+\title[MuseIQ]{MuseIQ}
+\subtitle{Presentacion de avance de tesis}
+\author{Eduardo Guevara}
+\institute{Proyecto de tesis}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Agenda}
+  \tableofcontents
+\end{frame}
+
+\section{Resumen del avance}
+\begin{frame}{Resumen del avance}
+  \justifying
+  \begin{itemize}
+    \item Tema central: guia virtual inteligente para museos y espacios culturales.
+    \item Problema abordado: mediacion estatica y baja personalizacion en visitas presenciales.
+    \item Enfoque propuesto: aplicacion movil con BLE, TTS, STT e IA contextual.
+  \end{itemize}
+\end{frame}
+
+\section{Problema y oportunidad}
+\begin{frame}{Problema y oportunidad}
+  \begin{block}{Problema}
+    Los visitantes suelen depender de cartelas, recorridos no adaptativos o apoyo humano limitado.
+  \end{block}
+  \begin{block}{Oportunidad}
+    Una guia inteligente puede activar contenido segun ubicacion y responder preguntas en tiempo real.
+  \end{block}
+\end{frame}
+
+\section{Propuesta}
+\begin{frame}{Propuesta MuseIQ}
+  \begin{itemize}
+    \item Localizacion indoor con BLE y beacons.
+    \item Narracion automatica mediante TTS.
+    \item Interaccion por voz con STT.
+    \item Respuestas contextuales con IA y recuperacion de informacion.
+  \end{itemize}
+\end{frame}
+
+\section{Arquitectura}
+\begin{frame}{Arquitectura general}
+  \begin{columns}[T]
+    \column{0.48\textwidth}
+    \begin{block}{Cliente}
+      \begin{itemize}
+        \item App movil
+        \item Reproduccion de audio
+        \item Captura de voz
+      \end{itemize}
+    \end{block}
+    \column{0.48\textwidth}
+    \begin{block}{Servicios}
+      \begin{itemize}
+        \item Deteccion BLE
+        \item Motor de contenido
+        \item IA contextual
+      \end{itemize}
+    \end{block}
+  \end{columns}
+\end{frame}
+
+\section{Estado actual}
+\begin{frame}{Estado actual del documento}
+  \begin{itemize}
+    \item Redaccion por capitulos dentro de `tesis/src/chapters/`.
+    \item Frontmatter y bibliografia organizados por separado.
+    \item Base de plantilla preservada en `tesis-plantilla/`.
+  \end{itemize}
+\end{frame}
+
+\section{Siguientes pasos}
+\begin{frame}{Siguientes pasos}
+  \begin{enumerate}
+    \item Completar y refinar los capitulos pendientes.
+    \item Consolidar referencias y anexos.
+    \item Actualizar esta presentacion con cada nuevo avance.
+    \item Preparar una demo o flujo ilustrado de uso de MuseIQ.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Gracias}
+  \begin{center}
+    {\Large Preguntas y comentarios}
+  \end{center}
+\end{frame}
+
+\end{document}
