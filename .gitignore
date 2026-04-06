@@ -26,4 +26,8 @@ Thumbs.db
 *.vrb
 *.xdv
 
-
+# Generated PDFs
+tesis/*.pdf
+tesis-plantilla/*.pdf
+tesis/presentaciones/*.pdf
+!tesis/MuseIQ.pdf
