@@ -2,12 +2,66 @@
 
 \section{Estadísticas Actuales}
 
-Presenta aquí indicadores, cifras y datos recientes que permitan dimensionar el problema o la oportunidad del tema investigado.
+En el contexto peruano, la adopción de dispositivos móviles presenta una trayectoria sostenida de crecimiento y constituye una condición habilitante para soluciones de mediación cultural digital. De acuerdo con OSIPTEL, la proporción de hogares con smartphone evolucionó de 78.0\% en 2019 a 94.8\% en 2024~\cite{osiptel2021smartphone,osiptel2022smartphone,osiptel2023smartphone,osiptel2024smartphone}. Este comportamiento permite asumir que una aplicación móvil orientada a la visita museística puede alcanzar cobertura operativa significativa sin requerir hardware dedicado por visitante.
+
+
+De forma complementaria, la demanda de visitas en museos administrados por el Estado muestra recuperación sostenida tras la contracción de 2020. La serie disponible indica 1\,956\,034 visitas en 2019, 353\,153 en 2020, 1\,067\,571 en 2022, 1\,543\,872 en 2023 y 1\,790\,502 en 2024~\cite{culturapesem2021,cultura2020memoria,cultura2022memoria,cultura2023memoria,cultura2024reporte}. Este comportamiento sugiere condiciones favorables para implementar herramientas de acompañamiento digital durante el recorrido presencial.
+
 
 \section{Impacto de la necesidad actual}
 
-Explica aquí por qué la necesidad es relevante en el contexto actual y qué efectos genera en usuarios, instituciones o procesos.
+La necesidad de sistemas de guía inteligente se vuelve crítica por la brecha existente entre el crecimiento de la demanda cultural y los mecanismos tradicionales de mediación en sala. En la práctica, cartelas físicas y audioguías lineales no capturan el contexto espacial del visitante, limitan la personalización y reducen la capacidad de respuesta ante consultas específicas en tiempo real.
+
+Desde la perspectiva del usuario, esto se traduce en menor profundidad interpretativa, sobrecarga cognitiva en recorridos extensos y barreras de accesibilidad para perfiles con necesidades diferenciadas. Desde la perspectiva institucional, se mantiene dependencia de mediación humana intensiva y baja trazabilidad de interacciones, lo que restringe la optimización continua de la experiencia.
+
+En ese escenario, la propuesta MuseIQ plantea una solución técnicamente plausible sobre infraestructura de bajo costo: beacons BLE para identificación de sala, sensores del smartphone para inferencia de orientación, y una capa de recuperación aumentada (RAG) para entregar contenido contextual y trazable~\cite{verde2023blemuseum,android2026positionsensors,aws2026rag}. La evidencia empírica disponible indica que la identificación de sala con BLE puede lograr niveles de desempeño funcionales para recorridos museográficos, aun sin exigir precisión centimétrica~\cite{verde2023blemuseum}.
+
+El impacto esperado de cubrir esta necesidad es triple: mejora de la experiencia de visita mediante contextualización en tiempo real, incremento de accesibilidad por interacción multimodal (texto y voz), y fortalecimiento de capacidades institucionales para diseñar recorridos personalizados con base en evidencia de uso.
 
 \section{Casos y referentes relevantes}
 
-Incluye aquí casos de uso, experiencias previas, proyectos similares o referentes que ayuden a contextualizar la propuesta.
+\subsection{Referentes técnicos y de mercado}
+
+La literatura reciente sobre museos inteligentes y personalización evidencia que los sistemas más robustos integran localización indoor, analítica de comportamiento e interfaces de interacción natural~\cite{ivanov2025smartmuseums}. En localización, BLE mantiene ventaja de costo y despliegue frente a alternativas más exigentes en infraestructura, mientras que la fusión con sensores móviles mejora estabilidad de estimación en escenarios reales de uso~\cite{verde2023blemuseum,android2026positionsensors}.
+
+En el plano de interacción, las guías por voz se han consolidado como mecanismo de accesibilidad y apoyo interpretativo, especialmente cuando se combinan con respuestas contextuales~\cite{wang2024voiceguide}. A nivel de ecosistema, plataformas como Bloomberg Connects confirman la madurez del mercado de guías culturales móviles y la demanda sostenida por experiencias autoguiadas~\cite{bloomberg2025connects}.
+
+
+
+\subsection{Lineamientos metodológicos para validación}
+
+Con base en los referentes analizados, la validación de MuseIQ debe considerar simultáneamente desempeño técnico y experiencia de usuario. Se recomienda evaluar al menos: error medio de localización en metros, porcentaje de identificación correcta de sala, error angular de orientación, latencia de respuesta del sistema y métricas de usabilidad percibida. Este enfoque permite contrastar factibilidad técnica con valor de uso real en contexto museístico.
+
+En términos de diseño experimental, resulta pertinente realizar pilotos en escenarios de distinta escala (museo pequeño, mediano y grande), manteniendo protocolo homogéneo de medición para asegurar comparabilidad. La finalidad metodológica no es demostrar precisión absoluta, sino verificar desempeño suficiente para activar contenido contextual de manera confiable, accesible y replicable.
+
+\section{Mercado Global}
+
+El mercado global de tecnolog\'ias aplicadas a museos y experiencias culturales digitales presenta una din\'amica de crecimiento sostenido. Reportes de industria estiman que el mercado de experiencias digitales en museos alcanz\'o aproximadamente USD~10.9 mil millones en 2024, con proyecci\'on hacia USD~24.2 mil millones para 2033, equivalente a una tasa compuesta anual cercana a 9.8\%~\cite{htf2025digital}. En paralelo, el segmento de visitas virtuales para galer\'ias y museos report\'o USD~1.96 mil millones en 2024 y proyecciones de USD~11.74 mil millones en 2030, con una tasa de crecimiento de orden alto~\cite{grandview2024art}.
+
+Esta expansi\'on se distribuye en submercados complementarios. El componente de hardware vinculado a experiencias virtuales registr\'o alrededor de USD~7.261 mil millones en 2024~\cite{grandview2024hardware}; software, alrededor de USD~2.492 mil millones~\cite{grandview2024software}; y servicios, aproximadamente USD~1.309 mil millones~\cite{grandview2024services}. En conjunto, estos valores evidencian que la transformaci\'on digital muse\'istica no se limita a un tipo de tecnolog\'ia, sino que evoluciona mediante la articulaci\'on de infraestructura, plataformas y capacidades de implementaci\'on.
+
+Desde la perspectiva geogr\'afica, Norteam\'erica mantiene liderazgo por volumen en el mercado museal agregado, mientras que Asia-Pac\'ifico exhibe una trayectoria de expansi\'on acelerada~\cite{bussresearch2026museums,grandview2024art}. Este comportamiento se asocia a tendencias convergentes: adopci\'on de interacci\'on m\'ovil, personalizaci\'on de recorridos basada en datos de uso y despliegue de experiencias digitales inmersivas.
+
+\vspace{0.5cm}
+
+\begin{table}[h!]
+	\centering
+	\small
+	\setlength{\tabcolsep}{4pt}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{3.8cm}}
+		\hline
+		\textbf{Segmento / Fuente} & \textbf{Valor base} & \textbf{Proyecci\'on} & \textbf{Implicancia para MuseIQ} \\
+		\hline
+		Experiencias digitales en museos (HTF) & USD~10.9B (2024) & USD~24.2B (2033) & Demanda creciente por mediaci\'on cultural digital \\
+		Tours virtuales museales (Grand View) & USD~1.96B (2024) & USD~11.74B (2030) & Validaci\'on de modelos de experiencia digital escalable \\
+		Hardware virtual tour (Grand View) & USD~7.261B (2024) & CAGR alto & Presi\'on por costos de equipamiento en instituciones \\
+		Software virtual tour (Grand View) & USD~2.492B (2024) & CAGR alto & Oportunidad para plataformas de gu\'ia inteligente \\
+		Servicios virtual tour (Grand View) & USD~1.309B (2024) & CAGR alto & Necesidad de implementaci\'on asistida y despliegue gradual \\
+		\hline
+	\end{tabular}
+	\caption{Panorama global de mercado en tecnolog\'ias para experiencias museales digitales \textbf{Fuente:}~\cite{htf2025digital,grandview2024art,grandview2024hardware,grandview2024software,grandview2024services}}
+\end{table}
+
+No obstante, el crecimiento agregado coexiste con barreras de adopci\'on en el nivel operativo. Un an\'alisis de uso reporta que la descarga de aplicaciones nativas oficiales en museos se mantiene en niveles reducidos (aproximadamente 2.47\% de visitantes), lo que sugiere fricci\'on de entrada para soluciones que requieren instalaci\'on dedicada~\cite{sala2025museumapps}. Este resultado refuerza la conveniencia de arquitecturas ligeras y de bajo costo que aprovechen el smartphone ya disponible en el visitante.
+
+En ese marco, MuseIQ se posiciona en un espacio de oportunidad concreto: combina una infraestructura asequible (BLE + smartphone) con una capa de valor basada en personalizaci\'on contextual y asistencia conversacional. Por tanto, la lectura de mercado global no sustituye el an\'alisis de mercado objetivo, sino que lo fundamenta. El Cap\'itulo~3 desarrolla la segmentaci\'on espec\'ifica de instituciones y escenarios de adopci\'on prioritaria para el despliegue de la propuesta.

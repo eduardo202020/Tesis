@@ -2,20 +2,107 @@
 
 \section{Contexto}
 
-Presenta aquí el contexto general del problema, su relevancia y el escenario en el que se desarrolla la investigación.
+La propuesta MuseIQ se inscribe en la convergencia entre transformación digital, mediación cultural y accesibilidad en instituciones museísticas. En el Perú, la adopción tecnológica en hogares configura un escenario favorable para soluciones móviles de apoyo a la visita. La tenencia de smartphones evolucionó de 78.0\% en 2019 a 94.8\% en 2024, y en 2023 se registraron 9\,779\,068 hogares con este dispositivo~\cite{osiptel2023smartphone}. Para 2024, OSIPTEL reportó que la cifra superó los 10 millones de familias~\cite{osiptel2024smartphone}. Esta trayectoria de adopción confirma la viabilidad de usar el teléfono móvil como interfaz principal para servicios de guía inteligente basados en proximidad y contexto.
+
+\vspace{0.5cm}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l c c}
+		\hline
+		\textbf{Año} & \textbf{Indicador oficial} & \textbf{Dato reportado} \\
+		\hline
+		2019 & Hogares con smartphone & 78.0 \% \\
+		2021 & Hogares con smartphone & 88.4 \% \\
+		2022 & Hogares con smartphone & 91.9 \% \\
+		2023 & Hogares con smartphone & 92.8 \% \\
+		2024 & Hogares con smartphone & 94.8 \% \\
+		\hline
+	\end{tabular}
+	\caption{Evolución de hogares peruanos con smartphone \textbf{Fuente:}~\cite{osiptel2021smartphone,osiptel2022smartphone,osiptel2023smartphone,osiptel2024smartphone}}
+	\label{tab:smartphones-peru-2019-2024}
+\end{table}
+
+En paralelo, el sector museístico peruano evidencia una recuperación sostenida de la demanda presencial. El Plan Estratégico Sectorial Multianual 2022--2030 reportó 1\,956\,034 visitas en 2019~\cite{culturapesem2021}; durante 2020, la restricción sanitaria redujo la cifra a 353\,153~\cite{cultura2020memoria}. Posteriormente, la recuperación alcanzó 1\,067\,571 visitas en 2022~\cite{cultura2022memoria}, 1\,543\,872 en 2023~\cite{cultura2023memoria} y 1\,790\,502 en 2024~\cite{cultura2024reporte}. Aunque el nivel de 2024 todavía se ubica por debajo del valor prepandemia, la tendencia ascendente confirma masa crítica de usuarios para la implementación y validación de nuevas soluciones de mediación cultural.
+
+\vspace{0.5cm}
+
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{l c l}
+		\hline
+		\textbf{Año} & \textbf{Visitantes} & \textbf{Observación} \\
+		\hline
+		2019 & 1\,956\,034 & Línea base prepandemia \\
+		2020 & 353\,153 & Contracción por COVID-19 \\
+		2022 & 1\,067\,571 & Recuperación parcial \\
+		2023 & 1\,543\,872 & Recuperación sostenida \\
+		2024 & 1\,790\,502 & Máximo pospandemia, aún por debajo de 2019 \\
+		\hline
+	\end{tabular}
+	\caption{Evolución de visitas a museos administrados por el Ministerio de Cultura \textbf{Fuente:}~\cite{culturapesem2021,cultura2020memoria,cultura2022memoria,cultura2023memoria,cultura2024reporte}}
+	\label{tab:visitas-museos-peru-2019-2024}
+\end{table}
+
+En el plano internacional, UNESCO plantea que las tecnologías digitales están redefiniendo las condiciones de acceso, experiencia y preservación de bienes culturales, y enfatiza su potencial para reducir desigualdades y promover innovación sectorial~\cite{unesco2025globalreport}. Esta evidencia respalda la pertinencia de MuseIQ como respuesta aplicada a una transformación estructural de la gestión cultural contemporánea.
 
 \section{Descripción del Problema}
 
-Describe aquí el problema principal, sus causas, consecuencias y la necesidad que justifica la propuesta.
+Pese al crecimiento de la demanda y a la disponibilidad de dispositivos móviles, una proporción relevante de museos mantiene mecanismos de mediación predominantemente estáticos, tales como cartelas físicas, recorridos lineales y audioguías poco adaptativas. Esta configuración limita la entrega de información situada, reduce la capacidad de personalización según perfil o ritmo de visita y mantiene brechas de accesibilidad para usuarios con requerimientos específicos~\cite{ivanov2025smartmuseums,wang2024voiceguide}.
+
+Desde una perspectiva operativa, el problema central se formula del siguiente modo: los museos requieren una solución de mediación digital capaz de estimar con confiabilidad suficiente la ubicación y orientación del visitante dentro de la sala, activar contenido contextual y sostener costos de implementación compatibles con restricciones presupuestales institucionales. La persistencia de esta brecha entre demanda cultural creciente y digitalización parcial reduce el potencial educativo, inclusivo y de apropiación social de la visita presencial.
 
 \section{Solución Tecnológica}
 
-Resume aquí la propuesta tecnológica o metodológica que se plantea para abordar el problema.
+La solución propuesta consiste en una guía inteligente para museos articulada sobre cuatro componentes: beacons BLE basados en ESP32, sensores del smartphone, interacción por voz mediante TTS/STT y una capa de recuperación aumentada para generación de respuestas (RAG). El objetivo técnico no es el posicionamiento centimétrico, sino la identificación robusta de sala y zona probable de observación para activar contenido pertinente en tiempo real.
+
+El uso de BLE se justifica por su relación costo-beneficio y su escalabilidad operativa. Un caso implementado en el Foz C\^oa Museum reportó 96\% de precisión en identificación de sala mediante BLE y RSSI~\cite{verde2023blemuseum}. Esta evidencia valida la factibilidad de un esquema de reconocimiento por ambiente en contextos museísticos que no disponen de infraestructura de alto costo.
+
+Asimismo, la documentación oficial de Android establece que la orientación del dispositivo puede inferirse combinando acelerómetro y sensor geomagnético~\cite{android2026positionsensors}. Esta información complementa la señal de proximidad BLE y fortalece la activación contextual de contenidos. Finalmente, la capa RAG permite consultar bases curatoriales institucionales antes de generar respuestas, reduciendo alucinaciones y aumentando pertinencia semántica~\cite{aws2026rag}.
 
 \section{Referencias a tomar en cuenta}
 
-Incluye aquí los trabajos previos, antecedentes y fuentes clave que sirven de base para la tesis.
+\subsection{Indoor Content Delivery Solution for a Museum Based on BLE Beacons}
+
+El estudio de Verde et~al. propone y valida una arquitectura de posicionamiento y entrega de contenido en interiores mediante BLE en un entorno museístico real~\cite{verde2023blemuseum}. Su aporte principal para esta investigación radica en demostrar, con evidencia empírica, que la identificación de sala puede alcanzar alta precisión sin infraestructura compleja.
+
+\subsection{Co-design of a Voice-Driven Interactive Smart Guide for Museum Accessibility and Management}
+
+La investigación de Wang enfatiza la interacción por voz en guías inteligentes como mecanismo de accesibilidad y mejora de experiencia de usuario~\cite{wang2024voiceguide}. Este antecedente sustenta la incorporación de TTS/STT en MuseIQ dentro de una estrategia de inclusión funcional en recorrido presencial.
+
+\subsection{Analyzing Visitor Behavior to Enhance Personalized Experiences in Smart Museums}
+
+La revisión sistemática de Ivanov y Velkova sintetiza evidencia sobre personalización en museos inteligentes y destaca el papel del seguimiento de ubicación, la analítica de comportamiento y la adaptación en tiempo real~\cite{ivanov2025smartmuseums}. Este trabajo provee sustento conceptual para diseñar experiencias no lineales centradas en el visitante.
+
+\subsection{Referentes institucionales y de mercado}
+
+Las series oficiales de OSIPTEL y del Ministerio de Cultura permiten dimensionar, con base empírica, el contexto nacional de adopción tecnológica y demanda de visitas~\cite{osiptel2021smartphone,osiptel2022smartphone,osiptel2023smartphone,osiptel2024smartphone,culturapesem2021,cultura2020memoria,cultura2022memoria,cultura2023memoria,cultura2024reporte}. Adicionalmente, Bloomberg Connects evidencia la consolidación de soluciones móviles de mediación cultural a escala internacional~\cite{bloomberg2025connects}.
+
+\vspace{0.5cm}
+
+\begin{table}[h!]
+	\centering
+	\small
+	\setlength{\tabcolsep}{3.5pt}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{4.3cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{3.6cm}}
+		\hline
+		\textbf{Referente} & \textbf{Tipo} & \textbf{Aporte principal} & \textbf{Relevancia para MuseIQ} \\
+		\hline
+		Verde et al. (2023), \textit{Indoor Content Delivery Solution for a Museum Based on BLE Beacons} & Artículo científico & Implementa BLE + RSSI en museo real; reporta 96\% de precisión de sala & Valida reconocimiento por sala y activación contextual \\
+		Wang (2024), \textit{Co-design of a Voice-Driven Interactive Smart Guide for Museum Accessibility and Management} & Artículo científico & Diseña guía por voz centrada en accesibilidad y experiencia de visitante & Sustenta uso de TTS/STT y enfoque inclusivo \\
+		Ivanov y Velkova (2025), \textit{Analyzing Visitor Behavior to Enhance Personalized Experiences in Smart Museums} & Revisión sistemática & Sintetiza evidencia sobre personalización en tiempo real y tracking & Sustenta la lógica de personalización contextual \\
+		Bloomberg Connects & Referente de mercado & Escalamiento internacional de guías móviles en instituciones culturales & Evidencia demanda y madurez del mercado objetivo \\
+		\hline
+	\end{tabular}
+	\caption{Trabajos y referentes clave para el desarrollo de MuseIQ \textbf{Fuente:}~\cite{verde2023blemuseum,wang2024voiceguide,ivanov2025smartmuseums,bloomberg2025connects}}
+\end{table}
 
 \section{Estado del Arte}
 
-Desarrolla aquí el análisis del estado del arte y explica cómo tu propuesta se diferencia o aporta frente a trabajos relacionados.
+El estado del arte en museos inteligentes converge en tres líneas de desarrollo: localización en interiores, personalización basada en comportamiento y experiencias multimodales accesibles. La literatura reciente indica que estas líneas alcanzan mayor efectividad cuando se diseñan como una arquitectura integrada orientada al desempeño de la experiencia de visita~\cite{ivanov2025smartmuseums}.
+
+En localización indoor, BLE destaca como alternativa pragmática frente a tecnologías de mayor costo. La evidencia en museos reales muestra que la identificación correcta de sala aporta valor operacional suficiente para activar contenido contextual, incluso sin perseguir precisión milimétrica~\cite{verde2023blemuseum}. Esta conclusión resulta crítica para un enfoque MVP, donde costo, mantenimiento y escalabilidad constituyen restricciones de diseño.
+
+En accesibilidad, la interacción por voz amplía la cobertura funcional para usuarios con barreras visuales o de lectura sostenida, y mejora la fluidez de uso durante recorridos presenciales~\cite{wang2024voiceguide}. En paralelo, los ecosistemas de guías móviles a escala internacional confirman una demanda sostenida por experiencias culturales digitales en dispositivos personales~\cite{bloomberg2025connects}.
+
+En consecuencia, el aporte diferencial de esta tesis consiste en proponer una arquitectura unificada, de bajo costo y contextualizada al entorno peruano, que integra reconocimiento por sala mediante BLE, apoyo de orientación con sensores móviles e interacción conversacional sustentada en recuperación de conocimiento institucional. La contribución no se limita a un componente aislado, sino a la articulación técnica de dichos elementos para resolver una brecha concreta de mediación cultural presencial.
