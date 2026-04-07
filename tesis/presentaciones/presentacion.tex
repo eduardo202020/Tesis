@@ -3,133 +3,93 @@
 \usepackage[spanish]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{ragged2e}
 \usepackage{xcolor}
-\usepackage{hyperref}
+\usepackage{graphicx}
 
 \definecolor{MuseBlue}{HTML}{123C69}
 \definecolor{MuseGold}{HTML}{D9A441}
 \definecolor{MuseLight}{HTML}{F5F7FA}
 \definecolor{MuseText}{HTML}{1F2933}
 
-\usetheme{Madrid}
-\usecolortheme{default}
+\usetheme{default}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
 
 \setbeamercolor{normal text}{fg=MuseText,bg=white}
-\setbeamercolor{structure}{fg=MuseBlue}
 \setbeamercolor{frametitle}{fg=white,bg=MuseBlue}
-\setbeamercolor{title}{fg=white,bg=MuseBlue}
-\setbeamercolor{block title}{fg=white,bg=MuseBlue}
-\setbeamercolor{block body}{fg=MuseText,bg=MuseLight}
-\setbeamercolor{item projected}{fg=white,bg=MuseGold}
+\setbeamercolor{title}{fg=MuseBlue,bg=white}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+
+\newcommand{\uniLogo}{src/logo.png}
+
+\setbeamertemplate{frametitle}{
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.25cm,dp=0.22cm,leftskip=0.45cm,rightskip=0.35cm]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+    \hfill
+    \includegraphics[height=0.82cm]{\uniLogo}
+  \end{beamercolorbox}
+}
 
 \setbeamertemplate{title page}{
   \begin{center}
-    \vspace{1cm}
-    {\usebeamerfont{title}\color{MuseBlue}\inserttitle\par}
-    \vspace{0.6cm}
-    {\usebeamerfont{subtitle}\color{MuseGold}\insertsubtitle\par}
-    \vspace{1cm}
-    {\usebeamerfont{author}\insertauthor\par}
+    \vspace{0.8cm}
+    \includegraphics[height=2.4cm]{\uniLogo}\par
+    \vspace{0.8cm}
+    {\usebeamerfont{title}\LARGE\bfseries\inserttitle\par}
+    \vspace{0.35cm}
+    {\Large\color{MuseGold}\insertsubtitle\par}
+    \vspace{1.0cm}
+    {\large\insertauthor\par}
     \vspace{0.2cm}
-    {\usebeamerfont{institute}\insertinstitute\par}
+    {\normalsize\insertinstitute\par}
     \vspace{0.2cm}
-    {\usebeamerfont{date}\insertdate\par}
+    {\normalsize\insertdate\par}
     \vfill
   \end{center}
 }
 
-\title[MuseIQ]{MuseIQ}
-\subtitle{Presentacion de avance de tesis}
-\author{Eduardo Guevara}
-\institute{Proyecto de tesis}
+\newcommand{\imageframe}[2]{
+  \begin{frame}{#1}
+    \begin{center}
+      \includegraphics[width=0.90\paperwidth,height=0.73\paperheight,keepaspectratio]{src/#2}
+    \end{center}
+  \end{frame}
+}
+
+\title{MuseIQ}
+\subtitle{Presentación visual de avances de tesis}
+\author{Jhunior Eduardo Guevara Lázaro}
+\institute{Universidad Nacional de Ingeniería}
 \date{\today}
 
 \begin{document}
 
-\begin{frame}
+\begin{frame}[plain]
   \titlepage
 \end{frame}
 
-\begin{frame}{Agenda}
-  \tableofcontents
-\end{frame}
+\imageframe{Capítulo 1: Contexto digital y cultural}{01.png}
+\imageframe{Capítulo 1: Problema de mediación en museos}{02.png}
+\imageframe{Capítulo 1: Solución MuseIQ}{03.png}
+\imageframe{Capítulo 1: Referentes y estado del arte}{04.png}
 
-\section{Resumen del avance}
-\begin{frame}{Resumen del avance}
-  \justifying
-  \begin{itemize}
-    \item Tema central: guia virtual inteligente para museos y espacios culturales.
-    \item Problema abordado: mediacion estatica y baja personalizacion en visitas presenciales.
-    \item Enfoque propuesto: aplicacion movil con BLE, TTS, STT e IA contextual.
-  \end{itemize}
-\end{frame}
+\imageframe{Capítulo 2: Estadísticas actuales}{05.png}
+\imageframe{Capítulo 2: Necesidad actual}{06.png}
+\imageframe{Capítulo 2: Casos y referentes relevantes}{07.png}
+\imageframe{Capítulo 2: Mercado global}{08.png}
 
-\section{Problema y oportunidad}
-\begin{frame}{Problema y oportunidad}
-  \begin{block}{Problema}
-    Los visitantes suelen depender de cartelas, recorridos no adaptativos o apoyo humano limitado.
-  \end{block}
-  \begin{block}{Oportunidad}
-    Una guia inteligente puede activar contenido segun ubicacion y responder preguntas en tiempo real.
-  \end{block}
-\end{frame}
+\imageframe{Capítulo 3: Identificación del mercado objetivo}{09.png}
+\imageframe{Capítulo 3: Caracterización del mercado objetivo}{10.png}
+\imageframe{Capítulo 3: Elección del mercado objetivo}{11.png}
+\imageframe{Capítulo 3: Panorama nacional}{12.png}
 
-\section{Propuesta}
-\begin{frame}{Propuesta MuseIQ}
-  \begin{itemize}
-    \item Localizacion indoor con BLE y beacons.
-    \item Narracion automatica mediante TTS.
-    \item Interaccion por voz con STT.
-    \item Respuestas contextuales con IA y recuperacion de informacion.
-  \end{itemize}
-\end{frame}
-
-\section{Arquitectura}
-\begin{frame}{Arquitectura general}
-  \begin{columns}[T]
-    \column{0.48\textwidth}
-    \begin{block}{Cliente}
-      \begin{itemize}
-        \item App movil
-        \item Reproduccion de audio
-        \item Captura de voz
-      \end{itemize}
-    \end{block}
-    \column{0.48\textwidth}
-    \begin{block}{Servicios}
-      \begin{itemize}
-        \item Deteccion BLE
-        \item Motor de contenido
-        \item IA contextual
-      \end{itemize}
-    \end{block}
-  \end{columns}
-\end{frame}
-
-\section{Estado actual}
-\begin{frame}{Estado actual del documento}
-  \begin{itemize}
-    \item Redaccion por capitulos dentro de `tesis/src/chapters/`.
-    \item Frontmatter y bibliografia organizados por separado.
-    \item Base de plantilla preservada en `tesis-plantilla/`.
-  \end{itemize}
-\end{frame}
-
-\section{Siguientes pasos}
-\begin{frame}{Siguientes pasos}
-  \begin{enumerate}
-    \item Completar y refinar los capitulos pendientes.
-    \item Consolidar referencias y anexos.
-    \item Actualizar esta presentacion con cada nuevo avance.
-    \item Preparar una demo o flujo ilustrado de uso de MuseIQ.
-  \end{enumerate}
-\end{frame}
-
-\begin{frame}{Gracias}
+\begin{frame}{Cierre}
   \begin{center}
-    {\Large Preguntas y comentarios}
+    \includegraphics[height=2cm]{\uniLogo}\par
+    \vspace{0.6cm}
+    {\Large MuseIQ como propuesta de mediación cultural inteligente}
   \end{center}
 \end{frame}
 
