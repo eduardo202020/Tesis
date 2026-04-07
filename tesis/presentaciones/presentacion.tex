@@ -5,6 +5,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{array}
 
 \definecolor{MuseBlue}{HTML}{123C69}
 \definecolor{MuseGold}{HTML}{D9A441}
@@ -76,12 +77,103 @@
 \imageframe{Capítulo 1: Referentes y estado del arte}{04.png}
 
 \imageframe{Capítulo 2: Estadísticas actuales}{05.png}
+\begin{frame}[shrink=8]{Capítulo 2: Cuadros estadísticos de respaldo}
+  \footnotesize
+  \begin{table}
+    \centering
+    \begin{tabular}{l c c}
+      \hline
+      \textbf{Año} & \textbf{Indicador oficial} & \textbf{Dato reportado} \\
+      \hline
+      2019 & Hogares con smartphone & 78.0 \% \\
+      2021 & Hogares con smartphone & 88.4 \% \\
+      2022 & Hogares con smartphone & 91.9 \% \\
+      2023 & Hogares con smartphone & 92.8 \% \\
+      2024 & Hogares con smartphone & 94.8 \% \\
+      \hline
+    \end{tabular}
+    \caption{Evolución de hogares peruanos con smartphone. \textbf{Fuente:} OSIPTEL.}
+  \end{table}
+
+  \vspace{0.2cm}
+
+  \begin{table}
+    \centering
+    \begin{tabular}{l c l}
+      \hline
+      \textbf{Año} & \textbf{Visitantes} & \textbf{Observación} \\
+      \hline
+      2019 & 1\,956\,034 & Línea base prepandemia \\
+      2020 & 353\,153 & Contracción por COVID-19 \\
+      2022 & 1\,067\,571 & Recuperación parcial \\
+      2023 & 1\,543\,872 & Recuperación sostenida \\
+      2024 & 1\,790\,502 & Máximo pospandemia, aún por debajo de 2019 \\
+      \hline
+    \end{tabular}
+    \caption{Evolución de visitas a museos administrados por el Ministerio de Cultura. \textbf{Fuente:} Ministerio de Cultura.}
+  \end{table}
+\end{frame}
 \imageframe{Capítulo 2: Necesidad actual}{06.png}
 \imageframe{Capítulo 2: Casos y referentes relevantes}{07.png}
+\begin{frame}[shrink=12]{Capítulo 2: Referentes clave para MuseIQ}
+  \scriptsize
+  \begin{table}
+    \centering
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm} >{\raggedright\arraybackslash}p{1.9cm} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{3.1cm}}
+      \hline
+      \textbf{Referente} & \textbf{Tipo} & \textbf{Aporte principal} & \textbf{Relevancia para MuseIQ} \\
+      \hline
+      Verde et al. (2023), \textit{Indoor Content Delivery Solution for a Museum Based on BLE Beacons} & Artículo científico & Implementa BLE + RSSI en museo real; reporta 96\% de precisión de sala & Valida reconocimiento por sala y activación contextual \\
+      Wang (2024), \textit{Co-design of a Voice-Driven Interactive Smart Guide for Museum Accessibility and Management} & Artículo científico & Diseña guía por voz centrada en accesibilidad y experiencia de visitante & Sustenta uso de TTS/STT y enfoque inclusivo \\
+      Ivanov y Velkova (2025), \textit{Analyzing Visitor Behavior to Enhance Personalized Experiences in Smart Museums} & Revisión sistemática & Sintetiza evidencia sobre personalización en tiempo real y tracking & Sustenta la lógica de personalización contextual \\
+      Bloomberg Connects & Referente de mercado & Escalamiento internacional de guías móviles en instituciones culturales & Evidencia demanda y madurez del mercado objetivo \\
+      \hline
+    \end{tabular}
+    \caption{Trabajos y referentes clave para el desarrollo de MuseIQ. \textbf{Fuente:} elaboración con base en la tesis.}
+  \end{table}
+\end{frame}
 \imageframe{Capítulo 2: Mercado global}{08.png}
+\begin{frame}{Capítulo 2: Panorama global de mercado}
+  \scriptsize
+  \begin{table}
+    \centering
+    \setlength{\tabcolsep}{3pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{2.1cm} >{\raggedright\arraybackslash}p{2.1cm} >{\raggedright\arraybackslash}p{3.0cm}}
+      \hline
+      \textbf{Segmento / Fuente} & \textbf{Valor base} & \textbf{Proyección} & \textbf{Implicancia para MuseIQ} \\
+      \hline
+      Experiencias digitales en museos (HTF) & USD~10.9B (2024) & USD~24.2B (2033) & Demanda creciente por mediación cultural digital \\
+      Tours virtuales museales (Grand View) & USD~1.96B (2024) & USD~11.74B (2030) & Validación de modelos de experiencia digital escalable \\
+      Hardware virtual tour (Grand View) & USD~7.261B (2024) & CAGR alto & Presión por costos de equipamiento en instituciones \\
+      Software virtual tour (Grand View) & USD~2.492B (2024) & CAGR alto & Oportunidad para plataformas de guía inteligente \\
+      Servicios virtual tour (Grand View) & USD~1.309B (2024) & CAGR alto & Necesidad de implementación asistida y despliegue gradual \\
+      \hline
+    \end{tabular}
+    \caption{Panorama global de mercado en tecnologías para experiencias museales digitales. \textbf{Fuente:} HTF y Grand View Research.}
+  \end{table}
+\end{frame}
 
 \imageframe{Capítulo 3: Identificación del mercado objetivo}{09.png}
 \imageframe{Capítulo 3: Caracterización del mercado objetivo}{10.png}
+\begin{frame}[shrink=20]{Capítulo 3: Segmentación del mercado objetivo}
+  \scriptsize
+  \begin{table}
+    \centering
+    \setlength{\tabcolsep}{2.5pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{2.3cm} >{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}p{1.4cm}}
+      \hline
+      \textbf{Segmento} & \textbf{Perfil institucional} & \textbf{Necesidades predominantes} & \textbf{Aporte de MuseIQ} & \textbf{Prioridad} \\
+      \hline
+      Museos públicos y de sitio & Instituciones estatales con alta responsabilidad educativa y patrimonial & Mediación escalable, accesibilidad, actualización de contenidos y orientación en recorrido & Guía contextual, apoyo a recorridos autónomos y reducción de dependencia exclusiva de mediación humana & Alta \\
+      Museos privados y universitarios & Instituciones con mayor flexibilidad operativa e interés en innovación & Diferenciación de experiencia, modernización y análisis de interacción del visitante & Experiencia digital autoguiada y valor agregado para públicos especializados o recurrentes & Media \\
+      Centros culturales y espacios de interpretación & Entidades con exposiciones temporales o circuitos temáticos & Flexibilidad, despliegue rápido, soporte multiformato y contenidos adaptables & Configuración ligera y reutilizable para exposiciones cambiantes & Media \\
+      Mercado potencial ampliado & Sitios patrimoniales abiertos y circuitos turísticos culturales & Contenido multilingüe, navegación y soporte en escenarios de mayor complejidad física & Adaptación futura a recorridos híbridos y experiencias patrimoniales extendidas & Media-baja \\
+      \hline
+    \end{tabular}
+    \caption{Segmentación del mercado objetivo para MuseIQ. \textbf{Fuente:} elaboración propia con base en la tesis.}
+  \end{table}
+\end{frame}
 \imageframe{Capítulo 3: Elección del mercado objetivo}{11.png}
 \imageframe{Capítulo 3: Panorama nacional}{12.png}
 
