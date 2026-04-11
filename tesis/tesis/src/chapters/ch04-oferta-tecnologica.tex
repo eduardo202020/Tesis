@@ -1,9 +1,106 @@
 \chapter{Oferta Tecnológica Mundial}
 
-\section{Tecnologías utilizadas}
+\section{Introducción}
 
-Presenta aquí las tecnologías, plataformas o enfoques disponibles en el mercado global relacionados con el tema de la tesis.
+En el contexto de esta tesis, la oferta tecnológica mundial se entiende como el conjunto de productos comerciales, plataformas institucionales, estándares técnicos y prototipos académicos que permiten, en museos y espacios culturales, distintos grados de mediación digital durante la visita presencial. Esta oferta incluye audioguías dedicadas, aplicaciones móviles BYOD (\textit{Bring Your Own Device}), sistemas de acceso mediante QR o PWA, soluciones con localización indoor, plataformas de navegación en interiores y asistentes conversacionales basados en inteligencia artificial~\cite{bloomberg2025connects,smartifyplatform,locatifypricing,verde2023blemuseum,ivanov2025smartmuseums}.
 
-\section{Comparación de soluciones}
+Analizar esta oferta es importante por tres razones. En primer lugar, permite evitar falsos vacíos de innovación: muchas funciones asociadas a la mediación digital ya existen en el mercado, pero no siempre aparecen integradas bajo una misma arquitectura. En segundo lugar, permite distinguir entre soluciones de despliegue real y prototipos académicos con transferencia todavía limitada a la operación museal. Finalmente, este análisis ayuda a determinar qué enfoques son técnicamente transferibles al contexto de museos públicos peruanos, donde la fricción de acceso, la infraestructura disponible y la sostenibilidad operativa condicionan fuertemente la adopción~\cite{unesco2025globalreport,museoscultura,osiptel2024smartphone,sala2025museumapps}.
 
-Desarrolla aquí una comparación entre alternativas existentes, considerando funcionalidades, costos, ventajas y limitaciones.
+\section{Criterios de comparación}
+
+Para comparar la oferta tecnológica mundial de manera rigurosa, se consideran criterios funcionales, técnicos y de adopción institucional. Estos criterios permiten distinguir entre soluciones orientadas solo a publicar contenidos digitales y soluciones que realmente resuelven mediación contextual durante la visita presencial.
+
+Desde el punto de vista funcional, interesa analizar el tipo de mediación que ofrece cada solución, ya sea audioguía lineal, activación contextual por proximidad o interacción tipo pregunta-respuesta. También resulta relevante el modo de interacción predominante, que puede ser táctil, audiovisual, por voz o multimodal, así como el grado de accesibilidad ofrecido al visitante~\cite{wang2024voiceguide,hearonymusaccessibility}.
+
+Desde el punto de vista técnico, se consideran la presencia o ausencia de localización indoor, la granularidad lograda por la tecnología empleada, el nivel de infraestructura requerido y el tipo de inteligencia incorporada. En esta dimensión, se diferencian tecnologías de acceso simple como QR o NFC, enfoques de proximidad con BLE, plataformas de indoor navigation con BLE, Wi-Fi o UWB, y arquitecturas con recuperación aumentada para sostener respuestas contextuales verificables~\cite{verde2023blemuseum,appleibeacon,googleeddystone,leitch2023indoor,qiao2024uwb,aws2026rag}.
+
+Finalmente, desde la perspectiva de adopción institucional, se evalúan el modelo de despliegue, el costo relativo, el grado de madurez del producto y los principales riesgos operativos. Estos elementos son especialmente relevantes para una tesis orientada a museos públicos, donde la viabilidad técnica debe leerse junto con la capacidad real de implementación y mantenimiento~\cite{smartifypricing,smartguidepricing,locatifypricing,naviginemuseums}.
+
+\section{Clasificación de la oferta tecnológica mundial}
+
+\subsection{Audioguías dedicadas y sistemas clásicos de interpretación}
+
+Las audioguías dedicadas constituyen una de las formas más consolidadas de mediación digital en museos. Su lógica de funcionamiento se basa en dispositivos provistos por la propia institución, con contenidos pregrabados y recorridos estructurados. Este tipo de solución mantiene ventajas importantes en estabilidad operativa, control de la experiencia, funcionamiento \textit{offline} y soporte multilingüe. Sin embargo, presenta limitaciones claras en costos de adquisición, logística de préstamo, higiene, almacenamiento, mantenimiento y escalabilidad, además de ofrecer poca flexibilidad para personalización fina o interacción contextual dinámica~\cite{orpheobrochure,acoustiguide}.
+
+\subsection{Aplicaciones móviles BYOD y guías digitales}
+
+Una segunda categoría corresponde a las aplicaciones móviles orientadas a trasladar la mediación al smartphone del visitante. Estas soluciones suelen incluir mapas, listados de obras, audios, imágenes, contenido multimedia y, en algunos casos, analítica de uso. Plataformas como Bloomberg Connects, Smartify o izi.TRAVEL representan bien este modelo, que reduce la necesidad de hardware institucional y facilita la actualización de contenidos~\cite{bloomberg2025connects,smartifyplatform,izitravelmuseum}.
+
+No obstante, este enfoque enfrenta una barrera operativa ampliamente reconocida: la fricción de descarga. Muchos visitantes no desean instalar una aplicación específica para una sola visita, lo que reduce la adopción efectiva de apps nativas y ha impulsado alternativas basadas en acceso web inmediato o PWA~\cite{sala2025museumapps,smartifypwa,nubartpwa}.
+
+\subsection{Soluciones sin app basadas en QR o PWA}
+
+Las soluciones basadas en QR y PWA reducen al mínimo la fricción de entrada. El visitante escanea un código y accede directamente al contenido desde el navegador, sin instalación previa. Esta arquitectura resulta especialmente atractiva para museos con presupuestos limitados, porque requiere poca infraestructura y permite despliegues rápidos. Sin embargo, la activación contextual sigue siendo mayormente manual, ya que depende de la señalética física o de la decisión activa del visitante sobre qué contenido abrir~\cite{izitravelmuseum,nubartpwa,hearonymusaccessibility}.
+
+\subsection{Sistemas con BLE y mediación por proximidad}
+
+Los sistemas basados en BLE beacons buscan automatizar parte de la mediación digital al permitir que el contenido se active según la proximidad del visitante a una sala u objeto. En este enfoque, el teléfono móvil detecta señales BLE y estima cercanía mediante RSSI, lo que permite disparar contenidos contextuales sin necesidad de búsqueda manual. Esta arquitectura es particularmente relevante para MuseIQ, ya que privilegia reconocimiento de sala o zona de observación, antes que posicionamiento centimétrico~\cite{verde2023blemuseum,appleibeacon,googleeddystone,espressifibeacon}.
+
+La principal ventaja de esta categoría es que ofrece contextualización automática con infraestructura relativamente ligera. No obstante, su desempeño está condicionado por la variabilidad del RSSI, el multipath, la configuración espacial del museo y la necesidad de mantenimiento de los emisores, especialmente cuando operan con baterías~\cite{verde2023blemuseum,leitch2023indoor}.
+
+\subsection{Plataformas de indoor navigation y wayfinding}
+
+Una categoría más sofisticada corresponde a las plataformas orientadas a navegación indoor y \textit{wayfinding}. Estas soluciones no solo entregan contenido, sino que ayudan a guiar físicamente al visitante a través de rutas, mapas y orientación espacial dentro del museo. Para ello suelen combinar BLE, Wi-Fi, UWB, mapas indoor detallados y, en algunos casos, fusión con sensores inerciales del smartphone~\cite{naviginemuseums,leitch2023indoor,qiao2024uwb}.
+
+Su principal fortaleza es ampliar el valor funcional del sistema hacia accesibilidad espacial, control de flujo y analítica de recorridos. Sin embargo, también exigen una infraestructura más costosa, procesos de calibración y una gestión técnica que no siempre resulta compatible con instituciones de presupuesto acotado.
+
+\subsection{Asistentes conversacionales e inteligencia artificial}
+
+La oferta más reciente incorpora asistentes conversacionales y mecanismos de personalización con inteligencia artificial. En el plano comercial, algunas plataformas comienzan a ofrecer funciones de traducción automática, planificación de recorridos o chat guiado. En la literatura académica, se observan propuestas de chatbots patrimoniales, asistentes virtuales y guías por voz para mejorar accesibilidad e interacción natural~\cite{smartguidepricing,smartifypricing,bouras2023chatbots,machidon2020culturalerica,duguleana2020virtualassistant,wang2024voiceguide}.
+
+No obstante, la adopción de IA en museos también introduce nuevas exigencias de gobernanza. En dominios patrimoniales, la exactitud, la trazabilidad de las respuestas y la alineación con las fuentes curatoriales son factores críticos. Por ello, la incorporación de modelos conversacionales anclados mediante recuperación aumentada adquiere especial relevancia como estrategia para reducir alucinaciones y fortalecer confiabilidad~\cite{lewis2020rag,bechard2024hallucination,unescoaiculture2025}.
+
+\section{Referentes concretos y comparación de soluciones}
+
+Entre los referentes de mayor despliegue internacional destaca Bloomberg Connects, que articula guías digitales para más de mil instituciones culturales a través de una misma aplicación. Su fortaleza radica en la escala de adopción y en la consolidación de un modelo de guía BYOD altamente accesible para el visitante. Sin embargo, su arquitectura pública no se presenta como una solución centrada en localización indoor por proximidad ni en interacción conversacional basada en RAG~\cite{bloomberg2025connects}.
+
+Smartify representa un referente importante por combinar CMS, app móvil y experiencias PWA sin descarga, además de incorporar funciones de traducción y personalización asistida por IA en algunos planes de servicio. Su propuesta se aproxima al problema de MuseIQ en la dimensión de publicación flexible y acceso con baja fricción, aunque no se orienta explícitamente a una arquitectura basada en beacons BLE propios del museo~\cite{smartifyplatform,smartifypwa,smartifypricing}.
+
+SmartGuide constituye otro referente relevante por introducir capacidades de analítica e IA en un producto SaaS para instituciones culturales y turísticas. La plataforma destaca por su orientación a planificación de recorridos y chat guiado, pero su evidencia pública no la posiciona como una solución centrada en contextualización por sala mediante BLE~\cite{smartguidepricing}.
+
+Dentro de soluciones comparables por localización, Locatify y Navigine representan mejor el enfoque de proximidad o navegación indoor. Locatify incorpora experiencias basadas en BLE y expone públicamente una estructura de precios, mientras que Navigine se orienta más a wayfinding y SDKs de indoor positioning. Ambas prueban que existe mercado para la mediación espacial, pero también reflejan una complejidad operativa mayor que una solución enfocada en reconocimiento de sala y activación contextual ligera~\cite{locatifypricing,locatifymuseum,naviginemuseums}.
+
+En el ámbito académico, el trabajo de Verde et al. es uno de los antecedentes más directamente relacionados con MuseIQ, porque demuestra la viabilidad de una solución museística basada en BLE para entrega contextual de contenido. Del mismo modo, la investigación de Wang sobre guías por voz aporta evidencia valiosa para justificar la interacción multimodal y accesible. A su vez, revisiones sobre museos inteligentes y localización indoor muestran que la tendencia internacional se mueve hacia arquitecturas integradas, pero todavía con diferencias marcadas entre prototipos y productos plenamente desplegados~\cite{verde2023blemuseum,wang2024voiceguide,ivanov2025smartmuseums,leitch2023indoor}.
+
+\begin{table}[h!]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{3pt}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm} >{\raggedright\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}p{1.4cm} >{\raggedright\arraybackslash}p{1.2cm} >{\raggedright\arraybackslash}p{1.7cm} >{\raggedright\arraybackslash}p{2.3cm} >{\raggedright\arraybackslash}p{2.3cm}}
+		\hline
+		\textbf{Solución} & \textbf{Tipo} & \textbf{BLE / indoor} & \textbf{Voz} & \textbf{IA / personalización} & \textbf{Fortaleza principal} & \textbf{Limitación principal} \\
+		\hline
+		Bloomberg Connects & Plataforma institucional global & No central & No central & Limitada en evidencia pública & Alta adopción multisede y experiencia curada & No se orienta al reconocimiento por sala como núcleo \\
+		Smartify & Plataforma BYOD + CMS + PWA & No central & No central & Sí, en personalización y traducción & Baja fricción de acceso y gestión de contenidos & No prioriza BLE ni voz contextual como arquitectura base \\
+		SmartGuide & SaaS de guía digital & No central & Parcial & Sí, con planificador y chat & Integra analítica y funciones IA & Menor evidencia pública de localización por proximidad \\
+		izi.TRAVEL / Nubart / Hearonymus & Audioguías BYOD y PWA & No central & Audio pregrabado & Baja & Acceso rápido con QR/PWA y costo contenido & Dependencia de activación manual \\
+		Locatify & Plataforma de experiencias basadas en localización & Sí & No central & Baja en evidencia pública & BLE y disparo contextual con despliegue comercial & Mayor complejidad operativa que un modelo QR/PWA \\
+		Navigine & Indoor navigation / SDK & Sí & No central & Baja en evidencia pública & Wayfinding e indoor positioning & Infraestructura y calibración más exigentes \\
+		Verde et al. (2023) & Prototipo académico & Sí & No & No & Evidencia empírica de BLE en museo real & Transferencia de mercado limitada \\
+		Wang (2024) & Prototipo académico & No & Sí & Conversación guiada & Aporte fuerte en accesibilidad por voz & No integra BLE ni localización indoor \\
+		\hline
+	\end{tabular}
+	\caption{Comparación de soluciones y referentes tecnológicos comparables a MuseIQ. Fuente: elaboración propia con base en~\cite{bloomberg2025connects,smartifyplatform,smartguidepricing,izitravelmuseum,nubartpwa,hearonymusaccessibility,locatifymuseum,naviginemuseums,verde2023blemuseum,wang2024voiceguide}.}
+\end{table}
+
+\section{Análisis crítico de la oferta mundial}
+
+La revisión realizada permite identificar tres tendencias dominantes. La primera es la consolidación de guías digitales centradas en contenido, publicación y experiencia BYOD. Estas soluciones muestran que el mercado ya validó el valor de ofrecer mediación digital a través del dispositivo personal del visitante. La segunda tendencia es el interés creciente por automatizar la contextualización mediante tecnologías de proximidad o navegación indoor, aunque con costos operativos y exigencias técnicas mayores. La tercera es la incorporación progresiva de inteligencia artificial para personalización, traducción y conversación, aún en una fase de adopción desigual y con retos importantes de verificación y control de calidad~\cite{bloomberg2025connects,smartifypricing,locatifymuseum,naviginemuseums,bouras2023chatbots,unescoaiculture2025}.
+
+Desde una perspectiva técnica, la oferta comercial generalista todavía tiende a fragmentar las capacidades. Es frecuente encontrar soluciones enfocadas en audioguías, otras enfocadas en localización, y otras que empiezan a incorporar chat o personalización, pero es menos común hallar una arquitectura integrada que combine proximidad por BLE, apoyo de orientación, voz interactiva e inteligencia contextual anclada en contenidos curatoriales. En ese sentido, la propuesta de MuseIQ se aproxima más a una arquitectura compuesta que a la simple adopción de una plataforma comercial existente~\cite{verde2023blemuseum,wang2024voiceguide,lewis2020rag,bechard2024hallucination}.
+
+Asimismo, la literatura y la oferta de mercado coinciden en que el principal desafío no es únicamente técnico, sino operativo. La fricción de acceso, la necesidad de mantener contenidos actualizados, la calidad de la conectividad local, la gobernanza de datos y el mantenimiento de infraestructura condicionan tanto o más la sostenibilidad de la solución que la sofisticación de sus algoritmos. Esta observación es especialmente relevante para el contexto peruano, donde la solución debe ser no solo innovadora, sino también implementable por instituciones con recursos limitados y distintos niveles de madurez digital~\cite{sala2025museumapps,museoscultura,osiptel2024smartphone,cultura2024reporte}.
+
+\section{Posicionamiento de MuseIQ frente a la oferta mundial}
+
+MuseIQ comparte con la oferta existente la aspiración de convertirse en una guía digital BYOD capaz de enriquecer la visita presencial mediante contenidos contextualizados. También converge con la literatura sobre museos inteligentes en la utilización de BLE como mecanismo de activación espacial y en el interés por interfaces más accesibles y personalizadas~\cite{verde2023blemuseum,ivanov2025smartmuseums,wang2024voiceguide}.
+
+Sin embargo, su aporte diferencial no radica en afirmar novedad absoluta sobre cada componente por separado, sino en la integración deliberada de cuatro elementos que, en el mercado, suelen aparecer distribuidos en soluciones parciales: reconocimiento de proximidad por sala mediante BLE, apoyo de orientación con sensores del smartphone, interacción por voz y respuestas contextuales ancladas mediante RAG. Esta combinación busca resolver una brecha concreta de la mediación museal peruana: ofrecer asistencia contextual con infraestructura ligera, menor dependencia de hardware propietario y mayor potencial de accesibilidad que una audioguía tradicional o un sistema QR puramente manual~\cite{android2026positionsensors,aws2026rag,locatifymuseum,naviginemuseums}.
+
+Para museos públicos peruanos de alta o media afluencia, esta arquitectura tiene relevancia porque busca un equilibrio entre costo, automatización y valor de uso. Frente a sistemas de navegación indoor más complejos, MuseIQ propone una granularidad suficiente para reconocer sala o zona de interés sin exigir precisión centimétrica. Frente a plataformas basadas solo en QR o listados manuales, propone una experiencia más contextual y potencialmente más inclusiva. Y frente a chatbots o asistentes no anclados, plantea un enfoque más defendible para contenidos patrimoniales, donde la verificabilidad es un criterio crítico~\cite{leitch2023indoor,qiao2024uwb,lewis2020rag,unescoaiculture2025}.
+
+\section{Conclusión}
+
+La oferta tecnológica mundial en mediación digital para museos muestra un ecosistema diverso y en expansión. Existen soluciones maduras para audioguías, plataformas BYOD consolidadas, modelos de acceso ligero mediante QR o PWA, soluciones de proximidad con BLE, plataformas avanzadas de indoor navigation y un campo emergente de asistentes conversacionales e IA aplicada a patrimonio. Sin embargo, estas capacidades no suelen aparecer plenamente integradas en un solo producto orientado a museos con restricciones presupuestales y necesidad de despliegue ligero~\cite{bloomberg2025connects,smartifyplatform,locatifymuseum,naviginemuseums,bouras2023chatbots}.
+
+En consecuencia, el espacio de MuseIQ se justifica como una propuesta integradora que articula componentes ya validados en la literatura y en el mercado, pero reconfigurados para responder al contexto de adopción de museos peruanos. Este análisis proporciona la base para el siguiente capítulo, donde corresponde traducir esta posición tecnológica en una lógica de ingresos proyectados y sostenibilidad económica del proyecto.
