@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 OUTPUT_DIR = Path(__file__).resolve().parent / "output"
@@ -116,6 +117,36 @@ def grafico_lineas(
     _guardar_figura(fig, nombre_salida)
 
 
+def grafico_lineas_multiples(
+    x,
+    series,
+    titulo,
+    eje_x,
+    eje_y,
+    nombre_salida,
+):
+    fig, ax = plt.subplots(figsize=(10, 5.5))
+
+    for indice, serie in enumerate(series):
+        color = PALETA[indice % len(PALETA)]
+        ax.plot(
+            x,
+            serie["y"],
+            marker="o",
+            linewidth=2.2,
+            color=color,
+            label=serie["nombre"],
+        )
+
+    ax.set_title(titulo, fontsize=13)
+    ax.set_xlabel(eje_x)
+    ax.set_ylabel(eje_y)
+    ax.grid(True, linestyle="--", alpha=0.3)
+    ax.legend(frameon=False)
+
+    _guardar_figura(fig, nombre_salida)
+
+
 def grafico_pastel(
     categorias,
     valores,
@@ -152,6 +183,37 @@ def grafico_dispersion(
     ax.set_xlabel(eje_x)
     ax.set_ylabel(eje_y)
     ax.grid(True, linestyle="--", alpha=0.3)
+
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_heatmap(
+    matriz,
+    etiquetas_filas,
+    etiquetas_columnas,
+    titulo,
+    nombre_salida,
+    mapa_color="YlGnBu",
+):
+    fig, ax = plt.subplots(figsize=(11, 6))
+    imagen = ax.imshow(matriz, cmap=mapa_color, aspect="auto", vmin=0, vmax=1)
+
+    ax.set_title(titulo, fontsize=13)
+    ax.set_xticks(np.arange(len(etiquetas_columnas)))
+    ax.set_yticks(np.arange(len(etiquetas_filas)))
+    ax.set_xticklabels(etiquetas_columnas)
+    ax.set_yticklabels(etiquetas_filas)
+    plt.setp(ax.get_xticklabels(), rotation=25, ha="right", rotation_mode="anchor")
+
+    for fila in range(len(etiquetas_filas)):
+        for columna in range(len(etiquetas_columnas)):
+            valor = matriz[fila][columna]
+            texto = f"{valor:.1f}" if valor not in (0, 1) else str(int(valor))
+            color = "white" if valor >= 0.6 else "black"
+            ax.text(columna, fila, texto, ha="center", va="center", color=color, fontsize=9)
+
+    cbar = fig.colorbar(imagen, ax=ax, shrink=0.9)
+    cbar.set_label("Presencia relativa de capacidad")
 
     _guardar_figura(fig, nombre_salida)
 
