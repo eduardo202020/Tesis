@@ -6,21 +6,34 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 \usepackage{array}
+\usepackage{colortbl}
 
 \definecolor{MuseBlue}{HTML}{123C69}
 \definecolor{MuseGold}{HTML}{D9A441}
 \definecolor{MuseLight}{HTML}{F5F7FA}
 \definecolor{MuseText}{HTML}{1F2933}
+\definecolor{MuseDarkBg}{HTML}{0E1621}
+\definecolor{MuseDarkPanel}{HTML}{162231}
+\definecolor{MuseDarkText}{HTML}{EAF1F8}
+\definecolor{MuseRule}{HTML}{8FA3B8}
 
 \usetheme{default}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{headline}{}
 \setbeamertemplate{footline}{}
 
-\setbeamercolor{normal text}{fg=MuseText,bg=white}
+\setbeamercolor{background canvas}{bg=MuseDarkBg}
+\setbeamercolor{normal text}{fg=MuseDarkText,bg=MuseDarkBg}
 \setbeamercolor{frametitle}{fg=white,bg=MuseBlue}
-\setbeamercolor{title}{fg=MuseBlue,bg=white}
+\setbeamercolor{title}{fg=MuseDarkText,bg=MuseDarkBg}
+\setbeamercolor{subtitle}{fg=MuseGold}
+\setbeamercolor{author}{fg=MuseDarkText}
+\setbeamercolor{institute}{fg=MuseDarkText}
+\setbeamercolor{date}{fg=MuseRule}
+\setbeamercolor{caption name}{fg=MuseGold}
+\setbeamercolor{caption}{fg=MuseDarkText}
 \setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+\arrayrulecolor{MuseRule}
 
 \newcommand{\uniLogo}{src/logo.png}
 

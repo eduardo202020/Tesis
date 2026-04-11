@@ -1,11 +1,7 @@
 {
   "latex-workshop.latexindent.path": "/home/eduardo/bin/latexindent",
   "latex-workshop.chktex.path": "/home/eduardo/bin/chktex",
-  "latex-workshop.view.pdf.invertMode.enabled": "auto",
-  "latex-workshop.view.pdf.invert": 1,
-  "latex-workshop.view.pdf.invertMode.brightness": 0.9,
-  "latex-workshop.view.pdf.invertMode.grayscale": 0.2,
-  "latex-workshop.view.pdf.color.dark.pageColorsBackground": "#1e1e1e",
-  "latex-workshop.view.pdf.color.dark.pageColorsForeground": "#d4d4d4",
-  "latex-workshop.view.pdf.color.dark.backgroundColor": "#1e1e1e"
+  "workbench.editorAssociations": {
+    "*.pdf": "pdfViewer.customEditor"
+  }
 }
