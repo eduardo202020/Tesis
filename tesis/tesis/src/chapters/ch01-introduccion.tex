@@ -66,6 +66,13 @@ Pese al crecimiento de la demanda y a la disponibilidad de dispositivos móviles
 
 Desde una perspectiva operativa, el problema central se formula del siguiente modo: los museos requieren una solución de mediación digital capaz de estimar con confiabilidad suficiente la ubicación y orientación del visitante dentro de la sala, activar contenido contextual y sostener costos de implementación compatibles con restricciones presupuestales institucionales. La persistencia de esta brecha entre demanda cultural creciente y digitalización parcial reduce el potencial educativo, inclusivo y de apropiación social de la visita presencial.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.9\textwidth]{mapa_problema_central_museiq.png}
+	\caption{Mapa conceptual del problema central abordado por MuseIQ. Fuente: elaboración propia.}
+	\label{fig:mapa-problema-central-museiq}
+\end{figure}
+
 \section{Solución Tecnológica}
 
 La solución propuesta consiste en una guía inteligente para museos articulada sobre cuatro componentes: beacons BLE basados en ESP32, sensores del smartphone, interacción por voz mediante TTS/STT y una capa de recuperación aumentada para generación de respuestas (RAG). El objetivo técnico no es el posicionamiento centimétrico, sino la identificación robusta de sala y zona probable de observación para activar contenido pertinente en tiempo real.
@@ -73,6 +80,13 @@ La solución propuesta consiste en una guía inteligente para museos articulada 
 El uso de BLE se justifica por su relación costo-beneficio y su escalabilidad operativa. Un caso implementado en el Foz C\^oa Museum reportó 96\% de precisión en identificación de sala mediante BLE y RSSI~\cite{verde2023blemuseum}. Esta evidencia valida la factibilidad de un esquema de reconocimiento por ambiente en contextos museísticos que no disponen de infraestructura de alto costo.
 
 Asimismo, la documentación oficial de Android establece que la orientación del dispositivo puede inferirse combinando acelerómetro y sensor geomagnético~\cite{android2026positionsensors}. Esta información complementa la señal de proximidad BLE y fortalece la activación contextual de contenidos. Finalmente, la capa RAG permite consultar bases curatoriales institucionales antes de generar respuestas, reduciendo alucinaciones y aumentando pertinencia semántica~\cite{aws2026rag}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.92\textwidth]{arquitectura_conceptual_museiq.png}
+	\caption{Arquitectura conceptual general de la solución MuseIQ. Fuente: elaboración propia.}
+	\label{fig:arquitectura-conceptual-museiq}
+\end{figure}
 
 \section{Referencias a tomar en cuenta}
 
@@ -110,6 +124,13 @@ Las series oficiales de OSIPTEL y del Ministerio de Cultura permiten dimensionar
 	\end{tabular}
 	\caption{Trabajos y referentes clave para el desarrollo de MuseIQ \textbf{Fuente:}~\cite{verde2023blemuseum,wang2024voiceguide,ivanov2025smartmuseums,bloomberg2025connects}}
 \end{table}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.92\textwidth]{relacion_problema_solucion_aporte.png}
+	\caption{Relación entre el problema identificado, la respuesta tecnológica de MuseIQ y el aporte esperado. Fuente: elaboración propia.}
+	\label{fig:relacion-problema-solucion-aporte}
+\end{figure}
 
 \section{Estado del Arte}
 

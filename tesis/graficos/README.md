@@ -15,26 +15,58 @@ Desde esta carpeta:
 
 ```powershell
 python -m pip install -r requirements.txt
-python generar_grafico.py
-python ejemplos_uso.py
+python ejemplos_uso.py all
 ```
 
-Los scripts generan por defecto:
+Para generar por capitulo:
 
-- `output/ejemplo_barras.png`
-- `output/ejemplo_lineas.png`
-- `output/ejemplo_pastel.png`
-- `output/ejemplo_barras_horizontales.png`
-- `output/ejemplo_dispersion.png`
-- y varios ejemplos definidos en `ejemplos_uso.py`
+```powershell
+python ejemplos_uso.py cap1
+python ejemplos_uso.py cap4
+python ejemplos_uso.py cap10
+```
+
+Para generar un solo grafico:
+
+```powershell
+python ejemplos_uso.py mapa_segmentacion_mercado_objetivo
+```
+
+Para ver los nombres disponibles:
+
+```powershell
+python ejemplos_uso.py --help
+```
+
+El script `generar_grafico.py` contiene la libreria base.
+
+`ejemplos_uso.py` ahora tiene dos modos:
+
+- `all` o `todo`: regenera todo el lote
+- `cap1`, `cap2`, `cap3`, `cap4`, `cap5`, `cap6`, `cap10`: generan solo los graficos de ese capitulo
+- `<nombre_grafico>`: genera solo una imagen puntual
+
+Entre los nombres disponibles estan, por ejemplo:
+
+- `smartphones_peru`
+- `visitas_museos`
+- `mapa_problema`
+- `arquitectura_conceptual`
+- `mapa_segmentacion_mercado_objetivo`
+- `categorias_oferta_tecnologica_mundial`
+- `flujo_ingresos`
+- `sensibilidad_van`
 
 ## Tipos de graficos disponibles
 
 - barras verticales
 - barras horizontales
 - lineas
+- lineas multiples
 - pastel
 - dispersion
+- heatmap
+- diagramas conceptuales
 
 ## Como adaptarlo
 
@@ -51,13 +83,15 @@ Si quieres ampliar la libreria base, modifica:
 - `grafico_barras(...)`
 - `grafico_barras_horizontales(...)`
 - `grafico_lineas(...)`
+- `grafico_lineas_multiples(...)`
 - `grafico_pastel(...)`
 - `grafico_dispersion(...)`
+- `grafico_heatmap(...)`
 
-Luego vuelve a correr:
+Luego genera solo el grafico que cambiaste:
 
 ```powershell
-python ejemplos_uso.py
+python ejemplos_uso.py nombre_del_grafico
 ```
 
 ## Como insertarlo en LaTeX

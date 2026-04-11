@@ -2,8 +2,124 @@
 
 \section{Base conceptual o técnica}
 
-Explica aquí el componente central, marco conceptual, dataset, proceso o fundamento específico que sostiene tu propuesta.
+La propuesta MuseIQ se formula como un sistema de mediación cultural inteligente para visitas presenciales en museos y espacios culturales. Su fundamento no radica únicamente en incorporar componentes tecnológicos contemporáneos, sino en articularlos de manera coherente con la experiencia museística, la lógica de contextualización del recorrido, los principios de accesibilidad y las restricciones operativas de instituciones culturales con recursos limitados. En ese sentido, este capítulo establece la base conceptual, funcional y técnica que permite justificar la propuesta antes de entrar al diseño detallado de arquitectura, tecnologías, datos e implementación.
+
+Desde la perspectiva de la experiencia cultural, el museo no es solo un contenedor de objetos, sino un entorno interpretativo donde el visitante construye significado a partir de recorridos, secuencias espaciales y narrativas curatoriales. Por ello, la mediación digital no debe entenderse como una capa decorativa o paralela al recorrido físico, sino como un mecanismo capaz de acompañar la visita en el momento y lugar adecuados. La literatura reciente sobre museos inteligentes y personalización subraya precisamente que las experiencias más valiosas integran localización, comportamiento del visitante e interfaces naturales para enriquecer el proceso interpretativo~\cite{ivanov2025smartmuseums}. MuseIQ se sitúa dentro de esa línea, pero con una orientación aplicada al contexto peruano y con una arquitectura ligera de bajo costo.
+
+\subsection{Mediación cultural digital en visita presencial}
+
+La mediación cultural digital en un museo busca facilitar la relación entre el visitante, el contenido curatorial y el espacio expositivo mediante recursos tecnológicos que amplían la comprensión, accesibilidad y participación. En el caso de MuseIQ, esta mediación se concibe como una mediación \textit{in situ}, es decir, integrada al recorrido presencial. A diferencia de soluciones enfocadas en consulta remota o recorridos virtuales previos, el propósito principal aquí es enriquecer la interpretación mientras el visitante se encuentra físicamente frente a una sala, vitrina o zona de interés.
+
+Este fundamento resulta coherente con la evolución reciente del sector cultural. UNESCO ha señalado que las tecnologías digitales están modificando las condiciones de acceso y experiencia cultural, y que su adopción puede reducir brechas y ampliar oportunidades de participación~\cite{unesco2025globalreport}. En el ámbito museístico, ello se traduce en la posibilidad de ofrecer capas narrativas adicionales, recorridos más flexibles y soportes de accesibilidad sin depender exclusivamente de mediación humana constante. MuseIQ se apoya en este principio: la tecnología no reemplaza la curaduría ni la mediación especializada, pero sí amplía su alcance y continuidad durante el recorrido.
+
+\subsection{Contextualización del contenido museístico}
+
+Uno de los fundamentos centrales de MuseIQ es que el contenido museístico adquiere mayor valor cuando se presenta de forma contextualizada. La pertinencia informativa no depende solo de la calidad del dato, sino también del momento, lugar y situación en que se ofrece. En una visita presencial, el visitante no necesita un catálogo indiscriminado de información, sino contenido relevante para la sala o zona donde se encuentra, el objeto que observa y la consulta que desea realizar.
+
+Esta lógica se conecta con el carácter contextual de los sistemas inteligentes aplicados a museos. La revisión de Ivanov y Velkova muestra que la personalización y adaptación en tiempo real son rasgos distintivos de las experiencias museísticas avanzadas~\cite{ivanov2025smartmuseums}. En MuseIQ, esta contextualización se materializa mediante una combinación de proximidad espacial, orientación aproximada y consulta conversacional, de modo que la información se active o se recupere con mayor probabilidad de relevancia.
+
+\subsection{Proximidad, sala y orientación como variables interpretativas}
+
+En términos funcionales, MuseIQ asume que la sala y la zona de observación son unidades de contexto más relevantes que una coordenada geométrica exacta. Estar en una determinada sala no es solo una condición física, sino una condición semántica: implica pertenecer a un conjunto de piezas, relatos curatoriales y secuencias narrativas específicas. La proximidad aporta una señal adicional sobre qué sector del espacio podría concentrar la atención del visitante, mientras que la orientación del smartphone puede ayudar a reducir ambigüedad cuando existen varios elementos cercanos.
+
+Este criterio es importante porque el sistema busca integrarse al ritmo natural de la visita. En lugar de exigir búsquedas manuales constantes o navegación por menús extensos, MuseIQ intenta inferir un contexto funcional suficiente para activar contenidos pertinentes. La combinación de sala, proximidad y orientación se justifica así como un mínimo viable de contexto para mediación digital presencial.
+
+\subsection{Fundamento de localización funcional en interiores}
+
+La localización indoor constituye uno de los ejes técnicos de MuseIQ, pero debe interpretarse desde una lógica funcional. El objetivo del sistema no es lograr posicionamiento centimétrico, sino identificar con confiabilidad suficiente la sala o zona probable de observación del visitante. Esta elección se sustenta en la evidencia empírica de entornos museísticos reales, donde BLE ha mostrado utilidad operativa para activar contenidos por ambiente sin necesidad de infraestructura de alta complejidad~\cite{verde2023blemuseum}.
+
+La adopción de una localización funcional responde también a las características del dominio. En un museo, el valor del sistema se mide por la pertinencia de la mediación y no por la exactitud geométrica por sí misma. Si el sistema identifica correctamente la sala y entrega contenido contextual adecuado, cumple su propósito principal aunque no resuelva la posición exacta del visitante dentro de un plano métrico detallado. Desde esta perspectiva, la localización es un medio para la mediación, no un fin independiente.
+
+\subsection{Reconocimiento de sala o zona frente a precisión centimétrica}
+
+La priorización del reconocimiento de sala o zona se justifica por razones curatoriales, técnicas y económicas. Desde el punto de vista curatorial, las narrativas museográficas suelen organizarse precisamente por salas, módulos o ejes temáticos. Desde el punto de vista técnico, BLE con RSSI ofrece una relación costo-beneficio favorable, aunque su señal en interiores es sensible a variaciones de propagación, obstáculos y configuración espacial~\cite{verde2023blemuseum,leitch2023indoor}. Desde el punto de vista económico, perseguir precisión centimétrica implicaría normalmente una infraestructura más costosa, mayor calibración y más mantenimiento, lo cual sería menos compatible con museos públicos o instituciones culturales de madurez digital heterogénea.
+
+Por ello, MuseIQ se orienta a una granularidad práctica: reconocer sala, zona o contexto de observación con desempeño suficiente para activar contenido, sostener la interacción por voz y recuperar información del corpus curatorial. Esta decisión es consistente con la propuesta general de bajo costo y con la lógica de despliegue progresivo definida en capítulos anteriores.
+
+\subsection{Interacción multimodal y accesibilidad mediante voz}
+
+La interacción multimodal constituye otro fundamento importante de la propuesta. En un recorrido presencial, el visitante no siempre puede ni desea depender exclusivamente de lectura en pantalla. La combinación de texto, audio y voz permite reducir fricción de uso, sostener el foco en el entorno físico y ampliar accesibilidad para distintos perfiles de usuario. En ese marco, la voz deja de ser un añadido tecnológico y pasa a ser un mecanismo funcional de continuidad interpretativa.
+
+La investigación sobre guías por voz en museos muestra que este tipo de interacción puede mejorar accesibilidad y autonomía, especialmente para visitantes con barreras visuales o para quienes prefieren una experiencia menos dependiente de la lectura sostenida~\cite{wang2024voiceguide}. MuseIQ incorpora este fundamento mediante TTS para salida audible y STT para captura de consultas, lo que favorece una experiencia más fluida durante la visita. Asimismo, esta lógica se alinea con el objetivo de disminuir la sobrecarga cognitiva propia de recorridos extensos y de paneles informativos densos.
+
+\subsection{Smartphone como interfaz principal}
+
+MuseIQ se apoya en una estrategia BYOD donde el smartphone del visitante es la interfaz principal de uso. Este enfoque tiene justificación técnica y económica. Técnicamente, el smartphone integra conectividad Bluetooth, micrófono, audio, sensores de movimiento y capacidad de ejecución suficiente para una guía contextual. Económicamente, reduce la necesidad de dotar al museo de hardware dedicado por visitante, lo que disminuye costos de adquisición, logística y mantenimiento.
+
+La viabilidad de este fundamento es especialmente fuerte en el contexto peruano. OSIPTEL reporta una alta penetración de smartphones en hogares, alcanzando 94.8\% en 2024~\cite{osiptel2024smartphone}. Esta disponibilidad convierte al dispositivo personal en una base realista para soluciones de guía inteligente. Además, la documentación oficial de Android confirma que es factible inferir orientación del dispositivo usando acelerómetro y sensor geomagnético, lo cual refuerza la idea de que el smartphone no solo es interfaz, sino también parte activa del sistema de contexto espacial~\cite{android2026positionsensors}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.92\textwidth]{fundamentos_museiq_componentes.png}
+	\caption{Relación conceptual entre visitante, contexto espacial, smartphone, corpus curatorial y asistente conversacional en MuseIQ. Fuente: elaboración propia.}
+	\label{fig:fundamentos-museiq-componentes}
+\end{figure}
+
+\subsection{Recuperación contextual del conocimiento y RAG}
+
+La capa conversacional de MuseIQ no se basa en respuestas generativas completamente libres, sino en una lógica de recuperación contextual del conocimiento. En términos funcionales, ello significa que antes de responder una consulta del visitante, el sistema debe recuperar contenido relevante desde un corpus curatorial del museo. Este principio es coherente con la noción de Retrieval-Augmented Generation, donde la generación de respuesta se condiciona por información recuperada desde una base documental externa~\cite{lewis2020rag,aws2026rag}.
+
+En el dominio museístico, este fundamento es especialmente importante. El contenido patrimonial y curatorial requiere precisión, consistencia y trazabilidad. Un asistente que responda únicamente desde conocimiento paramétrico general tendría mayor riesgo de producir información poco pertinente o incluso errónea. La incorporación de RAG permite anclar la respuesta al corpus institucional y, por tanto, aumentar control semántico y pertinencia temática. Además, la literatura reciente sobre alucinaciones en modelos de lenguaje ha reforzado la necesidad de mecanismos de grounding y verificación cuando se trabaja con dominios de alta sensibilidad factual~\cite{bechard2024hallucination,unescoaiculture2025}.
+
+\subsection{Trazabilidad y responsabilidad en patrimonio cultural}
+
+En una solución aplicada a patrimonio, la calidad de la respuesta no debe evaluarse solo por fluidez lingüística. También importa la posibilidad de justificar de dónde procede la información y bajo qué corpus o criterio curatorial se produjo. Este requerimiento de trazabilidad convierte a la respuesta contextual en un acto de responsabilidad institucional. MuseIQ, por tanto, se fundamenta en la idea de que la inteligencia conversacional debe subordinarse a la evidencia documental del museo y no operar como una voz desligada del contenido institucional.
+
+Este enfoque también se relaciona con marcos éticos y de gobernanza para la inteligencia artificial en cultura. UNESCO ha advertido la necesidad de transparencia, responsabilidad y control en el uso de IA en dominios culturales y patrimoniales~\cite{unescoaiculture2025}. En MuseIQ, ese principio se traduce en una arquitectura donde el conocimiento relevante es administrado por el museo y recuperado antes de responder, manteniendo coherencia con los objetivos curatoriales y educativos del sistema.
+
+\subsection{Modularidad, escalabilidad y bajo costo}
+
+La propuesta MuseIQ responde además a principios clásicos de ingeniería de sistemas aplicados al contexto museístico: modularidad, escalabilidad y costo contenido. La modularidad implica que la solución pueda entenderse como un conjunto de componentes relativamente desacoplados: infraestructura BLE, captura de contexto con smartphone, capa de contenido, voz y asistente conversacional. Esta separación facilita mantenimiento, reemplazo tecnológico y evolución progresiva del sistema.
+
+La escalabilidad significa que el sistema pueda extenderse a nuevas salas, nuevas sedes o nuevas instituciones sin requerir rediseño completo. Este principio es coherente con la segmentación de mercado objetivo ya definida y con la lógica de crecimiento institucional proyectada en el capítulo de ingresos. Finalmente, el bajo costo es un fundamento decisivo: MuseIQ busca ser compatible con restricciones presupuestales reales mediante BLE, microcontroladores ESP32, interfaz BYOD y una arquitectura que evita depender de hardware propietario de alto costo~\cite{espressifibeacon,tukker2004pss}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.86\textwidth]{principios_diseno_museiq.png}
+	\caption{Principios que sostienen la propuesta MuseIQ desde una perspectiva conceptual y de ingeniería. Fuente: elaboración propia.}
+	\label{fig:principios-diseno-museiq}
+\end{figure}
+
+\subsection{Relación de los fundamentos con el contexto peruano}
+
+Los fundamentos anteriores adquieren especial relevancia al situarse en el contexto peruano. En primer lugar, existe una base real de visitantes y una recuperación sostenida de demanda presencial en museos administrados por el Estado, lo que justifica la necesidad de herramientas que acompañen el recorrido físico~\cite{cultura2024reporte}. En segundo lugar, la disponibilidad de smartphones favorece la adopción de soluciones BYOD~\cite{osiptel2024smartphone}. En tercer lugar, la heterogeneidad institucional del sector cultural exige propuestas modulares, desplegables por etapas y económicamente defendibles.
+
+Así, MuseIQ no se plantea como una solución importada de forma acrítica, sino como una articulación de fundamentos ya validados en literatura y mercado, reinterpretados para responder a las condiciones de operación de museos peruanos. Su pertinencia deriva precisamente de esa adecuación: suficiente automatización para mejorar la experiencia, suficiente accesibilidad para ampliar inclusión y suficiente contención de costos para favorecer adopción.
 
 \section{Características principales}
 
-Detalla aquí las propiedades, variables o elementos clave del componente analizado.
+Las características principales de MuseIQ derivan de los fundamentos anteriores y expresan cómo la propuesta se materializa como sistema de ingeniería aplicado a mediación cultural. No se trata aún de describir la arquitectura completa, sino de delimitar las propiedades funcionales y técnicas que distinguen a la solución.
+
+\subsection{Mediación situada por reconocimiento de sala}
+
+La primera característica es la capacidad de realizar mediación situada a partir del reconocimiento de sala o zona probable de observación. Esta propiedad permite que el contenido se active en función del contexto espacial del visitante y no solo por navegación manual. Su importancia radica en reducir fricción interpretativa, aumentar pertinencia y mantener la experiencia anclada al espacio expositivo real~\cite{verde2023blemuseum}.
+
+\subsection{Apoyo a la orientación mediante sensores del smartphone}
+
+La segunda característica es el uso del smartphone como sensor contextual. La orientación inferida desde sensores de movimiento complementa la proximidad BLE y aporta una capa adicional para resolver ambigüedades de observación. En términos prácticos, esto permite distinguir mejor entre piezas o sectores próximos y construir una guía más alineada con el foco real del visitante~\cite{android2026positionsensors}.
+
+\subsection{Interacción por voz como capa de accesibilidad}
+
+La tercera característica es la integración de TTS y STT como mecanismos funcionales de accesibilidad y continuidad del recorrido. La voz permite consultas espontáneas, salida audible de contenidos y reducción de dependencia de lectura sostenida. Esta característica es especialmente valiosa en museos, donde la atención del visitante debe mantenerse en el entorno patrimonial y no desplazarse completamente hacia la pantalla~\cite{wang2024voiceguide}.
+
+\subsection{Asistente conversacional con respuestas ancladas}
+
+La cuarta característica es la presencia de un asistente conversacional respaldado por recuperación aumentada. MuseIQ no se limita a reproducir audios o textos fijos, sino que habilita preguntas en lenguaje natural y respuestas contextualizadas al espacio y al corpus curatorial. Su rasgo distintivo es que esas respuestas se construyen sobre información recuperada del museo, no sobre generación libre desvinculada del dominio~\cite{lewis2020rag,bechard2024hallucination}.
+
+\subsection{Curaduría digital y gobernanza del conocimiento}
+
+La quinta característica es la necesidad de un corpus curatorial organizado y mantenible. MuseIQ presupone que la institución pueda estructurar, actualizar y gobernar su contenido digital. Esto convierte a la curaduría digital en un componente central de la solución: no basta con tecnología de localización o voz, sino que debe existir una base informativa confiable que sostenga la mediación contextual y la conversación guiada.
+
+\subsection{Arquitectura modular y operación escalable}
+
+La sexta característica es la orientación modular y escalable del sistema. Esta propiedad permite comenzar con pilotos acotados y extender posteriormente la solución a nuevas salas o instituciones. También facilita el mantenimiento y la mejora incremental de componentes sin comprometer todo el sistema. En conjunto con la estrategia BYOD y la infraestructura BLE ligera, esta característica refuerza la viabilidad institucional de MuseIQ.
+
+\subsection{Confiabilidad operativa en condiciones reales}
+
+La séptima característica es la tolerancia a condiciones reales de operación. MuseIQ debe funcionar en espacios interiores donde la señal BLE puede variar, la conectividad puede no ser uniforme y la distribución espacial del visitante cambia constantemente. Por ello, su diseño conceptual privilegia robustez funcional antes que precisión extrema, y prioriza la continuidad del servicio interpretativo incluso bajo incertidumbre razonable del entorno~\cite{leitch2023indoor,qiao2024uwb}.
+
+\section{Conclusión}
+
+Los fundamentos desarrollados en este capítulo permiten sostener que MuseIQ es una propuesta de ingeniería aplicada coherente con las necesidades de mediación cultural en museos presenciales. Su valor no se explica por la simple suma de tecnologías, sino por la integración deliberada de contexto espacial, interacción multimodal, recuperación curatorial del conocimiento y criterios de accesibilidad dentro de una arquitectura ligera y escalable.
+
+Asimismo, el capítulo muestra que las decisiones centrales de la propuesta responden a fundamentos conceptuales, funcionales y técnicos compatibles con el contexto peruano y con las restricciones reales del sector cultural. En consecuencia, esta base prepara el tránsito hacia los capítulos posteriores, donde corresponde detallar tecnologías específicas, datos de entrada, diseño de arquitectura, despliegue e implementación del sistema.
