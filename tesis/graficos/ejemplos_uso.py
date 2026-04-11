@@ -6,11 +6,13 @@ from generar_grafico import (
     grafico_barras_horizontales,
     grafico_brecha_demanda_mediacion,
     grafico_categorias_oferta_mundial,
+    grafico_capas_tecnologicas_museiq,
     grafico_criterios_mercado_prioritario,
     grafico_diagrama_museiq_componentes,
     grafico_diagrama_principios_museiq,
     grafico_ecosistema_museos_inteligentes,
     grafico_ecosistema_nacional_adopcion,
+    grafico_flujo_contextual_museiq,
     grafico_heatmap,
     grafico_integracion_capacidades,
     grafico_lineas,
@@ -48,7 +50,7 @@ def generar_smartphones_peru():
         titulo="Evolucion de hogares peruanos con smartphone",
         eje_x="Anio",
         eje_y="Porcentaje de hogares (%)",
-        nombre_salida="smartphones_peru_2019_2024.png",
+        nombre_salida="cap1/smartphones_peru_2019_2024.png",
         serie="Hogares con smartphone",
     )
 
@@ -60,21 +62,21 @@ def generar_visitas_museos():
         titulo="Evolucion de visitas a museos administrados por el Estado",
         eje_x="Anio",
         eje_y="Numero de visitantes",
-        nombre_salida="visitas_museos_peru_2019_2024.png",
+        nombre_salida="cap1/visitas_museos_peru_2019_2024.png",
         serie="Visitantes",
     )
 
 
 def generar_mapa_problema():
-    grafico_mapa_problema_central("mapa_problema_central_museiq.png")
+    grafico_mapa_problema_central("cap1/mapa_problema_central_museiq.png")
 
 
 def generar_arquitectura_conceptual():
-    grafico_arquitectura_conceptual_museiq("arquitectura_conceptual_museiq.png")
+    grafico_arquitectura_conceptual_museiq("cap1/arquitectura_conceptual_museiq.png")
 
 
 def generar_relacion_problema_solucion():
-    grafico_relacion_problema_solucion_aporte("relacion_problema_solucion_aporte.png")
+    grafico_relacion_problema_solucion_aporte("cap1/relacion_problema_solucion_aporte.png")
 
 
 # Capitulo 2
@@ -86,20 +88,20 @@ def generar_panorama_global_submercados():
         titulo="Panorama global de submercados museales digitales en 2024",
         eje_x="Segmento",
         eje_y="Mercado estimado (miles de millones USD)",
-        nombre_salida="panorama_global_submercados_2024.png",
+        nombre_salida="cap2/panorama_global_submercados_2024.png",
     )
 
 
 def generar_brecha_demanda_mediacion():
-    grafico_brecha_demanda_mediacion("brecha_demanda_mediacion_digital.png")
+    grafico_brecha_demanda_mediacion("cap2/brecha_demanda_mediacion_digital.png")
 
 
 def generar_ecosistema_museos_inteligentes():
-    grafico_ecosistema_museos_inteligentes("ecosistema_museos_inteligentes.png")
+    grafico_ecosistema_museos_inteligentes("cap2/ecosistema_museos_inteligentes.png")
 
 
 def generar_ruta_validacion():
-    grafico_ruta_validacion("ruta_metodologica_validacion_museiq.png")
+    grafico_ruta_validacion("cap2/ruta_metodologica_validacion_museiq.png")
 
 
 # Capitulo 3
@@ -116,20 +118,20 @@ def generar_segmentos_prioridad():
         titulo="Prioridad relativa de los segmentos del mercado objetivo",
         eje_x="Nivel de prioridad relativo",
         eje_y="Segmento",
-        nombre_salida="segmentos_mercado_objetivo_prioridad.png",
+        nombre_salida="cap3/segmentos_mercado_objetivo_prioridad.png",
     )
 
 
 def generar_mapa_segmentacion():
-    grafico_mapa_segmentacion("mapa_segmentacion_mercado_objetivo.png")
+    grafico_mapa_segmentacion("cap3/mapa_segmentacion_mercado_objetivo.png")
 
 
 def generar_criterios_mercado():
-    grafico_criterios_mercado_prioritario("criterios_mercado_objetivo_prioritario.png")
+    grafico_criterios_mercado_prioritario("cap3/criterios_mercado_objetivo_prioritario.png")
 
 
 def generar_ecosistema_nacional():
-    grafico_ecosistema_nacional_adopcion("ecosistema_nacional_adopcion_museiq.png")
+    grafico_ecosistema_nacional_adopcion("cap3/ecosistema_nacional_adopcion_museiq.png")
 
 
 # Capitulo 4
@@ -157,20 +159,20 @@ def generar_comparacion_oferta():
         ],
         etiquetas_columnas=["BLE/indoor", "Voz", "IA", "Acceso ligero", "Afinidad con MuseIQ"],
         titulo="Comparacion visual de capacidades en la oferta tecnologica mundial",
-        nombre_salida="comparacion_capacidades_oferta_mundial.png",
+        nombre_salida="cap4/comparacion_capacidades_oferta_mundial.png",
     )
 
 
 def generar_categorias_oferta():
-    grafico_categorias_oferta_mundial("categorias_oferta_tecnologica_mundial.png")
+    grafico_categorias_oferta_mundial("cap4/categorias_oferta_tecnologica_mundial.png")
 
 
 def generar_posicionamiento_museiq():
-    grafico_posicionamiento_museiq("posicionamiento_museiq_oferta_mundial.png")
+    grafico_posicionamiento_museiq("cap4/posicionamiento_museiq_oferta_mundial.png")
 
 
 def generar_integracion_capacidades():
-    grafico_integracion_capacidades("integracion_capacidades_mercado_vs_museiq.png")
+    grafico_integracion_capacidades("cap4/integracion_capacidades_mercado_vs_museiq.png")
 
 
 # Capitulo 5
@@ -182,7 +184,7 @@ def generar_estructura_ingresos():
         titulo="Estructura referencial de ingresos por rubro",
         eje_x="Monto referencial (USD)",
         eje_y="Rubro",
-        nombre_salida="estructura_ingresos_rubro.png",
+        nombre_salida="cap5/estructura_ingresos_rubro.png",
     )
 
 
@@ -193,7 +195,7 @@ def generar_flujo_ingresos():
         titulo="Flujo de ingresos proyectados de MuseIQ a 10 anios",
         eje_x="Anio",
         eje_y="Ingreso total anual (USD)",
-        nombre_salida="flujo_ingresos_10_anios.png",
+        nombre_salida="cap5/flujo_ingresos_10_anios.png",
         serie="Escenario base",
     )
 
@@ -205,7 +207,7 @@ def generar_instituciones_activas():
         titulo="Crecimiento de instituciones activas en el escenario base",
         eje_x="Anio",
         eje_y="Instituciones activas",
-        nombre_salida="instituciones_activas_10_anios.png",
+        nombre_salida="cap5/instituciones_activas_10_anios.png",
         serie="Base activa",
     )
 
@@ -244,17 +246,17 @@ def generar_escenarios_ingresos():
         titulo="Comparacion de escenarios de ingresos proyectados",
         eje_x="Anio",
         eje_y="Ingreso total anual (USD)",
-        nombre_salida="escenarios_ingresos_comparados.png",
+        nombre_salida="cap5/escenarios_ingresos_comparados.png",
     )
 
 
 # Capitulo 6
 def generar_fundamentos_componentes():
-    grafico_diagrama_museiq_componentes("fundamentos_museiq_componentes.png")
+    grafico_diagrama_museiq_componentes("cap6/fundamentos_museiq_componentes.png")
 
 
 def generar_principios_museiq():
-    grafico_diagrama_principios_museiq("principios_diseno_museiq.png")
+    grafico_diagrama_principios_museiq("cap6/principios_diseno_museiq.png")
 
 
 # Capitulo 10
@@ -263,7 +265,7 @@ def generar_composicion_inversion():
         categorias=["Base de prototipo", "Adecuacion preoperativa"],
         valores=[1055, 1500],
         titulo="Composicion de la inversion inicial de MuseIQ",
-        nombre_salida="composicion_inversion_inicial.png",
+        nombre_salida="cap10/composicion_inversion_inicial.png",
     )
 
 
@@ -287,7 +289,7 @@ def generar_flujo_economico():
         titulo="Comparacion entre ingresos, costos y flujo neto",
         eje_x="Anio",
         eje_y="Monto anual (USD)",
-        nombre_salida="flujo_economico_anual.png",
+        nombre_salida="cap10/flujo_economico_anual.png",
     )
 
 
@@ -305,8 +307,17 @@ def generar_sensibilidad_van():
         titulo="Sensibilidad del VAN de MuseIQ",
         eje_x="Valor actual neto (USD)",
         eje_y="Escenario",
-        nombre_salida="sensibilidad_van.png",
+        nombre_salida="cap10/sensibilidad_van.png",
     )
+
+
+# Capitulo 7
+def generar_capas_tecnologicas():
+    grafico_capas_tecnologicas_museiq("cap7/capas_tecnologicas_museiq.png")
+
+
+def generar_flujo_contextual():
+    grafico_flujo_contextual_museiq("cap7/flujo_contextual_museiq.png")
 
 
 # Registro de graficos individuales
@@ -334,6 +345,8 @@ GRAFICOS = {
     "escenarios_ingresos": generar_escenarios_ingresos,
     "fundamentos_componentes": generar_fundamentos_componentes,
     "principios_museiq": generar_principios_museiq,
+    "capas_tecnologicas_museiq": generar_capas_tecnologicas,
+    "flujo_contextual_museiq": generar_flujo_contextual,
     "composicion_inversion": generar_composicion_inversion,
     "flujo_economico": generar_flujo_economico,
     "sensibilidad_van": generar_sensibilidad_van,
@@ -376,6 +389,10 @@ CAPITULOS = {
     "cap6": [
         "fundamentos_componentes",
         "principios_museiq",
+    ],
+    "cap7": [
+        "capas_tecnologicas_museiq",
+        "flujo_contextual_museiq",
     ],
     "cap10": [
         "composicion_inversion",

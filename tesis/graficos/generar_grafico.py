@@ -23,6 +23,7 @@ PALETA = [
 
 def _guardar_figura(fig, nombre_salida):
     output_path = OUTPUT_DIR / nombre_salida
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     fig.tight_layout()
     fig.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close(fig)
@@ -738,6 +739,116 @@ def grafico_integracion_capacidades(nombre_salida):
     ax.annotate("", xy=(9.1, 3.95), xytext=(8.4, 3.95), arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
 
     ax.set_title("Integracion de capacidades en el mercado frente a la propuesta MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_capas_tecnologicas_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(12.5, 7))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 8)
+    ax.axis("off")
+
+    capas = [
+        {
+            "xy": (1.0, 5.9),
+            "wh": (10.0, 1.0),
+            "titulo": "Capa de localizacion y contexto",
+            "detalle": "BLE, beacons ESP32, RSSI y sensores del smartphone",
+            "color": "#D9F0F7",
+        },
+        {
+            "xy": (1.0, 4.4),
+            "wh": (10.0, 1.0),
+            "titulo": "Capa de interaccion con el visitante",
+            "detalle": "BYOD, interfaz movil, texto, TTS y STT",
+            "color": "#FCE7B2",
+        },
+        {
+            "xy": (1.0, 2.9),
+            "wh": (10.0, 1.0),
+            "titulo": "Capa de inteligencia y conocimiento",
+            "detalle": "LLM, RAG, recuperacion semantica y corpus curatorial",
+            "color": "#D8F3DC",
+        },
+        {
+            "xy": (1.0, 1.4),
+            "wh": (10.0, 1.0),
+            "titulo": "Capa de servicios e integracion",
+            "detalle": "Backend, reglas de negocio, trazabilidad y control de respuestas",
+            "color": "#F9D6D5",
+        },
+    ]
+
+    for capa in capas:
+        x, y = capa["xy"]
+        w, h = capa["wh"]
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.5,
+            edgecolor="#123C69",
+            facecolor=capa["color"],
+        )
+        ax.add_patch(patch)
+        ax.text(x + 0.35, y + 0.63, capa["titulo"], ha="left", va="center", fontsize=11, weight="bold", color="#102A43")
+        ax.text(x + 0.35, y + 0.30, capa["detalle"], ha="left", va="center", fontsize=10, color="#102A43")
+
+    for y_top, y_bottom in [(5.9, 5.4), (4.4, 3.9), (2.9, 2.4)]:
+        ax.annotate(
+            "",
+            xy=(6.0, y_bottom + 0.02),
+            xytext=(6.0, y_top - 0.02),
+            arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"),
+        )
+
+    ax.text(11.2, 4.15, "Integracion\nfuncional", ha="center", va="center", fontsize=10, color="#102A43")
+    ax.set_title("Capas tecnologicas que sostienen la arquitectura base de MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_flujo_contextual_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 5.2))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 5)
+    ax.axis("off")
+
+    etapas = [
+        ("Deteccion de\nproximidad", "#D9F0F7"),
+        ("Inferencia de\nsala o zona", "#FCE7B2"),
+        ("Consulta al corpus\ncuratorial", "#D8F3DC"),
+        ("RAG y generacion\nde respuesta", "#F9D6D5"),
+        ("Entrega al visitante\nvoz / texto", "#E8F1FA"),
+    ]
+    xs = [0.5, 3.0, 5.5, 8.0, 10.5]
+
+    for (texto, color), x in zip(etapas, xs):
+        patch = FancyBboxPatch(
+            (x, 1.7),
+            2.0,
+            1.4,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4,
+            edgecolor="#123C69",
+            facecolor=color,
+        )
+        ax.add_patch(patch)
+        ax.text(x + 1.0, 2.4, texto, ha="center", va="center", fontsize=10, color="#102A43")
+
+    for i in range(len(xs) - 1):
+        ax.annotate(
+            "",
+            xy=(xs[i + 1], 2.4),
+            xytext=(xs[i] + 2.0, 2.4),
+            arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"),
+        )
+
+    ax.text(1.5, 1.1, "BLE + RSSI + sensores", ha="center", fontsize=9.5, color="#123C69")
+    ax.text(6.5, 1.1, "Metadatos, fichas y textos de sala", ha="center", fontsize=9.5, color="#123C69")
+    ax.text(11.5, 1.1, "Interaccion contextual", ha="center", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Flujo conceptual de activacion y respuesta contextual en MuseIQ", fontsize=14, color="#102A43", pad=12)
     _guardar_figura(fig, nombre_salida)
 
 

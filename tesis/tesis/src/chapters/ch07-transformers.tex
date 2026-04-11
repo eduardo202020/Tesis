@@ -1,9 +1,109 @@
 \chapter{Tecnologías Base del Proyecto}
 
-\section{Tecnologías principales}
+\section{Tecnologías de localización y contexto}
 
-Describe aquí las tecnologías, marcos, herramientas o enfoques técnicos que forman parte de la solución.
+La propuesta MuseIQ se apoya en un conjunto de tecnologías que, integradas de manera deliberada, permiten reconocer contexto espacial, sostener interacción accesible y responder consultas con soporte documental. En coherencia con los fundamentos expuestos en el Capítulo 6, el criterio rector no es la máxima sofisticación aislada de cada componente, sino la combinación de tecnologías con costo contenido, disponibilidad operativa y capacidad suficiente para resolver el problema de mediación cultural presencial. Por ello, la base tecnológica del proyecto se organiza en cuatro capas: localización y contexto, interacción con el visitante, inteligencia y conocimiento, e integración de servicios.
 
-\section{Ventajas de la selección}
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.88\textwidth]{capas_tecnologicas_museiq.png}
+    \caption{Capas tecnológicas que sostienen la arquitectura base de MuseIQ.}
+    \label{fig:capas-tecnologicas-museiq}
+\end{figure}
 
-Justifica aquí por qué esas tecnologías resultan adecuadas para el problema y el alcance del proyecto.
+\subsection{Bluetooth Low Energy (BLE) como base de proximidad}
+
+Bluetooth Low Energy (BLE) constituye la tecnología principal para reconocimiento de proximidad en MuseIQ. Su pertinencia se explica por tres razones. En primer lugar, BLE permite difundir identificadores mediante advertising sin requerir procesos complejos de asociación o conexión persistente, lo que simplifica su uso en escenarios de visita libre. En segundo lugar, opera con consumo energético reducido, lo que favorece despliegues con balizas compactas y mantenimiento razonable. En tercer lugar, el ecosistema móvil actual dispone de soporte nativo para detección BLE, lo que hace viable una arquitectura BYOD centrada en el smartphone del visitante~\cite{leitch2023indoor,appleibeacon,googleeddystone}.
+
+En un entorno museístico, la principal utilidad de BLE no consiste en estimar coordenadas exactas, sino en activar mediación situada. La literatura reciente sobre localización indoor confirma que BLE presenta ventajas de costo y despliegue frente a tecnologías más exigentes como UWB o Wi-Fi RTT, especialmente cuando el objetivo es reconocer cercanía relativa o presencia en una zona funcional~\cite{leitch2023indoor,qiao2024uwb}. Esta característica se alinea directamente con MuseIQ, donde la variable relevante es la sala o zona probable de observación, no la ubicación centimétrica del visitante.
+
+\subsection{Beacons y uso de ESP32}
+
+La infraestructura de proximidad propuesta para MuseIQ se implementa mediante beacons basados en ESP32. Un beacon puede entenderse como un emisor que transmite periódicamente paquetes BLE con identificadores o metadatos mínimos, de modo que el smartphone pueda detectar qué punto del entorno se encuentra más próximo. La elección de ESP32 responde a criterios de integración, accesibilidad económica y versatilidad de prototipado. Se trata de una plataforma ampliamente disponible, con soporte oficial para Bluetooth Low Energy y con bibliotecas suficientemente maduras para configurar esquemas de advertising compatibles con arquitecturas de proximidad~\cite{espressifibeacon,espressif2026esp32}.
+
+Desde el punto de vista del proyecto, el uso de ESP32 aporta una ventaja adicional: permite construir una infraestructura incremental. Es posible desplegar beacons por sala, módulo o zona, calibrar potencia e intervalo de emisión, y ampliar cobertura por etapas sin rediseñar el sistema completo. Esta lógica resulta particularmente adecuada para museos públicos o instituciones con restricciones presupuestales, donde la implementación progresiva es preferible a soluciones que exigen inversión integral desde el inicio.
+
+\subsection{RSSI y reconocimiento funcional por sala o zona}
+
+La señal recibida de un beacon BLE puede interpretarse mediante el indicador RSSI (\textit{Received Signal Strength Indicator}), utilizado como aproximación a cercanía relativa. Aunque RSSI es sensible a interferencias, orientación del dispositivo, obstáculos físicos y heterogeneidad de receptores, sigue siendo útil cuando se adopta una granularidad funcional y no geométrica. En MuseIQ, RSSI no se emplea para calcular distancias exactas, sino para inferir cuál es la sala o zona de mayor probabilidad, lo que basta para activar contenido contextual pertinente~\cite{verde2023blemuseum,leitch2023indoor}.
+
+Esta decisión metodológica es importante porque convierte una limitación técnica en una ventaja de diseño. En vez de perseguir un esquema de posicionamiento de alta precisión, costoso y más frágil operativamente, MuseIQ aprovecha RSSI como parte de una lógica robusta de reconocimiento por sala. El estudio de Verde et al. en un museo real refuerza esta elección, al demostrar que una solución BLE basada en RSSI puede sostener identificación funcional de sala y entrega de contenido contextual en condiciones de operación museística~\cite{verde2023blemuseum}.
+
+\subsection{Sensores del smartphone para orientación y contexto}
+
+La capa de contexto no depende exclusivamente de BLE. MuseIQ incorpora también sensores del smartphone, especialmente aquellos relacionados con posición y orientación del dispositivo. La documentación oficial de Android describe mecanismos para inferir orientación combinando acelerómetro y sensor geomagnético, lo que permite estimar azimuth, pitch y roll como variables complementarias para interpretar hacia dónde se dirige o enfoca el visitante~\cite{android2026positionsensors}.
+
+En términos funcionales, esta información reduce ambigüedad contextual. BLE puede sugerir la sala probable, pero no necesariamente el foco de observación dentro de esa sala. La orientación del dispositivo, aun con ruido e imprecisión, puede apoyar decisiones como priorizar contenido de la vitrina o pieza hacia la que aparentemente se dirige el usuario, o bien mejorar consistencia al combinarse con historial reciente de detecciones. Así, los sensores del teléfono cumplen un rol auxiliar en la construcción de contexto y fortalecen la pertinencia de la respuesta del sistema.
+
+\section{Tecnologías de interacción con el visitante}
+
+\subsection{Smartphone como plataforma base BYOD}
+
+MuseIQ adopta un enfoque \textit{Bring Your Own Device} (BYOD), en el que el visitante utiliza su propio smartphone como plataforma de interacción. Esta decisión se justifica técnica y económicamente. Desde el punto de vista técnico, el smartphone ya integra Bluetooth, sensores, micrófono, altavoz y pantalla, es decir, todos los subsistemas mínimos que MuseIQ necesita para operar. Desde el punto de vista económico, reduce la necesidad de hardware dedicado institucional, evitando problemas asociados a préstamo, limpieza, mantenimiento, almacenamiento y renovación de equipos.
+
+El contexto nacional refuerza esta decisión: la alta penetración de smartphones en hogares peruanos brinda una base realista para implementar experiencias de mediación digital apoyadas en el dispositivo personal del visitante~\cite{osiptel2024smartphone}. No obstante, el enfoque BYOD también exige diseño cuidadoso de experiencia: permisos claros, baja fricción de uso, tiempos de respuesta cortos y degradación razonable cuando alguna capacidad del dispositivo no se encuentra disponible.
+
+\subsection{Tecnologías de voz: TTS y STT}
+
+La interacción por voz constituye otra tecnología base del proyecto. MuseIQ incorpora síntesis de voz (\textit{Text-to-Speech}, TTS) para convertir contenido textual en salida auditiva, y reconocimiento de voz (\textit{Speech-to-Text}, STT) para capturar consultas habladas del visitante. Esta combinación no se incluye como accesorio, sino como mecanismo funcional para accesibilidad, fluidez de uso y acompañamiento durante recorridos presenciales. La investigación de Wang muestra precisamente que las guías por voz en museos mejoran autonomía y accesibilidad, especialmente para usuarios que enfrentan barreras de lectura sostenida o requieren interacción más natural~\cite{wang2024voiceguide}.
+
+Desde el punto de vista tecnológico, Android ofrece soporte nativo tanto para TTS como para reconocimiento de voz, lo que facilita la incorporación de estas capacidades sobre la misma plataforma móvil empleada por MuseIQ~\cite{android2026tts,android2026speech}. Esto hace posible una experiencia multimodal donde el visitante puede escuchar explicaciones, formular preguntas habladas y recibir respuestas sin abandonar el recorrido ni depender enteramente de interacción táctil.
+
+\subsection{Interacción multimodal en la visita museística}
+
+La multimodalidad es una propiedad central de la propuesta. MuseIQ no depende de un único canal de interacción, sino que articula texto, audio, voz y contexto espacial. Esta decisión es particularmente adecuada para un museo, donde el visitante alterna entre observar piezas, desplazarse, escuchar explicaciones y formular preguntas espontáneas. Desde una perspectiva de diseño, la multimodalidad también incrementa robustez: si el ambiente es ruidoso, el sistema puede privilegiar salida textual; si el visitante prefiere no leer, TTS sostiene la mediación; y si se requiere exploración más abierta, la consulta por voz reduce fricción respecto a interfaces rígidas o excesivamente jerárquicas.
+
+En consecuencia, la capa de interacción se entiende como un sistema adaptativo de acceso al contenido, no simplemente como una interfaz gráfica móvil. Esta visión mantiene coherencia con la idea de mediación cultural digital situada ya desarrollada en capítulos previos.
+
+\section{Tecnologías de inteligencia y conocimiento}
+
+\subsection{Modelos de lenguaje y capacidad conversacional}
+
+La base inteligente de MuseIQ se apoya en modelos de lenguaje modernos, cuya arquitectura dominante deriva de los Transformers. El trabajo fundacional de Vaswani et al. demostró que los mecanismos de atención permiten modelar dependencias en secuencias sin recurrencia explícita, habilitando mejoras significativas en procesamiento de lenguaje natural y abriendo el camino a los modelos conversacionales contemporáneos~\cite{vaswani2017attention}. Para MuseIQ, esto resulta relevante porque permite interpretar consultas abiertas y formular respuestas naturales sobre contenidos curatoriales.
+
+Sin embargo, el proyecto no requiere un modelo de lenguaje entendido como generador libre de texto, sino como interfaz flexible para dialogar sobre conocimiento institucional. La pertinencia de esta tecnología radica en que el visitante puede formular preguntas variadas, con distintos niveles de detalle y vocabulario, sin depender de menús rígidos o rutas lineales predefinidas. Así, el modelo de lenguaje actúa como capa de comprensión y redacción, facilitando una mediación más natural y personalizada.
+
+\subsection{Recuperación aumentada de información (RAG)}
+
+Una limitación crítica de los modelos de lenguaje es la posibilidad de producir respuestas plausibles pero incorrectas o no verificables. En dominios patrimoniales, esta limitación es especialmente sensible, ya que el contenido debe respetar criterios curatoriales, trazabilidad institucional y fidelidad interpretativa. Por ello, MuseIQ incorpora Retrieval-Augmented Generation (RAG) como tecnología base para la capa inteligente. El enfoque RAG combina recuperación de información desde una memoria externa con generación condicionada, de modo que la respuesta se apoye en fragmentos documentales recuperados del corpus pertinente~\cite{lewis2020rag}.
+
+La relevancia de RAG para MuseIQ es directa: permite anclar la conversación a fichas, descripciones curatoriales, textos de sala o documentación institucional, reduciendo alucinaciones y mejorando consistencia semántica. Además, trabajos recientes sobre reducción de alucinación mediante recuperación aumentada refuerzan la utilidad de este paradigma en sistemas que requieren salidas más controladas y estructuradas~\cite{bechard2024hallucination}. En consecuencia, la inteligencia de MuseIQ no se concibe como una generación abierta, sino como una conversación guiada por evidencia documental recuperada.
+
+\subsection{Corpus curatorial y representación del conocimiento}
+
+La eficacia de RAG depende de la calidad del corpus sobre el que opera. En MuseIQ, dicho corpus está compuesto por contenidos curatoriales institucionales: textos interpretativos, fichas de piezas, descripciones de salas, metadatos de colección y materiales educativos. Este corpus constituye la fuente de conocimiento del sistema y, por lo tanto, debe digitalizarse, organizarse y mantenerse con criterios de control de versiones, consistencia temática y trazabilidad.
+
+En el ámbito del patrimonio cultural existen marcos conceptuales que subrayan la importancia de estructurar adecuadamente la información cultural para facilitar integración, intercambio y reutilización. MuseIQ no necesita implementar por completo una ontología patrimonial compleja en esta etapa, pero sí adopta el principio de que el conocimiento museístico debe mantenerse como recurso institucional gobernado, no como simple texto libre. Esta consideración es clave porque permite filtrar, recuperar y justificar respuestas dentro de límites curatoriales explícitos~\cite{unescoaiculture2025}.
+
+\subsection{Ventajas y riesgos de la inteligencia artificial en MuseIQ}
+
+La incorporación de IA ofrece ventajas claras para MuseIQ: mayor flexibilidad conversacional, posibilidad de responder consultas abiertas, adaptación a distintas formas de preguntar y mejora de la experiencia interpretativa. No obstante, también introduce riesgos. El más importante es la alucinación, es decir, la generación de respuestas plausibles pero incorrectas. También deben considerarse problemas de gobernanza del contenido, control de fuentes y coherencia con narrativas institucionales.
+
+Por estas razones, la elección tecnológica no puede justificarse únicamente por novedad o capacidad generativa. Su valor para MuseIQ depende de estar acotada por RAG, por un corpus institucional bien definido y por políticas de respuesta compatibles con un dominio patrimonial. En este punto, la tecnología no reemplaza la curaduría, sino que la amplifica mediante una capa de acceso conversacional y contextual.
+
+\section{Integración tecnológica en MuseIQ}
+
+\subsection{Relación entre capas tecnológicas}
+
+La arquitectura base de MuseIQ puede entenderse como una integración de capas con funciones complementarias. La capa de localización y contexto identifica sala o zona probable mediante BLE, RSSI y sensores móviles. La capa de interacción habilita acceso al sistema mediante interfaz móvil, texto, audio y voz. La capa inteligente consulta el corpus curatorial mediante mecanismos de recuperación y genera una respuesta contextualizada a través de un modelo de lenguaje. Ninguna de estas capas resulta suficiente por sí sola; el valor del sistema emerge de su articulación.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.92\textwidth]{flujo_contextual_museiq.png}
+    \caption{Flujo conceptual de activación y respuesta contextual en MuseIQ.}
+    \label{fig:flujo-contextual-museiq}
+\end{figure}
+
+Esta integración también explica por qué la propuesta de MuseIQ no se reduce a una app de audioguía, a una solución de wayfinding o a un chatbot independiente. En vez de adoptar un único bloque tecnológico dominante, el proyecto combina componentes ligeros y especializados que, en conjunto, resuelven un problema de mediación situado, accesible y económicamente viable.
+
+\subsection{Ventajas de la selección tecnológica}
+
+La selección tecnológica de MuseIQ presenta cuatro ventajas principales. La primera es la viabilidad económica: BLE con ESP32 y BYOD reduce inversión inicial en hardware propietario y facilita despliegue incremental. La segunda es la escalabilidad: las tecnologías elegidas permiten ampliar cobertura por salas, actualizar contenidos sin rediseñar toda la infraestructura y adaptar la solución a distintos tipos de institución. La tercera es la accesibilidad funcional: la combinación de smartphone, TTS y STT mejora autonomía del visitante y permite múltiples formas de acceso al contenido. La cuarta es la trazabilidad del conocimiento: RAG y corpus curatorial institucional reducen dependencia de respuestas generativas libres y refuerzan control semántico.
+
+Estas ventajas no eliminan las limitaciones técnicas ya señaladas, como variabilidad de RSSI, heterogeneidad de dispositivos o riesgo de alucinación. No obstante, la combinación elegida es adecuada precisamente porque reconoce esas limitaciones y diseña alrededor de ellas, privilegiando reconocimiento funcional, interacción robusta y control documental antes que precisión extrema o automatización opaca.
+
+\subsection{Implicancias para capítulos posteriores}
+
+La base tecnológica aquí descrita condiciona de forma directa los capítulos siguientes de la tesis. En el diseño de datos de entrada será necesario formalizar el esquema del corpus curatorial, su segmentación y sus relaciones con salas, piezas y zonas. En el diseño y despliegue del sistema se deberá especificar la arquitectura de comunicación entre aplicación móvil, servicios de backend, capa de recuperación y módulo conversacional. Finalmente, en la implementación y validación será imprescindible definir estrategias de calibración de beacons, reglas de inferencia contextual, control de permisos y métricas de desempeño técnico y de experiencia de usuario.
+
+En consecuencia, este capítulo no agota el detalle ingenieril de la solución, pero sí establece con claridad qué tecnologías sostienen MuseIQ y por qué su combinación resulta defendible dentro de una tesis de ingeniería aplicada orientada al contexto museístico peruano.

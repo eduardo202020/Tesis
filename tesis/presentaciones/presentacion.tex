@@ -6,6 +6,17 @@
 \usepackage{xcolor}
 \usepackage{graphicx}
 
+\graphicspath{
+  {../graficos/output/cap1/}
+  {../graficos/output/cap2/}
+  {../graficos/output/cap3/}
+  {../graficos/output/cap4/}
+  {../graficos/output/cap5/}
+  {../graficos/output/cap6/}
+  {../graficos/output/cap7/}
+  {../graficos/output/cap10/}
+}
+
 \definecolor{MuseBlue}{HTML}{123C69}
 \definecolor{MuseGold}{HTML}{D9A441}
 \definecolor{MuseLightBg}{HTML}{FFFFFF}
@@ -67,7 +78,7 @@
 \newcommand{\graphframe}[2]{
   \begin{frame}{#1}
     \begin{center}
-      \includegraphics[width=0.90\paperwidth,height=0.73\paperheight,keepaspectratio]{../graficos/output/#2}
+      \includegraphics[width=0.90\paperwidth,height=0.73\paperheight,keepaspectratio]{#2}
     \end{center}
   \end{frame}
 }
@@ -109,6 +120,8 @@
 \graphframe{Capítulo 5: Escenarios de ingresos proyectados}{escenarios_ingresos_comparados.png}
 \graphframe{Capítulo 6: Componentes principales de MuseIQ}{fundamentos_museiq_componentes.png}
 \graphframe{Capítulo 6: Principios de diseño de la propuesta}{principios_diseno_museiq.png}
+\graphframe{Capítulo 7: Capas tecnológicas base de MuseIQ}{capas_tecnologicas_museiq.png}
+\graphframe{Capítulo 7: Flujo contextual de activación y respuesta}{flujo_contextual_museiq.png}
 \graphframe{Capítulo 10: Flujo económico anual del proyecto}{flujo_economico_anual.png}
 \graphframe{Capítulo 10: Sensibilidad del VAN}{sensibilidad_van.png}
 

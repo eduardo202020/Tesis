@@ -7,6 +7,15 @@ Esta carpeta concentra los graficos generados en Python para usarlos dentro de l
 - `generar_grafico.py`: libreria base con funciones para varios tipos de graficos.
 - `ejemplos_uso.py`: archivo editable con ejemplos concretos para la tesis.
 - `output/`: carpeta donde se guardan los archivos generados (`.png`).
+  Dentro de `output/`, los graficos se organizan por capitulo:
+  - `cap1/`
+  - `cap2/`
+  - `cap3/`
+  - `cap4/`
+  - `cap5/`
+  - `cap6/`
+  - `cap7/`
+  - `cap10/`
 - `requirements.txt`: dependencias minimas del script.
 
 ## Uso rapido
@@ -96,13 +105,7 @@ python ejemplos_uso.py nombre_del_grafico
 
 ## Como insertarlo en LaTeX
 
-Como `tesis.tex` ya fue configurado con:
-
-```latex
-\graphicspath{{../graficos/output/}}
-```
-
-puedes insertar un grafico asi:
+Como `tesis.tex` ya fue configurado con una `\graphicspath` que apunta a las carpetas por capitulo dentro de `output/`, puedes insertar un grafico asi:
 
 ```latex
 \begin{figure}[h!]
