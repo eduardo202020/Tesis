@@ -4,6 +4,8 @@
 .DS_Store
 Thumbs.db
 .idea/
+__pycache__/
+*.pyc
 
 # LaTeX auxiliary/build files
 *.aux

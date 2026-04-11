@@ -1,6 +1,8 @@
 {
   "latex-workshop.latexindent.path": "/home/eduardo/bin/latexindent",
   "latex-workshop.chktex.path": "/home/eduardo/bin/chktex",
+  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latex.recipe.default": "lastUsed",
   "workbench.editorAssociations": {
     "*.pdf": "pdfViewer.customEditor"
   }
