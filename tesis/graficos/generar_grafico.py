@@ -852,6 +852,171 @@ def grafico_flujo_contextual_museiq(nombre_salida):
     _guardar_figura(fig, nombre_salida)
 
 
+def grafico_clasificacion_datos_entrada_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(12.5, 7))
+    ax.set_xlim(0, 12)
+    ax.set_ylim(0, 8)
+    ax.axis("off")
+
+    centro = FancyBboxPatch(
+        (4.2, 3.2),
+        3.6,
+        1.4,
+        boxstyle="round,pad=0.03,rounding_size=0.12",
+        linewidth=1.6,
+        edgecolor="#123C69",
+        facecolor="#E8F1FA",
+    )
+    ax.add_patch(centro)
+    ax.text(6.0, 3.9, "Datos de entrada\nMuseIQ", ha="center", va="center", fontsize=12, color="#102A43")
+
+    nodos = [
+        {
+            "xy": (0.7, 5.8),
+            "wh": (3.1, 1.1),
+            "texto": "Contexto fisico-espacial\nBLE, beacon_id, RSSI, sala/zona",
+            "color": "#D9F0F7",
+            "inicio": (3.8, 6.15),
+            "fin": (4.2, 4.25),
+        },
+        {
+            "xy": (8.2, 5.8),
+            "wh": (3.1, 1.1),
+            "texto": "Orientacion y movimiento\nacelerometro, magnetometro, azimuth",
+            "color": "#FCE7B2",
+            "inicio": (8.2, 6.15),
+            "fin": (7.8, 4.25),
+        },
+        {
+            "xy": (0.7, 1.1),
+            "wh": (3.1, 1.1),
+            "texto": "Interaccion del visitante\nvoz, STT, texto y eventos UI",
+            "color": "#D8F3DC",
+            "inicio": (3.8, 1.65),
+            "fin": (4.2, 3.55),
+        },
+        {
+            "xy": (8.2, 1.1),
+            "wh": (3.1, 1.1),
+            "texto": "Corpus curatorial y metadatos\npiezas, salas, documentos, chunks",
+            "color": "#F9D6D5",
+            "inicio": (8.2, 1.65),
+            "fin": (7.8, 3.55),
+        },
+    ]
+
+    for nodo in nodos:
+        x, y = nodo["xy"]
+        w, h = nodo["wh"]
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4,
+            edgecolor="#123C69",
+            facecolor=nodo["color"],
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, nodo["texto"], ha="center", va="center", fontsize=10, color="#102A43")
+        ax.annotate("", xy=nodo["fin"], xytext=nodo["inicio"], arrowprops=dict(arrowstyle="->", lw=1.7, color="#123C69"))
+
+    ax.set_title("Clasificacion general de los datos de entrada de MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_mapeo_beacon_sala_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 6.2))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 6)
+    ax.axis("off")
+
+    def caja(x, y, w, h, texto, color):
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4,
+            edgecolor="#123C69",
+            facecolor=color,
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=10, color="#102A43")
+
+    caja(0.6, 3.9, 2.2, 1.0, "Beacon BLE\n(UUID / payload)", "#D9F0F7")
+    caja(0.6, 1.3, 2.2, 1.0, "Inventario de beacons\nbeacon_id -> sala_id", "#FCE7B2")
+    caja(3.5, 2.6, 2.6, 1.2, "Sala / zona\nmuseografica", "#D8F3DC")
+    caja(6.8, 3.9, 2.4, 1.0, "Smartphone\nescaneo BLE", "#F9D6D5")
+    caja(6.8, 1.3, 2.4, 1.0, "Observacion BLE\ntimestamp, RSSI", "#E8F1FA")
+    caja(10.0, 2.6, 2.4, 1.2, "Entrada funcional\nserie temporal corta", "#EADCF8")
+
+    flechas = [
+        ((2.8, 4.4), (6.8, 4.4)),
+        ((1.7, 2.3), (3.5, 3.0)),
+        ((2.8, 4.25), (3.5, 3.35)),
+        ((8.0, 3.9), (8.0, 2.3)),
+        ((9.2, 3.2), (10.0, 3.2)),
+        ((6.1, 3.2), (6.8, 1.8)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.text(11.2, 1.75, "Base para inferir\nsala probable", ha="center", va="center", fontsize=10, color="#123C69")
+    ax.set_title("Relacion entre beacon, sala e insumos BLE observados por MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_modelo_logico_datos_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 7.2))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 7.5)
+    ax.axis("off")
+
+    def caja(x, y, w, h, texto, color):
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4,
+            edgecolor="#123C69",
+            facecolor=color,
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=9.8, color="#102A43")
+
+    caja(0.7, 5.6, 2.0, 1.0, "Sala\nsala_id", "#D9F0F7")
+    caja(3.2, 5.6, 2.0, 1.0, "Beacon\nbeacon_id", "#FCE7B2")
+    caja(5.7, 5.6, 2.0, 1.0, "Pieza\npieza_id", "#D8F3DC")
+    caja(8.2, 5.6, 2.6, 1.0, "DocumentoCuratorial\ndoc_id", "#F9D6D5")
+    caja(10.9, 5.6, 1.4, 1.0, "Chunk\nchunk_id", "#E8F1FA")
+
+    caja(2.0, 2.0, 2.2, 1.0, "EventoBLE\ntimestamp, RSSI", "#EADCF8")
+    caja(5.1, 2.0, 2.2, 1.0, "EventoSensor\nazimuth, pitch, roll", "#E8E8E8")
+    caja(8.2, 2.0, 2.2, 1.0, "Consulta\nvoz / texto / UI", "#D9F0F7")
+
+    flechas = [
+        ((2.7, 6.1), (3.2, 6.1)),
+        ((1.7, 5.6), (3.1, 3.0)),
+        ((4.2, 5.6), (4.2, 3.0)),
+        ((6.7, 5.6), (6.2, 3.0)),
+        ((7.7, 6.1), (8.2, 6.1)),
+        ((10.8, 6.1), (10.9, 6.1)),
+        ((6.7, 5.6), (8.2, 3.0)),
+        ((9.3, 5.6), (9.3, 3.0)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.7, color="#123C69"))
+
+    ax.text(1.2, 4.5, "contexto espacial", fontsize=9.5, color="#123C69")
+    ax.text(8.45, 4.5, "base RAG y trazabilidad", fontsize=9.5, color="#123C69")
+    ax.text(4.65, 1.1, "eventos de sesion y datos en tiempo real", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Modelo logico minimo de datos de entrada para MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
 if __name__ == "__main__":
     # Ejemplo 1: barras
     grafico_barras(

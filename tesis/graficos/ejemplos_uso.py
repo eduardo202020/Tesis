@@ -7,6 +7,7 @@ from generar_grafico import (
     grafico_brecha_demanda_mediacion,
     grafico_categorias_oferta_mundial,
     grafico_capas_tecnologicas_museiq,
+    grafico_clasificacion_datos_entrada_museiq,
     grafico_criterios_mercado_prioritario,
     grafico_diagrama_museiq_componentes,
     grafico_diagrama_principios_museiq,
@@ -19,6 +20,8 @@ from generar_grafico import (
     grafico_lineas_multiples,
     grafico_mapa_problema_central,
     grafico_mapa_segmentacion,
+    grafico_mapeo_beacon_sala_museiq,
+    grafico_modelo_logico_datos_museiq,
     grafico_pastel,
     grafico_posicionamiento_museiq,
     grafico_relacion_problema_solucion_aporte,
@@ -320,6 +323,19 @@ def generar_flujo_contextual():
     grafico_flujo_contextual_museiq("cap7/flujo_contextual_museiq.png")
 
 
+# Capitulo 8
+def generar_clasificacion_datos_entrada():
+    grafico_clasificacion_datos_entrada_museiq("cap8/clasificacion_datos_entrada_museiq.png")
+
+
+def generar_mapeo_beacon_sala():
+    grafico_mapeo_beacon_sala_museiq("cap8/mapeo_beacon_sala_museiq.png")
+
+
+def generar_modelo_logico_datos():
+    grafico_modelo_logico_datos_museiq("cap8/modelo_logico_datos_museiq.png")
+
+
 # Registro de graficos individuales
 GRAFICOS = {
     "smartphones_peru": generar_smartphones_peru,
@@ -347,6 +363,9 @@ GRAFICOS = {
     "principios_museiq": generar_principios_museiq,
     "capas_tecnologicas_museiq": generar_capas_tecnologicas,
     "flujo_contextual_museiq": generar_flujo_contextual,
+    "clasificacion_datos_entrada_museiq": generar_clasificacion_datos_entrada,
+    "mapeo_beacon_sala_museiq": generar_mapeo_beacon_sala,
+    "modelo_logico_datos_museiq": generar_modelo_logico_datos,
     "composicion_inversion": generar_composicion_inversion,
     "flujo_economico": generar_flujo_economico,
     "sensibilidad_van": generar_sensibilidad_van,
@@ -393,6 +412,11 @@ CAPITULOS = {
     "cap7": [
         "capas_tecnologicas_museiq",
         "flujo_contextual_museiq",
+    ],
+    "cap8": [
+        "clasificacion_datos_entrada_museiq",
+        "mapeo_beacon_sala_museiq",
+        "modelo_logico_datos_museiq",
     ],
     "cap10": [
         "composicion_inversion",
