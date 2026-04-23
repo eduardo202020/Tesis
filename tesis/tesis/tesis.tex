@@ -12,6 +12,10 @@
 \usepackage[svgnames]{xcolor}
 
 \renewcommand{\bibname}{Referencias}
+\addto\captionsspanish{%
+  \renewcommand{\listtablename}{Lista de Tablas}%
+  \renewcommand{\listfigurename}{Lista de Figuras}%
+}
 \graphicspath{
   {../graficos/output/cap1/}
   {../graficos/output/cap2/}
@@ -71,6 +75,7 @@
 \input{src/frontmatter/acknowledgements}
 \input{src/frontmatter/index-general}
 \input{src/frontmatter/lista-tablas}
+\input{src/frontmatter/lista-figuras}
 \input{src/frontmatter/lista-acronimos}
 \input{src/frontmatter/resumen}
 \input{src/frontmatter/abstract}
