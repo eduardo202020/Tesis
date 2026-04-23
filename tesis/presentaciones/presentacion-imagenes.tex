@@ -1,0 +1,175 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[spanish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{ragged2e}
+
+\graphicspath{
+  {imagnes/}
+  {src/}
+}
+
+\definecolor{MuseBlue}{HTML}{123C69}
+\definecolor{MuseGold}{HTML}{D9A441}
+\definecolor{MuseLightBg}{HTML}{FFFFFF}
+\definecolor{MuseDarkText}{HTML}{102A43}
+\definecolor{MuseSoftBox}{HTML}{F4F7FA}
+
+\usetheme{default}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
+\setbeamertemplate{footline}{}
+
+\setbeamercolor{background canvas}{bg=MuseLightBg}
+\setbeamercolor{normal text}{fg=MuseDarkText,bg=MuseLightBg}
+\setbeamercolor{frametitle}{fg=white,bg=MuseBlue}
+\setbeamerfont{frametitle}{size=\Large,series=\bfseries}
+
+\newcommand{\uniLogo}{src/logo.png}
+
+\setbeamertemplate{frametitle}{
+  \nointerlineskip
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.15cm,dp=0.18cm,leftskip=0.45cm,rightskip=0.35cm]{frametitle}
+    \usebeamerfont{frametitle}\insertframetitle
+    \hfill
+    \includegraphics[height=0.78cm]{\uniLogo}
+  \end{beamercolorbox}
+}
+
+\setbeamertemplate{title page}{
+  \begin{center}
+    \vspace{0.8cm}
+    \includegraphics[height=2.2cm]{\uniLogo}\par
+    \vspace{0.8cm}
+    {\LARGE\bfseries\inserttitle\par}
+    \vspace{0.35cm}
+    {\Large\color{MuseGold}\insertsubtitle\par}
+    \vspace{0.9cm}
+    {\large\insertauthor\par}
+    \vspace{0.2cm}
+    {\normalsize\insertinstitute\par}
+    \vspace{0.2cm}
+    {\normalsize\insertdate\par}
+    \vfill
+  \end{center}
+}
+
+\newcommand{\storyframe}[3]{
+  \begin{frame}{#1}
+    \begin{columns}[T,totalwidth=\textwidth]
+      \begin{column}{0.63\textwidth}
+        \begin{center}
+          \includegraphics[width=\linewidth,height=0.73\paperheight,keepaspectratio]{#2}
+        \end{center}
+      \end{column}
+      \begin{column}{0.35\textwidth}
+        \vspace{0.02\paperheight}
+        \colorbox{MuseSoftBox}{%
+          \parbox{0.96\linewidth}{%
+            \vspace{0.2cm}
+            \justifying #3
+            \vspace{0.2cm}
+          }%
+        }
+      \end{column}
+    \end{columns}
+  \end{frame}
+}
+
+\title{MuseIQ}
+\subtitle{Presentación visual para exposición}
+\author{Jhunior Eduardo Guevara Lázaro}
+\institute{Universidad Nacional de Ingeniería}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\storyframe
+  {El visitante sí quiere conectar con el museo}
+  {Galería vibrante llena de visitantes.png}
+  {En 2024, los museos administrados por el Ministerio de Cultura registraron 1\,790\,502 visitas. La demanda presencial sigue siendo alta y confirma que mejorar la experiencia de visita es un problema real y vigente.}
+
+\storyframe
+  {Hoy la visita todavía tiene fricciones}
+  {sala-de-arte-contemp.png}
+  {Una parte importante de la mediación museística sigue dependiendo de cartelas, recorridos lineales y audioguías poco adaptativas. Eso limita personalización, accesibilidad y comprensión situada durante la visita.}
+
+\storyframe
+  {Existe una brecha entre interés y mediación}
+  {museo futurista con areas contrastantes.png}
+  {La brecha central del proyecto está entre una demanda cultural en recuperación y una digitalización todavía parcial de la mediación presencial. MuseIQ se plantea justamente para cerrar esa distancia.}
+
+\storyframe
+  {La experiencia puede transformarse}
+  {Museo interactivo antes y después.png}
+  {La propuesta cambia la lógica de visita: de una experiencia principalmente estática a una experiencia contextual, accesible y más personalizada, apoyada en el propio smartphone del visitante.}
+
+\storyframe
+  {MuseIQ convierte el celular en una guía inteligente}
+  {Experiencia interactiva en el museo.png}
+  {MuseIQ combina smartphone, proximidad BLE, orientación del dispositivo, interacción por voz y recuperación aumentada de información para activar contenido relevante en tiempo real dentro del museo.}
+
+\storyframe
+  {La tecnología debe sentirse natural, no invasiva}
+  {Museo inteligente con tecnología interactiva.png}
+  {El enfoque del proyecto es BYOD: el visitante usa su propio celular. Esto reduce la necesidad de hardware dedicado por institución y facilita una adopción más viable y menos invasiva.}
+
+\storyframe
+  {La propuesta integra patrimonio y experiencia digital}
+  {Museo con arte y tecnología aumentada.png}
+  {La propuesta no se limita a una audioguía ni a un chatbot. Su valor está en integrar contexto espacial, voz, contenido curatorial e inteligencia conversacional en una sola experiencia.}
+
+\storyframe
+  {El visitante recibe contenido útil según dónde está}
+  {Museo interactivo con arte digitalizado.png}
+  {El objetivo técnico no es lograr precisión centimétrica, sino reconocer con confiabilidad suficiente la sala o zona probable del visitante para entregar contenido contextualizado y útil.}
+
+\storyframe
+  {La interacción digital ocurre dentro del recorrido}
+  {Interacción digital en un museo moderno.png}
+  {La experiencia propuesta se integra a la visita presencial. El valor no está en sacar al usuario del museo, sino en acompañarlo digitalmente mientras observa, escucha y pregunta dentro de la sala.}
+
+\storyframe
+  {La accesibilidad también es parte del diseño}
+  {Conexión cultural a través de la app.png}
+  {MuseIQ incorpora TTS y STT como mecanismos de accesibilidad y autonomía. La interacción por voz reduce barreras de lectura sostenida y hace más fluida la experiencia para distintos perfiles de usuario.}
+
+\storyframe
+  {No partimos de una idea aislada}
+  {Red de museos globales conectados.png}
+  {El estado del arte y el mercado internacional muestran una transición clara hacia experiencias móviles, personalizadas y multimodales. MuseIQ se alinea con esa tendencia desde una adaptación al entorno peruano.}
+
+\storyframe
+  {El Perú ya tiene condiciones para adoptar esta solución}
+  {Espacios culturales conectados con tecnología.png}
+  {La tenencia de smartphones en hogares peruanos pasó de 78.0\% en 2019 a 94.8\% en 2024. Ese contexto fortalece la viabilidad de una solución móvil para museos y espacios culturales.}
+
+\storyframe
+  {La propuesta también tiene lógica de escalamiento}
+  {Visitas modernas en un museo.png}
+  {La evaluación económico-financiera de la tesis sugiere condiciones favorables de viabilidad para un despliegue institucional progresivo, apoyado en una arquitectura de bajo costo y servicios recurrentes.}
+
+\storyframe
+  {MuseIQ une valor cultural, tecnología y viabilidad}
+  {Museo con tecnología y arte.png}
+  {El aporte principal de MuseIQ es articular mediación cultural, accesibilidad, contexto espacial e inteligencia conversacional en una propuesta técnicamente defendible y económicamente escalable.}
+
+\begin{frame}{Cierre}
+  \begin{center}
+    \includegraphics[height=2cm]{\uniLogo}\par
+    \vspace{0.5cm}
+    {\Large MuseIQ como propuesta de mediación cultural inteligente}
+
+    \vspace{0.35cm}
+    {\large Una experiencia más clara, accesible y contextual para el visitante}
+  \end{center}
+\end{frame}
+
+\end{document}

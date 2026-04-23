@@ -31,6 +31,7 @@ Hasta este punto, el repositorio ya incorpora trabajo desarrollado en estas area
 
 - `tesis/tesis/`: proyecto principal de la tesis en LaTeX.
 - `tesis/tesis/tesis.tex`: archivo principal del documento.
+- `tesis/tesis/tesis.tex`: actualmente tiene una configuracion temporal para ocultar en la compilacion los capitulos 9, 10, 11, 12 y los anexos.
 - `tesis/tesis/src/chapters/`: capitulos de la tesis.
 - `tesis/tesis/src/frontmatter/`: portada, indices, resumen, abstract y secciones preliminares.
 - `tesis/tesis/src/backmatter/referencias.bib`: bibliografia en formato BibTeX.
@@ -81,6 +82,8 @@ Desde la carpeta `tesis/tesis/`:
 cd tesis/tesis
 latexmk -pdf tesis.tex
 ```
+
+Nota temporal: en la version actual de `tesis/tesis/tesis.tex`, la compilacion omite los capitulos `ch09`, `ch10`, `ch11`, `ch12` y `src/appendices/anexos`. Para volver a la tesis completa, solo hay que descomentar esas lineas.
 
 Si usas VS Code con **LaTeX Workshop**, el workspace ya esta configurado para compilar al guardar:
 
