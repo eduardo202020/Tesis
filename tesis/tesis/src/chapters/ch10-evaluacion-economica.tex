@@ -2,129 +2,106 @@
 
 \section{Enfoque de evaluación}
 
-La evaluación económica-financiera de MuseIQ se plantea como una valoración \textit{ex ante} de la viabilidad del proyecto bajo un escenario de despliegue institucional progresivo. Su propósito es contrastar la proyección de ingresos definida en el Capítulo 5 con una estructura explícita de inversión inicial, costos de implementación por museo, costos recurrentes de operación y gastos fijos de soporte. De esta manera, el proyecto puede analizarse no solo como una solución técnicamente viable, sino también como una iniciativa sostenible desde el punto de vista económico~\cite{europeancommission2014cba,unido2017manual}.
+La evaluación económica-financiera de MuseIQ se plantea como una valoración \textit{ex ante} de la viabilidad del proyecto bajo un escenario de despliegue progresivo a partir del piloto del Museo Tumbas Reales de Sipán. Su propósito es contrastar la estructura de ingresos definida en el Capítulo 5 con una estructura explícita de costos directos, costos recurrentes y gastos fijos de operación, de modo que la propuesta no solo resulte técnicamente coherente, sino también económicamente defendible~\cite{europeancommission2014cba,unido2017manual}.
 
-Para mantener consistencia metodológica, esta evaluación se desarrolla en términos de flujo de caja económico del proyecto, sin incorporar endeudamiento externo ni estructura financiera apalancada. En consecuencia, los resultados se interpretan como una medida de viabilidad intrínseca de MuseIQ bajo los supuestos de despliegue y operación definidos para esta tesis.
+A diferencia de la versión preliminar del capítulo, esta evaluación ya no se apoya en supuestos genéricos en dólares ni en un crecimiento abstracto del número de instituciones. En cambio, toma como unidad económica base el despliegue realista modelado para Sipán: precio de implementación por S/5\,100, precio anual de mantenimiento técnico por S/900 y precio anual del servicio recurrente de IA y analítica por S/10\,200, con sus respectivos costos asociados. El resultado es una evaluación más alineada con la evidencia construida en los capítulos 3 y 5.
 
 \section{Supuestos de evaluación}
 
-La evaluación parte de tres insumos principales. El primero es la base preliminar de costos contenida en el documento complementario `MuseIQ.pdf`, donde se estimó un presupuesto de prototipo de USD~1\,055, compuesto por costos directos de hardware, herramientas y pruebas, y costos indirectos asociados a desarrollo, infraestructura y apoyo externo. El segundo es la estructura de ingresos formulada en el Capítulo 5, basada en una combinación de implementación por proyecto y suscripción anual. El tercero es la necesidad de escalar esa base de prototipo hacia una lógica institucional de despliegue real por museo.
-
-Con ese criterio, se adoptan los supuestos de evaluación resumidos en la Tabla~\ref{tab:supuestos-econ}.
+La evaluación se construye sobre cinco supuestos centrales. El primero es una tasa de descuento anual del 12\%, valor referencial para un proyecto tecnológico aplicado con riesgo operativo moderado. El segundo es una inversión preoperativa inicial de S/2\,500, destinada a formalización, endurecimiento del prototipo, materiales de despliegue, ajustes previos a la comercialización y contingencias administrativas. El tercero es que el piloto comienza con Sipán en el año 1 y luego incorpora, en el escenario base, un museo adicional por año dentro del clúster lambayecano priorizado. El cuarto es que los servicios recurrentes para cada museo activo comienzan a facturarse a partir del año siguiente a la implementación. El quinto es que los precios y costos unitarios por museo se mantienen constantes en términos reales dentro del horizonte evaluado. Sobre esta base, también se ensayan escenarios complementarios de incorporación de dos, tres y cuatro museos nuevos por año para observar cómo variaría la viabilidad financiera si el piloto se convirtiera en una referencia comercial más rápidamente.
 
 \begin{table}[h!]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{7.1cm} c}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{8.4cm} c}
 		\hline
 		\textbf{Supuesto} & \textbf{Valor} \\
 		\hline
 		Tasa de descuento anual & 12\% \\
-		Inversión inicial preoperativa & USD~2\,555 \\
-		Costo por nueva implementación institucional & USD~850 \\
-		Costo recurrente anual por institución activa & USD~650 \\
-		Gasto fijo anual de operación en el año 1 & USD~2\,400 \\
+		Inversión inicial preoperativa & S/2\,500 \\
+		Horizonte de evaluación & 5 años \\
+		Nuevas implementaciones por año & Escenario base: 1 museo/año \\
+		Escenarios complementarios de expansión & 2, 3 y 4 museos/año \\
+		Precio de implementación por museo & S/5\,100 \\
+		Costo directo de implementación por museo & S/3\,900 \\
+		Mantenimiento técnico anual por museo & S/900 \\
+		Costo anual del mantenimiento técnico & S/900 \\
+		Servicio anual de IA y analítica por museo & S/10\,200 \\
+		Costo anual de IA y analítica por museo & S/8\,530 \\
+		Gasto fijo anual de operación en año 1 & S/2\,400 \\
 		Crecimiento anual del gasto fijo & 3\% \\
-		Horizonte de evaluación & 10 años \\
-		Escenario de ingresos utilizado & Escenario base del Capítulo 5 \\
 		\hline
 	\end{tabular}
-	\caption[Supuestos económicos y financieros de MuseIQ]{Supuestos económicos y financieros adoptados para la evaluación de MuseIQ. Fuente: elaboración propia con base en `MuseIQ.pdf` y en el Capítulo 5.}
-	\label{tab:supuestos-econ}
+	\caption[Supuestos económicos y financieros de MuseIQ]{Supuestos económicos y financieros adoptados para la evaluación de MuseIQ. Fuente: elaboración propia con base en el Capítulo 5.}
+	\label{tab:supuestos-econ-museiq}
 \end{table}
 
-La tasa de descuento del 12\% se adopta como valor referencial para un proyecto tecnológico aplicado con incertidumbre operativa y comercial moderada. La inversión inicial de USD~2\,555 se compone de dos partes: el presupuesto de prototipo ya estimado en `MuseIQ.pdf` (USD~1\,055) y una partida adicional de USD~1\,500 destinada a endurecimiento preoperativo, adecuación del prototipo para validación institucional, pruebas adicionales y contingencias técnicas. Esta segunda parte no busca representar una inversión industrial completa, sino un ajuste razonable para pasar del MVP académico a una solución piloto desplegable.
+Estos supuestos responden a una lógica deliberadamente prudente. No se considera un salto inmediato a escala nacional ni una penetración acelerada de mercado. En cambio, se modela una expansión gradual donde el aprendizaje del piloto de Sipán sirve como base para replicaciones sucesivas en museos cercanos del mismo segmento. Los escenarios de dos, tres y cuatro museos nuevos por año no reemplazan esta prudencia metodológica, pero sí permiten dimensionar mejor el potencial económico del negocio si la validación inicial favorece una adopción más rápida.
 
-\section{Estructura de inversión y costos}
+\section{Estructura de ingresos y costos}
 
-\subsection{Inversión inicial}
+\subsection{Unidad económica por museo}
 
-La inversión inicial utilizada en la evaluación se descompone en la Tabla~\ref{tab:inversion-inicial}. Se parte de la base ya documentada en el proyecto y se añade una provisión de adecuación preoperativa necesaria para que MuseIQ pueda ser desplegado institucionalmente.
+La evaluación financiera se apoya en la unidad económica construida en el Capítulo 5. Para cada nueva implementación institucional, MuseIQ genera un ingreso inicial equivalente al precio de implementación de S/5\,100 y enfrenta un costo directo de despliegue de S/3\,900, lo que produce un margen bruto de S/1\,200 por museo en su año de incorporación. Una vez que el museo pasa a la fase operativa, se distinguen dos rubros recurrentes: mantenimiento técnico básico y servicio de IA y analítica.
+
+El precio anual del mantenimiento técnico se fija en S/900 y, dado que ese mismo valor se usa como base de costo, su función económica es principalmente de recuperación operativa y continuidad del servicio más que de margen. En cambio, el precio anual del servicio de IA y analítica, valorizado en S/10\,200 frente a un costo anual estimado de S/8\,530, aporta un margen bruto aproximado de S/1\,670 por museo activo y por año. Esta diferencia vuelve a la capa conversacional el principal componente de rentabilidad recurrente del modelo.
 
 \begin{table}[h!]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{8.3cm} c}
+	\begin{tabular}{l c c c}
 		\hline
-		\textbf{Componente} & \textbf{Monto (USD)} \\
+		\textbf{Rubro} & \textbf{Ingreso (S/)} & \textbf{Costo (S/)} & \textbf{Margen bruto (S/)} \\
 		\hline
-		Base de prototipo documentada en `MuseIQ.pdf` & 1\,055 \\
-		Adecuación preoperativa, endurecimiento y contingencia inicial & 1\,500 \\
-		\hline
-		\textbf{Inversión inicial total} & \textbf{2\,555} \\
+		Implementación inicial por museo & 5\,100 & 3\,900 & 1\,200 \\
+		Mantenimiento técnico anual & 900 & 900 & 0 \\
+		IA y analítica anual & 10\,200 & 8\,530 & 1\,670 \\
 		\hline
 	\end{tabular}
-	\caption[Composición de la inversión inicial de MuseIQ]{Composición de la inversión inicial de MuseIQ. Fuente: elaboración propia con base en `MuseIQ.pdf`.}
-	\label{tab:inversion-inicial}
+	\caption[Unidad económica base de MuseIQ]{Unidad económica base utilizada para la evaluación financiera de MuseIQ. Fuente: elaboración propia con base en el Capítulo 5.}
+	\label{tab:unidad-economica-museiq}
 \end{table}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.62\textwidth]{composicion_inversion_inicial.png}
-	\caption[Composición porcentual de la inversión inicial]{Composición porcentual de la inversión inicial de MuseIQ. Fuente: elaboración propia con base en la Tabla~\ref{tab:inversion-inicial}.}
-	\label{fig:composicion-inversion-inicial}
-\end{figure}
+\subsection{Gastos fijos de operación}
 
-\subsection{Costos de implementación y operación}
-
-Los costos se organizan en tres bloques. El primero corresponde al costo variable por nueva implementación institucional, que incluye hardware BLE adicional, instalación, configuración, calibración y puesta en marcha. El segundo corresponde al costo recurrente anual por institución activa, que representa soporte, mantenimiento, operación digital básica y atención técnica. El tercero corresponde a un gasto fijo anual de operación, que recoge administración, monitoreo general, pequeñas mejoras y costos transversales no atribuibles directamente a un museo en particular.
-
-La estructura de costos para cada año se expresa de la siguiente manera:
-
-\begin{equation}
-C_t = N_t C_{impl} + A_t C_{rec} + F_t
-\end{equation}
-
-donde $N_t$ es el número de nuevas instituciones en el año $t$, $C_{impl}$ es el costo variable por implementación, $A_t$ es el número de instituciones activas, $C_{rec}$ es el costo recurrente anual por institución y $F_t$ es el gasto fijo anual. A su vez, el gasto fijo anual se modela como:
-
-\begin{equation}
-F_t = F_1(1+g)^{t-1}
-\end{equation}
-
-donde $F_1$ es el gasto fijo del primer año y $g$ la tasa de crecimiento anual del gasto fijo.
+Además de los costos directos por museo, la evaluación incorpora un gasto fijo anual de operación. Este rubro agrupa administración, seguimiento comercial, monitoreo general del sistema, atención transversal, ajustes menores de plataforma y costos no atribuibles de forma exclusiva a un museo. Para el año 1 se adopta un valor de S/2\,400 y se supone un crecimiento anual de 3\%, reflejando una estructura operativa ligera pero no nula.
 
 \section{Flujo económico del proyecto}
 
-Con los ingresos del escenario base del Capítulo 5 y la estructura de costos anterior, se obtiene el flujo económico neto mostrado en la Tabla~\ref{tab:flujo-economico}. La última columna representa el flujo neto de cada año antes de financiamiento e impuestos, suficiente para una evaluación preliminar de viabilidad del proyecto.
+Con los supuestos descritos, el flujo económico se construye para un horizonte de cinco años. En el año 1 se implementa Sipán. En los años siguientes se incorpora un museo adicional por año, mientras los museos implementados previamente generan ingresos y costos recurrentes por mantenimiento técnico y por IA y analítica. El flujo neto anual se obtiene restando de los ingresos totales los costos directos de implementación, los costos recurrentes por museo activo y el gasto fijo de operación.
 
 \begin{table}[h!]
 	\centering
 	\scriptsize
 	\setlength{\tabcolsep}{3pt}
-	\begin{tabular}{c c c c c c c}
+	\begin{tabular}{c c c c c c c c}
 		\hline
-		\textbf{Año} & \textbf{Ingresos} & \textbf{Costo impl.} & \textbf{Costo rec.} & \textbf{Costo fijo} & \textbf{Costo total} & \textbf{Flujo neto} \\
+		\textbf{Año} & \textbf{Nuevos} & \textbf{Activos previos} & \textbf{Ingresos} & \textbf{Costo impl.} & \textbf{Costo rec.} & \textbf{Costo fijo} & \textbf{Flujo neto} \\
 		\hline
-		1  & 6\,400  & 850  & 650   & 2\,400 & 3\,900  & 2\,500 \\
-		2  & 13\,780 & 1\,700 & 1\,885 & 2\,472 & 6\,057 & 7\,723 \\
-		3  & 22\,855 & 2\,550 & 3\,646 & 2\,546 & 8\,743 & 14\,112 \\
-		4  & 34\,152 & 3\,400 & 5\,883 & 2\,623 & 11\,906 & 22\,247 \\
-		5  & 42\,812 & 3\,400 & 7\,891 & 2\,701 & 13\,992 & 28\,820 \\
-		6  & 52\,235 & 3\,400 & 9\,705 & 2\,782 & 15\,887 & 36\,348 \\
-		7  & 62\,484 & 3\,400 & 11\,336 & 2\,866 & 17\,602 & 44\,882 \\
-		8  & 73\,626 & 3\,400 & 12\,805 & 2\,952 & 19\,157 & 54\,469 \\
-		9  & 77\,917 & 2\,550 & 13\,475 & 3\,040 & 19\,065 & 58\,852 \\
-		10 & 86\,044 & 2\,550 & 14\,072 & 3\,131 & 19\,754 & 66\,290 \\
+		1 & 1 & 0 & 5\,100  & 3\,900 & 0      & 2\,400 & -1\,200 \\
+		2 & 1 & 1 & 16\,200 & 3\,900 & 9\,430  & 2\,472 & 398 \\
+		3 & 1 & 2 & 27\,300 & 3\,900 & 18\,860 & 2\,546 & 1\,994 \\
+		4 & 1 & 3 & 38\,400 & 3\,900 & 28\,290 & 2\,623 & 3\,587 \\
+		5 & 1 & 4 & 49\,500 & 3\,900 & 37\,720 & 2\,701 & 5\,179 \\
 		\hline
 	\end{tabular}
-	\caption[Flujo económico anual de MuseIQ]{Flujo económico anual de MuseIQ en el escenario base. Montos en USD. Fuente: elaboración propia.}
-	\label{tab:flujo-economico}
+	\caption[Flujo económico anual de MuseIQ]{Flujo económico anual de MuseIQ bajo un escenario de despliegue progresivo en el segmento lambayecano. Fuente: elaboración propia con base en los supuestos del modelo.}
+	\label{tab:flujo-economico-museiq}
 \end{table}
+
+El comportamiento del flujo muestra una etapa inicial ajustada y luego una mejora progresiva. El año 1 presenta un flujo negativo, lo que es razonable para un proyecto que comienza con un único piloto y todavía soporta estructura fija. A partir del año 2 el flujo neto se vuelve positivo y crece conforme aumenta el número de museos activos. Esto confirma que el proyecto depende menos del margen de implementación y más de la capacidad de construir una base recurrente de instituciones usuarias.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.84\textwidth]{flujo_economico_anual.png}
-	\caption[Comparación entre ingresos, costos y flujo neto]{Comparación entre ingresos, costos totales y flujo neto anual de MuseIQ. Fuente: elaboración propia con base en la Tabla~\ref{tab:flujo-economico}.}
-	\label{fig:flujo-economico-anual}
+	\includegraphics[width=0.82\textwidth]{flujo_economico_anual.png}
+	\caption[Flujo económico anual de MuseIQ en el escenario base]{Comparación entre ingresos, costos totales y flujo neto anual de MuseIQ en el escenario base de expansión de un museo nuevo por año. Fuente: elaboración propia.}
+	\label{fig:flujo-economico-base}
 \end{figure}
-
-La Tabla~\ref{tab:flujo-economico} muestra que el proyecto cambia progresivamente su estructura económica. En los primeros años el peso relativo de la implementación sigue siendo importante; sin embargo, conforme aumenta la base activa de instituciones, los ingresos recurrentes adquieren mayor protagonismo y el flujo neto anual mejora de manera sostenida. Este comportamiento es consistente con la lógica híbrida planteada para MuseIQ y respalda la conveniencia de construir una base instalada estable.
 
 \section{Indicadores de evaluación}
 
-Los principales indicadores obtenidos para el escenario base se presentan en la Tabla~\ref{tab:indicadores-financieros}. El cálculo se realiza sobre el flujo económico del proyecto, considerando la inversión inicial en el año cero y una tasa de descuento del 12\%.
+Los indicadores económicos se calculan sobre la inversión inicial del año 0 y los flujos netos del horizonte de cinco años. Bajo los supuestos del escenario base, los resultados se resumen en la Tabla~\ref{tab:indicadores-financieros-museiq}.
 
 \begin{table}[h!]
 	\centering
@@ -134,63 +111,99 @@ Los principales indicadores obtenidos para el escenario base se presentan en la 
 		\hline
 		\textbf{Indicador} & \textbf{Resultado} \\
 		\hline
-		Valor actual neto (VAN) & USD~149\,653 \\
-		Tasa interna de retorno (TIR) & 206.68\% \\
-		Relación beneficio/costo & 3.15 \\
-		Periodo simple de recuperación & 1.01 años \\
-		Periodo descontado de recuperación & 1.05 años \\
+		Valor actual neto (VAN) & S/3\,383 \\
+		Tasa interna de retorno (TIR) & 33.6\% aprox. \\
+		Relación beneficio/costo & 1.04 \\
+		Periodo simple de recuperación & 3.4 años aprox. \\
+		Periodo descontado de recuperación & 3.8 años aprox. \\
 		\hline
 	\end{tabular}
-	\caption[Indicadores económicos y financieros de MuseIQ]{Indicadores económicos y financieros de MuseIQ en el escenario base. Fuente: elaboración propia.}
-	\label{tab:indicadores-financieros}
+	\caption[Indicadores económicos y financieros de MuseIQ]{Indicadores económicos y financieros de MuseIQ bajo el escenario base de despliegue progresivo. Fuente: elaboración propia.}
+	\label{tab:indicadores-financieros-museiq}
 \end{table}
 
-Los resultados obtenidos indican viabilidad económica positiva bajo los supuestos planteados. El VAN positivo muestra que, descontando el costo de oportunidad del capital, el proyecto genera valor. La TIR supera ampliamente la tasa de descuento asumida, lo que refleja una recuperación rápida de la inversión inicial. Asimismo, la relación beneficio/costo mayor que uno respalda la conveniencia económica del proyecto.
+El VAN positivo indica que el proyecto genera valor económico bajo los supuestos adoptados. La TIR supera claramente la tasa de descuento del 12\%, lo que respalda la conveniencia financiera del escenario base. Sin embargo, la relación beneficio/costo se mantiene cercana a la unidad, señal de que la viabilidad existe pero no es holgada. Esto es coherente con un modelo donde el servicio recurrente de IA tiene un peso elevado en los costos operativos y donde la escala comercial todavía es limitada durante los primeros años.
 
-No obstante, estos resultados deben interpretarse con cautela. La magnitud elevada de algunos indicadores está influida por la relativa modestia de la inversión inicial asumida, propia de una solución que parte de un prototipo de bajo costo y se apoya en BYOD para reducir CAPEX. Por ello, el sentido del análisis no es presentar una certeza absoluta de rentabilidad, sino mostrar que, incluso bajo una base conservadora de inversión, la estructura ingresos-costos proyectada es compatible con una solución sostenible.
+\section{Comparación de escenarios de expansión}
 
-\section{Análisis de sensibilidad}
-
-Con el fin de evaluar la robustez de los resultados, se realizaron variaciones sobre el escenario base. La Tabla~\ref{tab:sensibilidad-financiera} resume algunos casos de sensibilidad relevantes.
+Además del escenario base, resulta útil comparar qué ocurriría si MuseIQ consiguiera incorporar más de un museo nuevo por año una vez validado Sipán. Para ello se modelan tres escenarios complementarios: dos, tres y cuatro museos nuevos por año. En todos los casos se conserva la misma unidad económica por museo, el mismo gasto fijo anual y la misma lógica de activación de ingresos recurrentes desde el año posterior a la implementación.
 
 \begin{table}[h!]
 	\centering
 	\footnotesize
 	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{7.6cm} c c}
+	\begin{tabular}{l c c c c}
 		\hline
-		\textbf{Escenario de sensibilidad} & \textbf{VAN (USD)} & \textbf{TIR} \\
+		\textbf{Escenario} & \textbf{VAN (S/)} & \textbf{TIR} & \textbf{B/C} & \textbf{Payback descontado} \\
 		\hline
-		Escenario base & 149\,653 & 206.68\% \\
-		Reducción de 20\% en ingresos proyectados & 105\,807 & 154.71\% \\
-		Incremento de 20\% en costo recurrente por institución & 142\,153 & 199.88\% \\
-		Incremento de 20\% en gasto fijo anual & 146\,628 & 194.76\% \\
-		Tasa de descuento de 15\% & 125\,295 & 206.68\% \\
+		1 museo nuevo/año & 3\,383 & 33.6\% & 1.04 & 3.8 años \\
+		2 museos nuevos/año & 12\,792 & 71.7\% & 1.10 & 2.7 años \\
+		3 museos nuevos/año & 22\,200 & 98.1\% & 1.13 & 2.2 años \\
+		4 museos nuevos/año & 31\,609 & 119.4\% & 1.14 & 2.1 años \\
 		\hline
 	\end{tabular}
-	\caption[Análisis de sensibilidad de MuseIQ]{Análisis de sensibilidad de MuseIQ respecto del escenario base. Fuente: elaboración propia.}
-	\label{tab:sensibilidad-financiera}
+	\caption[Indicadores financieros según escenarios de expansión]{Comparación de indicadores financieros de MuseIQ según el ritmo de incorporación de nuevos museos por año. Fuente: elaboración propia con base en los supuestos del modelo.}
+	\label{tab:indicadores-expansion-museiq}
 \end{table}
+
+La comparación confirma que la rentabilidad del proyecto mejora de manera importante cuando la solución supera la etapa estrictamente piloto y comienza a replicarse en más de una institución por año. Con dos museos nuevos por año, el VAN ya se multiplica por más de tres respecto del escenario base. Con tres y cuatro museos nuevos por año, la mejora es todavía más marcada, porque los costos fijos anuales se distribuyen entre una base operativa mucho mayor y los ingresos recurrentes comienzan a acumularse con mayor velocidad.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.82\textwidth]{flujo_neto_escenarios_expansion.png}
+	\caption[Flujo neto anual según escenarios de expansión]{Flujo neto anual de MuseIQ bajo escenarios de incorporación de uno, dos, tres y cuatro museos nuevos por año. Fuente: elaboración propia.}
+	\label{fig:flujo-neto-expansion}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.82\textwidth]{van_escenarios_expansion.png}
+	\caption[VAN según escenarios de expansión]{Valor actual neto de MuseIQ según el ritmo de expansión comercial posterior al piloto de Sipán. Fuente: elaboración propia.}
+	\label{fig:van-expansion}
+\end{figure}
+
+\section{Análisis de sensibilidad}
+
+La variable más crítica del modelo no es el hardware ni la instalación inicial, sino el costo variable asociado a la operación de IA. Dado que el precio institucional de IA y analítica se fijó con base en el escenario de uso del 20\% de visitantes activos, cambios relevantes en la intensidad de uso pueden alterar fuertemente la rentabilidad del proyecto. Por ello, el análisis de sensibilidad se concentra en tres escenarios: uso conservador de voz, uso base y uso alto de voz.
+
+\begin{table}[h!]
+	\centering
+	\scriptsize
+	\setlength{\tabcolsep}{3pt}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{>{\raggedright\arraybackslash}p{8.0cm} c >{\raggedright\arraybackslash}p{5.4cm}}
+		\hline
+		\textbf{Escenario de sensibilidad} & \textbf{VAN} & \textbf{Lectura} \\
+		\hline
+		Escenario conservador: 10\% de visitantes usan voz & S/44\,241 & Viabilidad robusta por menor costo variable \\
+		Escenario base: 20\% de visitantes usan voz & S/3\,383 & Viable, pero con margen moderado \\
+		Escenario alto: 35\% de visitantes usan voz con tarifa fija de IA & S/-85\,145 & El modelo pierde viabilidad si el precio no se ajusta al uso \\
+		\hline
+	\end{tabular}%
+	}
+	\caption[Análisis de sensibilidad de MuseIQ]{Análisis de sensibilidad de MuseIQ respecto de la intensidad de uso de la capa conversacional. Fuente: elaboración propia con base en los escenarios del Capítulo 5.}
+	\label{tab:sensibilidad-financiera-museiq}
+\end{table}
+
+La sensibilidad deja una conclusión importante: la sostenibilidad del proyecto es muy dependiente del esquema de monetización del componente IA. Si el uso real de voz se mantiene cerca del escenario base, el proyecto es económicamente defendible. Pero si el uso crece hacia niveles altos y el precio al museo permanece fijo, el margen se comprime rápidamente. Esto sugiere que, en una implementación real, MuseIQ debería considerar tarifas escalonadas, consumo metrado o revisiones periódicas del contrato de IA y analítica.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.82\textwidth]{sensibilidad_van.png}
-	\caption[Comparación del VAN bajo escenarios de sensibilidad]{Comparación del valor actual neto de MuseIQ bajo escenarios de sensibilidad. Fuente: elaboración propia con base en la Tabla~\ref{tab:sensibilidad-financiera}.}
-	\label{fig:sensibilidad-van}
+	\caption[Sensibilidad del VAN según uso de voz]{Sensibilidad del valor actual neto de MuseIQ según la intensidad de uso de la función de voz y el costo asociado de STT. Fuente: elaboración propia.}
+	\label{fig:sensibilidad-van-voz}
 \end{figure}
-
-La sensibilidad confirma que la variable más crítica del proyecto sigue siendo el ingreso total esperado, particularmente la velocidad de adopción institucional y la permanencia de los clientes en el tiempo. Aun así, bajo las variaciones exploradas, el proyecto mantiene indicadores positivos. Esto sugiere que la viabilidad de MuseIQ no depende de un único supuesto extremadamente optimista, sino de una combinación razonable de ingresos recurrentes, costos contenidos y una implementación escalable.
 
 \section{Viabilidad económica y financiera}
 
-Desde una perspectiva económica, MuseIQ resulta viable porque aprovecha una arquitectura de bajo costo relativo frente a soluciones que exigen hardware dedicado por visitante o sistemas de posicionamiento indoor más pesados. El uso del smartphone del usuario como interfaz principal desplaza parte del costo de equipamiento fuera de la institución y concentra el valor económico en el software, el despliegue por sala, la operación del backend y la capa conversacional.
+Desde una perspectiva económica, MuseIQ resulta viable porque combina una inversión de entrada relativamente ligera con una lógica de ingresos recurrentes por museo activo. El uso del smartphone del visitante como interfaz principal reduce CAPEX institucional, mientras que la Raspberry Pi y los beacons BLE contienen el costo local de despliegue. No obstante, la principal tensión económica no está en el hardware, sino en la operación continua de la capa conversacional.
 
-Desde una perspectiva financiera, la combinación de ingresos por implementación y suscripción anual mejora la resiliencia del modelo. El proyecto no depende exclusivamente de vender nuevas instalaciones cada año, sino que construye una base activa de museos que sostienen el ingreso recurrente. Esta característica es especialmente valiosa en contextos institucionales donde la expansión puede ser gradual y donde la continuidad anual de la solución depende de su utilidad operativa y cultural.
+Desde una perspectiva financiera, la evaluación sugiere que MuseIQ puede sostenerse si logra dos condiciones. La primera es una expansión gradual a más de un museo, de modo que la estructura fija anual deje de recaer sobre un único piloto. La segunda es una gestión disciplinada del costo de IA, ya sea mediante optimización técnica, mayor procesamiento local, uso parcial de soluciones offline o un esquema contractual que traslade parte del costo variable al cliente institucional. Los escenarios de dos, tres y cuatro museos nuevos por año muestran precisamente que la rentabilidad mejora de forma sensible cuando la base institucional crece y distribuye mejor los costos fijos.
 
-Sin embargo, esta viabilidad está condicionada por varios factores. Entre ellos destacan la necesidad de mantener contenidos curatoriales actualizados, la calidad de la implementación BLE en campo, la gestión de costos variables de voz e inteligencia artificial, y la capacidad institucional de los museos para contratar y renovar servicios tecnológicos. Por ello, los resultados de este capítulo deben entenderse como una validación de consistencia económica bajo supuestos explícitos, no como una sustitución de estudios detallados de contratación o de operación real.
+En otras palabras, el proyecto sí muestra viabilidad, pero no de forma automática. Su sostenibilidad depende de ejecutar bien el piloto, convertirlo en referencia para otras instituciones del mismo clúster y mantener bajo control la relación entre uso real de voz y precio cobrado por el servicio recurrente.
 
 \section{Conclusión}
 
-La evaluación económica-financiera desarrollada permite concluir que MuseIQ presenta condiciones favorables de viabilidad bajo el escenario base formulado en esta tesis. La estructura de ingresos definida en el Capítulo 5, basada en implementación por proyecto y suscripción anual, resulta suficiente para cubrir la inversión inicial, los costos variables de despliegue y los costos recurrentes de operación, generando indicadores positivos de valor actual neto, tasa interna de retorno y relación beneficio/costo.
+La evaluación económica-financiera ajustada con la información obtenida en el Capítulo 5 permite concluir que MuseIQ presenta viabilidad positiva bajo un escenario base de expansión gradual desde el piloto del Museo Tumbas Reales de Sipán. Con una inversión preoperativa de S/2\,500, una unidad económica de implementación con margen bruto de S/1\,200 y un servicio recurrente de IA con margen bruto aproximado de S/1\,670 por museo activo, el proyecto alcanza un VAN positivo de S/3\,383 y una TIR aproximada de 33.6\%, superiores a los mínimos exigibles para el horizonte evaluado.
 
-El análisis también confirma que la principal fortaleza económica de MuseIQ radica en su carácter híbrido y en su orientación institucional: combina infraestructura ligera de bajo costo, servicios digitales recurrentes y una propuesta de valor diferenciada frente a plataformas genéricas de guía digital. En consecuencia, la evaluación no solo respalda la pertinencia técnica del proyecto, sino también su posibilidad de sostenerse económicamente si logra una adopción gradual y estable dentro del segmento de museos priorizados.
+Sin embargo, la evaluación también muestra que la viabilidad es sensible al costo de la capa conversacional. Por ello, el principal hallazgo económico del capítulo no es solo que MuseIQ puede ser rentable, sino que su rentabilidad depende críticamente de cómo se modele y gestione el servicio recurrente de IA y analítica. A la vez, la comparación de escenarios evidencia que un ritmo de expansión de dos, tres o cuatro museos nuevos por año fortalecería notablemente el VAN, la TIR y el periodo de recuperación. En consecuencia, la tesis no solo valida la pertinencia técnica de la propuesta, sino que identifica con mayor precisión la condición económica que hará sostenible su despliegue institucional.
