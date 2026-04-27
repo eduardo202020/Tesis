@@ -116,17 +116,114 @@
 \graphframe{Dónde se posiciona MuseIQ frente a esa oferta}{posicionamiento_museiq_oferta_mundial.png}
 \graphframe{La integración de capacidades como diferenciador}{integracion_capacidades_mercado_vs_museiq.png}
 \graphframe{Cómo se genera valor económico en la propuesta}{estructura_ingresos_rubro.png}
-\graphframe{La proyección de crecimiento del proyecto}{flujo_ingresos_10_anios.png}
-\graphframe{La expansión esperada de instituciones activas}{instituciones_activas_10_anios.png}
-\graphframe{Qué pasa bajo distintos escenarios de ingresos}{escenarios_ingresos_comparados.png}
-\graphframe{Los componentes que sostienen la experiencia}{fundamentos_museiq_componentes.png}
-\graphframe{Los principios de diseño detrás de MuseIQ}{principios_diseno_museiq.png}
-\graphframe{La base tecnológica que hace posible la solución}{capas_tecnologicas_museiq.png}
-\graphframe{Cómo se activa una respuesta contextual}{flujo_contextual_museiq.png}
-\graphframe{Qué información necesita el sistema}{clasificacion_datos_entrada_museiq.png}
-\graphframe{Cómo conectamos beacon, sala y contexto}{mapeo_beacon_sala_museiq.png}
-\graphframe{La estructura mínima de datos para operar}{modelo_logico_datos_museiq.png}
+
+\begin{frame}{Capítulo 5: piloto económico en Sipán}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{l c c c}
+      \hline
+      \textbf{Ítem} & \textbf{Cantidad} & \textbf{Unitario (S/)} & \textbf{Subtotal (S/)} \\
+      \hline
+      Sensores BLE & 21 & 30 & 630 \\
+      Raspberry Pi 5 & 1 & 600 & 600 \\
+      Fuente oficial & 1 & 75 & 75 \\
+      Carcasa + microSD + cables & 1 & 80 & 80 \\
+      Baterías y soportes & 21 & -- & 116 \\
+      \hline
+      \textbf{Hardware base} & & & \textbf{1,501} \\
+      Instalación y configuración & 32 h & 60/h & 1,920 \\
+      Contingencia técnica & & & 480 \\
+      \hline
+      \textbf{Costo directo total} & & & \textbf{3,900} \\
+      Margen comercial 30\% & & & 1,170 \\
+      \hline
+      \textbf{Precio de implementación} & & & \textbf{5,100} \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Capítulo 5: costo variable de IA}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{l c c c c}
+      \hline
+      \textbf{Escenario} & \textbf{\% voz} & \textbf{Usuarios/año} & \textbf{Min. STT/año} & \textbf{Costo STT (S/)} \\
+      \hline
+      Conservador & 10\% & 19,168 & 38,336 & 2,128 \\
+      Base & 20\% & 38,336 & 153,346 & 8,514 \\
+      Alto & 35\% & 67,089 & 402,532 & 22,349 \\
+      \hline
+    \end{tabular}
+
+    \vspace{0.35cm}
+
+    \begin{tabular}{l c}
+      \hline
+      \textbf{Concepto} & \textbf{Escenario base (S/ año)} \\
+      \hline
+      STT en la nube & 8,514 \\
+      Embeddings + bolsa operativa & 10--20 \\
+      \hline
+      \textbf{Costo total de IA} & \textbf{8,530} \\
+      Margen operativo 20\% & 1,670 \\
+      \hline
+      \textbf{Precio IA y analítica} & \textbf{10,200} \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Capítulo 5: flujo de ingresos del piloto}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{l c c c c c}
+      \hline
+      \textbf{Año} & \textbf{Implementación} & \textbf{Mant. técnico} & \textbf{IA y analítica} & \textbf{Extras} & \textbf{Total} \\
+      \hline
+      2026 & 5,100 & 0 & 0 & 0 & 5,100 \\
+      2027 & 0 & 900 & 10,200 & 500 & 11,600 \\
+      2028 & 0 & 900 & 10,200 & 0 & 11,100 \\
+      \hline
+      \textbf{Acumulado} & \textbf{5,100} & \textbf{1,800} & \textbf{20,400} & \textbf{500} & \textbf{27,800} \\
+      \hline
+    \end{tabular}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Capítulo 5: escalamiento comercial}
+  \scriptsize
+  \begin{center}
+    \begin{tabular}{l c c c c}
+      \hline
+      \textbf{Escenario} & \textbf{2026} & \textbf{2027} & \textbf{2028} & \textbf{Acumulado} \\
+      \hline
+      Piloto sin expansión & 5,100 & 11,100 & 11,100 & 27,300 \\
+      2 museos nuevos/año & 5,100 & 21,300 & 43,500 & 69,900 \\
+      3 museos nuevos/año & 5,100 & 26,400 & 59,700 & 91,200 \\
+      4 museos nuevos/año & 5,100 & 31,500 & 75,900 & 112,500 \\
+      \hline
+    \end{tabular}
+
+    \vspace{0.35cm}
+    \raggedright
+    \footnotesize
+    Supuesto: Sipán se implementa en 2026 y, desde 2027, cada museo nuevo aporta
+    un precio de implementación de S/5,100; los recurrentes por mantenimiento técnico
+    e IA y analítica suman S/11,100 por museo desde el año siguiente.
+  \end{center}
+\end{frame}
+\graphframe{Cómo crecerían los ingresos con más museos por año}{escenarios_ingresos_comparados.png}
+%\graphframe{Los componentes que sostienen la experiencia}{fundamentos_museiq_componentes.png}
+%\graphframe{Los principios de diseño detrás de MuseIQ}{principios_diseno_museiq.png}
+%\graphframe{La base tecnológica que hace posible la solución}{capas_tecnologicas_museiq.png}
+%\graphframe{Cómo se activa una respuesta contextual}{flujo_contextual_museiq.png}
+%\graphframe{Qué información necesita el sistema}{clasificacion_datos_entrada_museiq.png}
+%\graphframe{Cómo conectamos beacon, sala y contexto}{mapeo_beacon_sala_museiq.png}
+%\graphframe{La estructura mínima de datos para operar}{modelo_logico_datos_museiq.png}
 \graphframe{La lógica económica anual del proyecto}{flujo_economico_anual.png}
+\graphframe{Cómo cambia el flujo neto con distintos ritmos de expansión}{flujo_neto_escenarios_expansion.png}
+\graphframe{Cómo mejora el VAN al acelerar la expansión}{van_escenarios_expansion.png}
 \graphframe{Qué tan sensible es la viabilidad del modelo}{sensibilidad_van.png}
 
 \begin{frame}{Cierre}

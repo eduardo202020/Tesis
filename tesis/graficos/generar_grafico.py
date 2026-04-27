@@ -81,16 +81,28 @@ def grafico_barras_horizontales(
     ax.set_ylabel(eje_y)
     ax.grid(axis="x", linestyle="--", alpha=0.25)
 
-    xmax = max(valores) * 1.18
-    ax.set_xlim(0, xmax)
+    minimo = min(valores)
+    maximo = max(valores)
+    margen_izq = abs(minimo) * 0.18 if minimo < 0 else 0
+    margen_der = maximo * 0.18 if maximo > 0 else abs(maximo) * 0.18
+    xmin = minimo - margen_izq
+    xmax = maximo + margen_der
+    ax.set_xlim(xmin, xmax)
+    if minimo < 0 < maximo:
+        ax.axvline(0, color="#6B7280", linewidth=1.1, alpha=0.8)
 
     if etiquetas:
         for bar, texto in zip(bars, etiquetas):
+            ancho = bar.get_width()
+            desplazamiento = (xmax - xmin) * 0.01
+            posicion_x = ancho + desplazamiento if ancho >= 0 else ancho - desplazamiento
+            alineacion = "left" if ancho >= 0 else "right"
             ax.text(
-                bar.get_width() + xmax * 0.01,
+                posicion_x,
                 bar.get_y() + bar.get_height() / 2,
                 texto,
                 va="center",
+                ha=alineacion,
                 fontsize=10,
             )
 

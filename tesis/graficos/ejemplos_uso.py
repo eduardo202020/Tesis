@@ -181,11 +181,16 @@ def generar_integracion_capacidades():
 # Capitulo 5
 def generar_estructura_ingresos():
     grafico_barras_horizontales(
-        categorias=["Implementacion", "Suscripcion anual", "Servicios adicionales"],
-        valores=[5000, 2500, 1000],
-        etiquetas=["USD 5,000", "USD 2,500", "USD 1,000"],
-        titulo="Estructura referencial de ingresos por rubro",
-        eje_x="Monto referencial (USD)",
+        categorias=[
+            "Implementacion inicial",
+            "Mantenimiento tecnico anual",
+            "IA y analitica anual",
+            "Servicios adicionales referenciales",
+        ],
+        valores=[5100, 900, 10200, 1000],
+        etiquetas=["S/ 5,100", "S/ 900", "S/ 10,200", "S/ 500-1,500"],
+        titulo="Precios base del modelo de ingresos de MuseIQ",
+        eje_x="Monto referencial (S/)",
         eje_y="Rubro",
         nombre_salida="cap5/estructura_ingresos_rubro.png",
     )
@@ -193,62 +198,56 @@ def generar_estructura_ingresos():
 
 def generar_flujo_ingresos():
     grafico_lineas(
-        x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        y=[6400, 13780, 22855, 34152, 42812, 52235, 62484, 73626, 77917, 86044],
-        titulo="Flujo de ingresos proyectados de MuseIQ a 10 anios",
+        x=[2026, 2027, 2028],
+        y=[5100, 11600, 11100],
+        titulo="Flujo de ingresos del piloto base en Sipan",
         eje_x="Anio",
-        eje_y="Ingreso total anual (USD)",
+        eje_y="Ingreso total anual (S/)",
         nombre_salida="cap5/flujo_ingresos_10_anios.png",
-        serie="Escenario base",
+        serie="Piloto base",
     )
 
 
 def generar_instituciones_activas():
-    grafico_lineas(
-        x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-        y=[1.00, 2.90, 5.61, 9.05, 12.14, 14.93, 17.44, 19.70, 20.73, 21.65],
-        titulo="Crecimiento de instituciones activas en el escenario base",
+    grafico_lineas_multiples(
+        x=[2026, 2027, 2028],
+        series=[
+            {"nombre": "Piloto base", "y": [1, 1, 1]},
+            {"nombre": "2 museos nuevos/anio", "y": [1, 3, 5]},
+            {"nombre": "3 museos nuevos/anio", "y": [1, 4, 7]},
+            {"nombre": "4 museos nuevos/anio", "y": [1, 5, 9]},
+        ],
+        titulo="Museos activos acumulados segun escenario de expansion",
         eje_x="Anio",
-        eje_y="Instituciones activas",
+        eje_y="Museos activos",
         nombre_salida="cap5/instituciones_activas_10_anios.png",
-        serie="Base activa",
     )
 
 
 def generar_escenarios_ingresos():
     grafico_lineas_multiples(
-        x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        x=[2026, 2027, 2028],
         series=[
             {
-                "nombre": "Conservador",
-                "y": _totales_escenario(
-                    nuevos_por_anio=[1] * 10,
-                    precio_impl=4000,
-                    precio_sub=2000,
-                    retencion=0.85,
-                    proporcion_adicional=0.20,
-                    precio_adicional=800,
-                ),
+                "nombre": "Piloto base",
+                "y": [5100, 11100, 11100],
             },
             {
-                "nombre": "Base",
-                "y": [6400, 13780, 22855, 34152, 42812, 52235, 62484, 73626, 77917, 86044],
+                "nombre": "2 museos nuevos/anio",
+                "y": [5100, 21300, 43500],
             },
             {
-                "nombre": "Optimista",
-                "y": _totales_escenario(
-                    nuevos_por_anio=[1, 2, 3, 4, 4, 4, 4, 4, 3, 3],
-                    precio_impl=6000,
-                    precio_sub=3000,
-                    retencion=0.95,
-                    proporcion_adicional=0.40,
-                    precio_adicional=1200,
-                ),
+                "nombre": "3 museos nuevos/anio",
+                "y": [5100, 26400, 59700],
+            },
+            {
+                "nombre": "4 museos nuevos/anio",
+                "y": [5100, 31500, 75900],
             },
         ],
-        titulo="Comparacion de escenarios de ingresos proyectados",
+        titulo="Escenarios de ingresos segun ritmo de expansion comercial",
         eje_x="Anio",
-        eje_y="Ingreso total anual (USD)",
+        eje_y="Ingreso total anual (S/)",
         nombre_salida="cap5/escenarios_ingresos_comparados.png",
     )
 
@@ -274,43 +273,70 @@ def generar_composicion_inversion():
 
 def generar_flujo_economico():
     grafico_lineas_multiples(
-        x=[1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        x=[1, 2, 3, 4, 5],
         series=[
             {
                 "nombre": "Ingresos",
-                "y": [6400, 13780, 22855, 34152, 42812, 52235, 62484, 73626, 77917, 86044],
+                "y": [5100, 16200, 27300, 38400, 49500],
             },
             {
                 "nombre": "Costos totales",
-                "y": [3900, 6057, 8743, 11906, 13992, 15887, 17602, 19157, 19065, 19754],
+                "y": [6300, 15802, 25306, 34813, 44321],
             },
             {
                 "nombre": "Flujo neto",
-                "y": [2500, 7723, 14112, 22247, 28820, 36348, 44882, 54469, 58852, 66290],
+                "y": [-1200, 398, 1994, 3587, 5179],
             },
         ],
-        titulo="Comparacion entre ingresos, costos y flujo neto",
+        titulo="Flujo economico anual de MuseIQ en el escenario base",
         eje_x="Anio",
-        eje_y="Monto anual (USD)",
+        eje_y="Monto anual (S/)",
         nombre_salida="cap10/flujo_economico_anual.png",
     )
 
 
 def generar_sensibilidad_van():
     grafico_barras_horizontales(
-        categorias=[
-            "Tasa de descuento de 15%",
-            "Incremento de 20% en gasto fijo anual",
-            "Incremento de 20% en costo recurrente",
-            "Reduccion de 20% en ingresos",
-            "Escenario base",
-        ],
-        valores=[125295, 146628, 142153, 105807, 149653],
-        etiquetas=["USD 125,295", "USD 146,628", "USD 142,153", "USD 105,807", "USD 149,653"],
-        titulo="Sensibilidad del VAN de MuseIQ",
-        eje_x="Valor actual neto (USD)",
+        categorias=["Alto 35%", "Base 20%", "Conservador 10%"],
+        valores=[-85145, 3383, 44241],
+        etiquetas=["S/ -85,145", "S/ 3,383", "S/ 44,241"],
+        titulo="Sensibilidad del VAN segun intensidad de uso de voz",
+        eje_x="Valor actual neto (S/)",
         eje_y="Escenario",
         nombre_salida="cap10/sensibilidad_van.png",
+    )
+
+
+def generar_flujo_expansion_escenarios():
+    grafico_lineas_multiples(
+        x=[1, 2, 3, 4, 5],
+        series=[
+            {"nombre": "1 museo/anio", "y": [-1200, 398, 1994, 3587, 5179]},
+            {"nombre": "2 museos/anio", "y": [-1200, 1598, 4864, 8127, 11389]},
+            {"nombre": "3 museos/anio", "y": [-1200, 2798, 7734, 12667, 17599]},
+            {"nombre": "4 museos/anio", "y": [-1200, 3998, 10604, 17207, 23809]},
+        ],
+        titulo="Flujo neto anual segun ritmo de expansion comercial",
+        eje_x="Anio",
+        eje_y="Flujo neto anual (S/)",
+        nombre_salida="cap10/flujo_neto_escenarios_expansion.png",
+    )
+
+
+def generar_van_expansion():
+    grafico_barras_horizontales(
+        categorias=[
+            "1 museo nuevo/anio",
+            "2 museos nuevos/anio",
+            "3 museos nuevos/anio",
+            "4 museos nuevos/anio",
+        ],
+        valores=[3383, 12792, 22200, 31609],
+        etiquetas=["S/ 3,383", "S/ 12,792", "S/ 22,200", "S/ 31,609"],
+        titulo="VAN de MuseIQ segun escenarios de expansion",
+        eje_x="Valor actual neto (S/)",
+        eje_y="Escenario",
+        nombre_salida="cap10/van_escenarios_expansion.png",
     )
 
 
@@ -369,6 +395,8 @@ GRAFICOS = {
     "composicion_inversion": generar_composicion_inversion,
     "flujo_economico": generar_flujo_economico,
     "sensibilidad_van": generar_sensibilidad_van,
+    "flujo_expansion_escenarios": generar_flujo_expansion_escenarios,
+    "van_expansion": generar_van_expansion,
 }
 
 
@@ -422,6 +450,8 @@ CAPITULOS = {
         "composicion_inversion",
         "flujo_economico",
         "sensibilidad_van",
+        "flujo_expansion_escenarios",
+        "van_expansion",
     ],
 }
 
