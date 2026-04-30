@@ -1,0 +1,262 @@
+{
+"sala": "Sala 1",
+"obras": [
+{
+"file_name": "sala-01-baston.jpg",
+"proposed_title": "Remate con cabeza de animal",
+"object_type": "remate ceremonial o pieza escultórica",
+"visual_description": "Pieza con forma de cabeza de animal, posiblemente un cánido o felino, con hocico alargado, orejas altas, ojos aplicados y decoración oscura sobre la superficie.",
+"possible_culture_or_context": "Costa norte del Perú; posible tradición Moche o Lambayeque, con identificación no concluyente.",
+"materials": [
+"cerámica modelada",
+"pigmentos",
+"posibles aplicaciones decorativas"
+],
+"dominant_colors": [
+"beige",
+"negro",
+"marrón oscuro",
+"gris"
+],
+"iconography_or_symbols": [
+"cabeza de animal",
+"hocico alargado",
+"orejas erguidas",
+"motivos lineales"
+],
+"estimated_function": "Posible función ritual, ornamental o como parte de un objeto ceremonial mayor.",
+"museum_label_short": "Esta pieza representa una cabeza animal de rasgos expresivos. Su forma sugiere un posible uso ceremonial o simbólico dentro de un contexto ritual.",
+"museum_label_extended": "La pieza muestra una cabeza animal con hocico prominente, orejas elevadas y decoración pintada. Por sus rasgos, podría representar un cánido, un felino u otro animal de importancia simbólica. En las culturas prehispánicas de la costa norte, las figuras animales solían vincularse con poder, protección o comunicación ritual. La identificación exacta requiere información museográfica complementaria.",
+"accessibility_description": "Objeto pequeño con forma de cabeza de animal. Tiene un hocico largo, orejas puntiagudas y ojos claros que resaltan sobre una superficie envejecida de tonos beige, negros y marrones.",
+"confidence": "media",
+"notes": "La imagen no permite confirmar si se trata de un remate de bastón, una cerámica completa o un fragmento escultórico. La cultura específica no puede determinarse solo por la imagen."
+},
+{
+"file_name": "sala-01-caza.webp",
+"proposed_title": "Figura ceremonial con tocado y animales laterales",
+"object_type": "ornamento ceremonial",
+"visual_description": "Figura antropomorfa frontal con rostro expresivo, tocado amplio, elementos laterales con formas animales y detalles decorativos en relieve e incrustaciones de color.",
+"possible_culture_or_context": "Costa norte del Perú; posible contexto Moche o Lambayeque asociado a élites ceremoniales.",
+"materials": [
+"metal",
+"cobre dorado o aleación metálica",
+"posibles incrustaciones minerales o concha"
+],
+"dominant_colors": [
+"dorado envejecido",
+"marrón",
+"turquesa",
+"negro"
+],
+"iconography_or_symbols": [
+"personaje antropomorfo",
+"tocado ceremonial",
+"animales laterales",
+"rostro frontal",
+"decoración geométrica"
+],
+"estimated_function": "Objeto probablemente ceremonial, ornamental o funerario, asociado a representación de autoridad o personaje ritual.",
+"museum_label_short": "Ornamento con una figura central de gran fuerza visual. Su tocado y los animales laterales sugieren una escena de poder ritual.",
+"museum_label_extended": "La composición muestra un personaje frontal con tocado elaborado y elementos laterales que parecen representar animales. Este tipo de imagen visual se relaciona con la autoridad, la ceremonia y el mundo simbólico de las sociedades prehispánicas del norte peruano. La presencia de metal e incrustaciones indica un objeto de prestigio, posiblemente usado en contextos rituales o funerarios. La identificación cultural exacta debe confirmarse con la ficha del museo.",
+"accessibility_description": "Figura metálica de frente, con rostro intenso, ojos marcados y boca abierta. Lleva un tocado curvo decorado y, a ambos lados, formas que recuerdan animales o seres míticos.",
+"confidence": "media",
+"notes": "La pieza podría formar parte de un ajuar ceremonial. No se puede confirmar el nombre exacto ni la escena representada solo con la imagen."
+},
+{
+"file_name": "sala-01-joyas.png",
+"proposed_title": "Conjunto de joyas y ornamentos de élite",
+"object_type": "conjunto de ornamentos",
+"visual_description": "Composición con varios objetos ornamentales: collares, pectorales, cuentas, placas metálicas, una máscara y adornos circulares. Predominan el dorado y el turquesa sobre fondo negro.",
+"possible_culture_or_context": "Costa norte del Perú; posible contexto funerario de élite asociado a tradiciones Moche, Sipán o Lambayeque.",
+"materials": [
+"oro o metal dorado",
+"cuentas minerales",
+"turquesa u otro mineral azul verdoso",
+"concha",
+"posible cobre dorado"
+],
+"dominant_colors": [
+"dorado",
+"turquesa",
+"negro",
+"marrón"
+],
+"iconography_or_symbols": [
+"collares",
+"cuentas",
+"placas metálicas",
+"máscara facial",
+"figura antropomorfa",
+"motivos circulares"
+],
+"estimated_function": "Uso ornamental, ceremonial y funerario, probablemente vinculado a personas de alto rango.",
+"museum_label_short": "Este conjunto reúne ornamentos de prestigio asociados a la élite. Sus materiales y diseños reflejan poder, identidad y valor ritual.",
+"museum_label_extended": "Los collares, pectorales, máscaras y cuentas visibles forman parte de un repertorio ornamental de alto valor simbólico. En las sociedades prehispánicas del norte peruano, estos objetos podían acompañar a personajes importantes durante ceremonias o en contextos funerarios. El uso de metales brillantes y cuentas de color azul verdoso reforzaba la imagen de autoridad y conexión con lo sagrado. La imagen muestra un conjunto, no una sola pieza individual.",
+"accessibility_description": "Sobre un fondo negro aparecen varias joyas antiguas. Hay collares con cuentas turquesas, piezas doradas colgantes, una máscara pequeña y ornamentos metálicos con formas circulares y figuras humanas.",
+"confidence": "media",
+"notes": "La imagen agrupa varias piezas distintas. No es posible confirmar si todas pertenecen al mismo contexto arqueológico."
+},
+{
+"file_name": "sala-01-pendiente.webp",
+"proposed_title": "Cráneo con ornamentos funerarios",
+"object_type": "resto humano con ajuar funerario",
+"visual_description": "Cráneo humano fragmentado con ornamentos metálicos colocados sobre los ojos y la boca. Las piezas doradas presentan formas oculares y una banda decorativa en la zona dental.",
+"possible_culture_or_context": "Contexto funerario de la costa norte del Perú; posible tradición Moche o Lambayeque.",
+"materials": [
+"resto óseo humano",
+"oro o metal dorado",
+"posible cobre dorado"
+],
+"dominant_colors": [
+"ocre",
+"marrón",
+"dorado",
+"negro"
+],
+"iconography_or_symbols": [
+"ojeras metálicas",
+"banda bucal",
+"ornamentación funeraria",
+"representación del rostro"
+],
+"estimated_function": "Ajuar funerario destinado a acompañar y transformar simbólicamente al individuo enterrado.",
+"museum_label_short": "Este cráneo conserva ornamentos metálicos asociados al tratamiento funerario. Las piezas doradas resaltan el rostro y sugieren un entierro de alto significado ritual.",
+"museum_label_extended": "La imagen muestra un cráneo humano con elementos metálicos sobre los ojos y la boca. Estos adornos pudieron formar parte de un ajuar funerario destinado a preservar, embellecer o simbolizar la identidad del difunto. En contextos arqueológicos del norte peruano, los metales preciosos se relacionaban con prestigio, rango y ritualidad. La pieza debe interpretarse con respeto por tratarse de restos humanos.",
+"accessibility_description": "Cráneo antiguo de color marrón claro, parcialmente fragmentado. Sobre los ojos tiene dos piezas doradas con forma de grandes ojos y, sobre la boca, una banda metálica decorada.",
+"confidence": "media",
+"notes": "Se trata de restos humanos, por lo que la descripción evita interpretaciones sensacionalistas. La identificación cultural exacta no puede confirmarse solo con la imagen."
+},
+{
+"file_name": "sala-01-sipan.jpg",
+"proposed_title": "Recreación de personaje de élite de Sipán",
+"object_type": "recreación museográfica",
+"visual_description": "Figura humana de tamaño natural vestida con tocado, orejeras, collar, pectoral, cetro o bastón y otros ornamentos dorados. La indumentaria combina textiles, cuentas y elementos metálicos.",
+"possible_culture_or_context": "Contexto Moche asociado al Señor de Sipán o a una representación de élite ceremonial.",
+"materials": [
+"textil",
+"metal dorado",
+"cuentas",
+"plumas o material simulado",
+"soporte museográfico"
+],
+"dominant_colors": [
+"dorado",
+"ocre",
+"marrón",
+"verde",
+"azul"
+],
+"iconography_or_symbols": [
+"tocado ceremonial",
+"orejeras circulares",
+"pectoral",
+"cetro",
+"collar",
+"atuendo de autoridad"
+],
+"estimated_function": "Recreación educativa destinada a mostrar la apariencia ceremonial de un personaje de alto rango.",
+"museum_label_short": "La figura recrea la vestimenta ceremonial de un personaje de élite. Sus ornamentos resaltan poder, prestigio y autoridad ritual.",
+"museum_label_extended": "Esta recreación museográfica permite imaginar cómo pudo lucir un gobernante o personaje de alto rango en ceremonias importantes. El tocado, las orejeras, el pectoral y el bastón refuerzan la imagen de autoridad. La referencia visual se vincula razonablemente con el mundo Moche y el contexto de Sipán, famoso por sus entierros de élite. Al ser una recreación, no debe confundirse con una pieza arqueológica única.",
+"accessibility_description": "Figura de cuerpo completo vestida con muchos adornos dorados. Lleva un gran tocado, orejeras redondas, collar amplio, pectoral brillante y un bastón en la mano.",
+"confidence": "alta",
+"notes": "La imagen muestra claramente una recreación museográfica, no necesariamente un objeto arqueológico original completo. La asociación con Sipán es razonable por la apariencia y el nombre del archivo."
+},
+{
+"file_name": "sala-01-textil.jpg",
+"proposed_title": "Pectoral con figura antropomorfa",
+"object_type": "pectoral u ornamento metálico",
+"visual_description": "Ornamento metálico con una figura central antropomorfa en relieve, flanqueada por diseños simétricos y rodeada por grandes cuentas o placas circulares.",
+"possible_culture_or_context": "Costa norte del Perú; posible tradición Moche o Lambayeque en contexto ceremonial o funerario.",
+"materials": [
+"metal dorado o plateado",
+"cobre dorado",
+"posible aleación metálica"
+],
+"dominant_colors": [
+"dorado envejecido",
+"plateado",
+"marrón oscuro",
+"negro"
+],
+"iconography_or_symbols": [
+"figura antropomorfa",
+"simetría bilateral",
+"cuentas circulares",
+"diseños geométricos",
+"posible personaje ceremonial"
+],
+"estimated_function": "Ornamento de prestigio posiblemente usado sobre el cuerpo o depositado como parte de un ajuar funerario.",
+"museum_label_short": "Pectoral metálico con una figura central de carácter ceremonial. Su diseño simétrico y sus grandes cuentas sugieren prestigio y autoridad.",
+"museum_label_extended": "La pieza presenta una figura antropomorfa en la zona central, rodeada por elementos circulares y motivos geométricos. Estos ornamentos pudieron formar parte de la vestimenta ritual de una persona de alto rango. En las culturas del norte peruano, los pectorales metálicos eran signos visibles de poder y pertenencia social. La imagen no permite confirmar si todas sus partes son originales o si han sido restauradas.",
+"accessibility_description": "Objeto metálico ancho y curvo, con una figura humana en el centro. A su alrededor hay varias formas redondas grandes, similares a cuentas o placas brillantes.",
+"confidence": "media",
+"notes": "Aunque el archivo se llama textil, la pieza visible parece principalmente metálica. La función exacta requiere confirmación con la ficha técnica."
+},
+{
+"file_name": "sala-01-tumba.png",
+"proposed_title": "Vista de sala con conjunto funerario",
+"object_type": "vista museográfica de sala",
+"visual_description": "Espacio oscuro de museo con vitrinas iluminadas que exhiben múltiples piezas arqueológicas. En el centro se observa una estructura rectangular baja, posiblemente una recreación o referencia a un contexto funerario.",
+"possible_culture_or_context": "Exposición arqueológica de la costa norte del Perú; posible sala dedicada a entierros de élite o ajuares funerarios.",
+"materials": [
+"vitrinas de vidrio",
+"soportes museográficos",
+"piezas arqueológicas variadas",
+"estructura expositiva"
+],
+"dominant_colors": [
+"negro",
+"dorado",
+"rojo oscuro",
+"marrón",
+"ámbar"
+],
+"iconography_or_symbols": [
+"vitrinas iluminadas",
+"conjunto de piezas",
+"espacio funerario",
+"montaje museográfico"
+],
+"estimated_function": "Presentación educativa y museográfica de un conjunto arqueológico, posiblemente relacionado con una tumba o ajuar funerario.",
+"museum_label_short": "La sala reúne piezas arqueológicas en un ambiente de iluminación controlada. El montaje sugiere un recorrido por contextos funerarios y objetos de prestigio.",
+"museum_label_extended": "Esta imagen muestra una vista general de la exposición, con vitrinas que conservan y resaltan piezas arqueológicas. La iluminación focal dirige la atención hacia objetos pequeños y delicados, posiblemente de carácter ceremonial o funerario. La estructura central puede representar un espacio asociado a una tumba o a la disposición de un ajuar. Esta vista ayuda a comprender el contexto museográfico de las piezas de la sala.",
+"accessibility_description": "Sala oscura con vitrinas iluminadas en las paredes. En el centro hay una estructura rectangular baja de color rojizo, y alrededor se observan muchas piezas pequeñas protegidas por vidrio.",
+"confidence": "media",
+"notes": "No corresponde a una pieza individual, sino a una vista de sala. No es posible identificar cada objeto de las vitrinas por la distancia de la imagen."
+},
+{
+"file_name": "sala-01-arete.png",
+"proposed_title": "Orejera circular con personaje ceremonial",
+"object_type": "orejera",
+"visual_description": "Ornamento circular con borde de cuentas doradas, fondo azul verdoso y una figura central antropomorfa con tocado, orejeras y elementos ceremoniales.",
+"possible_culture_or_context": "Costa norte del Perú; posible contexto Moche o Sipán asociado a ornamentos de élite.",
+"materials": [
+"oro o metal dorado",
+"turquesa u otro mineral azul verdoso",
+"concha",
+"posibles incrustaciones"
+],
+"dominant_colors": [
+"dorado",
+"turquesa",
+"azul",
+"marrón",
+"negro"
+],
+"iconography_or_symbols": [
+"personaje antropomorfo",
+"tocado",
+"orejeras",
+"borde circular",
+"cuentas doradas",
+"ornamento de élite"
+],
+"estimated_function": "Ornamento personal de alto rango, posiblemente usado en ceremonias o depositado en un contexto funerario.",
+"museum_label_short": "Esta orejera circular representa a un personaje ceremonial. Su riqueza visual evidencia la importancia del adorno personal en las élites antiguas.",
+"museum_label_extended": "La orejera muestra una figura central con tocado y ornamentos, rodeada por un borde circular de cuentas doradas. Este tipo de pieza pudo ser usado por personajes de alto rango como señal de poder, identidad y prestigio. Los colores dorado y azul verdoso crean un fuerte contraste visual y sugieren el empleo de materiales valiosos. La asociación con Moche o Sipán es razonable, aunque debe confirmarse con información arqueológica específica.",
+"accessibility_description": "Pieza circular parecida a un gran arete. Tiene un borde dorado formado por pequeñas cuentas y, en el centro, una figura humana decorada sobre un fondo azul verdoso.",
+"confidence": "alta",
+"notes": "La identificación como orejera es consistente con la forma y la iconografía visible. La cultura exacta requiere confirmación documental."
+}
+]
+}

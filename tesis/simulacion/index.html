@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuseIQ Simulacion 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="layout">
+    <section class="game-shell">
+      <header class="game-header">
+        <div>
+          <p class="eyebrow">MuseIQ Interactive Tour</p>
+          <h1>Simulacion de Navegacion en Museo</h1>
+        </div>
+        <div class="status-pill">
+          <span id="visited-counter">0/16 obras vistas</span>
+        </div>
+      </header>
+
+      <div class="game-stage">
+        <aside class="phone-panel">
+          <div class="phone-frame">
+            <div class="phone-camera"></div>
+            <div class="phone-speaker"></div>
+            <div class="phone-screen">
+              <div class="phone-topbar">
+                <span class="phone-signal">MuseIQ Guide AI</span>
+                <span class="phone-battery" id="voice-state">Voice on</span>
+              </div>
+
+              <figure class="art-preview">
+                <img id="art-image" src="src/imgs/sala-01-sipan.jpg" alt="Vista previa de la obra">
+                <figcaption>
+                  <span id="art-image-caption">Obra destacada</span>
+                  <span id="art-image-room">Sala 1</span>
+                </figcaption>
+              </figure>
+
+              <section class="voice-module">
+                <div class="voice-avatar">
+                  <span class="voice-orb"></span>
+                  <div>
+                    <p class="voice-name">Bot narrador</p>
+                    <p class="voice-mode" id="voice-mode">Narracion automatica</p>
+                  </div>
+                </div>
+                <div class="voice-bars" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+                <button id="voice-toggle" class="voice-toggle voice-toggle-inline" type="button">Silenciar voz</button>
+              </section>
+
+              <div class="chat-thread" id="chat-thread">
+                <article class="chat-bubble chat-bubble-bot" id="chat-status">
+                  <p class="chat-author">MuseIQ Voice</p>
+                  <p>Bienvenido. Inicia en la Sala 1 y me encargaré de narrar cada obra mientras avanzas.</p>
+                </article>
+              </div>
+
+              <form class="phone-input phone-form" id="question-form">
+                <span class="phone-mic">◉</span>
+                <input id="question-input" class="phone-question" type="text" placeholder="Pregunta por una obra, sala u orientacion...">
+                <button class="phone-send" type="submit">Enviar</button>
+              </form>
+              <div class="phone-helper" id="phone-prompt">Bot activo: escucha contextual y visual.</div>
+            </div>
+          </div>
+        </aside>
+
+        <section class="museum-panel">
+          <div class="museum-topbar">
+            <div class="phone-floating-compass">
+              <div class="floating-compass-ring">
+                <div class="floating-compass-needle" id="compass-needle"></div>
+              </div>
+              <div class="floating-compass-copy">
+                <span class="floating-compass-label">Magnetico</span>
+                <span id="heading-text">Rumbo: Norte 0°</span>
+              </div>
+            </div>
+
+            <div class="museum-compass-card">
+              <div class="museum-compass-ring">
+                <div class="museum-compass-needle" id="museum-compass-needle"></div>
+                <span class="compass-mark compass-n">N</span>
+                <span class="compass-mark compass-e">E</span>
+                <span class="compass-mark compass-s">S</span>
+                <span class="compass-mark compass-w">O</span>
+              </div>
+              <div class="compass-copy">
+                <p class="voice-name">Orientacion del museo</p>
+                <p class="voice-mode" id="museum-heading-text">Vista superior del recorrido</p>
+                <p class="compass-instruction" id="turn-instruction">Sigue al frente para iniciar el recorrido.</p>
+              </div>
+            </div>
+          </div>
+
+          <canvas id="game" width="960" height="576" aria-label="Simulacion retro de museo"></canvas>
+        </section>
+
+        <aside class="hud">
+          <section class="hud-card">
+            <h2>Controles</h2>
+            <p>Mover: <strong>W A S D</strong> o flechas</p>
+            <p>Interactuar: <strong>Espacio</strong> o <strong>Enter</strong></p>
+          </section>
+
+          <section class="hud-card">
+            <h2>Recorrido</h2>
+            <p id="room-name">Sala actual: Lobby</p>
+            <p id="position-text">Posicion: (0, 0)</p>
+            <p id="direction-text">Orientacion: Norte</p>
+            <p id="hint-text">Acercate a una obra para verla.</p>
+          </section>
+
+          <section class="hud-card">
+            <h2>Obra cercana</h2>
+            <p id="artwork-name">Ninguna</p>
+            <p id="artwork-description">Explora las salas para activar fichas de obra.</p>
+          </section>
+
+          <section class="hud-card">
+            <h2>Minimapa</h2>
+            <canvas id="minimap" width="220" height="160" aria-label="Minimapa del museo"></canvas>
+          </section>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

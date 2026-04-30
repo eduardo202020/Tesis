@@ -30,3 +30,6 @@ __pycache__/
 
 # Generated thesis assets
 tesis/graficos/output/
+
+# Local work logs / non-repo deliverables
+tech-lab/

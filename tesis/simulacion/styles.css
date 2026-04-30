@@ -1,0 +1,587 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-1: #07111f;
+  --bg-2: #102746;
+  --panel: rgba(13, 31, 52, 0.76);
+  --panel-2: rgba(26, 57, 90, 0.62);
+  --border: #83efff;
+  --text: #eefbff;
+  --muted: #a6c8de;
+  --accent: #7affee;
+  --danger: #ff9ab4;
+  --line: rgba(131, 239, 255, 0.36);
+  --shadow: rgba(3, 10, 20, 0.42);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 18% 12%, rgba(115, 215, 255, 0.2), transparent 24%),
+    radial-gradient(circle at 82% 0%, rgba(117, 255, 236, 0.14), transparent 26%),
+    linear-gradient(180deg, #133760 0%, var(--bg-2) 42%, var(--bg-1) 100%);
+  color: var(--text);
+  font-family: "Rajdhani", sans-serif;
+}
+
+.layout {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.game-shell {
+  width: min(1480px, 100%);
+  border: 1px solid rgba(131, 239, 255, 0.5);
+  border-radius: 30px;
+  padding: 22px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+    rgba(7, 17, 31, 0.8);
+  backdrop-filter: blur(12px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 24px 60px var(--shadow),
+    0 0 44px rgba(131, 239, 255, 0.1);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 18px;
+}
+
+.eyebrow,
+.status-pill,
+.hud h2,
+h1,
+.phone-topbar,
+.chat-author,
+.voice-name {
+  font-family: "Orbitron", sans-serif;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(1.2rem, 1.8vw, 1.8rem);
+  line-height: 1.3;
+  text-shadow: 0 0 18px rgba(131, 239, 255, 0.18);
+}
+
+.status-pill {
+  color: #031019;
+  background: linear-gradient(180deg, #c8fbff, var(--border));
+  padding: 12px 16px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  line-height: 1.5;
+  box-shadow: 0 10px 24px rgba(131, 239, 255, 0.24);
+}
+
+.game-stage {
+  display: grid;
+  grid-template-columns: 310px minmax(0, 960px) 320px;
+  gap: 18px;
+  align-items: start;
+}
+
+.museum-panel {
+  position: relative;
+}
+
+.museum-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+#game,
+#minimap {
+  display: block;
+  width: 100%;
+  border: 1px solid rgba(131, 239, 255, 0.62);
+  border-radius: 26px;
+  background: linear-gradient(180deg, #081320, #10243a);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 16px 40px rgba(3, 10, 20, 0.35);
+}
+
+.phone-panel {
+  display: flex;
+  justify-content: center;
+}
+
+.phone-frame {
+  position: relative;
+  width: 100%;
+  max-width: 288px;
+  border-radius: 42px;
+  padding: 16px 11px 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.18)),
+    linear-gradient(145deg, #d4dde7, #8d98a7 58%, #677381);
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38),
+    0 24px 42px rgba(0, 0, 0, 0.24);
+}
+
+.phone-camera {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #78f6ff, #143346 70%);
+  box-shadow: 0 0 0 3px rgba(24, 37, 48, 0.2);
+}
+
+.phone-speaker {
+  width: 82px;
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #3e4650, #0f1218);
+  margin: 0 auto 10px;
+}
+
+.phone-screen {
+  position: relative;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.42), transparent 35%),
+    linear-gradient(180deg, #f8fdff, #dff4ff);
+  border-radius: 28px;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(12, 27, 42, 0.44);
+}
+
+.phone-topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 16px 10px;
+  background: linear-gradient(90deg, #0b4e79, #1a8dad);
+  color: #f5fff8;
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.voice-toggle {
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: linear-gradient(90deg, #1d8cb0, #6f5cff);
+  color: #f4fcff;
+  font: 700 0.95rem/1 "Rajdhani", sans-serif;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 0 10px 20px rgba(62, 99, 182, 0.2);
+}
+
+.voice-toggle-inline {
+  margin-left: auto;
+  padding: 9px 12px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.art-preview {
+  margin: 14px 16px 0;
+  border-radius: 22px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.52);
+  border: 1px solid rgba(13, 78, 120, 0.14);
+  box-shadow: 0 14px 22px rgba(14, 39, 58, 0.12);
+}
+
+.art-preview img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  object-fit: cover;
+  background: linear-gradient(180deg, #cde8f7, #a9d5e8);
+}
+
+.art-preview figcaption {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px 12px;
+  color: #214760;
+  font-size: 0.96rem;
+}
+
+.voice-module {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 16px 0;
+  padding: 12px 14px;
+  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(226, 248, 255, 0.92), rgba(210, 239, 251, 0.88));
+  border: 1px solid rgba(13, 127, 160, 0.14);
+}
+
+.voice-avatar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.voice-orb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #d6ffff, #1ad3ff 65%, #0d7da1);
+  box-shadow: 0 0 18px rgba(26, 211, 255, 0.45);
+}
+
+.voice-name {
+  margin: 0 0 4px;
+  color: #0e516a;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.voice-mode {
+  margin: 0;
+  color: #436b83;
+  font-size: 0.98rem;
+}
+
+.voice-bars {
+  display: flex;
+  align-items: end;
+  gap: 4px;
+  height: 32px;
+}
+
+.voice-bars span {
+  width: 5px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #77fff1, #6f5cff);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.voice-bars span:nth-child(1) { height: 18px; animation-delay: 0s; }
+.voice-bars span:nth-child(2) { height: 28px; animation-delay: 0.12s; }
+.voice-bars span:nth-child(3) { height: 22px; animation-delay: 0.24s; }
+.voice-bars span:nth-child(4) { height: 30px; animation-delay: 0.36s; }
+.voice-bars span:nth-child(5) { height: 16px; animation-delay: 0.48s; }
+
+.phone-floating-compass {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px 8px 8px;
+  border-radius: 999px;
+  background: rgba(237, 249, 255, 0.92);
+  border: 1px solid rgba(13, 127, 160, 0.16);
+  box-shadow: 0 10px 20px rgba(14, 39, 58, 0.14);
+}
+
+.floating-compass-ring,
+.museum-compass-ring {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.9) 0 18%, transparent 19%),
+    radial-gradient(circle at center, rgba(111, 92, 255, 0.12), rgba(26, 211, 255, 0.08) 60%, rgba(255, 255, 255, 0.7) 61%, rgba(255, 255, 255, 0.7) 63%, transparent 64%),
+    linear-gradient(180deg, #effaff, #d8f2fb);
+  box-shadow: inset 0 0 0 1px rgba(13, 78, 120, 0.14);
+}
+
+.museum-compass-ring {
+  width: 92px;
+  height: 92px;
+}
+
+.floating-compass-needle,
+.compass-needle,
+.museum-compass-needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 22px;
+  margin-left: -2px;
+  margin-top: -19px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff6d9c, #7feeff);
+  transform-origin: 50% 88%;
+  box-shadow: 0 0 12px rgba(127, 238, 255, 0.28);
+}
+
+.museum-compass-needle {
+  height: 34px;
+  margin-top: -30px;
+}
+
+.floating-compass-copy {
+  display: flex;
+  flex-direction: column;
+  color: #20455d;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.floating-compass-label {
+  font: 700 0.45rem/1 "Orbitron", sans-serif;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #1590b5;
+  margin-bottom: 4px;
+}
+
+.museum-compass-card {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  align-items: center;
+  width: 290px;
+  padding: 12px 14px;
+  border-radius: 22px;
+  background: rgba(8, 25, 42, 0.76);
+  border: 1px solid rgba(131, 239, 255, 0.24);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 16px 30px rgba(3, 10, 20, 0.28);
+}
+
+.compass-mark {
+  position: absolute;
+  font: 700 0.7rem/1 "Orbitron", sans-serif;
+  color: #1b88a9;
+}
+
+.compass-n { top: 8px; left: 50%; transform: translateX(-50%); }
+.compass-e { top: 50%; right: 8px; transform: translateY(-50%); }
+.compass-s { bottom: 8px; left: 50%; transform: translateX(-50%); }
+.compass-w { top: 50%; left: 8px; transform: translateY(-50%); }
+
+.compass-copy p {
+  margin: 0;
+}
+
+.compass-instruction {
+  margin-top: 6px !important;
+  color: #395f76;
+  font-size: 0.98rem;
+  line-height: 1.02;
+}
+
+.chat-thread {
+  flex: 1;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: auto;
+}
+
+.chat-bubble {
+  border-radius: 20px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 12px 20px rgba(16, 42, 63, 0.08);
+  background: linear-gradient(180deg, rgba(214, 246, 255, 0.95), rgba(196, 240, 255, 0.9));
+  color: #0d4258;
+}
+
+.chat-author {
+  margin: 0 0 6px;
+  color: #1289ab;
+  font-size: 0.46rem;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.chat-bubble p:last-child {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.05;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 16px 14px;
+  background: rgba(255, 255, 255, 0.68);
+  border: 1px solid rgba(13, 78, 120, 0.18);
+  border-radius: 999px;
+  padding: 12px 14px;
+  color: #3f6291;
+  box-shadow: 0 10px 20px rgba(16, 42, 63, 0.08);
+}
+
+.phone-mic {
+  color: #168db4;
+  font-size: 1rem;
+}
+
+.phone-form {
+  padding-right: 8px;
+}
+
+.phone-question {
+  flex: 1;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #163b57;
+  font: 600 0.95rem/1 "Rajdhani", sans-serif;
+}
+
+.phone-question::placeholder {
+  color: #5d7c94;
+}
+
+.phone-send {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, #1d8cb0, #6f5cff);
+  color: #f4fcff;
+  font: 700 0.86rem/1 "Rajdhani", sans-serif;
+  cursor: pointer;
+}
+
+.phone-helper {
+  margin: -6px 16px 14px;
+  color: #557993;
+  font-size: 0.9rem;
+}
+
+.hud {
+  display: grid;
+  gap: 14px;
+}
+
+.hud-card {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03)),
+    linear-gradient(180deg, var(--panel-2), var(--panel));
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 14px 28px rgba(3, 10, 20, 0.24);
+}
+
+.hud-card h2 {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  color: var(--accent);
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud-card p {
+  margin: 0 0 8px;
+  font-size: 1.12rem;
+  line-height: 1.05;
+  color: var(--text);
+}
+
+.hud-card strong {
+  color: var(--border);
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scaleY(0.7); opacity: 0.65; }
+  50% { transform: scaleY(1.08); opacity: 1; }
+}
+
+@media (max-width: 1280px) {
+  .game-stage {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-panel {
+    order: -1;
+  }
+
+  .phone-frame {
+    max-width: 340px;
+  }
+
+  .phone-screen {
+    min-height: 560px;
+  }
+
+  .museum-compass-card {
+    width: 100%;
+  }
+
+  .hud {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .layout {
+    padding: 10px;
+  }
+
+  .game-shell {
+    padding: 12px;
+    border-radius: 22px;
+  }
+
+  .game-header {
+    flex-direction: column;
+  }
+
+  .hud {
+    grid-template-columns: 1fr;
+  }
+
+  .phone-frame {
+    max-width: 100%;
+  }
+
+  .phone-screen {
+    min-height: 540px;
+  }
+
+  .museum-topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .museum-compass-card {
+    width: 100%;
+  }
+
+  .hud-card p {
+    font-size: 0.98rem;
+  }
+}
