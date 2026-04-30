@@ -29,6 +29,40 @@ from generar_grafico import (
 )
 
 
+def _valores_sensibilidad_van_cobro_variable():
+    # Se modela un contrato con piso fijo que cubre el uso base
+    # y un sobrecargo por sobreconsumo cuando la voz supera
+    # el umbral del escenario central.
+    costos_ia = {
+        "Conservador 10%": 2128,
+        "Base 20%": 8530,
+        "Alto 35%": 22349,
+    }
+    van_base = 3383
+    costo_base = 8530
+    precio_base = 10200
+    factor_sobrecargo = 1.10
+    margen_base = 10200 - 8530
+    factor_activos_descuento = 6.63
+
+    categorias = []
+    valores = []
+    etiquetas = []
+
+    for categoria, costo in costos_ia.items():
+        if costo <= costo_base:
+            precio = precio_base
+        else:
+            precio = precio_base + factor_sobrecargo * (costo - costo_base)
+        margen = precio - costo
+        van = round(van_base + (margen - margen_base) * factor_activos_descuento)
+        categorias.append(categoria)
+        valores.append(van)
+        etiquetas.append(f"S/ {van:,.0f}")
+
+    return categorias, valores, etiquetas
+
+
 def _totales_escenario(nuevos_por_anio, precio_impl, precio_sub, retencion, proporcion_adicional, precio_adicional, factor=0.5):
     activos_previos = 0
     totales = []
@@ -296,11 +330,12 @@ def generar_flujo_economico():
 
 
 def generar_sensibilidad_van():
+    categorias, valores, etiquetas = _valores_sensibilidad_van_cobro_variable()
     grafico_barras_horizontales(
-        categorias=["Alto 35%", "Base 20%", "Conservador 10%"],
-        valores=[-85145, 3383, 44241],
-        etiquetas=["S/ -85,145", "S/ 3,383", "S/ 44,241"],
-        titulo="Sensibilidad del VAN segun intensidad de uso de voz",
+        categorias=categorias,
+        valores=valores,
+        etiquetas=etiquetas,
+        titulo="Sensibilidad del VAN con piso fijo y cobro por sobreuso de voz",
         eje_x="Valor actual neto (S/)",
         eje_y="Escenario",
         nombre_salida="cap10/sensibilidad_van.png",

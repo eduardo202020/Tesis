@@ -8,7 +8,7 @@ A diferencia de la versión preliminar del capítulo, esta evaluación ya no se 
 
 \section{Supuestos de evaluación}
 
-La evaluación se construye sobre cinco supuestos centrales. El primero es una tasa de descuento anual del 12\%, valor referencial para un proyecto tecnológico aplicado con riesgo operativo moderado. El segundo es una inversión preoperativa inicial de S/2\,500, destinada a formalización, endurecimiento del prototipo, materiales de despliegue, ajustes previos a la comercialización y contingencias administrativas. El tercero es que el piloto comienza con Sipán en el año 1 y luego incorpora, en el escenario base, un museo adicional por año dentro del clúster lambayecano priorizado. El cuarto es que los servicios recurrentes para cada museo activo comienzan a facturarse a partir del año siguiente a la implementación. El quinto es que los precios y costos unitarios por museo se mantienen constantes en términos reales dentro del horizonte evaluado. Sobre esta base, también se ensayan escenarios complementarios de incorporación de dos, tres y cuatro museos nuevos por año para observar cómo variaría la viabilidad financiera si el piloto se convirtiera en una referencia comercial más rápidamente.
+La evaluación se construye sobre cinco supuestos centrales. El primero es una tasa de descuento anual del 12\%, valor referencial para un proyecto tecnológico aplicado con riesgo operativo moderado. El segundo es una inversión preoperativa inicial de S/2\,500, destinada a formalización, endurecimiento del prototipo, materiales de despliegue, ajustes previos a la comercialización y contingencias administrativas. El tercero es que el piloto comienza con Sipán en el año 1 y luego incorpora, en el escenario base, un museo adicional por año dentro del clúster lambayecano priorizado. El cuarto es que los servicios recurrentes para cada museo activo comienzan a facturarse a partir del año siguiente a la implementación. El quinto es que los precios y costos unitarios por museo se mantienen constantes en términos reales dentro del horizonte evaluado para el escenario base, mientras que en la sensibilidad la tarifa de IA se modela con un piso fijo hasta el nivel base de uso y un sobrecargo cuando la voz supera ese umbral. Sobre esta base, también se ensayan escenarios complementarios de incorporación de dos, tres y cuatro museos nuevos por año para observar cómo variaría la viabilidad financiera si el piloto se convirtiera en una referencia comercial más rápidamente.
 
 \begin{table}[h!]
 	\centering
@@ -164,7 +164,7 @@ La comparación confirma que la rentabilidad del proyecto mejora de manera impor
 
 \section{Análisis de sensibilidad}
 
-La variable más crítica del modelo no es el hardware ni la instalación inicial, sino el costo variable asociado a la operación de IA. Dado que el precio institucional de IA y analítica se fijó con base en el escenario de uso del 20\% de visitantes activos, cambios relevantes en la intensidad de uso pueden alterar fuertemente la rentabilidad del proyecto. Por ello, el análisis de sensibilidad se concentra en tres escenarios: uso conservador de voz, uso base y uso alto de voz.
+La variable más crítica del modelo no es el hardware ni la instalación inicial, sino el costo variable asociado a la operación de IA. Dado que el precio institucional de IA y analítica se fijó con base en el escenario de uso del 20\% de visitantes activos, cambios relevantes en la intensidad de uso pueden alterar fuertemente la rentabilidad del proyecto. Para reflejar una política comercial más realista, el análisis de sensibilidad supone un esquema mixto: un piso fijo que cubre la disponibilidad del servicio y el nivel base de uso, más un sobrecargo cuando el consumo de voz supera ese umbral. Por ello, el análisis se concentra en tres escenarios: uso conservador de voz, uso base y uso alto de voz.
 
 \begin{table}[h!]
 	\centering
@@ -175,9 +175,9 @@ La variable más crítica del modelo no es el hardware ni la instalación inicia
 		\hline
 		\textbf{Escenario de sensibilidad} & \textbf{VAN} & \textbf{Lectura} \\
 		\hline
-		Escenario conservador: 10\% de visitantes usan voz & S/44\,241 & Viabilidad robusta por menor costo variable \\
+		Escenario conservador: 10\% de visitantes usan voz & S/45\,828 & El piso fijo preserva el ingreso recurrente y mejora el margen \\
 		Escenario base: 20\% de visitantes usan voz & S/3\,383 & Viable, pero con margen moderado \\
-		Escenario alto: 35\% de visitantes usan voz con tarifa fija de IA & S/-85\,145 & El modelo pierde viabilidad si el precio no se ajusta al uso \\
+		Escenario alto: 35\% de visitantes usan voz con cobro por sobreuso de IA & S/12\,545 & El mayor uso sigue siendo rentable si el sobreconsumo se traslada al precio \\
 		\hline
 	\end{tabular}%
 	}
@@ -185,12 +185,12 @@ La variable más crítica del modelo no es el hardware ni la instalación inicia
 	\label{tab:sensibilidad-financiera-museiq}
 \end{table}
 
-La sensibilidad deja una conclusión importante: la sostenibilidad del proyecto es muy dependiente del esquema de monetización del componente IA. Si el uso real de voz se mantiene cerca del escenario base, el proyecto es económicamente defendible. Pero si el uso crece hacia niveles altos y el precio al museo permanece fijo, el margen se comprime rápidamente. Esto sugiere que, en una implementación real, MuseIQ debería considerar tarifas escalonadas, consumo metrado o revisiones periódicas del contrato de IA y analítica.
+La sensibilidad deja una conclusión importante: la sostenibilidad del proyecto es muy dependiente del esquema de monetización del componente IA. Si el uso real de voz se mantiene cerca del escenario base, el proyecto es económicamente defendible. Cuando el uso cae por debajo del umbral contratado, el piso fijo protege la facturación recurrente y evita que la adopción temprana deteriore la viabilidad. En cambio, si el uso crece, el sobrecargo por consumo permite absorber el mayor costo variable sin erosionar el margen. Esto sugiere que, en una implementación real, MuseIQ debería considerar tarifas escalonadas, consumo metrado o revisiones periódicas del contrato de IA y analítica.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.82\textwidth]{sensibilidad_van.png}
-	\caption[Sensibilidad del VAN según uso de voz]{Sensibilidad del valor actual neto de MuseIQ según la intensidad de uso de la función de voz y el costo asociado de STT. Fuente: elaboración propia.}
+	\caption[Sensibilidad del VAN según uso de voz]{Sensibilidad del valor actual neto de MuseIQ bajo un esquema de piso fijo para el nivel base de uso y cobro adicional por sobreconsumo de voz. Fuente: elaboración propia.}
 	\label{fig:sensibilidad-van-voz}
 \end{figure}
 
@@ -200,10 +200,10 @@ Desde una perspectiva económica, MuseIQ resulta viable porque combina una inver
 
 Desde una perspectiva financiera, la evaluación sugiere que MuseIQ puede sostenerse si logra dos condiciones. La primera es una expansión gradual a más de un museo, de modo que la estructura fija anual deje de recaer sobre un único piloto. La segunda es una gestión disciplinada del costo de IA, ya sea mediante optimización técnica, mayor procesamiento local, uso parcial de soluciones offline o un esquema contractual que traslade parte del costo variable al cliente institucional. Los escenarios de dos, tres y cuatro museos nuevos por año muestran precisamente que la rentabilidad mejora de forma sensible cuando la base institucional crece y distribuye mejor los costos fijos.
 
-En otras palabras, el proyecto sí muestra viabilidad, pero no de forma automática. Su sostenibilidad depende de ejecutar bien el piloto, convertirlo en referencia para otras instituciones del mismo clúster y mantener bajo control la relación entre uso real de voz y precio cobrado por el servicio recurrente.
+En otras palabras, el proyecto sí muestra viabilidad, pero no de forma automática. Su sostenibilidad depende de ejecutar bien el piloto, convertirlo en referencia para otras instituciones del mismo clúster y mantener alineada la relación entre uso real de voz y precio cobrado por el servicio recurrente.
 
 \section{Conclusión}
 
 La evaluación económica-financiera ajustada con la información obtenida en el Capítulo 5 permite concluir que MuseIQ presenta viabilidad positiva bajo un escenario base de expansión gradual desde el piloto del Museo Tumbas Reales de Sipán. Con una inversión preoperativa de S/2\,500, una unidad económica de implementación con margen bruto de S/1\,200 y un servicio recurrente de IA con margen bruto aproximado de S/1\,670 por museo activo, el proyecto alcanza un VAN positivo de S/3\,383 y una TIR aproximada de 33.6\%, superiores a los mínimos exigibles para el horizonte evaluado.
 
-Sin embargo, la evaluación también muestra que la viabilidad es sensible al costo de la capa conversacional. Por ello, el principal hallazgo económico del capítulo no es solo que MuseIQ puede ser rentable, sino que su rentabilidad depende críticamente de cómo se modele y gestione el servicio recurrente de IA y analítica. A la vez, la comparación de escenarios evidencia que un ritmo de expansión de dos, tres o cuatro museos nuevos por año fortalecería notablemente el VAN, la TIR y el periodo de recuperación. En consecuencia, la tesis no solo valida la pertinencia técnica de la propuesta, sino que identifica con mayor precisión la condición económica que hará sostenible su despliegue institucional.
+Sin embargo, la evaluación también muestra que la viabilidad es sensible al esquema de monetización de la capa conversacional. Por ello, el principal hallazgo económico del capítulo no es solo que MuseIQ puede ser rentable, sino que su rentabilidad depende críticamente de cómo se modele y gestione el servicio recurrente de IA y analítica. Un esquema con piso fijo y cobro por sobreuso protege el proyecto ante adopción baja y también evita que una adopción alta erosione el margen. A la vez, la comparación de escenarios evidencia que un ritmo de expansión de dos, tres o cuatro museos nuevos por año fortalecería notablemente el VAN, la TIR y el periodo de recuperación. En consecuencia, la tesis no solo valida la pertinencia técnica de la propuesta, sino que identifica con mayor precisión la condición económica que hará sostenible su despliegue institucional.
