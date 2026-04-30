@@ -1,129 +1,83 @@
 # Graficos de la tesis
 
-Esta carpeta concentra los graficos generados en Python para usarlos dentro de la tesis.
+Esta carpeta contiene los scripts de Python para generar figuras usadas en la tesis y en la presentacion.
 
-## Estructura
+## Archivos principales
 
-- `generar_grafico.py`: libreria base con funciones para varios tipos de graficos.
-- `ejemplos_uso.py`: archivo editable con ejemplos concretos para la tesis.
-- `output/`: carpeta donde se guardan los archivos generados (`.png`).
-  Dentro de `output/`, los graficos se organizan por capitulo:
-  - `cap1/`
-  - `cap2/`
-  - `cap3/`
-  - `cap4/`
-  - `cap5/`
-  - `cap6/`
-  - `cap7/`
-  - `cap10/`
-- `requirements.txt`: dependencias minimas del script.
+- Generador base: [generar_grafico.py](generar_grafico.py)
+- Casos de uso y lotes: [ejemplos_uso.py](ejemplos_uso.py)
+- Dependencias: [requirements.txt](requirements.txt)
+- Salida de imagenes: [output](output)
+
+## Estructura de salida
+
+Las imagenes se guardan por capitulo dentro de [output](output):
+
+- [output/cap1](output/cap1)
+- [output/cap2](output/cap2)
+- [output/cap3](output/cap3)
+- [output/cap4](output/cap4)
+- [output/cap5](output/cap5)
+- [output/cap6](output/cap6)
+- [output/cap7](output/cap7)
+- [output/cap8](output/cap8)
+- [output/cap10](output/cap10)
 
 ## Uso rapido
 
-Desde esta carpeta:
+Desde la raiz del repo:
 
-```powershell
+cd tesis/graficos
 python -m pip install -r requirements.txt
 python ejemplos_uso.py all
-```
 
-Para generar por capitulo:
+## Generacion por capitulo
 
-```powershell
+Ejemplos:
+
 python ejemplos_uso.py cap1
 python ejemplos_uso.py cap4
 python ejemplos_uso.py cap10
-```
 
-Para generar un solo grafico:
+## Generacion de un grafico puntual
 
-```powershell
 python ejemplos_uso.py mapa_segmentacion_mercado_objetivo
-```
 
-Para ver los nombres disponibles:
+Para ver opciones disponibles:
 
-```powershell
 python ejemplos_uso.py --help
-```
 
-El script `generar_grafico.py` contiene la libreria base.
+## Modos soportados en ejemplos_uso.py
 
-`ejemplos_uso.py` ahora tiene dos modos:
-
-- `all` o `todo`: regenera todo el lote
-- `cap1`, `cap2`, `cap3`, `cap4`, `cap5`, `cap6`, `cap10`: generan solo los graficos de ese capitulo
-- `<nombre_grafico>`: genera solo una imagen puntual
-
-Entre los nombres disponibles estan, por ejemplo:
-
-- `smartphones_peru`
-- `visitas_museos`
-- `mapa_problema`
-- `arquitectura_conceptual`
-- `mapa_segmentacion_mercado_objetivo`
-- `categorias_oferta_tecnologica_mundial`
-- `flujo_ingresos`
-- `sensibilidad_van`
+- all o todo: regenera todo el lote
+- cap1, cap2, cap3, cap4, cap5, cap6, cap7, cap8, cap10: regenera por capitulo
+- nombre_de_grafico: regenera solo esa imagen
 
 ## Tipos de graficos disponibles
 
-- barras verticales
-- barras horizontales
-- lineas
-- lineas multiples
-- pastel
-- dispersion
-- heatmap
-- diagramas conceptuales
+- Barras verticales
+- Barras horizontales
+- Lineas
+- Lineas multiples
+- Pastel
+- Dispersion
+- Heatmap
+- Diagramas conceptuales
 
-## Como adaptarlo
+## Como ampliar
 
-Si quieres crear tus propios graficos para la tesis, lo mas comodo es editar:
+1. Agregar o ajustar datos en [ejemplos_uso.py](ejemplos_uso.py).
+2. Si hace falta, ampliar funciones en [generar_grafico.py](generar_grafico.py).
+3. Regenerar solo lo necesario para iterar mas rapido.
 
-- `ejemplos_uso.py`
+## Insercion en LaTeX
 
-Si quieres ampliar la libreria base, modifica:
+La tesis ya referencia las carpetas de output mediante graphicspath. Una vez generado el archivo PNG, puede incluirse en el capitulo correspondiente.
 
-- `generar_grafico.py`
+## Convencion de nombres recomendada
 
-### Funciones disponibles
-
-- `grafico_barras(...)`
-- `grafico_barras_horizontales(...)`
-- `grafico_lineas(...)`
-- `grafico_lineas_multiples(...)`
-- `grafico_pastel(...)`
-- `grafico_dispersion(...)`
-- `grafico_heatmap(...)`
-
-Luego genera solo el grafico que cambiaste:
-
-```powershell
-python ejemplos_uso.py nombre_del_grafico
-```
-
-## Como insertarlo en LaTeX
-
-Como `tesis.tex` ya fue configurado con una `\graphicspath` que apunta a las carpetas por capitulo dentro de `output/`, puedes insertar un grafico asi:
-
-```latex
-\begin{figure}[h!]
-    \centering
-    \includegraphics[width=0.82\textwidth]{ejemplo_barras.png}
-    \caption{Distribucion de ejemplo.}
-    \label{fig:ejemplo-barras}
-\end{figure}
-```
-
-## Convencion recomendada
-
-Usa nombres descriptivos, por ejemplo:
-
-- `mercado_objetivo_museos.png`
-- `flujo_ingresos_10_anios.png`
-- `comparacion_costos_operativos.png`
-- `presupuesto_directo_indirecto.png`
-- `proyeccion_visitantes.png`
-
-Asi luego sera mas facil pedir nuevos graficos y referenciarlos en la tesis.
+- mercado_objetivo_museos.png
+- flujo_ingresos_10_anios.png
+- comparacion_costos_operativos.png
+- presupuesto_directo_indirecto.png
+- proyeccion_visitantes.png

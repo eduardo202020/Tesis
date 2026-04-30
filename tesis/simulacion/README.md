@@ -1,27 +1,58 @@
-# Simulacion Retro del Museo
+# Simulacion MuseIQ
 
-Mini app en vista superior para simular la navegacion de un visitante por un museo con:
+Aplicacion web tipo top-down para simular el recorrido de un visitante en un museo con salas conectadas, obras por zona y panel de informacion contextual.
 
-- 2 salas conectadas
-- 8 obras por sala
-- movimiento retro con teclado
-- minimapa
-- panel contextual de obra cercana
+## Archivos principales
 
-## Uso
+- Entrada web: [index.html](index.html)
+- Logica principal: [app.js](app.js)
+- Estilos: [styles.css](styles.css)
+- Datos y recursos: [src](src)
 
-Abre `index.html` en el navegador.
+## Funcionalidad principal
 
-Controles:
+- Navegacion por dos salas
+- Deteccion de zona y obra cercana
+- Panel contextual de contenido curatorial
+- Indicadores de estado de la simulacion
+- Minimap y elementos de interfaz de apoyo
 
-- `W A S D` o flechas para moverte
-- `Espacio` o `Enter` para interactuar con la obra cercana
+## Ejecutar en local
 
-## Idea de la demo
+Opcion rapida:
 
-Esta simulacion sirve como maqueta visual de la experiencia MuseIQ:
+1. Abrir [index.html](index.html) en el navegador.
 
-- recorrido por salas
-- deteccion de proximidad a obras
-- activacion de ficha contextual
-- seguimiento basico de obras visitadas
+Opcion recomendada (servidor local):
+
+cd tesis/simulacion
+python -m http.server 5500
+
+Abrir en navegador:
+
+http://localhost:5500
+
+## Controles
+
+- W A S D o flechas: movimiento
+- Espacio o Enter: interaccion contextual
+
+## Publicacion en GitHub Pages
+
+El despliegue esta automatizado con GitHub Actions desde la carpeta [tesis/simulacion](../simulacion).
+
+Workflow:
+
+[/.github/workflows/deploy-simulacion-pages.yml](../../.github/workflows/deploy-simulacion-pages.yml)
+
+URL publica:
+
+https://eduardo202020.github.io/Tesis/
+
+## Objetivo de la demo
+
+Esta simulacion se usa como maqueta de experiencia para validar la propuesta MuseIQ en el contexto de tesis:
+
+- Recorrido guiado por salas
+- Interaccion contextual por proximidad
+- Base visual para explicar la arquitectura funcional
