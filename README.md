@@ -70,9 +70,9 @@ La simulacion se publica automaticamente con GitHub Actions usando:
 - Workflow: [/.github/workflows/deploy-simulacion-pages.yml](.github/workflows/deploy-simulacion-pages.yml)
 - Carpeta publicada: [tesis/simulacion](tesis/simulacion)
 
-URL esperada del sitio:
+URL publica de la simulacion web:
 
-https://eduardo202020.github.io/Tesis/
+http://eduardoguev.me/Tesis/
 
 ## Flujo de trabajo recomendado
 

@@ -45,9 +45,9 @@ Workflow:
 
 [/.github/workflows/deploy-simulacion-pages.yml](../../.github/workflows/deploy-simulacion-pages.yml)
 
-URL publica:
+URL publica de la simulacion web:
 
-https://eduardo202020.github.io/Tesis/
+http://eduardoguev.me/Tesis/
 
 ## Objetivo de la demo
 
