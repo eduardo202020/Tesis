@@ -112,6 +112,7 @@
             <h2>Controles</h2>
             <p>Mover: <strong>W A S D</strong> o flechas</p>
             <p>Interactuar: <strong>Espacio</strong> o <strong>Enter</strong></p>
+            <button id="technical-toggle" type="button">Tecnico: visible</button>
           </section>
 
           <section class="hud-card">
@@ -127,13 +128,21 @@
             <p id="artwork-name">Ninguna</p>
             <p id="artwork-description">Explora las salas para activar fichas de obra.</p>
           </section>
-
-          <section class="hud-card">
-            <h2>Minimapa</h2>
-            <canvas id="minimap" width="220" height="160" aria-label="Minimapa del museo"></canvas>
-          </section>
         </aside>
       </div>
+
+      <section class="technical-panel">
+        <div class="hud-card technical-card">
+          <h2>Capa Técnica</h2>
+          <p id="scan-room">Sala detectada: --</p>
+          <p id="scan-nodes">ESP32 activos: --</p>
+          <p id="scan-rssi">Señal estimada: --</p>
+          <p id="occupancy-status">Ocupacion: --</p>
+          <p id="lighting-status">Iluminacion: --</p>
+          <p id="brain-status">Raspberry Pi: --</p>
+          <p id="doc-status">Consulta documental: --</p>
+        </div>
+      </section>
     </section>
   </main>
 

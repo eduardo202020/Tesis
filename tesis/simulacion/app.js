@@ -1,7 +1,5 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const minimap = document.getElementById("minimap");
-const miniCtx = minimap.getContext("2d");
 
 const visitedCounter = document.getElementById("visited-counter");
 const roomName = document.getElementById("room-name");
@@ -10,6 +8,13 @@ const directionText = document.getElementById("direction-text");
 const hintText = document.getElementById("hint-text");
 const artworkName = document.getElementById("artwork-name");
 const artworkDescription = document.getElementById("artwork-description");
+const scanRoom = document.getElementById("scan-room");
+const scanNodes = document.getElementById("scan-nodes");
+const scanRssi = document.getElementById("scan-rssi");
+const occupancyStatus = document.getElementById("occupancy-status");
+const lightingStatus = document.getElementById("lighting-status");
+const brainStatus = document.getElementById("brain-status");
+const docStatus = document.getElementById("doc-status");
 const chatStatus = document.getElementById("chat-status");
 const chatThread = document.getElementById("chat-thread");
 const artImage = document.getElementById("art-image");
@@ -21,6 +26,7 @@ const voiceState = document.getElementById("voice-state");
 const voiceToggle = document.getElementById("voice-toggle");
 const questionForm = document.getElementById("question-form");
 const questionInput = document.getElementById("question-input");
+const technicalToggle = document.getElementById("technical-toggle");
 const compassNeedle = document.getElementById("compass-needle");
 const museumCompassNeedle = document.getElementById("museum-compass-needle");
 const headingText = document.getElementById("heading-text");
@@ -81,6 +87,23 @@ const decorativeTorches = [
   { x: 12, y: 8 },
   { x: 17, y: 8 },
 ];
+
+const esp32Nodes = [
+  { id: "ESP32-S1-A", room: "Sala 1", x: 2, y: 2 },
+  { id: "ESP32-S1-B", room: "Sala 1", x: 7, y: 5 },
+  { id: "ESP32-S1-C", room: "Sala 1", x: 3, y: 8 },
+  { id: "ESP32-S2-A", room: "Sala 2", x: 12, y: 2 },
+  { id: "ESP32-S2-B", room: "Sala 2", x: 17, y: 5 },
+  { id: "ESP32-S2-C", room: "Sala 2", x: 13, y: 8 },
+];
+
+const raspberryPi = {
+  id: "RPI-CORE-01",
+  label: "Raspberry Pi 5",
+  x: 10,
+  y: 9,
+  role: "Nodo central de consulta curatorial y orquestacion",
+};
 
 const artworkData = [
   {
@@ -254,6 +277,10 @@ let activeArtworkId = null;
 let voiceEnabled = true;
 let currentUtterance = null;
 let routeIndex = 0;
+let pendingQuestion = null;
+let signalAnimation = null;
+let technicalViewEnabled = true;
+let docQueryState = "inactivo";
 
 const speechSupported = "speechSynthesis" in window && "SpeechSynthesisUtterance" in window;
 
@@ -357,6 +384,49 @@ function updateVisitedCount() {
   visitedCounter.textContent = `${visited}/16 obras vistas`;
 }
 
+function getScanReadings() {
+  const readings = esp32Nodes.map((node) => {
+    const nodeX = node.x * tileSize + tileSize / 2;
+    const nodeY = node.y * tileSize + tileSize / 2;
+    const distance = Math.hypot(player.x - nodeX, player.y - nodeY);
+    const rssi = Math.max(-92, Math.round(-38 - distance / 5.8));
+    return {
+      ...node,
+      distance,
+      rssi,
+      active: distance < 230,
+    };
+  }).sort((a, b) => a.distance - b.distance);
+
+  return readings;
+}
+
+function getDetectedRoomFromNodes(readings) {
+  const activeTop = readings.filter((node) => node.active).slice(0, 3);
+  if (activeTop.length === 0) {
+    return { room: "Sin deteccion estable", activeTop };
+  }
+
+  const counts = activeTop.reduce((acc, node) => {
+    acc[node.room] = (acc[node.room] || 0) + 1;
+    return acc;
+  }, {});
+
+  const room = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0];
+  return { room, activeTop };
+}
+
+function getOccupancyState() {
+  const room = getCurrentRoom();
+  const occupiedRoom = room.short === "Sala 1" || room.short === "Sala 2" ? room.short : "Sin sala activa";
+  const commandedNodes = esp32Nodes.filter((node) => node.room === occupiedRoom);
+  return {
+    occupiedRoom,
+    commandedNodes,
+    lightsOn: occupiedRoom !== "Sin sala activa",
+  };
+}
+
 function normalizeAngle(angle) {
   const normalized = ((angle % 360) + 360) % 360;
   return normalized;
@@ -445,6 +515,36 @@ function updateCompass() {
   return guidance;
 }
 
+function updateTechnicalPanel() {
+  if (!technicalViewEnabled) {
+    scanRoom.textContent = "Sala detectada: oculto";
+    scanNodes.textContent = "ESP32 activos: oculto";
+    scanRssi.textContent = "Señal estimada: oculta";
+    occupancyStatus.textContent = "Ocupacion: oculta";
+    lightingStatus.textContent = "Iluminacion: oculta";
+    brainStatus.textContent = "Raspberry Pi: oculto";
+    docStatus.textContent = "Consulta documental: oculta";
+    return;
+  }
+
+  const readings = getScanReadings();
+  const detected = getDetectedRoomFromNodes(readings);
+  const topNodes = detected.activeTop.length ? detected.activeTop : readings.slice(0, 3);
+  const occupancy = getOccupancyState();
+
+  scanRoom.textContent = `Sala detectada: ${detected.room}`;
+  scanNodes.textContent = `ESP32 activos: ${topNodes.map((node) => node.id).join(", ")}`;
+  scanRssi.textContent = `Señal estimada: ${topNodes.map((node) => `${node.id} ${node.rssi} dBm`).join(" · ")}`;
+  occupancyStatus.textContent = `Ocupacion: celular reporta ${occupancy.occupiedRoom}`;
+  lightingStatus.textContent = occupancy.lightsOn
+    ? `Iluminacion: ${occupancy.occupiedRoom} encendida por orden del Raspberry Pi`
+    : "Iluminacion: salas en espera, luces apagadas";
+  brainStatus.textContent = occupancy.lightsOn
+    ? `Raspberry Pi: recibe sala del celular y ordena encender ${occupancy.commandedNodes.map((node) => node.id).join(", ")}`
+    : `Raspberry Pi: ${raspberryPi.label} en espera de ocupacion`;
+  docStatus.textContent = `Consulta documental: ${docQueryState}`;
+}
+
 function stopSpeech() {
   if (!speechSupported) {
     return;
@@ -515,11 +615,101 @@ function appendChatMessage(author, message, type) {
   chatThread.scrollTop = chatThread.scrollHeight;
 }
 
+function getUserAnchor() {
+  return { x: player.x, y: player.y - 10 };
+}
+
+function getRaspberryAnchor() {
+  return {
+    x: raspberryPi.x * tileSize + tileSize / 2,
+    y: raspberryPi.y * tileSize + tileSize / 2,
+  };
+}
+
+function startQuestionSignal(question, answer) {
+  pendingQuestion = { question, answer };
+  signalAnimation = {
+    stage: "toPi",
+    progress: 0,
+    stageStartedAt: performance.now(),
+  };
+  phonePrompt.textContent = "Consulta enviada. Transmitiendo al Raspberry Pi...";
+  voiceMode.textContent = "Enviando consulta";
+  docQueryState = "esperando pregunta en el nodo central";
+}
+
+function finalizeQuestionSignal() {
+  if (!pendingQuestion) {
+    signalAnimation = null;
+    return;
+  }
+
+  appendChatMessage("MuseIQ Voice", pendingQuestion.answer, "bot");
+  phonePrompt.textContent = "Respuesta recibida desde el nodo curatorial.";
+  if (voiceEnabled) {
+    speak(pendingQuestion.answer);
+  }
+  docQueryState = "respuesta enviada al visitante";
+  pendingQuestion = null;
+  signalAnimation = null;
+}
+
+function updateSignalAnimation() {
+  if (!signalAnimation) {
+    return;
+  }
+
+  const now = performance.now();
+  const elapsed = now - signalAnimation.stageStartedAt;
+
+  if (signalAnimation.stage === "toPi") {
+    signalAnimation.progress = Math.min(1, elapsed / 850);
+    if (signalAnimation.progress >= 1) {
+      signalAnimation.stage = "thinking";
+      signalAnimation.progress = 0;
+      signalAnimation.stageStartedAt = now;
+      phonePrompt.textContent = "Raspberry Pi consultando documentos curatoriales...";
+      voiceMode.textContent = "Buscando evidencia";
+      docQueryState = "documentos de sala recuperados";
+    }
+    return;
+  }
+
+  if (signalAnimation.stage === "thinking") {
+    signalAnimation.progress = Math.min(1, elapsed / 1500);
+    if (signalAnimation.progress < 0.34) {
+      docQueryState = "abriendo fichas curatoriales";
+    } else if (signalAnimation.progress < 0.67) {
+      docQueryState = "comparando coincidencias y contexto";
+    } else {
+      docQueryState = "seleccionando mejor respuesta";
+    }
+    if (signalAnimation.progress >= 1) {
+      signalAnimation.stage = "toUser";
+      signalAnimation.progress = 0;
+      signalAnimation.stageStartedAt = now;
+      phonePrompt.textContent = "Generando respuesta para el visitante...";
+      voiceMode.textContent = "Devolviendo respuesta";
+      docQueryState = "respuesta validada con material curatorial";
+    }
+    return;
+  }
+
+  if (signalAnimation.stage === "toUser") {
+    signalAnimation.progress = Math.min(1, elapsed / 850);
+    if (signalAnimation.progress >= 1) {
+      finalizeQuestionSignal();
+    }
+  }
+}
+
 function answerQuestion(question) {
   const q = question.toLowerCase().trim();
   const room = getCurrentRoom();
   const nearby = getNearbyArtwork();
   const guidance = getOrientationGuidance();
+  const readings = getScanReadings();
+  const detected = getDetectedRoomFromNodes(readings);
   const visited = artworkSlots.filter((art) => art.visited).length;
 
   if (!q) {
@@ -539,6 +729,25 @@ function answerQuestion(question) {
 
   if (q.includes("orient") || q.includes("brujula") || q.includes("rumbo")) {
     return `Tu orientacion actual es ${getHeadingLabel(player.heading)} con ${Math.round(normalizeAngle(player.heading))} grados. Para seguir el recorrido sugerido, ${guidance.action.toLowerCase()} hacia ${guidance.waypoint}.`;
+  }
+
+  if (q.includes("esp32") || q.includes("sensor") || q.includes("posicion") || q.includes("ubicando")) {
+    const nodes = (detected.activeTop.length ? detected.activeTop : readings.slice(0, 3))
+      .map((node) => `${node.id} (${node.rssi} dBm)`)
+      .join(", ");
+    return `La posicion se estima con tres ESP32 por sala. Ahora mismo el sistema detecta principalmente ${detected.room} usando ${nodes}. La app usa esta proximidad para inferir la sala y activar contenido contextual.`;
+  }
+
+  if (q.includes("raspberry") || q.includes("cerebro") || q.includes("curatorial") || q.includes("como respondes")) {
+    return `El cerebro del sistema es una Raspberry Pi central. Recibe la pregunta del visitante, toma la sala estimada por los ESP32, consulta el material curatorial cargado para esa sala y devuelve una respuesta contextual mas precisa antes de que la app la narre.`;
+  }
+
+  if (q.includes("luz") || q.includes("luces") || q.includes("iluminacion") || q.includes("ocupacion")) {
+    const occupancy = getOccupancyState();
+    if (!occupancy.lightsOn) {
+      return "En este momento no hay una sala activa. Cuando el celular reporta presencia dentro de una sala, el Raspberry Pi ordena a los tres ESP32 de esa sala que enciendan sus luces.";
+    }
+    return `Ahora mismo ${occupancy.occupiedRoom} esta ocupada. El celular comunica esa ubicacion al Raspberry Pi y este envia la orden a ${occupancy.commandedNodes.map((node) => node.id).join(", ")} para encender la iluminacion de la sala, mientras la otra sala permanece apagada.`;
   }
 
   if (q.includes("recorrido") || q.includes("seguir") || q.includes("ruta")) {
@@ -568,11 +777,7 @@ function submitQuestion(question) {
 
   appendChatMessage("Visitante", trimmed, "user");
   const answer = answerQuestion(trimmed);
-  appendChatMessage("MuseIQ Voice", answer, "bot");
-  phonePrompt.textContent = "Consulta enviada. El bot respondio con contexto del recorrido.";
-  if (voiceEnabled) {
-    speak(answer);
-  }
+  startQuestionSignal(trimmed, answer);
 }
 
 function describeRoom(room) {
@@ -621,6 +826,7 @@ function updateHud() {
   const room = getCurrentRoom();
   const nearby = getNearbyArtwork();
   const guidance = updateCompass();
+  updateTechnicalPanel();
 
   roomName.textContent = `Sala actual: ${room.name}`;
   positionText.textContent = `Posicion: (${Math.floor(player.x / tileSize)}, ${Math.floor(player.y / tileSize)})`;
@@ -776,6 +982,203 @@ function drawTorch(torch) {
   ctx.fill();
 }
 
+function drawRaspberryPi() {
+  if (!technicalViewEnabled) {
+    return;
+  }
+
+  const x = raspberryPi.x * tileSize + tileSize / 2;
+  const y = raspberryPi.y * tileSize + tileSize / 2;
+  const pulse = 0.5 + (Math.sin(Date.now() / 240) + 1) / 2;
+
+  ctx.fillStyle = `rgba(133, 255, 180, ${0.08 + pulse * 0.08})`;
+  ctx.beginPath();
+  ctx.ellipse(x, y + 6, 26, 14, 0, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "#2c8f51";
+  ctx.fillRect(x - 20, y - 12, 40, 24);
+  ctx.fillStyle = "#1f6038";
+  ctx.fillRect(x - 16, y - 8, 32, 16);
+  ctx.fillStyle = "#b9ffd1";
+  ctx.fillRect(x - 10, y - 4, 8, 8);
+  ctx.fillStyle = "#d2b06c";
+  ctx.fillRect(x + 4, y - 6, 10, 4);
+  ctx.fillRect(x + 4, y, 10, 4);
+
+  ctx.strokeStyle = `rgba(133, 255, 180, ${0.2 + pulse * 0.3})`;
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.arc(x, y, 34 + pulse * 4, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function drawRaspberryLinks() {
+  if (!technicalViewEnabled) {
+    return;
+  }
+
+  const occupancy = getOccupancyState();
+  const nodes = occupancy.lightsOn ? occupancy.commandedNodes : [];
+  const rx = raspberryPi.x * tileSize + tileSize / 2;
+  const ry = raspberryPi.y * tileSize + tileSize / 2;
+
+  nodes.forEach((node) => {
+    const x = node.x * tileSize + tileSize / 2;
+    const y = node.y * tileSize + tileSize / 2;
+    ctx.strokeStyle = "rgba(255, 214, 122, 0.2)";
+    ctx.lineWidth = 1.4;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(rx, ry);
+    ctx.stroke();
+  });
+}
+
+function drawThinkingPulse() {
+  if (!technicalViewEnabled || !signalAnimation || signalAnimation.stage !== "thinking") {
+    return;
+  }
+
+  const { x, y } = getRaspberryAnchor();
+  const pulse = 24 + Math.sin(performance.now() / 120) * 6;
+  ctx.strokeStyle = "rgba(133, 255, 180, 0.28)";
+  ctx.lineWidth = 3;
+  ctx.beginPath();
+  ctx.arc(x, y, pulse, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.strokeStyle = "rgba(255, 214, 122, 0.18)";
+  ctx.beginPath();
+  ctx.arc(x, y, pulse + 10, 0, Math.PI * 2);
+  ctx.stroke();
+
+  const docs = [
+    { dx: -56, dy: -34, w: 22, h: 28 },
+    { dx: 34, dy: -30, w: 20, h: 26 },
+    { dx: -10, dy: 34, w: 24, h: 30 },
+  ];
+
+  docs.forEach((doc, index) => {
+    const flicker = 0.4 + ((Math.sin(performance.now() / 180 + index) + 1) / 2) * 0.6;
+    ctx.fillStyle = `rgba(226, 244, 255, ${0.45 * flicker})`;
+    ctx.fillRect(x + doc.dx, y + doc.dy, doc.w, doc.h);
+    ctx.strokeStyle = `rgba(133, 255, 180, ${0.25 * flicker})`;
+    ctx.strokeRect(x + doc.dx, y + doc.dy, doc.w, doc.h);
+    ctx.fillStyle = `rgba(133, 255, 180, ${0.35 * flicker})`;
+    ctx.fillRect(x + doc.dx + 4, y + doc.dy + 6, doc.w - 8, 2);
+    ctx.fillRect(x + doc.dx + 4, y + doc.dy + 12, doc.w - 8, 2);
+    ctx.fillRect(x + doc.dx + 4, y + doc.dy + 18, doc.w - 12, 2);
+  });
+}
+
+function drawSignalParticle(from, to, progress, color) {
+  const x = from.x + (to.x - from.x) * progress;
+  const y = from.y + (to.y - from.y) * progress;
+
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(x, y, 7, 0, Math.PI * 2);
+  ctx.fill();
+
+  ctx.fillStyle = "rgba(255,255,255,0.65)";
+  ctx.beginPath();
+  ctx.arc(x, y, 3, 0, Math.PI * 2);
+  ctx.fill();
+}
+
+function drawQuestionSignalFlow() {
+  if (!technicalViewEnabled || !signalAnimation) {
+    return;
+  }
+
+  const user = getUserAnchor();
+  const pi = getRaspberryAnchor();
+
+  ctx.setLineDash([8, 8]);
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = "rgba(133, 255, 180, 0.18)";
+  ctx.beginPath();
+  ctx.moveTo(user.x, user.y);
+  ctx.lineTo(pi.x, pi.y);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  if (signalAnimation.stage === "toPi") {
+    drawSignalParticle(user, pi, signalAnimation.progress, "#7ff3ff");
+    return;
+  }
+
+  if (signalAnimation.stage === "thinking") {
+    drawThinkingPulse();
+    return;
+  }
+
+  if (signalAnimation.stage === "toUser") {
+    drawSignalParticle(pi, user, signalAnimation.progress, "#ffd87a");
+  }
+}
+
+function drawEsp32Node(node) {
+  if (!technicalViewEnabled) {
+    return;
+  }
+
+  const x = node.x * tileSize + tileSize / 2;
+  const y = node.y * tileSize + tileSize / 2;
+  const pulse = (Date.now() / 16 + node.x * 15 + node.y * 10) % 120;
+  const radius = 14 + pulse * 0.38;
+  const readings = getScanReadings();
+  const current = readings.find((entry) => entry.id === node.id);
+  const active = current ? current.active : false;
+  const occupancy = getOccupancyState();
+  const powered = occupancy.occupiedRoom === node.room;
+
+  if (active || powered) {
+    ctx.strokeStyle = "rgba(112, 243, 255, 0.18)";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x, y, radius, 0, Math.PI * 2);
+    ctx.stroke();
+  }
+
+  ctx.fillStyle = powered ? "#ffd980" : active ? "#7ff3ff" : "#7a5d4d";
+  ctx.fillRect(x - 8, y - 8, 16, 16);
+  ctx.fillStyle = powered ? "#6f4b1f" : active ? "#1a4b55" : "#2a1913";
+  ctx.fillRect(x - 5, y - 5, 10, 10);
+  ctx.fillStyle = powered ? "#fff1b6" : active ? "#d7ffff" : "#cda889";
+  ctx.fillRect(x - 2, y - 2, 4, 4);
+
+  ctx.strokeStyle = powered
+    ? "rgba(255, 214, 122, 0.52)"
+    : active
+      ? "rgba(127, 243, 255, 0.5)"
+      : "rgba(180, 134, 95, 0.25)";
+  ctx.beginPath();
+  ctx.arc(x, y, 22, 0, Math.PI * 2);
+  ctx.stroke();
+}
+
+function drawEsp32Links() {
+  if (!technicalViewEnabled) {
+    return;
+  }
+
+  const detected = getDetectedRoomFromNodes(getScanReadings());
+  const nodes = detected.activeTop.length ? detected.activeTop : getScanReadings().slice(0, 3);
+
+  nodes.forEach((node) => {
+    const x = node.x * tileSize + tileSize / 2;
+    const y = node.y * tileSize + tileSize / 2;
+    ctx.strokeStyle = "rgba(127, 243, 255, 0.16)";
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.lineTo(player.x, player.y);
+    ctx.stroke();
+  });
+}
+
 function drawWallShowcases() {
   const showcases = [
     { x: 2, y: 1 },
@@ -796,6 +1199,39 @@ function drawWallShowcases() {
     ctx.strokeRect(px, py + 6, tileSize * 2, 22);
     ctx.fillStyle = "rgba(255,245,214,0.16)";
     ctx.fillRect(px + 4, py + 10, tileSize * 2 - 8, 5);
+    });
+  }
+
+function drawRoomLighting() {
+  const occupancy = getOccupancyState();
+
+  ["Sala 1", "Sala 2"].forEach((roomShort) => {
+    const zone = roomZones.find((room) => room.short === roomShort);
+    if (!zone) {
+      return;
+    }
+
+    const px = zone.x * tileSize;
+    const py = zone.y * tileSize;
+    const w = zone.w * tileSize;
+    const h = zone.h * tileSize;
+
+    if (occupancy.occupiedRoom === roomShort) {
+      const glow = ctx.createRadialGradient(px + w / 2, py + h / 2, 40, px + w / 2, py + h / 2, Math.max(w, h) * 0.55);
+      glow.addColorStop(0, "rgba(255, 214, 142, 0.22)");
+      glow.addColorStop(1, "rgba(255, 214, 142, 0)");
+      ctx.fillStyle = glow;
+      ctx.fillRect(px, py, w, h);
+
+      const edgeLight = ctx.createLinearGradient(px, py, px, py + 60);
+      edgeLight.addColorStop(0, "rgba(255, 231, 178, 0.18)");
+      edgeLight.addColorStop(1, "rgba(255, 231, 178, 0)");
+      ctx.fillStyle = edgeLight;
+      ctx.fillRect(px, py, w, h);
+    } else {
+      ctx.fillStyle = "rgba(0, 0, 0, 0.34)";
+      ctx.fillRect(px, py, w, h);
+    }
   });
 }
 
@@ -927,6 +1363,12 @@ function drawMuseum() {
   }
 
   drawWallShowcases();
+  drawRoomLighting();
+  esp32Nodes.forEach(drawEsp32Node);
+  drawEsp32Links();
+  drawRaspberryLinks();
+  drawRaspberryPi();
+  drawQuestionSignalFlow();
   artworkSlots.forEach(drawPedestal);
   decorativeTorches.forEach(drawTorch);
   drawLabels();
@@ -934,42 +1376,11 @@ function drawMuseum() {
   drawAtmosphere();
 }
 
-function drawMinimap() {
-  const scaleX = minimap.width / cols;
-  const scaleY = minimap.height / rows;
-  miniCtx.clearRect(0, 0, minimap.width, minimap.height);
-
-  for (let y = 0; y < rows; y += 1) {
-    for (let x = 0; x < cols; x += 1) {
-      const tile = museumMap[y][x];
-      if (tile === "#") {
-        miniCtx.fillStyle = "#214b74";
-      } else if (tile === "D") {
-        miniCtx.fillStyle = "#9cf8ff";
-      } else {
-        miniCtx.fillStyle = "#dfe8f4";
-      }
-
-      miniCtx.fillRect(x * scaleX, y * scaleY, scaleX, scaleY);
-    }
-  }
-
-  artworkSlots.forEach((art) => {
-    miniCtx.fillStyle = art.visited ? "#7cfff0" : "#6f86ff";
-    miniCtx.fillRect(art.tileX * scaleX + 2, art.tileY * scaleY + 2, scaleX - 4, scaleY - 4);
-  });
-
-  miniCtx.fillStyle = "#ff68d4";
-  miniCtx.beginPath();
-  miniCtx.arc((player.x / tileSize) * scaleX, (player.y / tileSize) * scaleY, 5, 0, Math.PI * 2);
-  miniCtx.fill();
-}
-
 function gameLoop() {
   updatePlayer();
   updateHud();
+  updateSignalAnimation();
   drawMuseum();
-  drawMinimap();
   requestAnimationFrame(gameLoop);
 }
 
@@ -991,6 +1402,12 @@ questionForm.addEventListener("submit", (event) => {
   submitQuestion(questionInput.value);
   questionInput.value = "";
   questionInput.focus();
+});
+
+technicalToggle.addEventListener("click", () => {
+  technicalViewEnabled = !technicalViewEnabled;
+  technicalToggle.textContent = technicalViewEnabled ? "Tecnico: visible" : "Tecnico: oculto";
+  updateTechnicalPanel();
 });
 
 window.addEventListener("keydown", (event) => {
