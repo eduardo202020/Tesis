@@ -2,9 +2,9 @@
 
 \section{Propósito del capítulo}
 
-En MuseIQ, los datos de entrada constituyen el vínculo operativo entre el espacio físico del museo, el dispositivo del visitante y el conocimiento curatorial que sustenta la mediación digital. Por ello, este capítulo no se limita a enumerar tipos de datos, sino que define los insumos mínimos que el sistema necesita para reconocer contexto de visita, interpretar consultas y producir respuestas coherentes con la sala o zona en la que se encuentra el usuario.
+En MuseIQ, los datos de entrada constituyen el vínculo operativo entre el espacio físico del museo, el dispositivo del visitante y el conocimiento curatorial que sustenta la mediación digital. Por ello, este capítulo no se limita a enumerar tipos de datos, sino que define los insumos mínimos que la solución necesita para reconocer contexto de visita, interpretar consultas y producir respuestas coherentes con la sala o zona en la que se encuentra el usuario.
 
-La relevancia de este capítulo dentro de la tesis es metodológica. Antes de describir la arquitectura y el despliegue de la solución, resulta necesario establecer qué señales, contenidos y metadatos alimentan a cada subsistema. Esta especificación permite que el diseño posterior sea trazable a entradas concretas y verificables, en lugar de apoyarse en supuestos implícitos. En consecuencia, el capítulo organiza los datos de entrada de MuseIQ según su procedencia, función y nivel de estructuración, y fija criterios mínimos de calidad para su uso posterior en la solución propuesta.
+La relevancia de este capítulo dentro de la tesis es metodológica. Antes de describir la arquitectura y el despliegue de la solución, resulta necesario establecer qué señales, contenidos, configuraciones y metadatos alimentan su funcionamiento. Esta especificación permite que el diseño posterior sea trazable a entradas concretas y verificables, en lugar de apoyarse en supuestos implícitos. En consecuencia, el capítulo organiza los datos de entrada de MuseIQ según su procedencia, función y nivel de estructuración, y fija criterios mínimos de calidad para su uso posterior en la solución propuesta.
 
 \section{Clasificación general de los datos de entrada}
 
@@ -25,7 +25,7 @@ Esta clasificación es coherente con la base tecnológica del proyecto presentad
 
 La localización funcional propuesta para MuseIQ se apoya en una infraestructura de beacons BLE basada en ESP32. Cada beacon transmite un identificador detectable por el smartphone, permitiendo asociar la presencia de una señal a una sala o zona determinada del museo. En la práctica, esta lógica puede implementarse con formatos ampliamente difundidos como iBeacon o Eddystone, ambos adecuados para arquitecturas de proximidad sobre BLE advertising~\cite{appleibeacon,googleeddystone,espressifibeacon}.
 
-Para el sistema, el dato relevante no es solamente el paquete emitido por el beacon, sino su interpretación como identificador lógico del espacio museográfico. Por ello, cada emisor debe estar descrito por un conjunto mínimo de campos: un \texttt{beacon\_id} interno, el protocolo utilizado, el payload identificador difundido, la sala o zona asociada y los parámetros básicos de emisión. Esta información constituye el inventario de infraestructura del sistema y permite que las observaciones BLE tengan significado operacional dentro del museo.
+Para MuseIQ, el dato relevante no es solamente el paquete emitido por el beacon, sino su interpretación como identificador lógico del espacio museográfico. Por ello, cada emisor debe estar descrito por un conjunto mínimo de campos: un \texttt{beacon\_id} interno, el protocolo utilizado, el payload identificador difundido, la sala o zona asociada y los parámetros básicos de emisión. Esta información constituye el inventario mínimo de infraestructura y permite que las observaciones BLE tengan significado operacional dentro del museo.
 
 \subsection{Inventario de beacons y mapeo espacial}
 
@@ -37,7 +37,7 @@ En términos de diseño, este inventario es un dato de entrada tan importante co
 
 Durante la visita, el smartphone actúa como observador BLE y registra resultados de escaneo. Entre los campos más útiles para MuseIQ se encuentran el identificador detectado, el valor RSSI y la marca temporal de observación. La documentación oficial de Android expone precisamente estos elementos en los resultados de escaneo BLE, lo que permite usar RSSI como aproximación a cercanía relativa sin requerir conexión persistente con el beacon~\cite{android2026scanresult}.
 
-No obstante, RSSI es una señal inherentemente ruidosa. La literatura sobre localización indoor advierte que la intensidad recibida puede verse afectada por orientación del teléfono, obstáculos, reflexiones y heterogeneidad del hardware receptor~\cite{leitch2023indoor,verde2023blemuseum}. Por esta razón, MuseIQ no debe interpretar una sola lectura como evidencia suficiente de ubicación. La entrada funcional del sistema corresponde, más bien, a una serie temporal corta de observaciones BLE sobre la cual luego puedan aplicarse agregaciones, suavizados o reglas de inferencia en el capítulo de diseño.
+No obstante, RSSI es una señal inherentemente ruidosa. La literatura sobre localización indoor advierte que la intensidad recibida puede verse afectada por orientación del teléfono, obstáculos, reflexiones y heterogeneidad del hardware receptor~\cite{leitch2023indoor,verde2023blemuseum}. Por esta razón, MuseIQ no debe interpretar una sola lectura como evidencia suficiente de ubicación. La entrada funcional relevante corresponde, más bien, a una serie temporal corta de observaciones BLE que posteriormente podrá ser tratada mediante criterios de procesamiento definidos en el capítulo de diseño.
 
 En consecuencia, cada observación BLE debe conservar, como mínimo, una marca temporal, el identificador del beacon detectado y el valor de intensidad de señal recibida. Cuando el entorno o la biblioteca empleada lo permitan, también conviene registrar la potencia de transmisión reportada. Este conjunto resulta suficiente para sostener el reconocimiento funcional por sala o zona, que es el objetivo realista del proyecto.
 
@@ -60,7 +60,7 @@ En este marco, MuseIQ considera como entradas base las mediciones del aceleróme
 
 A partir de las señales sensoriales base, el sistema puede derivar variables como azimuth, pitch y roll. Estas variables resultan útiles para discriminar orientación horizontal, inclinación y rotación lateral del dispositivo. En el contexto museístico, su valor reside en apoyar decisiones tales como priorizar el contenido de una vitrina o pieza ubicada frente al visitante, o reforzar la consistencia entre el historial reciente de proximidad y la dirección aparente de observación.
 
-Aunque el cálculo detallado de estas variables corresponde al diseño de la solución, en este capítulo se fija su papel como entradas funcionales del sistema. También se reconoce que la calidad de estas mediciones depende del dispositivo y del entorno, por lo que deben acompañarse de metadatos de adquisición, tales como frecuencia de muestreo efectiva, disponibilidad de sensores y sincronización temporal con los eventos BLE.
+Aunque el cálculo detallado de estas variables corresponde al diseño de la solución, en este capítulo se fija su papel como entradas funcionales. También se reconoce que la calidad de estas mediciones depende del dispositivo y del entorno, por lo que deben acompañarse de metadatos de adquisición, tales como frecuencia de muestreo efectiva, disponibilidad de sensores y sincronización temporal con los eventos BLE.
 
 \section{Datos de interacción del visitante}
 
@@ -68,17 +68,17 @@ Aunque el cálculo detallado de estas variables corresponde al diseño de la sol
 
 La interacción por voz es uno de los componentes diferenciales de MuseIQ, tanto por accesibilidad como por naturalidad de uso. Desde el punto de vista de entradas, el sistema debe distinguir entre la señal acústica capturada por el micrófono y el dato funcional que realmente será procesado por la capa conversacional. En la práctica, la aplicación necesita registrar un identificador de consulta, una marca temporal, la transcripción producida por el servicio STT y, cuando la plataforma lo provea, un indicador de confianza o idioma detectado~\cite{android2026speech,wang2024voiceguide}.
 
-La documentación de Android advierte que el reconocimiento de voz puede implicar el envío de audio a servicios remotos, hecho que introduce implicancias de privacidad y consumo de recursos~\cite{android2026speech}. En coherencia con ello, MuseIQ debe privilegiar la minimización de datos: para la operación ordinaria del sistema, la transcripción y sus metadatos son más pertinentes que el almacenamiento persistente del audio crudo. Este criterio también refuerza la necesidad de definir reglas institucionales de tratamiento de datos personales en capítulos posteriores.
+La documentación de Android advierte que el reconocimiento de voz puede implicar el envío de audio a servicios remotos, hecho que introduce implicancias de privacidad y consumo de recursos~\cite{android2026speech}. En coherencia con ello, MuseIQ debe privilegiar la minimización de datos: para la operación ordinaria, la transcripción y sus metadatos son más pertinentes que el almacenamiento persistente del audio crudo. Este criterio también refuerza la necesidad de definir reglas institucionales de tratamiento de datos personales en capítulos posteriores.
 
 \subsection{Texto y eventos de interfaz}
 
 Además de la voz, MuseIQ requiere contemplar entradas equivalentes mediante texto escrito y eventos de interfaz. Un visitante puede formular consultas manualmente, seleccionar una pieza, activar una narración o elegir explícitamente una sala cuando el sistema necesite desambiguación. Estos eventos tienen valor contextual porque reducen incertidumbre y permiten al usuario corregir o complementar la interpretación automática del sistema.
 
-Por ello, el modelo de entrada debe incorporar al menos \texttt{typed\_text}, \texttt{ui\_event}, \texttt{selected\_piece\_id} o campos equivalentes según la interacción ofrecida por la aplicación. Esta multimodalidad mantiene consistencia con la orientación inclusiva del proyecto y mejora robustez frente a ruido ambiental, diferencias de acento o limitaciones temporales del reconocimiento por voz.
+Por ello, el esquema de entrada debe incorporar al menos \texttt{typed\_text}, \texttt{ui\_event}, \texttt{selected\_piece\_id} o campos equivalentes según la interacción ofrecida por la aplicación. Esta multimodalidad mantiene consistencia con la orientación inclusiva del proyecto y mejora robustez frente a ruido ambiental, diferencias de acento o limitaciones temporales del reconocimiento por voz.
 
 \subsection{Parámetros de síntesis de voz}
 
-Aunque la síntesis de voz pertenece al dominio de salida, su operación depende de parámetros de entrada que deben estar definidos en el sistema. Entre ellos destacan idioma, voz seleccionada, tasa de locución, tono y criterios de segmentación de respuestas. Android proporciona soporte nativo para estas configuraciones mediante la API de \textit{Text-to-Speech}~\cite{android2026tts}. En consecuencia, MuseIQ debe tratar estos parámetros como datos de configuración de sesión, pues afectan de manera directa la calidad de la experiencia interpretativa.
+Aunque la síntesis de voz pertenece al dominio de salida, su operación depende de parámetros de entrada que deben estar previamente definidos. Entre ellos destacan idioma, voz seleccionada, tasa de locución, tono y criterios de segmentación de respuestas. Android proporciona soporte nativo para estas configuraciones mediante la API de \textit{Text-to-Speech}~\cite{android2026tts}. En consecuencia, MuseIQ debe tratar estos parámetros como datos de configuración de sesión, pues afectan de manera directa la calidad de la experiencia interpretativa.
 
 \section{Datos curatoriales para respuestas contextualizadas}
 
@@ -98,7 +98,7 @@ La investigación revisada para este capítulo sugiere además que la organizaci
 
 Otro aspecto clave es la definición de la unidad recuperable que alimentará la capa RAG. Un documento curatorial completo puede ser demasiado amplio o heterogéneo para su recuperación directa; por ello, el sistema debe prever una segmentación en fragmentos o \textit{chunks} que conserven relación explícita con su documento de origen, la sala, la pieza y el idioma correspondiente. Esta estructura favorece recuperación más precisa y hace posible citar o rastrear la evidencia que sustenta una respuesta.
 
-Así, MuseIQ requiere al menos las entidades lógicas \texttt{documento curatorial} y \texttt{chunk recuperable}, relacionadas entre sí mediante identificadores estables. Esta decisión no pertenece todavía a la implementación detallada del índice, pero sí constituye una definición necesaria del diseño de datos de entrada.
+Así, MuseIQ requiere al menos las entidades lógicas \texttt{documento curatorial} y \texttt{chunk recuperable}, relacionadas entre sí mediante identificadores estables. Esta decisión no pertenece todavía a la implementación detallada del índice, pero sí constituye una definición necesaria de los datos que alimentarán la recuperación posterior.
 
 \section{Organización lógica e integridad de los datos}
 
@@ -106,7 +106,7 @@ Así, MuseIQ requiere al menos las entidades lógicas \texttt{documento curatori
 
 La integración de señales físicas, eventos de interacción y conocimiento curatorial exige un esquema coherente de identificadores internos. MuseIQ debe manejar, como mínimo, identificadores estables para museo, sala, zona, beacon, pieza, documento curatorial, chunk recuperable y sesión de interacción. Sin este principio, no sería posible unir observaciones BLE con contexto museográfico, ni filtrar el corpus de acuerdo con la ubicación o la consulta del visitante.
 
-Sobre esta base, puede plantearse un modelo lógico mínimo compuesto por entidades como \texttt{Sala}, \texttt{Beacon}, \texttt{Pieza}, \texttt{DocumentoCuratorial}, \texttt{Chunk}, \texttt{EventoBLE}, \texttt{EventoSensor} y \texttt{Consulta}. Lo importante en esta etapa no es fijar un esquema físico de base de datos, sino establecer las relaciones imprescindibles entre contexto espacial, interacción y conocimiento institucional.
+Sobre esta base, puede plantearse un modelo lógico mínimo compuesto por entidades como \texttt{Sala}, \texttt{Beacon}, \texttt{Pieza}, \texttt{DocumentoCuratorial}, \texttt{Chunk}, \texttt{EventoBLE}, \texttt{EventoSensor} y \texttt{Consulta}. Lo importante en esta etapa no es fijar un esquema físico de base de datos ni una arquitectura de persistencia, sino establecer las relaciones imprescindibles entre contexto espacial, interacción y conocimiento institucional.
 
 \begin{figure}[!ht]
     \centering
