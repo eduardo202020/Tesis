@@ -250,7 +250,7 @@ Si se ensaya de forma exploratoria el segundo enfoque, y se asume que cada visit
 
 \section{Flujo de ingresos proyectados}
 
-La proyección de ingresos para el caso piloto debe mantenerse prudente. Dado que la tesis ya delimitó un museo específico como punto de partida, no resulta metodológicamente consistente construir desde ahora una expansión agresiva a decenas de instituciones. En cambio, la proyección más defendible es la que parte del piloto en Sipán y distingue claramente entre ingreso único por implementación e ingresos recurrentes por mantenimiento técnico y por servicio de IA y analítica.
+La proyección de ingresos para el caso piloto debe mantenerse prudente. Dado que la tesis ya delimitó un museo específico como punto de partida, no resulta metodológicamente consistente construir desde ahora una expansión agresiva a decenas de instituciones. En cambio, la proyección más defendible es la que parte del piloto en Sipán y distingue claramente entre ingreso único por implementación e ingresos recurrentes por mantenimiento técnico y por servicio de IA y analítica. Además, para alinearse con el sílabo del Taller de Investigación, el flujo se extiende a un horizonte de diez años, suficiente para observar la maduración de la capa recurrente sin abandonar el enfoque conservador del caso piloto.
 
 Bajo el escenario base se asume que en el primer año se concreta la implementación completa en el Museo Tumbas Reales de Sipán por S/5\,100. A partir del segundo año, la institución mantiene dos componentes recurrentes: un mantenimiento técnico básico de S/900 anuales y un servicio recurrente de IA y analítica valorizado en S/10\,200 anuales para el nivel base de uso. Adicionalmente, se considera un servicio extra menor en 2027, valorizado en S/500. Este enfoque mantiene la prudencia del piloto, pero incorpora de manera más realista el costo operativo de la capa conversacional y deja abierta la posibilidad de cobrar sobreconsumo de IA si el nivel de interacción por voz supera el umbral contratado.
 
@@ -258,29 +258,34 @@ Bajo el escenario base se asume que en el primer año se concreta la implementac
 	\centering
 	\scriptsize
 	\setlength{\tabcolsep}{3pt}
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{l c c c c c}
+	\begin{tabular}{c c c c c c}
 		\hline
 		\textbf{Año} & \textbf{Implementación} & \textbf{Mant. técnico} & \textbf{IA y analítica} & \textbf{Serv. adicionales} & \textbf{Total} \\
 		\hline
 		2026 & 5,100 & 0   & 0      & 0   & 5,100 \\
 		2027 & 0   & 900 & 10,200 & 500 & 11,600 \\
 		2028 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2029 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2030 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2031 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2032 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2033 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2034 & 0   & 900 & 10,200 & 0   & 11,100 \\
+		2035 & 0   & 900 & 10,200 & 0   & 11,100 \\
 		\hline
-		\textbf{Total acumulado} & \textbf{5,100} & \textbf{1,800} & \textbf{20,400} & \textbf{500} & \textbf{27,800} \\
+		\textbf{Total acumulado} & \textbf{5,100} & \textbf{8,100} & \textbf{91,800} & \textbf{500} & \textbf{105,500} \\
 		\hline
-	\end{tabular}%
-	}
-	\caption[Flujo de ingresos proyectados para el piloto de Sipán]{Flujo de ingresos proyectados para MuseIQ en el escenario base del piloto del Museo Tumbas Reales de Sipán, incorporando mantenimiento técnico y servicio recurrente de IA y analítica. Fuente: elaboración propia con base en los supuestos del modelo.}
+	\end{tabular}
+	\caption[Flujo de ingresos proyectados para el piloto de Sipán]{Flujo de ingresos proyectados para MuseIQ en el escenario base del piloto del Museo Tumbas Reales de Sipán a lo largo de diez años, incorporando mantenimiento técnico y servicio recurrente de IA y analítica. Fuente: elaboración propia con base en los supuestos del modelo.}
 	\label{tab:flujo-ingresos-sipan}
 \end{table}
 
-Con esta estructura, el flujo acumulado de los tres primeros años asciende a S/27\,800. El comportamiento económico cambia de manera importante frente a la versión simplificada previa: el mantenimiento técnico permanece como un rubro menor, mientras que el servicio recurrente de IA y analítica se convierte en la principal fuente de ingreso anual después de la implementación. Este patrón es más coherente con la arquitectura real de MuseIQ, en la que el costo operativo no desaparece tras el despliegue inicial, sino que depende del uso efectivo de la capa conversacional.
+Con esta estructura, el flujo acumulado del horizonte 2026--2035 asciende a S/105\,500. El comportamiento económico cambia de manera importante frente a la versión simplificada previa: el mantenimiento técnico permanece como un rubro menor, mientras que el servicio recurrente de IA y analítica se convierte en la principal fuente de ingreso anual después de la implementación. Este patrón es más coherente con la arquitectura real de MuseIQ, en la que el costo operativo no desaparece tras el despliegue inicial, sino que depende del uso efectivo de la capa conversacional.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.80\textwidth]{flujo_ingresos_10_anios.png}
-	\caption[Flujo de ingresos del piloto base en Sipán]{Comportamiento del flujo de ingresos del piloto base de MuseIQ en Sipán durante los tres primeros años de operación. Fuente: elaboración propia.}
+	\caption[Flujo de ingresos del piloto base en Sipán]{Comportamiento del flujo de ingresos del piloto base de MuseIQ en Sipán durante el horizonte de diez años. Fuente: elaboración propia.}
 	\label{fig:flujo-ingresos-piloto-sipan}
 \end{figure}
 
@@ -294,23 +299,29 @@ Para conservar consistencia metodológica, se mantienen cuatro supuestos. Primer
 	\centering
 	\scriptsize
 	\setlength{\tabcolsep}{3pt}
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{l c c c c}
+	\begin{tabular}{c c c c c}
 		\hline
-		\textbf{Escenario de expansión} & \textbf{2026 (S/)} & \textbf{2027 (S/)} & \textbf{2028 (S/)} & \textbf{Acumulado 2026--2028 (S/)} \\
+		\textbf{Año} & \textbf{Piloto base} & \textbf{2 museos nuevos/año} & \textbf{3 museos nuevos/año} & \textbf{4 museos nuevos/año} \\
 		\hline
-		Piloto base sin expansión & 5,100 & 11,100 & 11,100 & 27,300 \\
-		2 museos nuevos por año & 5,100 & 21,300 & 43,500 & 69,900 \\
-		3 museos nuevos por año & 5,100 & 26,400 & 59,700 & 91,200 \\
-		4 museos nuevos por año & 5,100 & 31,500 & 75,900 & 112,500 \\
+		2026 & 5,100 & 5,100 & 5,100 & 5,100 \\
+		2027 & 11,100 & 21,300 & 26,400 & 31,500 \\
+		2028 & 11,100 & 43,500 & 59,700 & 75,900 \\
+		2029 & 11,100 & 65,700 & 93,000 & 120,300 \\
+		2030 & 11,100 & 87,900 & 126,300 & 164,700 \\
+		2031 & 11,100 & 110,100 & 159,600 & 209,100 \\
+		2032 & 11,100 & 132,300 & 192,900 & 253,500 \\
+		2033 & 11,100 & 154,500 & 226,200 & 297,900 \\
+		2034 & 11,100 & 176,700 & 259,500 & 342,300 \\
+		2035 & 11,100 & 198,900 & 292,800 & 386,700 \\
 		\hline
-	\end{tabular}%
-	}
-	\caption[Escenarios exploratorios de escalamiento comercial de MuseIQ]{Escenarios exploratorios de escalamiento comercial de MuseIQ a partir del piloto de Sipán, considerando únicamente precio de implementación e ingresos recurrentes estructurales. Fuente: elaboración propia con base en los supuestos del modelo.}
+		\textbf{Acumulado 2026--2035} & \textbf{105,000} & \textbf{996,000} & \textbf{1,441,500} & \textbf{1,887,000} \\
+		\hline
+	\end{tabular}
+	\caption[Escenarios exploratorios de escalamiento comercial de MuseIQ]{Escenarios exploratorios de escalamiento comercial de MuseIQ a diez años a partir del piloto de Sipán, considerando únicamente precio de implementación e ingresos recurrentes estructurales. Fuente: elaboración propia con base en los supuestos del modelo.}
 	\label{tab:extrapolacion-ingresos-museiq}
 \end{table}
 
-La extrapolación muestra un patrón claro. Una vez cubierta la primera implementación, el crecimiento del negocio no depende tanto de repetir ventas aisladas de hardware, sino de aumentar gradualmente la base de museos activos que pagan servicios recurrentes. Bajo un escenario de incorporación de dos museos nuevos por año, el ingreso acumulado de los tres primeros años podría elevarse a S/69\,900. Si el ritmo llegara a tres museos por año, el acumulado alcanzaría S/91\,200, y con cuatro museos por año ascendería a S/112\,500.
+La extrapolación muestra un patrón claro. Una vez cubierta la primera implementación, el crecimiento del negocio no depende tanto de repetir ventas aisladas de hardware, sino de aumentar gradualmente la base de museos activos que pagan servicios recurrentes. Bajo un escenario de incorporación de dos museos nuevos por año, el ingreso acumulado del horizonte 2026--2035 podría elevarse a S/996\,000. Si el ritmo llegara a tres museos por año, el acumulado alcanzaría S/1\,441\,500, y con cuatro museos por año ascendería a S/1\,887\,000.
 
 La utilidad analítica de esta proyección no radica en afirmar que tal crecimiento ocurrirá de manera automática, sino en evidenciar la sensibilidad positiva del modelo frente a la replicación institucional. MuseIQ tiene una barrera de entrada moderada por museo, pero gana escala económica cuando la base instalada comienza a producir ingresos recurrentes estables. Por ello, museos como Brüning, Sicán o Túcume aparecen no solo como opciones de mercado objetivo, sino como nodos plausibles de expansión una vez que el piloto de Sipán haya sido validado.
 

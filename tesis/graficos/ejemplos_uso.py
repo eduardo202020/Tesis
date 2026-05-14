@@ -34,6 +34,166 @@ from generar_grafico import (
 )
 
 
+ANIOS_PROYECCION = list(range(2026, 2036))
+HORIZONTE_EVALUACION = list(range(1, 11))
+PRECIO_IMPLEMENTACION = 5100
+COSTO_IMPLEMENTACION = 3900
+PRECIO_RECURRENTE_BASE = 11100
+COSTO_RECURRENTE_BASE = 9430
+INVERSION_INICIAL = 2500
+REPOSICION_TECNICA = 1050
+TASA_DESCUENTO = 0.12
+GASTO_FIJO_BASE = 2400
+CRECIMIENTO_GASTO_FIJO = 0.03
+
+
+def _gasto_fijo_anual(anio):
+    return round(GASTO_FIJO_BASE * ((1 + CRECIMIENTO_GASTO_FIJO) ** (anio - 1)))
+
+
+def _serie_ingresos_piloto():
+    serie = []
+    for anio in ANIOS_PROYECCION:
+        if anio == 2026:
+            total = 5100
+        elif anio == 2027:
+            total = 11600
+        else:
+            total = 11100
+        serie.append(total)
+    return serie
+
+
+def _serie_ingresos_expansion(nuevos_por_anio):
+    serie = []
+    museos_activos = 1
+
+    for anio in ANIOS_PROYECCION:
+        if anio == 2026:
+            total = 5100
+        else:
+            total = nuevos_por_anio * PRECIO_IMPLEMENTACION + museos_activos * PRECIO_RECURRENTE_BASE
+            museos_activos += nuevos_por_anio
+        serie.append(total)
+
+    return serie
+
+
+def _serie_museos_activos(nuevos_por_anio):
+    serie = []
+    museos_activos = 1
+
+    for anio in ANIOS_PROYECCION:
+        serie.append(museos_activos)
+        if anio != 2026:
+            museos_activos += nuevos_por_anio
+
+    return serie
+
+
+def _flujo_financiero_proyecto(
+    nuevos_por_anio,
+    precio_recurrente=PRECIO_RECURRENTE_BASE,
+    costo_recurrente=COSTO_RECURRENTE_BASE,
+):
+    flujos = [-INVERSION_INICIAL]
+    filas = []
+
+    for anio in HORIZONTE_EVALUACION:
+        museos_nuevos = 1 if anio == 1 else nuevos_por_anio
+        activos_previos = 0 if anio == 1 else 1 + (anio - 2) * nuevos_por_anio
+        ingresos = museos_nuevos * PRECIO_IMPLEMENTACION + activos_previos * precio_recurrente
+        costo_impl = museos_nuevos * COSTO_IMPLEMENTACION
+        costo_rec = activos_previos * costo_recurrente
+        costo_fijo = _gasto_fijo_anual(anio)
+        flujo_operativo = ingresos - costo_impl - costo_rec - costo_fijo
+        reposicion = REPOSICION_TECNICA if anio == 6 else 0
+        flujo_proyecto = flujo_operativo - reposicion
+
+        filas.append(
+            {
+                "anio": anio,
+                "museos_nuevos": museos_nuevos,
+                "activos_previos": activos_previos,
+                "ingresos": ingresos,
+                "costo_impl": costo_impl,
+                "costo_rec": costo_rec,
+                "costo_fijo": costo_fijo,
+                "flujo_operativo": flujo_operativo,
+                "reposicion": reposicion,
+                "flujo_proyecto": flujo_proyecto,
+            }
+        )
+        flujos.append(flujo_proyecto)
+
+    return flujos, filas
+
+
+def _calcular_van(flujos):
+    return sum(flujo / ((1 + TASA_DESCUENTO) ** indice) for indice, flujo in enumerate(flujos))
+
+
+def _calcular_tir(flujos):
+    def funcion_tir(tasa):
+        return sum(flujo / ((1 + tasa) ** indice) for indice, flujo in enumerate(flujos))
+
+    inferior = -0.99
+    superior = 5.0
+    while funcion_tir(superior) > 0 and superior < 1_000_000:
+        superior *= 2
+
+    for _ in range(200):
+        medio = (inferior + superior) / 2
+        if funcion_tir(medio) > 0:
+            inferior = medio
+        else:
+            superior = medio
+
+    return (inferior + superior) / 2
+
+
+def _calcular_relacion_bc(
+    nuevos_por_anio,
+    precio_recurrente=PRECIO_RECURRENTE_BASE,
+    costo_recurrente=COSTO_RECURRENTE_BASE,
+):
+    valor_actual_ingresos = 0
+    valor_actual_costos = INVERSION_INICIAL
+
+    for anio in HORIZONTE_EVALUACION:
+        museos_nuevos = 1 if anio == 1 else nuevos_por_anio
+        activos_previos = 0 if anio == 1 else 1 + (anio - 2) * nuevos_por_anio
+        ingresos = museos_nuevos * PRECIO_IMPLEMENTACION + activos_previos * precio_recurrente
+        costos = (
+            museos_nuevos * COSTO_IMPLEMENTACION
+            + activos_previos * costo_recurrente
+            + _gasto_fijo_anual(anio)
+        )
+        if anio == 6:
+            costos += REPOSICION_TECNICA
+
+        valor_actual_ingresos += ingresos / ((1 + TASA_DESCUENTO) ** anio)
+        valor_actual_costos += costos / ((1 + TASA_DESCUENTO) ** anio)
+
+    return valor_actual_ingresos / valor_actual_costos
+
+
+def _calcular_payback(flujos, descontado=False):
+    acumulado = 0
+
+    for indice, flujo in enumerate(flujos):
+        valor = flujo / ((1 + TASA_DESCUENTO) ** indice) if descontado else flujo
+        previo = acumulado
+        acumulado += valor
+
+        if indice > 0 and acumulado >= 0:
+            if valor == 0:
+                return indice
+            return (indice - 1) + ((-previo) / valor)
+
+    return None
+
+
 def _valores_sensibilidad_van_cobro_variable():
     # Se modela un contrato con piso fijo que cubre el uso base
     # y un sobrecargo por sobreconsumo cuando la voz supera
@@ -43,12 +203,9 @@ def _valores_sensibilidad_van_cobro_variable():
         "Base 20%": 8530,
         "Alto 35%": 22349,
     }
-    van_base = 3383
     costo_base = 8530
     precio_base = 10200
     factor_sobrecargo = 1.10
-    margen_base = 10200 - 8530
-    factor_activos_descuento = 6.63
 
     categorias = []
     valores = []
@@ -59,8 +216,12 @@ def _valores_sensibilidad_van_cobro_variable():
             precio = precio_base
         else:
             precio = precio_base + factor_sobrecargo * (costo - costo_base)
-        margen = precio - costo
-        van = round(van_base + (margen - margen_base) * factor_activos_descuento)
+        flujos, _ = _flujo_financiero_proyecto(
+            1,
+            precio_recurrente=900 + precio,
+            costo_recurrente=900 + costo,
+        )
+        van = round(_calcular_van(flujos))
         categorias.append(categoria)
         valores.append(van)
         etiquetas.append(f"S/ {van:,.0f}")
@@ -237,8 +398,8 @@ def generar_estructura_ingresos():
 
 def generar_flujo_ingresos():
     grafico_lineas(
-        x=[2026, 2027, 2028],
-        y=[5100, 11600, 11100],
+        x=ANIOS_PROYECCION,
+        y=_serie_ingresos_piloto(),
         titulo="Flujo de ingresos del piloto base en Sipan",
         eje_x="Anio",
         eje_y="Ingreso total anual (S/)",
@@ -249,12 +410,12 @@ def generar_flujo_ingresos():
 
 def generar_instituciones_activas():
     grafico_lineas_multiples(
-        x=[2026, 2027, 2028],
+        x=ANIOS_PROYECCION,
         series=[
-            {"nombre": "Piloto base", "y": [1, 1, 1]},
-            {"nombre": "2 museos nuevos/anio", "y": [1, 3, 5]},
-            {"nombre": "3 museos nuevos/anio", "y": [1, 4, 7]},
-            {"nombre": "4 museos nuevos/anio", "y": [1, 5, 9]},
+            {"nombre": "Piloto base", "y": _serie_museos_activos(0)},
+            {"nombre": "2 museos nuevos/anio", "y": _serie_museos_activos(2)},
+            {"nombre": "3 museos nuevos/anio", "y": _serie_museos_activos(3)},
+            {"nombre": "4 museos nuevos/anio", "y": _serie_museos_activos(4)},
         ],
         titulo="Museos activos acumulados segun escenario de expansion",
         eje_x="Anio",
@@ -265,23 +426,23 @@ def generar_instituciones_activas():
 
 def generar_escenarios_ingresos():
     grafico_lineas_multiples(
-        x=[2026, 2027, 2028],
+        x=ANIOS_PROYECCION,
         series=[
             {
                 "nombre": "Piloto base",
-                "y": [5100, 11100, 11100],
+                "y": _serie_ingresos_expansion(0),
             },
             {
                 "nombre": "2 museos nuevos/anio",
-                "y": [5100, 21300, 43500],
+                "y": _serie_ingresos_expansion(2),
             },
             {
                 "nombre": "3 museos nuevos/anio",
-                "y": [5100, 26400, 59700],
+                "y": _serie_ingresos_expansion(3),
             },
             {
                 "nombre": "4 museos nuevos/anio",
-                "y": [5100, 31500, 75900],
+                "y": _serie_ingresos_expansion(4),
             },
         ],
         titulo="Escenarios de ingresos segun ritmo de expansion comercial",
@@ -303,28 +464,32 @@ def generar_principios_museiq():
 # Capitulo 10
 def generar_composicion_inversion():
     grafico_pastel(
-        categorias=["Base de prototipo", "Adecuacion preoperativa"],
-        valores=[1055, 1500],
+        categorias=["Base tangible reutilizable", "Adecuacion preoperativa y capital de trabajo"],
+        valores=[1050, 1450],
         titulo="Composicion de la inversion inicial de MuseIQ",
         nombre_salida="cap10/composicion_inversion_inicial.png",
     )
 
 
 def generar_flujo_economico():
+    _, filas = _flujo_financiero_proyecto(1)
     grafico_lineas_multiples(
-        x=[1, 2, 3, 4, 5],
+        x=HORIZONTE_EVALUACION,
         series=[
             {
                 "nombre": "Ingresos",
-                "y": [5100, 16200, 27300, 38400, 49500],
+                "y": [fila["ingresos"] for fila in filas],
             },
             {
-                "nombre": "Costos totales",
-                "y": [6300, 15802, 25306, 34813, 44321],
+                "nombre": "Costos desembolsables",
+                "y": [
+                    fila["costo_impl"] + fila["costo_rec"] + fila["costo_fijo"]
+                    for fila in filas
+                ],
             },
             {
-                "nombre": "Flujo neto",
-                "y": [-1200, 398, 1994, 3587, 5179],
+                "nombre": "Flujo neto de caja",
+                "y": [fila["flujo_operativo"] for fila in filas],
             },
         ],
         titulo="Flujo economico anual de MuseIQ en el escenario base",
@@ -348,14 +513,19 @@ def generar_sensibilidad_van():
 
 
 def generar_flujo_expansion_escenarios():
+    series = []
+    for nuevos_por_anio in [1, 2, 3, 4]:
+        flujos, _ = _flujo_financiero_proyecto(nuevos_por_anio)
+        series.append(
+            {
+                "nombre": f"{nuevos_por_anio} museo{'s' if nuevos_por_anio > 1 else ''}/anio",
+                "y": flujos[1:],
+            }
+        )
+
     grafico_lineas_multiples(
-        x=[1, 2, 3, 4, 5],
-        series=[
-            {"nombre": "1 museo/anio", "y": [-1200, 398, 1994, 3587, 5179]},
-            {"nombre": "2 museos/anio", "y": [-1200, 1598, 4864, 8127, 11389]},
-            {"nombre": "3 museos/anio", "y": [-1200, 2798, 7734, 12667, 17599]},
-            {"nombre": "4 museos/anio", "y": [-1200, 3998, 10604, 17207, 23809]},
-        ],
+        x=HORIZONTE_EVALUACION,
+        series=series,
         titulo="Flujo neto anual segun ritmo de expansion comercial",
         eje_x="Anio",
         eje_y="Flujo neto anual (S/)",
@@ -364,15 +534,21 @@ def generar_flujo_expansion_escenarios():
 
 
 def generar_van_expansion():
+    categorias = []
+    valores = []
+    etiquetas = []
+
+    for nuevos_por_anio in [1, 2, 3, 4]:
+        flujos, _ = _flujo_financiero_proyecto(nuevos_por_anio)
+        van = round(_calcular_van(flujos))
+        categorias.append(f"{nuevos_por_anio} museo{'s' if nuevos_por_anio > 1 else ''} nuevos/anio")
+        valores.append(van)
+        etiquetas.append(f"S/ {van:,.0f}")
+
     grafico_barras_horizontales(
-        categorias=[
-            "1 museo nuevo/anio",
-            "2 museos nuevos/anio",
-            "3 museos nuevos/anio",
-            "4 museos nuevos/anio",
-        ],
-        valores=[3383, 12792, 22200, 31609],
-        etiquetas=["S/ 3,383", "S/ 12,792", "S/ 22,200", "S/ 31,609"],
+        categorias=categorias,
+        valores=valores,
+        etiquetas=etiquetas,
         titulo="VAN de MuseIQ segun escenarios de expansion",
         eje_x="Valor actual neto (S/)",
         eje_y="Escenario",
