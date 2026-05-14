@@ -1,9 +1,107 @@
-\chapter{Normas Técnicas}
+\chapter{Normas Técnicas y Estándares Aplicados}
 
-\section{Normas de desarrollo y documentación}
+\section{Propósito del capítulo}
 
-Indica aquí las normas, estándares o lineamientos técnicos adoptados durante el desarrollo del proyecto.
+Luego de haber descrito la arquitectura, los subsistemas, la integración y la viabilidad económica de la solución propuesta, corresponde explicitar el marco normativo y de buenas prácticas técnicas que orienta su desarrollo. En una tesis aplicada, este capítulo no tiene como finalidad afirmar una certificación formal del prototipo, sino demostrar que las decisiones de diseño, implementación y gestión de datos se apoyan en estándares reconocidos y en criterios de cumplimiento técnicamente defendibles.
 
-\section{Normas sobre gestión de datos}
+En el caso de la solución propuesta, esta necesidad es especialmente relevante porque la solución combina infraestructura BLE, software móvil, backend conversacional, datos curatoriales y registros de interacción del visitante. Por ello, el proyecto no puede evaluarse únicamente por su funcionalidad, sino también por la calidad de sus interfaces, la trazabilidad de sus datos, la seguridad básica de su operación y la interoperabilidad de sus componentes.
 
-Especifica aquí las políticas, criterios o buenas prácticas aplicadas al manejo de datos.
+\section{Identificación de normas y estándares relevantes}
+
+El marco aplicado en la solución propuesta combina normas formales, estándares de interoperabilidad y lineamientos de buenas prácticas. Algunos se vinculan con la ingeniería de software en sentido amplio, otros con la comunicación entre dispositivos, otros con seguridad de aplicaciones y APIs, y otros con calidad y gobierno de datos~\cite{iso12207,bluetoothcore62,rfc8259,owaspapi2023,owaspllm,iso25012,ley29733,cidoccrm,lido,dublincore}.
+
+\begin{table}[!ht]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{7.4cm}}
+        \hline
+        \textbf{Ámbito} & \textbf{Norma o estándar} & \textbf{Pertinencia para la solución propuesta} \\
+        \hline
+        Ciclo de vida del software & ISO/IEC/IEEE 12207 & Marco para organizar procesos, responsabilidades, mantenimiento, documentación y evolución modular del software. \\
+        Comunicación de proximidad & Bluetooth Core Specification & Base de interoperabilidad para advertising BLE, \textit{service data} y posibles extensiones GATT entre beacon y aplicación móvil. \\
+        Intercambio de datos & RFC 8259 (JSON) & Estructura el contrato de datos entre la app móvil y MuseRAG mediante cargas livianas, legibles y portables. \\
+        Seguridad de APIs & OWASP API Security Top 10 & Proporciona criterios para validación de entradas, reducción de superficie expuesta y manejo seguro de endpoints. \\
+        Seguridad de sistemas con LLM & OWASP Top 10 for LLM Applications & Orienta el tratamiento de entradas no confiables, el anclaje en fuentes y la reducción de riesgos conversacionales. \\
+        Calidad de datos & ISO/IEC 25012 & Sirve como referencia para consistencia, completitud, actualidad y trazabilidad del dato operativo y curatorial. \\
+        Metadatos patrimoniales & CIDOC CRM, LIDO y Dublin Core & Aportan principios de modelado e interoperabilidad para describir salas, piezas, documentos y fuentes curatoriales. \\
+        Protección de datos & Ley peruana N.\ 29733 & Introduce principios de minimización, finalidad y cuidado sobre transcripciones, sesiones y datos potencialmente personales. \\
+        \hline
+    \end{tabular}
+    \caption[Normas y estándares relevantes para la solución propuesta]{Resumen de normas, estándares y lineamientos utilizados como referencia técnica en el diseño e implementación de la solución propuesta. Fuente: elaboración propia con base en la bibliografía citada.}
+    \label{tab:normas-estandares-museiq}
+\end{table}
+
+La Tabla~\ref{tab:normas-estandares-museiq} muestra que el capítulo no se limita a una sola familia normativa. En realidad, la solución propuesta exige una articulación entre referencias de ingeniería de software, comunicación inalámbrica, calidad de datos, interoperabilidad documental y seguridad de sistemas conversacionales.
+
+\section{Aplicación de las normas en el diseño de la solución propuesta}
+
+\subsection{Ciclo de vida del software, modularidad y documentación}
+
+ISO/IEC/IEEE 12207 establece un marco de procesos para el ciclo de vida del software, incluyendo desarrollo, operación, mantenimiento y mejora~\cite{iso12207}. En la solución propuesta, esta referencia no se adopta como certificación formal, sino como criterio estructurante del proyecto. Su influencia se observa en la separación explícita de responsabilidades entre \texttt{iot-museiq}, \texttt{iot} y \texttt{museRAG}, así como en la delimitación de contratos entre adquisición BLE, experiencia móvil, persistencia local y backend conversacional.
+
+Esta modularidad tiene dos efectos importantes. El primero es técnico: permite modificar el \textit{payload} BLE, el motor de recuperación o la interfaz móvil sin rehacer el sistema completo. El segundo es documental: facilita que cada capa tenga su propio conjunto de decisiones, artefactos y pruebas, algo coherente con un enfoque de ciclo de vida basado en componentes y responsabilidades diferenciadas.
+
+\subsection{Comunicación BLE e interoperabilidad entre capas}
+
+La infraestructura de proximidad de la solución propuesta se apoya en Bluetooth Low Energy, por lo que la Bluetooth Core Specification constituye la referencia principal para su interoperabilidad~\cite{bluetoothcore62}. En el prototipo, esta influencia se concreta en el uso de advertising BLE con \textit{service data}, identificadores de sala y nodo, y una extensión potencial mediante características GATT de lectura, escritura y notificación.
+
+Desde el punto de vista normativo, esto significa que la capa IoT no se comporta como un canal propietario aislado, sino como una implementación compatible con la lógica general del ecosistema BLE. El valor académico de esta decisión es importante: la solución propuesta no depende de un acoplamiento cerrado entre emisor y receptor, sino de una tecnología ampliamente soportada por ESP32 y por smartphones Android.
+
+La interoperabilidad entre la aplicación móvil y MuseRAG, por su parte, se apoya en cargas estructuradas bajo JSON, en coherencia con RFC 8259~\cite{rfc8259}. Esto se refleja en el \textit{payload} contextual que contiene campos como \texttt{pregunta}, \texttt{museo}, \texttt{sala}, \texttt{obra}, \texttt{session\_id} y \texttt{artwork\_context}. El uso de JSON aporta tres ventajas: legibilidad, portabilidad entre servicios y facilidad de validación mediante modelos tipados en el backend.
+
+\subsection{Seguridad de API y seguridad de la capa conversacional}
+
+El backend de la solución propuesta expone una API orientada a consultas contextuales del visitante. Por esa razón, OWASP API Security Top 10 resulta pertinente como marco de referencia para la reducción de riesgos comunes en APIs~\cite{owaspapi2023}. En la solución propuesta, esta referencia se traduce en decisiones concretas: limitar el contrato principal a una carga estructurada y acotada, validar entradas mediante modelos explícitos, distinguir rutas auxiliares de operación respecto de la ruta orientada al visitante y evitar exponer más datos de los necesarios para responder.
+
+La capa conversacional añade un riesgo adicional: las entradas del usuario no pueden asumirse como confiables. El visitante puede formular preguntas ambiguas, manipulativas o incluso orientadas a desviar el comportamiento del sistema. En ese contexto, OWASP Top 10 for LLM Applications sirve como guía para tratar la consulta como entrada no confiable, reforzar el anclaje en fuentes recuperadas y limitar la respuesta al contexto curatorial institucional~\cite{owaspllm}. Esto se alinea con la lógica ya definida en MuseRAG: filtrar por museo, sala u obra cuando el contexto está disponible y devolver fragmentos fuente junto con la respuesta.
+
+No se afirma aquí que el prototipo haya agotado todas las medidas de seguridad posibles. Más bien, se sostiene que el diseño ya incorpora una línea de defensa coherente con buenas prácticas actuales: validación estructural de solicitudes, separación entre contexto local y respuesta remota, reducción de exposición innecesaria y trazabilidad de la evidencia utilizada para responder.
+
+\subsection{Calidad de datos, metadatos curatoriales y privacidad}
+
+El funcionamiento de la solución propuesta depende de la calidad del dato tanto como de la calidad del código. Por ello, ISO/IEC 25012 resulta una referencia útil para definir criterios de consistencia, completitud, actualidad y trazabilidad~\cite{iso25012}. En términos operativos, esto se traduce en exigencias verificables: que el \texttt{ROOM\_ID} del beacon coincida con la sala registrada en la aplicación, que los identificadores de obra sean estables entre la base local y el backend, y que las respuestas del sistema conserven referencia a los fragmentos curatoriales utilizados.
+
+En paralelo, la organización del corpus museográfico se beneficia de estándares de interoperabilidad documental como CIDOC CRM, LIDO y Dublin Core~\cite{cidoccrm,lido,dublincore}. La solución propuesta no implementa de forma exhaustiva estas ontologías o esquemas, pero sí adopta una consecuencia práctica derivada de ellos: el contenido curatorial debe mantener metadatos mínimos estables para museo, sala, pieza, tipo de documento, fuente, idioma y versión. Gracias a ello, la recuperación contextual puede operar con mayor precisión y trazabilidad.
+
+Finalmente, el proyecto también debe reconocer que ciertas transcripciones, sesiones de uso y preferencias del visitante pueden constituir datos personales o potencialmente sensibles. Por ello, el tratamiento de estas entradas debe alinearse al menos con principios de minimización, finalidad y cuidado razonable compatibles con la Ley N.\ 29733 de protección de datos personales~\cite{ley29733}. En la fase actual del prototipo, ello se expresa en un criterio conservador: capturar solo el contexto operativo necesario para la experiencia, evitar almacenar más información personal de la indispensable y privilegiar identificadores funcionales sobre datos nominales del visitante.
+
+\section{Cumplimiento, justificación y alcance real del prototipo}
+
+Desde una perspectiva metodológica, conviene distinguir entre \textit{alineamiento con estándares} y \textit{certificación formal}. La solución propuesta, en su estado actual, corresponde a un prototipo funcional de tesis y no a un producto comercial certificado por ISO, Bluetooth SIG o un organismo externo de auditoría. En consecuencia, lo defendible no es afirmar cumplimiento normativo pleno en sentido jurídico o industrial, sino justificar que las decisiones de ingeniería ya se apoyan en referencias normativas apropiadas.
+
+\begin{table}[!ht]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{6.1cm} >{\raggedright\arraybackslash}p{4.9cm}}
+        \hline
+        \textbf{Ámbito} & \textbf{Evidencia actual en la solución propuesta} & \textbf{Alcance del cumplimiento} \\
+        \hline
+        BLE e interoperabilidad física & \textit{Service data} estructurado, identificadores de sala y nodo, variante GATT prevista en el subsistema IoT. & Alineamiento técnico funcional, sin proceso formal de calificación o ensayo de conformidad. \\
+        API y contrato de datos & Endpoint principal definido, \textit{payload} JSON contextual y validación estructurada mediante modelos del backend. & Aplicación operativa en el prototipo, con margen de endurecimiento adicional para producción. \\
+        Seguridad conversacional & Tratamiento de la entrada como no confiable, filtrado contextual por museo/sala/obra y retorno de fuentes recuperadas. & Alineamiento parcial con buenas prácticas OWASP para RAG y LLM. \\
+        Calidad y trazabilidad de datos & Identificadores estables, metadatos de sala y obra, relación entre corpus, app y backend. & Aplicación parcial, todavía sin una política formal institucional de gobierno de datos. \\
+        Privacidad y protección de datos & Minimización de datos operativos y uso de identificadores funcionales de sesión en vez de identidad nominal del visitante. & Compatibilidad preliminar con principios normativos; falta una política completa de retención, consentimiento y auditoría. \\
+        \hline
+    \end{tabular}
+    \caption[Alcance real del alineamiento normativo de la solución propuesta]{Evidencia actual y alcance real del alineamiento de la solución propuesta con normas, estándares y buenas prácticas técnicas. Fuente: elaboración propia.}
+    \label{tab:alcance-cumplimiento-museiq}
+\end{table}
+
+La Tabla~\ref{tab:alcance-cumplimiento-museiq} evita una sobregeneralización importante. El proyecto ya incorpora criterios normativos concretos, pero todavía no ha recorrido todas las etapas necesarias para hablar de conformidad total. Por ejemplo, una adopción institucional completa exigiría endurecimiento de seguridad, cifrado de extremo a extremo cuando el backend deje de operar en red local controlada, políticas explícitas de retención de transcripciones y posiblemente una documentación API más formal para terceros.
+
+Lejos de debilitar la tesis, esta precisión fortalece su defensa. Un proyecto aplicado gana credibilidad cuando diferencia con claridad lo que ya implementa, lo que toma como referencia de diseño y lo que aún pertenece a una fase futura de industrialización o transferencia tecnológica.
+
+\section{Documentación técnica y evidencia de aplicación}
+
+La aplicación de estas normas y estándares no se apoya solo en declaraciones conceptuales. Puede rastrearse en artefactos concretos del proyecto. El contrato BLE descrito en el capítulo de datos de entrada documenta la estructura de proximidad y su correspondencia con identificadores de sala. El capítulo de diseño y despliegue muestra la interfaz HTTP/JSON, la separación por subsistemas, los fragmentos de código del backend y la lógica de integración entre capas. Los repositorios \texttt{iot-museiq}, \texttt{iot} y \texttt{museRAG}, además, funcionan como evidencia técnica distribuida de esta trazabilidad.
+
+Por ello, el valor de este capítulo no radica únicamente en enumerar nombres de normas. Su aporte principal es cerrar el puente entre arquitectura y gobernanza técnica: mostrar que la solución propuesta no solo funciona, sino que se ha pensado bajo criterios de interoperabilidad, calidad y seguridad compatibles con una futura evolución institucional.
+
+\section{Síntesis del capítulo}
+
+El desarrollo de la solución propuesta se apoya en un conjunto coherente de normas, estándares y buenas prácticas técnicas. ISO/IEC/IEEE 12207 orienta la organización modular del software; la Bluetooth Core Specification sustenta la interoperabilidad de la capa de proximidad; RFC 8259 estructura el intercambio de datos entre la app y MuseRAG; OWASP aporta referencias de seguridad para la API y para la capa conversacional; ISO/IEC 25012 refuerza la calidad de los datos; CIDOC CRM, LIDO y Dublin Core inspiran la estabilidad de los metadatos curatoriales; y la Ley N.\ 29733 introduce criterios mínimos de cuidado sobre la información del visitante.
+
+En consecuencia, el capítulo demuestra que la solución propuesta no debe entenderse como un prototipo técnicamente aislado, sino como una solución en desarrollo que ya incorpora referencias normativas pertinentes para su dominio. Esta base mejora la defendibilidad del proyecto y prepara el terreno para una futura transferencia tecnológica con mayor nivel de formalización, endurecimiento operativo y cumplimiento institucional.
+

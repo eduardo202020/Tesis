@@ -2,7 +2,7 @@
 
 \section{Propósito del capítulo}
 
-Luego de haber definido la base tecnológica del proyecto en el Capítulo 7 y el contrato de datos de entrada en el Capítulo 8, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla la arquitectura general de MuseIQ, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
+Luego de haber definido la base tecnológica del proyecto en el Capítulo 7 y el contrato de datos de entrada en el Capítulo 8, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla la arquitectura general de la solución propuesta, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
 
 La finalidad metodológica del capítulo es doble. En primer lugar, demostrar que la propuesta puede traducirse a módulos concretos, con responsabilidades bien delimitadas y flujos de información verificables. En segundo lugar, evidenciar que el prototipo desarrollado ya materializa una parte sustantiva de esa arquitectura mediante tres componentes principales: una capa IoT de proximidad BLE basada en ESP32, una aplicación móvil orientada a la experiencia del visitante y un backend RAG encargado de recuperación y respuesta contextual.
 
@@ -10,14 +10,14 @@ La finalidad metodológica del capítulo es doble. En primer lugar, demostrar qu
 
 \subsection{Vista de alto nivel}
 
-MuseIQ se organiza como un sistema distribuido de mediación cultural contextual. Su operación integra una infraestructura física ligera dentro del museo, una plataforma móvil que actúa como interfaz principal del visitante y una capa de conocimiento que procesa consultas situadas. Esta arquitectura responde a un criterio de bajo costo y modularidad: cada componente puede evolucionar de manera relativamente independiente sin exigir rediseño completo del sistema.
+La solución propuesta se organiza como un sistema distribuido de mediación cultural contextual. Su operación integra una infraestructura física ligera dentro del museo, una plataforma móvil que actúa como interfaz principal del visitante y una capa de conocimiento que procesa consultas situadas. Esta arquitectura responde a un criterio de bajo costo y modularidad: cada componente puede evolucionar de manera relativamente independiente sin exigir rediseño completo del sistema.
 
 En la práctica, la solución puede entenderse como la interacción de cinco bloques funcionales. El primero es la infraestructura de contexto, compuesta por beacons BLE basados en ESP32 y por las señales sensoriales del smartphone. El segundo es la capa de adquisición local, implementada en la aplicación móvil, que captura observaciones BLE, orientación, pasos, acciones de interfaz y consultas del usuario. El tercero es la capa de persistencia operativa del recorrido, que mantiene información estructurada de salas, piezas, rutas y configuraciones locales. El cuarto es la capa de inteligencia y recuperación, implementada en MuseRAG, que filtra, recupera y sintetiza información documental. El quinto es la capa de entrega, que devuelve texto, audio e imágenes de apoyo al visitante.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.98\textwidth]{arquitectura-flujo-museiq-ia.png}
-    \caption[Ilustración integradora del flujo de datos y módulos de MuseIQ]{Ilustración integradora del flujo de datos, módulos y relaciones funcionales de MuseIQ. La imagen resume, en una sola vista, la captura de contexto en sala, el procesamiento móvil, la persistencia local, la consulta contextual a MuseRAG, la recuperación documental y la entrega multimodal al visitante. Fuente: elaboración propia con apoyo de IA generativa.}
+    \caption[Ilustración integradora del flujo de datos y módulos de la solución propuesta]{Ilustración integradora del flujo de datos, módulos y relaciones funcionales de la solución propuesta. La imagen resume, en una sola vista, la captura de contexto en sala, el procesamiento móvil, la persistencia local, la consulta contextual a MuseRAG, la recuperación documental y la entrega multimodal al visitante. Fuente: elaboración propia con apoyo de IA generativa.}
     \label{fig:arquitectura-flujo-museiq-ia}
 \end{figure}
 
@@ -26,7 +26,7 @@ La Figura~\ref{fig:arquitectura-flujo-museiq-ia} cumple una función introductor
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.96\textwidth]{arquitectura_general_museiq.png}
-    \caption[Arquitectura general del sistema MuseIQ]{Arquitectura general de MuseIQ, integrando infraestructura BLE, aplicación móvil, persistencia local, backend RAG y corpus curatorial institucional. Fuente: elaboración propia.}
+    \caption[Arquitectura general del sistema propuesto]{Arquitectura general de la solución propuesta, integrando infraestructura BLE, aplicación móvil, persistencia local, backend RAG y corpus curatorial institucional. Fuente: elaboración propia.}
     \label{fig:arquitectura-general-museiq}
 \end{figure}
 
@@ -39,7 +39,7 @@ Desde una perspectiva funcional, el sistema sigue una secuencia de seis etapas. 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.98\textwidth]{secuencia_operativa_museiq.png}
-    \caption[Secuencia operativa del prototipo MuseIQ]{Secuencia principal de operación del prototipo, desde la captura de contexto físico hasta la entrega de la respuesta contextual al visitante. Fuente: elaboración propia.}
+    \caption[Secuencia operativa del prototipo propuesto]{Secuencia principal de operación del prototipo, desde la captura de contexto físico hasta la entrega de la respuesta contextual al visitante. Fuente: elaboración propia.}
     \label{fig:secuencia-operativa-museiq}
 \end{figure}
 
@@ -80,7 +80,7 @@ payload = room_id + struct.pack(
 
 Desde el punto de vista del diseño, este subsistema resuelve tres necesidades. La primera es dotar al museo de una referencia espacial discreta y mantenible. La segunda es ofrecer un protocolo de identificación suficientemente simple para pruebas, calibración y expansión incremental. La tercera es conservar compatibilidad con una lectura flexible desde la app, ya sea por \textit{service data} completo o por nombres BLE abreviados durante etapas tempranas de validación.
 
-En la versión actual del prototipo, el subsistema también incluye una variante bidireccional con características GATT de lectura, escritura y notificación. Aunque esta parte no constituye todavía el núcleo de la experiencia MuseIQ, su existencia es relevante desde el diseño porque abre la posibilidad de ampliar el sistema hacia interacción con dispositivos físicos, telemetría o actuadores locales en futuras iteraciones.
+En la versión actual del prototipo, el subsistema también incluye una variante bidireccional con características GATT de lectura, escritura y notificación. Aunque esta parte no constituye todavía el núcleo de la experiencia propuesta, su existencia es relevante desde el diseño porque abre la posibilidad de ampliar el sistema hacia interacción con dispositivos físicos, telemetría o actuadores locales en futuras iteraciones.
 
 \subsection{Subsistema móvil de experiencia del visitante}
 
@@ -108,7 +108,7 @@ La separación entre aplicación móvil y backend RAG tiene una ventaja relevant
 
 \subsection{Arquitectura de software}
 
-Desde la perspectiva del software, MuseIQ puede describirse como una arquitectura de tres niveles coordinados. El nivel de borde corresponde al beacon BLE y a los sensores disponibles en el dispositivo. El nivel de aplicación corresponde al cliente móvil, que mantiene estado del recorrido, persistencia local, captura de interacción y construcción del contexto operacional. El nivel de servicios corresponde a MuseRAG y a sus dependencias, donde se ejecutan recuperación, generación y exposición de contenido adicional.
+Desde la perspectiva del software, la solución propuesta puede describirse como una arquitectura de tres niveles coordinados. El nivel de borde corresponde al beacon BLE y a los sensores disponibles en el dispositivo. El nivel de aplicación corresponde al cliente móvil, que mantiene estado del recorrido, persistencia local, captura de interacción y construcción del contexto operacional. El nivel de servicios corresponde a MuseRAG y a sus dependencias, donde se ejecutan recuperación, generación y exposición de contenido adicional.
 
 Esta organización tiene afinidad con una arquitectura cliente-servicio contextualizada. La app no es un cliente delgado: realiza una parte importante del procesamiento de proximidad, estado y experiencia. A su vez, el backend no es una simple base documental: actúa como capa de razonamiento guiado por recuperación.
 
@@ -142,7 +142,7 @@ Adicionalmente, el backend expone interfaces auxiliares para reconstrucción del
 
 La integración entre módulos no se basa en una única llamada remota, sino en una acumulación de contexto. El escáner BLE actualiza el conjunto de beacons observados. El proveedor de estado decide la sala y obra activas. El usuario interactúa con esa obra mediante interfaz gráfica o voz. El cliente \texttt{muserag-api} envía la consulta enriquecida. El backend evalúa primero filtros por \texttt{artwork\_id} y luego por \texttt{room\_id} para priorizar fuentes contextualmente más cercanas. Finalmente, el modelo genera una respuesta breve y estructurada, que la app devuelve en formato legible, audible y visual.
 
-Este diseño es importante porque reduce una de las debilidades comunes de las interfaces conversacionales generales: la pérdida de contexto. En MuseIQ, la consulta no empieza en cero; comienza con un entorno ya descrito por la propia app.
+Este diseño es importante porque reduce una de las debilidades comunes de las interfaces conversacionales generales: la pérdida de contexto. En la solución propuesta, la consulta no empieza en cero; comienza con un entorno ya descrito por la propia app.
 
 \section{Implementación del prototipo y despliegue}
 
@@ -176,7 +176,7 @@ def mobile_question(payload: MobileQuestionRequest):
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.96\textwidth]{despliegue_prototipo_museiq.png}
-    \caption[Despliegue del prototipo MuseIQ]{Esquema de despliegue del prototipo y del entorno de validación, integrando beacons BLE, app móvil, red local, backend MuseRAG, LM Studio y simulación web complementaria. Fuente: elaboración propia.}
+    \caption[Despliegue del prototipo propuesto]{Esquema de despliegue del prototipo y del entorno de validación, integrando beacons BLE, app móvil, red local, backend MuseRAG, LM Studio y simulación web complementaria. Fuente: elaboración propia.}
     \label{fig:despliegue-prototipo-museiq}
 \end{figure}
 
@@ -198,7 +198,7 @@ Estas adaptaciones no deben verse como defectos aislados, sino como parte espera
 
 \subsection{Criterios de validación}
 
-En coherencia con el sílabo, la validación del prototipo no se limita a demostrar que el sistema ejecuta código, sino que debe contrastar el funcionamiento observado con los objetivos funcionales del proyecto. Para MuseIQ, dichos objetivos pueden resumirse en cuatro preguntas de validación:
+En coherencia con el sílabo, la validación del prototipo no se limita a demostrar que el sistema ejecuta código, sino que debe contrastar el funcionamiento observado con los objetivos funcionales del proyecto. Para la solución propuesta, dichos objetivos pueden resumirse en cuatro preguntas de validación:
 
 \begin{enumerate}
     \item ¿La infraestructura BLE permite reconocer sala o referencia próxima de manera operativamente útil?
@@ -217,7 +217,7 @@ La incorporación de suavizado RSSI y de temporizadores de actividad e inactivid
 
 Las pruebas de la capa conversacional se centran en verificar que la app envíe correctamente el \textit{payload} contextual y que MuseRAG recupere fuentes alineadas con sala y obra cuando estos filtros están disponibles. El backend, además de la respuesta principal, devuelve metadatos de soporte, fuentes y tiempos de ejecución, lo que permite inspeccionar no solo el resultado visible sino también la trazabilidad del proceso.
 
-Este punto es especialmente importante para la tesis, porque la diferencia entre un chatbot general y MuseIQ radica precisamente en la contextualización. La validación funcional no exige demostrar perfección semántica absoluta, pero sí que la arquitectura reduce la arbitrariedad de la respuesta y la ancla en evidencia recuperada.
+Este punto es especialmente importante para la tesis, porque la diferencia entre un chatbot general y la solución propuesta radica precisamente en la contextualización. La validación funcional no exige demostrar perfección semántica absoluta, pero sí que la arquitectura reduce la arbitrariedad de la respuesta y la ancla en evidencia recuperada.
 
 \subsection{Alcances y límites del MVP}
 
@@ -227,6 +227,7 @@ Estas restricciones no invalidan la propuesta. Más bien, definen con honestidad
 
 \section{Síntesis del capítulo}
 
-El capítulo ha mostrado que MuseIQ puede describirse como una solución técnicamente coherente, compuesta por infraestructura BLE ligera, una aplicación móvil centrada en el visitante, persistencia local del recorrido y un backend RAG que transforma preguntas contextualizadas en respuestas sustentadas por evidencia curatorial. La arquitectura general, el diseño modular de subsistemas y la integración entre componentes responden de manera directa a los requerimientos planteados en el sílabo para arquitectura del sistema, diseño computacional, interfaces, implementación y validación.
+El capítulo ha mostrado que la solución propuesta puede describirse como una arquitectura técnicamente coherente, compuesta por infraestructura BLE ligera, una aplicación móvil centrada en el visitante, persistencia local del recorrido y un backend RAG que transforma preguntas contextualizadas en respuestas sustentadas por evidencia curatorial. La arquitectura general, el diseño modular de subsistemas y la integración entre componentes responden de manera directa a los requerimientos planteados en el sílabo para arquitectura del sistema, diseño computacional, interfaces, implementación y validación.
 
-Asimismo, el prototipo ya desarrollado demuestra que la propuesta no se limita a una formulación conceptual. Existe una capa física de emisión BLE, una capa móvil de captura y experiencia, una capa de conocimiento documentado y un entorno de despliegue reproducible para pruebas. En consecuencia, la tesis cuenta ahora con una base arquitectónica explícita que enlaza el contrato de datos del capítulo anterior con la viabilidad técnica y operativa de la solución MuseIQ.
+Asimismo, el prototipo ya desarrollado demuestra que la propuesta no se limita a una formulación conceptual. Existe una capa física de emisión BLE, una capa móvil de captura y experiencia, una capa de conocimiento documentado y un entorno de despliegue reproducible para pruebas. En consecuencia, la tesis cuenta ahora con una base arquitectónica explícita que enlaza el contrato de datos del capítulo anterior con la viabilidad técnica y operativa del sistema propuesto.
+

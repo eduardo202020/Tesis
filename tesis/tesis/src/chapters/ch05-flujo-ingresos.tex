@@ -2,29 +2,29 @@
 
 \section{Introducción}
 
-La proyección del flujo de ingresos permite traducir la propuesta técnica de MuseIQ en una estructura económica verificable. En una tesis aplicada, esta sección cumple la función de responder cuánto puede cobrarse por la solución, cuáles son las fuentes de ingreso asociadas al proyecto y bajo qué supuestos esas fuentes resultan defendibles para un caso de implementación real~\cite{europeancommission2014cba,unido2017manual}. Su papel es especialmente relevante en MuseIQ, porque la solución no corresponde a una aplicación genérica de consumo masivo, sino a un despliegue institucional que combina hardware, configuración en sitio, operación digital y soporte continuo.
+La proyección del flujo de ingresos permite traducir la propuesta técnica desarrollada en la tesis en una estructura económica verificable. En una tesis aplicada, esta sección cumple la función de responder cuánto puede cobrarse por la solución, cuáles son las fuentes de ingreso asociadas al proyecto y bajo qué supuestos esas fuentes resultan defendibles para un caso de implementación real~\cite{europeancommission2014cba,unido2017manual}. Su papel es especialmente relevante en este caso, porque no se trata de una aplicación genérica de consumo masivo, sino de un despliegue institucional que combina hardware, configuración en sitio, operación digital y soporte continuo.
 
-Los capítulos previos ya establecieron tres condiciones que permiten aterrizar este análisis. En primer lugar, se definió un mercado objetivo institucional centrado en museos estatales de alta afluencia y se seleccionó como piloto prioritario al Museo Tumbas Reales de Sipán, en Lambayeque. En segundo lugar, el Capítulo 4 mostró que la propuesta de valor de MuseIQ no reside solo en ofrecer una audioguía, sino en articular localización indoor mediante BLE, uso del smartphone del visitante, interacción por voz y respuestas contextuales apoyadas en conocimiento curatorial. En tercer lugar, la disponibilidad extendida de smartphones en el Perú hace viable una arquitectura BYOD, lo que reduce la dependencia de hardware por visitante y concentra la monetización en la implementación y operación institucional~\cite{osiptel2024smartphone}.
+Los capítulos previos ya establecieron tres condiciones que permiten aterrizar este análisis. En primer lugar, se definió un mercado objetivo institucional centrado en museos estatales de alta afluencia y se seleccionó como piloto prioritario al Museo Tumbas Reales de Sipán, en Lambayeque. En segundo lugar, el Capítulo 4 mostró que la propuesta de valor de la solución propuesta no reside solo en ofrecer una audioguía, sino en articular localización indoor mediante BLE, uso del smartphone del visitante, interacción por voz y respuestas contextuales apoyadas en conocimiento curatorial. En tercer lugar, la disponibilidad extendida de smartphones en el Perú hace viable una arquitectura BYOD, lo que reduce la dependencia de hardware por visitante y concentra la monetización en la implementación y operación institucional~\cite{osiptel2024smartphone}.
 
 En consecuencia, este capítulo abandona una proyección genérica por institución y adopta un enfoque más aterrizado: modela primero el flujo de ingresos para el caso piloto del Museo Tumbas Reales de Sipán y, a partir de él, estructura una lógica de ingresos replicable a otros museos del segmento primario. El resultado no pretende ser una cotización comercial definitiva, sino una base metodológicamente defendible para la evaluación económica posterior.
 
-\section{Naturaleza económica de MuseIQ}
+\section{Naturaleza económica de la solución propuesta}
 
-MuseIQ debe entenderse como una solución híbrida producto-servicio orientada a instituciones culturales. Por una parte, incorpora un componente tangible asociado a la infraestructura de beacons BLE, un nodo de procesamiento local y accesorios de instalación. Por otra, incorpora un componente intangible y recurrente compuesto por software, configuración del sistema, mantenimiento, soporte, actualización de contenidos y operación de servicios digitales. Esta lógica es consistente con la literatura sobre sistemas producto-servicio, donde el valor económico se entrega mediante una combinación de artefactos físicos y servicios continuos, más que mediante la venta aislada de un producto~\cite{tukker2004pss}.
+La solución propuesta debe entenderse como una solución híbrida producto-servicio orientada a instituciones culturales. Por una parte, incorpora un componente tangible asociado a la infraestructura de beacons BLE, un nodo de procesamiento local y accesorios de instalación. Por otra, incorpora un componente intangible y recurrente compuesto por software, configuración del sistema, mantenimiento, soporte, actualización de contenidos y operación de servicios digitales. Esta lógica es consistente con la literatura sobre sistemas producto-servicio, donde el valor económico se entrega mediante una combinación de artefactos físicos y servicios continuos, más que mediante la venta aislada de un producto~\cite{tukker2004pss}.
 
-La implicancia económica de esta naturaleza híbrida es directa: MuseIQ no puede monetizarse únicamente como una licencia de software ni únicamente como venta de hardware. El hardware por sí solo no genera valor suficiente sin calibración, parametrización y contenidos; y el software, por sí solo, no resuelve la necesidad espacial del museo sin infraestructura mínima de proximidad. Por ello, el modelo de ingresos defendible para la tesis combina un precio inicial de implementación con precios recurrentes por mantenimiento y servicios complementarios, los cuales se transforman en ingresos cuando la institución los contrata.
+La implicancia económica de esta naturaleza híbrida es directa: la solución propuesta no puede monetizarse únicamente como una licencia de software ni únicamente como venta de hardware. El hardware por sí solo no genera valor suficiente sin calibración, parametrización y contenidos; y el software, por sí solo, no resuelve la necesidad espacial del museo sin infraestructura mínima de proximidad. Por ello, el modelo de ingresos defendible para la tesis combina un precio inicial de implementación con precios recurrentes por mantenimiento y servicios complementarios, los cuales se transforman en ingresos cuando la institución los contrata.
 
 \section{Caso piloto y base de dimensionamiento}
 
-El caso piloto seleccionado para este capítulo es el Museo Tumbas Reales de Sipán, museo arqueológico del Ministerio de Cultura ubicado en la ciudad de Lambayeque, en la región del mismo nombre~\cite{museotumbasrealesficha}. Su elección es coherente con el mercado objetivo delimitado en el Capítulo 3, ya que se trata del museo de mayor afluencia del país dentro del conjunto analizado para 2023, con 160\,387 visitantes registrados, equivalentes a más de la mitad del flujo regional reportado para los museos lambayecanos~\cite{naylamp2023visitantes}. Esta magnitud de demanda vuelve defendible una primera implementación de MuseIQ, tanto por el potencial de uso real como por la posibilidad de generar evidencia observacional y económica sobre el funcionamiento del sistema.
+El caso piloto seleccionado para este capítulo es el Museo Tumbas Reales de Sipán, museo arqueológico del Ministerio de Cultura ubicado en la ciudad de Lambayeque, en la región del mismo nombre~\cite{museotumbasrealesficha}. Su elección es coherente con el mercado objetivo delimitado en el Capítulo 3, ya que se trata del museo de mayor afluencia del país dentro del conjunto analizado para 2023, con 160\,387 visitantes registrados, equivalentes a más de la mitad del flujo regional reportado para los museos lambayecanos~\cite{naylamp2023visitantes}. Esta magnitud de demanda vuelve defendible una primera implementación de la solución propuesta, tanto por el potencial de uso real como por la posibilidad de generar evidencia observacional y económica sobre el funcionamiento del sistema.
 
-La infraestructura museográfica del recinto también favorece el pilotaje. El museo posee tres niveles de recorrido y un circuito expositivo interior organizado de forma secuencial, lo que facilita la asociación entre proximidad física, sala visitada y activación de contenidos~\cite{andina2025sipan}. La investigación recopilada para este capítulo identifica siete salas de exposición permanente como base razonable de dimensionamiento para MuseIQ~\cite{museotumbasrealesguia}. Dado que el objetivo técnico de la solución es reconocer sala o zona probable y no hacer navegación centimétrica, se adopta como supuesto de diseño la instalación de tres sensores BLE por sala. Bajo esta lógica, el piloto requiere veintiún sensores en total.
+La infraestructura museográfica del recinto también favorece el pilotaje. El museo posee tres niveles de recorrido y un circuito expositivo interior organizado de forma secuencial, lo que facilita la asociación entre proximidad física, sala visitada y activación de contenidos~\cite{andina2025sipan}. La investigación recopilada para este capítulo identifica siete salas de exposición permanente como base razonable de dimensionamiento para la solución propuesta~\cite{museotumbasrealesguia}. Dado que el objetivo técnico de la solución es reconocer sala o zona probable y no hacer navegación centimétrica, se adopta como supuesto de diseño la instalación de tres sensores BLE por sala. Bajo esta lógica, el piloto requiere veintiún sensores en total.
 
 Este supuesto de siete salas y tres sensores por sala no debe interpretarse como una cifra arquitectónica absoluta, sino como una unidad de modelado coherente con la propuesta. Su valor radica en permitir un cálculo reproducible del costo de implementación y, al mismo tiempo, mantener consistencia con la lógica técnica expuesta en los capítulos previos.
 
 \section{Construcción del costo de implementación}
 
-La construcción del costo de implementación se organiza en dos bloques: hardware base e instalación/configuración. El bloque de hardware reúne los componentes físicos mínimos necesarios para que MuseIQ opere en el museo piloto. El bloque de instalación recoge el trabajo técnico requerido para desplegar, calibrar y dejar operativa la solución.
+La construcción del costo de implementación se organiza en dos bloques: hardware base e instalación/configuración. El bloque de hardware reúne los componentes físicos mínimos necesarios para que la solución propuesta opere en el museo piloto. El bloque de instalación recoge el trabajo técnico requerido para desplegar, calibrar y dejar operativa la solución.
 
 \subsection{Hardware base}
 
@@ -50,7 +50,7 @@ El hardware mínimo para el piloto incluye veintiún sensores BLE, una Raspberry
 		\textbf{Total hardware base} & & & \textbf{1,500.50} \\
 		\hline
 	\end{tabular}
-	\caption[Hardware base estimado para MuseIQ en Sipán]{Hardware base estimado para la implementación piloto de MuseIQ en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en~\cite{sawers2026beaconpack,electromania2026raspberry,sawers2026raspberry,electromania2026fuente}.}
+	\caption[Hardware base estimado para la solución propuesta en Sipán]{Hardware base estimado para la implementación piloto de la solución propuesta en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en~\cite{sawers2026beaconpack,electromania2026raspberry,sawers2026raspberry,electromania2026fuente}.}
 	\label{tab:hardware-sipan}
 \end{table}
 
@@ -79,7 +79,7 @@ El segundo bloque de costo corresponde al trabajo técnico necesario para transf
 		\textbf{Total instalación y configuración} & & & \textbf{2,400} \\
 		\hline
 	\end{tabular}
-	\caption[Instalación y configuración estimadas para MuseIQ en Sipán]{Costo estimado de instalación, configuración y puesta en marcha de MuseIQ en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en los supuestos del piloto.}
+	\caption[Instalación y configuración estimadas para la solución propuesta en Sipán]{Costo estimado de instalación, configuración y puesta en marcha de la solución propuesta en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en los supuestos del piloto.}
 	\label{tab:instalacion-sipan}
 \end{table}
 
@@ -89,7 +89,7 @@ La suma del hardware y de la instalación/configuración produce un costo direct
 
 \subsection{Precio de implementación}
 
-Una vez estimado el costo directo del piloto, corresponde definir un precio institucional de implementación. Dado que MuseIQ no es un simple ensamblaje de componentes, sino una solución adaptada al museo, se propone aplicar un margen comercial del 30\% sobre el costo total. Este margen resulta razonable en un servicio tecnológico institucional porque debe absorber riesgo de despliegue, trabajo intelectual no completamente visible en el costo directo y sostenibilidad del oferente durante la fase inicial.
+Una vez estimado el costo directo del piloto, corresponde definir un precio institucional de implementación. Dado que la solución propuesta no es un simple ensamblaje de componentes, sino una solución adaptada al museo, se propone aplicar un margen comercial del 30\% sobre el costo total. Este margen resulta razonable en un servicio tecnológico institucional porque debe absorber riesgo de despliegue, trabajo intelectual no completamente visible en el costo directo y sostenibilidad del oferente durante la fase inicial.
 
 Aplicado sobre un costo directo de S/3\,900, el margen produce un valor aproximado de S/1\,170. En consecuencia, el precio de implementación sugerido para el Museo Tumbas Reales de Sipán asciende a S/5\,070, valor que se redondea comercialmente a S/5\,100. Este precio cubre la infraestructura inicial, la instalación, la configuración del sistema, la parametrización base de contenidos y la puesta en marcha institucional.
 
@@ -107,7 +107,7 @@ Aplicado sobre un costo directo de S/3\,900, el margen produce un valor aproxima
 		\textbf{Precio de implementación} & \textbf{5,070} \\
 		\hline
 	\end{tabular}
-	\caption[Precio de implementación de MuseIQ para Sipán]{Construcción del precio de implementación de MuseIQ para el Museo Tumbas Reales de Sipán. Fuente: elaboración propia.}
+	\caption[Precio de implementación de la solución propuesta para Sipán]{Construcción del precio de implementación de la solución propuesta para el Museo Tumbas Reales de Sipán. Fuente: elaboración propia.}
 	\label{tab:precio-implementacion-sipan}
 \end{table}
 
@@ -131,13 +131,13 @@ La segunda fuente principal de ingreso corresponde al mantenimiento técnico rec
 		\textbf{Total de mantenimiento} & & \textbf{900} \\
 		\hline
 	\end{tabular}
-	\caption[Mantenimiento anual estimado de MuseIQ]{Estimación del mantenimiento anual de MuseIQ para el caso piloto de Sipán. Fuente: elaboración propia con base en los supuestos del servicio.}
+	\caption[Mantenimiento anual estimado de la solución propuesta]{Estimación del mantenimiento anual de la solución propuesta para el caso piloto de Sipán. Fuente: elaboración propia con base en los supuestos del servicio.}
 	\label{tab:mantenimiento-sipan}
 \end{table}
 
 \subsection{Servicios adicionales}
 
-La tercera fuente de ingreso corresponde a servicios adicionales. A diferencia del mantenimiento, estos servicios no son recurrentes por definición, pero sí plausibles en la operación institucional de MuseIQ. Entre ellos destacan la ampliación a nuevos idiomas, la personalización de contenidos para públicos específicos, la incorporación de nuevas salas o exposiciones temporales, la capacitación al personal del museo y la entrega de reportes o analítica de uso. Estos rubros son coherentes con la naturaleza B2B de MuseIQ, porque extienden la relación con la institución más allá de la instalación inicial. Los valores que se presentan a continuación deben interpretarse como precios referenciales de venta y no como costos internos del proveedor.
+La tercera fuente de ingreso corresponde a servicios adicionales. A diferencia del mantenimiento, estos servicios no son recurrentes por definición, pero sí plausibles en la operación institucional de la solución propuesta. Entre ellos destacan la ampliación a nuevos idiomas, la personalización de contenidos para públicos específicos, la incorporación de nuevas salas o exposiciones temporales, la capacitación al personal del museo y la entrega de reportes o analítica de uso. Estos rubros son coherentes con la naturaleza B2B de la solución propuesta, porque extienden la relación con la institución más allá de la instalación inicial. Los valores que se presentan a continuación deben interpretarse como precios referenciales de venta y no como costos internos del proveedor.
 
 \begin{table}[h!]
 	\centering
@@ -154,26 +154,26 @@ La tercera fuente de ingreso corresponde a servicios adicionales. A diferencia d
 		Soporte premium o atención prioritaria & Según alcance \\
 		\hline
 	\end{tabular}
-	\caption[Servicios adicionales plausibles para MuseIQ]{Servicios adicionales plausibles dentro del modelo de ingresos de MuseIQ. Fuente: elaboración propia con base en la investigación del piloto.}
+	\caption[Servicios adicionales plausibles para la solución propuesta]{Servicios adicionales plausibles dentro del modelo de ingresos de la solución propuesta. Fuente: elaboración propia con base en la investigación del piloto.}
 	\label{tab:servicios-adicionales-sipan}
 \end{table}
 
-La estructura de ingresos de MuseIQ queda, por tanto, compuesta por tres rubros: precio de implementación inicial, precio de mantenimiento técnico recurrente y precios de servicios adicionales. Esta composición es consistente con la naturaleza híbrida del proyecto y con el hecho de que el valor institucional se construye tanto al instalar la solución como al sostenerla y adaptarla en el tiempo.
+La estructura de ingresos de la solución propuesta queda, por tanto, compuesta por tres rubros: precio de implementación inicial, precio de mantenimiento técnico recurrente y precios de servicios adicionales. Esta composición es consistente con la naturaleza híbrida del proyecto y con el hecho de que el valor institucional se construye tanto al instalar la solución como al sostenerla y adaptarla en el tiempo.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.80\textwidth]{estructura_ingresos_rubro.png}
-	\caption[Estructura base de precios del modelo de ingresos de MuseIQ]{Estructura base de precios del modelo de ingresos de MuseIQ, diferenciando implementación inicial, mantenimiento técnico, IA y analítica, y servicios adicionales. Fuente: elaboración propia.}
+	\caption[Estructura base de precios del modelo de ingresos de la solución propuesta]{Estructura base de precios del modelo de ingresos de la solución propuesta, diferenciando implementación inicial, mantenimiento técnico, IA y analítica, y servicios adicionales. Fuente: elaboración propia.}
 	\label{fig:estructura-ingresos-museiq}
 \end{figure}
 
 \subsection{Costos variables por servicios de inteligencia artificial}
 
-La operación de MuseIQ no depende únicamente de costos fijos de hardware, instalación y mantenimiento técnico. También incorpora costos variables asociados al uso de servicios de inteligencia artificial, especialmente cuando el visitante interactúa por voz con el sistema. En ese flujo, la consulta hablada se transforma primero en texto mediante un servicio de reconocimiento automático de voz, luego se vectoriza para recuperar contenido pertinente del corpus curatorial y, finalmente, se genera o selecciona una respuesta contextual que puede volver a presentarse mediante voz.
+La operación de la solución propuesta no depende únicamente de costos fijos de hardware, instalación y mantenimiento técnico. También incorpora costos variables asociados al uso de servicios de inteligencia artificial, especialmente cuando el visitante interactúa por voz con el sistema. En ese flujo, la consulta hablada se transforma primero en texto mediante un servicio de reconocimiento automático de voz, luego se vectoriza para recuperar contenido pertinente del corpus curatorial y, finalmente, se genera o selecciona una respuesta contextual que puede volver a presentarse mediante voz.
 
 En el caso del piloto del Museo Tumbas Reales de Sipán, estos costos no deben mezclarse con el precio inicial de implementación, porque dependen del volumen real de uso por parte de los visitantes. La implementación cubre la infraestructura y la puesta en marcha; en cambio, los servicios de IA corresponden a un componente operativo recurrente u OPEX, cuyo valor crece o disminuye con la intensidad de las consultas. Esta separación fortalece la consistencia económica del modelo, ya que evita subestimar el costo de operación del sistema una vez desplegado.
 
-Para estimar este rubro se toma como referencia, en primer lugar, la demanda reciente del museo. El Ministerio de Cultura reportó que el Museo Tumbas Reales de Sipán alcanzó 191\,682 visitantes en 2025, cifra superior a la de 2024 y consistente con la trayectoria de alta afluencia observada para este recinto~\cite{cultura2025sipanrecord}. Sobre esa base, se adopta un escenario de uso donde el 20\% de los visitantes utiliza la función de voz de MuseIQ y cada usuario activo genera en promedio cuatro minutos de audio transcrito durante la visita. Bajo estos supuestos, el sistema atendería 38\,336 usuarios activos al año y procesaría 153\,346 minutos de audio.
+Para estimar este rubro se toma como referencia, en primer lugar, la demanda reciente del museo. El Ministerio de Cultura reportó que el Museo Tumbas Reales de Sipán alcanzó 191\,682 visitantes en 2025, cifra superior a la de 2024 y consistente con la trayectoria de alta afluencia observada para este recinto~\cite{cultura2025sipanrecord}. Sobre esa base, se adopta un escenario de uso donde el 20\% de los visitantes utiliza la función de voz de la solución propuesta y cada usuario activo genera en promedio cuatro minutos de audio transcrito durante la visita. Bajo estos supuestos, el sistema atendería 38\,336 usuarios activos al año y procesaría 153\,346 minutos de audio.
 
 Para la transcripción de voz a texto se utiliza como referencia Google Cloud Speech-to-Text, cuyo precio estándar de API se reporta en USD~0.016 por minuto de audio procesado~\cite{googlecloud2026stt}. Para la vectorización de preguntas se toma como referencia el modelo \texttt{text-embedding-3-small} de OpenAI, con un costo de USD~0.02 por cada millón de tokens~\cite{openai2026embeddings}. Como tipo de cambio referencial se adopta S/3.47 por dólar, valor coherente con la cotización oficial publicada por SUNAT para abril de 2026~\cite{sunat2026tipocambio}. Bajo estos parámetros, el costo relevante del componente IA corresponde claramente al STT, mientras que la vectorización de preguntas representa un costo marginal.
 
@@ -192,7 +192,7 @@ Para la transcripción de voz a texto se utiliza como referencia Google Cloud Sp
 		\hline
 	\end{tabular}%
 	}
-	\caption[Escenarios de costo anual de STT para MuseIQ]{Escenarios de costo anual de transcripción de voz a texto para MuseIQ en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en~\cite{cultura2025sipanrecord,googlecloud2026stt,sunat2026tipocambio}.}
+	\caption[Escenarios de costo anual de STT para la solución propuesta]{Escenarios de costo anual de transcripción de voz a texto para la solución propuesta en el Museo Tumbas Reales de Sipán. Fuente: elaboración propia con base en~\cite{cultura2025sipanrecord,googlecloud2026stt,sunat2026tipocambio}.}
 	\label{tab:escenarios-ia-sipan}
 \end{table}
 
@@ -213,17 +213,17 @@ En el escenario base, el costo mensual aproximado del STT asciende a S/709.48, m
 		\textbf{Total de IA, escenario base} & & & \textbf{aprox. 8,530} \\
 		\hline
 	\end{tabular}
-	\caption[Costos variables de IA para MuseIQ en el escenario base]{Costos variables de servicios de IA para MuseIQ en el escenario base del piloto en Sipán. Fuente: elaboración propia con base en~\cite{googlecloud2026stt,openai2026embeddings,sunat2026tipocambio}.}
+	\caption[Costos variables de IA para la solución propuesta en el escenario base]{Costos variables de servicios de IA para la solución propuesta en el escenario base del piloto en Sipán. Fuente: elaboración propia con base en~\cite{googlecloud2026stt,openai2026embeddings,sunat2026tipocambio}.}
 	\label{tab:costos-ia-base-sipan}
 \end{table}
 
 Desde el punto de vista económico, la principal implicancia de esta estimación es que el precio anual de mantenimiento técnico de S/900 ya no debe interpretarse como el precio total de operación recurrente del sistema. A dicho rubro debe añadirse una línea separada asociada a la operación de IA y analítica. Si al costo anual estimado de IA del escenario base se le incorpora un margen operativo y administrativo del 20\%, se obtiene un precio institucional sugerido de aproximadamente S/10\,200 anuales, equivalentes a S/850 mensuales. En consecuencia, este valor debe leerse como un piso contractual que cubre la disponibilidad del servicio y un volumen de uso alineado con el escenario base. Si el uso de voz supera de forma relevante ese umbral, la línea de IA y analítica debería incorporar un sobrecargo por consumo para trasladar el costo variable al cliente institucional sin deteriorar la sostenibilidad del servicio.
 
-Además, la incorporación de IA genera beneficios operativos concretos. Permite ampliar la cobertura de orientación sin depender exclusivamente de guías humanos, mejora la accesibilidad para visitantes que prefieren o requieren interacción oral y hace posible una personalización del recorrido basada en la sala detectada y el contenido curatorial disponible. Desde una perspectiva de costo por usuario activo, el escenario base arroja un valor aproximado de S/0.22 por visitante que utiliza la función de voz, cifra considerablemente menor que el costo proporcional de una visita guiada tradicional. En consecuencia, la IA no debe entenderse solo como un gasto adicional, sino como un componente que incrementa escalabilidad, accesibilidad y diferenciación de MuseIQ.
+Además, la incorporación de IA genera beneficios operativos concretos. Permite ampliar la cobertura de orientación sin depender exclusivamente de guías humanos, mejora la accesibilidad para visitantes que prefieren o requieren interacción oral y hace posible una personalización del recorrido basada en la sala detectada y el contenido curatorial disponible. Desde una perspectiva de costo por usuario activo, el escenario base arroja un valor aproximado de S/0.22 por visitante que utiliza la función de voz, cifra considerablemente menor que el costo proporcional de una visita guiada tradicional. En consecuencia, la IA no debe entenderse solo como un gasto adicional, sino como un componente que incrementa escalabilidad, accesibilidad y diferenciación de la solución propuesta.
 
 \section{Alternativas de monetización}
 
-Aunque el modelo institucional B2B es el más consistente con la evaluación financiera principal de la tesis, MuseIQ también podría discutirse bajo una segunda lógica de negocio. La primera consiste en vender la solución al museo mediante un esquema de implementación inicial, mantenimiento técnico y cobro recurrente de IA y analítica según uso. La segunda consistiría en una alianza de coparticipación, en la que MuseIQ implementa la solución y luego participa en el ingreso generado por una guía virtual pagada por el visitante final.
+Aunque el modelo institucional B2B es el más consistente con la evaluación financiera principal de la tesis, la solución propuesta también podría discutirse bajo una segunda lógica de negocio. La primera consiste en vender la solución al museo mediante un esquema de implementación inicial, mantenimiento técnico y cobro recurrente de IA y analítica según uso. La segunda consistiría en una alianza de coparticipación, en la que la solución propuesta implementa la solución y luego participa en el ingreso generado por una guía virtual pagada por el visitante final.
 
 La primera alternativa presenta mayor coherencia con la realidad de contratación institucional, especialmente en museos públicos o de administración estatal. En ese esquema, el museo es el cliente directo, el proveedor tecnológico conserva una estructura de ingresos predecible y el servicio puede presupuestarse como gasto operativo o como contratación tecnológica. La segunda alternativa tiene un potencial económico mucho más alto, pero también eleva la incertidumbre comercial porque depende de la disposición del visitante a pagar, del flujo real de usuarios y de la voluntad del museo para aceptar un acuerdo de reparto de ingresos.
 
@@ -242,11 +242,11 @@ La primera alternativa presenta mayor coherencia con la realidad de contratació
 		Uso en la tesis & Modelo principal para la evaluación económica & Modelo alternativo para discusión estratégica \\
 		\hline
 	\end{tabular}
-	\caption[Comparación de alternativas de monetización para MuseIQ]{Comparación entre un modelo B2B institucional y un modelo de coparticipación por pago del visitante para MuseIQ. Fuente: elaboración propia.}
+	\caption[Comparación de alternativas de monetización para la solución propuesta]{Comparación entre un modelo B2B institucional y un modelo de coparticipación por pago del visitante para la solución propuesta. Fuente: elaboración propia.}
 	\label{tab:modelos-monetizacion-museiq}
 \end{table}
 
-Si se ensaya de forma exploratoria el segundo enfoque, y se asume que cada visitante paga S/10 por una guía virtual, el ingreso potencial para MuseIQ dependería del porcentaje de participación acordado con el museo. Con una retención del 50\%, el ingreso neto por usuario sería de S/5; con 40\%, de S/4; con 30\%, de S/3; y con 20\%, de S/2. Aplicado al escenario base de 38\,336 usuarios activos por año, ello equivaldría a ingresos anuales potenciales de S/191\,680, S/153\,344, S/115\,008 y S/76\,672 por museo activo, respectivamente. Estas cifras no deben integrarse directamente al escenario financiero principal, porque responden a una estructura contractual distinta; sin embargo, resultan útiles como referencia para mostrar que MuseIQ también podría evolucionar hacia un esquema de monetización compartida en instituciones con alta afluencia y vocación turística.
+Si se ensaya de forma exploratoria el segundo enfoque, y se asume que cada visitante paga S/10 por una guía virtual, el ingreso potencial para la solución propuesta dependería del porcentaje de participación acordado con el museo. Con una retención del 50\%, el ingreso neto por usuario sería de S/5; con 40\%, de S/4; con 30\%, de S/3; y con 20\%, de S/2. Aplicado al escenario base de 38\,336 usuarios activos por año, ello equivaldría a ingresos anuales potenciales de S/191\,680, S/153\,344, S/115\,008 y S/76\,672 por museo activo, respectivamente. Estas cifras no deben integrarse directamente al escenario financiero principal, porque responden a una estructura contractual distinta; sin embargo, resultan útiles como referencia para mostrar que la solución propuesta también podría evolucionar hacia un esquema de monetización compartida en instituciones con alta afluencia y vocación turística.
 
 \section{Flujo de ingresos proyectados}
 
@@ -276,22 +276,22 @@ Bajo el escenario base se asume que en el primer año se concreta la implementac
 		\textbf{Total acumulado} & \textbf{5,100} & \textbf{8,100} & \textbf{91,800} & \textbf{500} & \textbf{105,500} \\
 		\hline
 	\end{tabular}
-	\caption[Flujo de ingresos proyectados para el piloto de Sipán]{Flujo de ingresos proyectados para MuseIQ en el escenario base del piloto del Museo Tumbas Reales de Sipán a lo largo de diez años, incorporando mantenimiento técnico y servicio recurrente de IA y analítica. Fuente: elaboración propia con base en los supuestos del modelo.}
+	\caption[Flujo de ingresos proyectados para el piloto de Sipán]{Flujo de ingresos proyectados para la solución propuesta en el escenario base del piloto del Museo Tumbas Reales de Sipán a lo largo de diez años, incorporando mantenimiento técnico y servicio recurrente de IA y analítica. Fuente: elaboración propia con base en los supuestos del modelo.}
 	\label{tab:flujo-ingresos-sipan}
 \end{table}
 
-Con esta estructura, el flujo acumulado del horizonte 2026--2035 asciende a S/105\,500. El comportamiento económico cambia de manera importante frente a la versión simplificada previa: el mantenimiento técnico permanece como un rubro menor, mientras que el servicio recurrente de IA y analítica se convierte en la principal fuente de ingreso anual después de la implementación. Este patrón es más coherente con la arquitectura real de MuseIQ, en la que el costo operativo no desaparece tras el despliegue inicial, sino que depende del uso efectivo de la capa conversacional.
+Con esta estructura, el flujo acumulado del horizonte 2026--2035 asciende a S/105\,500. El comportamiento económico cambia de manera importante frente a la versión simplificada previa: el mantenimiento técnico permanece como un rubro menor, mientras que el servicio recurrente de IA y analítica se convierte en la principal fuente de ingreso anual después de la implementación. Este patrón es más coherente con la arquitectura real de la solución propuesta, en la que el costo operativo no desaparece tras el despliegue inicial, sino que depende del uso efectivo de la capa conversacional.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.80\textwidth]{flujo_ingresos_10_anios.png}
-	\caption[Flujo de ingresos del piloto base en Sipán]{Comportamiento del flujo de ingresos del piloto base de MuseIQ en Sipán durante el horizonte de diez años. Fuente: elaboración propia.}
+	\caption[Flujo de ingresos del piloto base en Sipán]{Comportamiento del flujo de ingresos del piloto base de la solución propuesta en Sipán durante el horizonte de diez años. Fuente: elaboración propia.}
 	\label{fig:flujo-ingresos-piloto-sipan}
 \end{figure}
 
 \subsection{Extrapolación exploratoria de escalamiento}
 
-Aunque el escenario base se restringe deliberadamente al piloto de Sipán, la unidad económica construida permite ensayar una extrapolación comercial simple. Esta extrapolación no sustituye al escenario base ni a la evaluación financiera del Capítulo 10; su función es mostrar cómo podría evolucionar el flujo de ingresos si, una vez validado el piloto, MuseIQ lograra incorporar de manera sostenida nuevos museos del mismo segmento.
+Aunque el escenario base se restringe deliberadamente al piloto de Sipán, la unidad económica construida permite ensayar una extrapolación comercial simple. Esta extrapolación no sustituye al escenario base ni a la evaluación financiera del Capítulo 10; su función es mostrar cómo podría evolucionar el flujo de ingresos si, una vez validado el piloto, la solución propuesta lograra incorporar de manera sostenida nuevos museos del mismo segmento.
 
 Para conservar consistencia metodológica, se mantienen cuatro supuestos. Primero, el año 2026 corresponde exclusivamente a la implementación de Sipán. Segundo, a partir de 2027 se incorporan de manera uniforme 2, 3 o 4 museos nuevos por año, según el escenario. Tercero, cada museo nuevo genera en su año de ingreso únicamente el precio de implementación de S/5\,100. Cuarto, los ingresos recurrentes por mantenimiento técnico e IA y analítica, equivalentes en conjunto a S/11\,100 anuales por museo en el escenario base, comienzan a facturarse desde el año siguiente a la implementación. Para no inflar artificialmente las cifras, en esta extrapolación no se incluyen servicios adicionales extraordinarios.
 
@@ -317,18 +317,18 @@ Para conservar consistencia metodológica, se mantienen cuatro supuestos. Primer
 		\textbf{Acumulado 2026--2035} & \textbf{105,000} & \textbf{996,000} & \textbf{1,441,500} & \textbf{1,887,000} \\
 		\hline
 	\end{tabular}
-	\caption[Escenarios exploratorios de escalamiento comercial de MuseIQ]{Escenarios exploratorios de escalamiento comercial de MuseIQ a diez años a partir del piloto de Sipán, considerando únicamente precio de implementación e ingresos recurrentes estructurales. Fuente: elaboración propia con base en los supuestos del modelo.}
+	\caption[Escenarios exploratorios de escalamiento comercial de la solución propuesta]{Escenarios exploratorios de escalamiento comercial de la solución propuesta a diez años a partir del piloto de Sipán, considerando únicamente precio de implementación e ingresos recurrentes estructurales. Fuente: elaboración propia con base en los supuestos del modelo.}
 	\label{tab:extrapolacion-ingresos-museiq}
 \end{table}
 
 La extrapolación muestra un patrón claro. Una vez cubierta la primera implementación, el crecimiento del negocio no depende tanto de repetir ventas aisladas de hardware, sino de aumentar gradualmente la base de museos activos que pagan servicios recurrentes. Bajo un escenario de incorporación de dos museos nuevos por año, el ingreso acumulado del horizonte 2026--2035 podría elevarse a S/996\,000. Si el ritmo llegara a tres museos por año, el acumulado alcanzaría S/1\,441\,500, y con cuatro museos por año ascendería a S/1\,887\,000.
 
-La utilidad analítica de esta proyección no radica en afirmar que tal crecimiento ocurrirá de manera automática, sino en evidenciar la sensibilidad positiva del modelo frente a la replicación institucional. MuseIQ tiene una barrera de entrada moderada por museo, pero gana escala económica cuando la base instalada comienza a producir ingresos recurrentes estables. Por ello, museos como Brüning, Sicán o Túcume aparecen no solo como opciones de mercado objetivo, sino como nodos plausibles de expansión una vez que el piloto de Sipán haya sido validado.
+La utilidad analítica de esta proyección no radica en afirmar que tal crecimiento ocurrirá de manera automática, sino en evidenciar la sensibilidad positiva del modelo frente a la replicación institucional. La solución propuesta tiene una barrera de entrada moderada por museo, pero gana escala económica cuando la base instalada comienza a producir ingresos recurrentes estables. Por ello, museos como Brüning, Sicán o Túcume aparecen no solo como opciones de mercado objetivo, sino como nodos plausibles de expansión una vez que el piloto de Sipán haya sido validado.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.80\textwidth]{escenarios_ingresos_comparados.png}
-	\caption[Escenarios de ingresos según ritmo de expansión comercial]{Comparación de los ingresos anuales de MuseIQ según distintos ritmos de expansión comercial posteriores al piloto de Sipán. Fuente: elaboración propia.}
+	\caption[Escenarios de ingresos según ritmo de expansión comercial]{Comparación de los ingresos anuales de la solución propuesta según distintos ritmos de expansión comercial posteriores al piloto de Sipán. Fuente: elaboración propia.}
 	\label{fig:escenarios-ingresos-expansion}
 \end{figure}
 
@@ -342,6 +342,7 @@ Pese a esas limitaciones, la estructura propuesta resulta metodológicamente má
 
 \section{Conclusión}
 
-El flujo de ingresos proyectados de MuseIQ debe estructurarse a partir de su naturaleza híbrida y del caso piloto seleccionado. En el Museo Tumbas Reales de Sipán, el precio de implementación inicial se estima en S/5\,100, construido sobre un costo directo aproximado de S/3\,900 y un margen comercial del 30\%. A ello se suma un precio anual de mantenimiento técnico de S/900, una cartera plausible de servicios adicionales y, de forma decisiva, un precio recurrente de IA y analítica valorizado en aproximadamente S/10\,200 anuales para el escenario base.
+El flujo de ingresos proyectados de la solución propuesta debe estructurarse a partir de su naturaleza híbrida y del caso piloto seleccionado. En el Museo Tumbas Reales de Sipán, el precio de implementación inicial se estima en S/5\,100, construido sobre un costo directo aproximado de S/3\,900 y un margen comercial del 30\%. A ello se suma un precio anual de mantenimiento técnico de S/900, una cartera plausible de servicios adicionales y, de forma decisiva, un precio recurrente de IA y analítica valorizado en aproximadamente S/10\,200 anuales para el escenario base.
 
-Bajo un escenario base prudente, MuseIQ generaría un ingreso fuerte en el año de implementación y luego ingresos recurrentes asociados no solo al sostenimiento técnico, sino también al uso real de la capa conversacional. Esta estructura es más coherente con la lógica B2B del proyecto, con la realidad operativa del museo seleccionado y con el tipo de solución tecnológica propuesta en la tesis. En consecuencia, el capítulo proporciona un punto de partida más realista para la evaluación económico-financiera posterior y para discutir la sostenibilidad de MuseIQ como servicio tecnológico institucional orientado al patrimonio cultural.
+Bajo un escenario base prudente, la solución propuesta generaría un ingreso fuerte en el año de implementación y luego ingresos recurrentes asociados no solo al sostenimiento técnico, sino también al uso real de la capa conversacional. Esta estructura es más coherente con la lógica B2B del proyecto, con la realidad operativa del museo seleccionado y con el tipo de solución tecnológica propuesta en la tesis. En consecuencia, el capítulo proporciona un punto de partida más realista para la evaluación económico-financiera posterior y para discutir la sostenibilidad de la solución propuesta como servicio tecnológico institucional orientado al patrimonio cultural.
+
