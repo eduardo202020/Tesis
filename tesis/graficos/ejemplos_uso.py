@@ -22,6 +22,11 @@ from generar_grafico import (
     grafico_mapa_segmentacion,
     grafico_mapeo_beacon_sala_museiq,
     grafico_modelo_logico_datos_museiq,
+    grafico_arquitectura_general_museiq,
+    grafico_secuencia_operativa_museiq,
+    grafico_despliegue_prototipo_museiq,
+    grafico_payload_ble_museiq,
+    grafico_payload_consulta_muserag,
     grafico_pastel,
     grafico_posicionamiento_museiq,
     grafico_relacion_problema_solucion_aporte,
@@ -393,8 +398,29 @@ def generar_mapeo_beacon_sala():
     grafico_mapeo_beacon_sala_museiq("cap8/mapeo_beacon_sala_museiq.png")
 
 
+def generar_payload_ble():
+    grafico_payload_ble_museiq("cap8/payload_ble_museiq.png")
+
+
 def generar_modelo_logico_datos():
     grafico_modelo_logico_datos_museiq("cap8/modelo_logico_datos_museiq.png")
+
+
+def generar_payload_consulta_muserag():
+    grafico_payload_consulta_muserag("cap8/payload_consulta_muserag.png")
+
+
+# Capitulo 9
+def generar_arquitectura_general_museiq():
+    grafico_arquitectura_general_museiq("cap9/arquitectura_general_museiq.png")
+
+
+def generar_secuencia_operativa_museiq():
+    grafico_secuencia_operativa_museiq("cap9/secuencia_operativa_museiq.png")
+
+
+def generar_despliegue_prototipo_museiq():
+    grafico_despliegue_prototipo_museiq("cap9/despliegue_prototipo_museiq.png")
 
 
 # Registro de graficos individuales
@@ -426,7 +452,12 @@ GRAFICOS = {
     "flujo_contextual_museiq": generar_flujo_contextual,
     "clasificacion_datos_entrada_museiq": generar_clasificacion_datos_entrada,
     "mapeo_beacon_sala_museiq": generar_mapeo_beacon_sala,
+    "payload_ble_museiq": generar_payload_ble,
     "modelo_logico_datos_museiq": generar_modelo_logico_datos,
+    "payload_consulta_muserag": generar_payload_consulta_muserag,
+    "arquitectura_general_museiq": generar_arquitectura_general_museiq,
+    "secuencia_operativa_museiq": generar_secuencia_operativa_museiq,
+    "despliegue_prototipo_museiq": generar_despliegue_prototipo_museiq,
     "composicion_inversion": generar_composicion_inversion,
     "flujo_economico": generar_flujo_economico,
     "sensibilidad_van": generar_sensibilidad_van,
@@ -479,7 +510,14 @@ CAPITULOS = {
     "cap8": [
         "clasificacion_datos_entrada_museiq",
         "mapeo_beacon_sala_museiq",
+        "payload_ble_museiq",
         "modelo_logico_datos_museiq",
+        "payload_consulta_muserag",
+    ],
+    "cap9": [
+        "arquitectura_general_museiq",
+        "secuencia_operativa_museiq",
+        "despliegue_prototipo_museiq",
     ],
     "cap10": [
         "composicion_inversion",

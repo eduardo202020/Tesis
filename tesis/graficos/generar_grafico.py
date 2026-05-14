@@ -979,6 +979,68 @@ def grafico_mapeo_beacon_sala_museiq(nombre_salida):
     _guardar_figura(fig, nombre_salida)
 
 
+def grafico_payload_ble_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 6.6))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 6.5)
+    ax.axis("off")
+
+    ax.text(0.7, 5.9, "Beacon BLE emitido por iot-museiq", fontsize=12, color="#102A43", weight="bold")
+
+    segmentos = [
+        (0.7, 4.4, 2.2, 0.95, "ROOM_ID\n6 bytes\nSALA_1", "#D9F0F7"),
+        (2.95, 4.4, 1.2, 0.95, "NODE\n1 byte\n02", "#FCE7B2"),
+        (4.2, 4.4, 1.35, 0.95, "FW\n2 bytes\n1.0", "#D8F3DC"),
+        (5.6, 4.4, 1.45, 0.95, "TX\n1 byte\n-12 dBm", "#F9D6D5"),
+        (7.1, 4.4, 1.85, 0.95, "BATTERY\n2 bytes\n3700 mV", "#E8F1FA"),
+    ]
+
+    for x, y, w, h, texto, color in segmentos:
+        patch = FancyBboxPatch(
+            (x, y), w, h,
+            boxstyle="round,pad=0.03,rounding_size=0.08",
+            linewidth=1.4, edgecolor="#123C69", facecolor=color
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=10, color="#102A43")
+
+    ax.text(9.45, 4.87, "Service Data UUID 0xA00A", fontsize=10, color="#123C69")
+
+    origen = FancyBboxPatch(
+        (0.9, 1.2), 2.4, 1.1,
+        boxstyle="round,pad=0.03,rounding_size=0.10",
+        linewidth=1.4, edgecolor="#123C69", facecolor="#EADCF8"
+    )
+    parser = FancyBboxPatch(
+        (4.6, 1.2), 3.0, 1.1,
+        boxstyle="round,pad=0.03,rounding_size=0.10",
+        linewidth=1.4, edgecolor="#123C69", facecolor="#D8F3DC"
+    )
+    salida = FancyBboxPatch(
+        (8.8, 0.9), 3.2, 1.7,
+        boxstyle="round,pad=0.03,rounding_size=0.10",
+        linewidth=1.4, edgecolor="#123C69", facecolor="#FCE7B2"
+    )
+    ax.add_patch(origen)
+    ax.add_patch(parser)
+    ax.add_patch(salida)
+
+    ax.text(2.1, 1.75, "Advertising BLE\nserviceData + localName", ha="center", va="center", fontsize=10, color="#102A43")
+    ax.text(6.1, 1.75, "Parseo en app móvil\nnormalización y lectura de bytes", ha="center", va="center", fontsize=10, color="#102A43")
+    ax.text(10.4, 1.75, "Entrada usable\nbeacon_id, room_id, beacon_node,\nrssi, txPower, battery, lastSeen", ha="center", va="center", fontsize=10, color="#102A43")
+
+    flechas = [
+        ((3.3, 1.75), (4.6, 1.75)),
+        ((7.6, 1.75), (8.8, 1.75)),
+        ((4.0, 4.4), (5.8, 2.3)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.set_title("Contrato de datos BLE desde el beacon hasta la entrada interpretable en la app", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
 def grafico_modelo_logico_datos_museiq(nombre_salida):
     fig, ax = plt.subplots(figsize=(13, 7.2))
     ax.set_xlim(0, 13)
@@ -1026,6 +1088,183 @@ def grafico_modelo_logico_datos_museiq(nombre_salida):
     ax.text(4.65, 1.1, "eventos de sesion y datos en tiempo real", fontsize=9.5, color="#123C69")
 
     ax.set_title("Modelo logico minimo de datos de entrada para MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_payload_consulta_muserag(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 7.0))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 7)
+    ax.axis("off")
+
+    def caja(x, y, w, h, texto, color, fontsize=10):
+        patch = FancyBboxPatch(
+            (x, y),
+            w,
+            h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4,
+            edgecolor="#123C69",
+            facecolor=color,
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=fontsize, color="#102A43")
+
+    caja(0.7, 4.8, 2.5, 1.05, "App móvil\npregunta + estado del recorrido", "#D9F0F7")
+    caja(0.7, 2.1, 2.5, 1.55, "Payload API\npregunta, museo, sala,\nobra, session_id,\nartwork_context", "#FCE7B2")
+    caja(4.2, 3.5, 2.8, 1.3, "MuseRAG\nfiltros por room_id /\nartwork_id", "#D8F3DC")
+    caja(8.0, 4.8, 2.3, 1.0, "Fuentes base\nPDF institucional", "#F9D6D5")
+    caja(8.0, 3.2, 2.3, 1.0, "Narrativa\nmuseum.json", "#E8F1FA")
+    caja(8.0, 1.6, 2.3, 1.0, "Fichas y datos\n datos.ts", "#EADCF8")
+    caja(10.6, 3.2, 1.8, 1.25, "Chunks +\nmetadatos", "#E8E8E8")
+    caja(4.4, 0.8, 3.2, 1.15, "Respuesta contextual\nrespuesta + fuentes + meta", "#D9F0F7")
+
+    flechas = [
+        ((1.95, 4.8), (1.95, 3.65)),
+        ((3.2, 2.9), (4.2, 3.95)),
+        ((7.0, 4.15), (8.0, 5.3)),
+        ((7.0, 4.15), (8.0, 3.7)),
+        ((7.0, 3.85), (8.0, 2.1)),
+        ((10.3, 5.3), (10.6, 4.0)),
+        ((10.3, 3.7), (10.6, 3.85)),
+        ((10.3, 2.1), (10.6, 3.65)),
+        ((10.6, 3.2), (7.6, 1.4)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.text(10.2, 5.95, "ingesta", fontsize=9.5, color="#123C69")
+    ax.text(5.9, 5.2, "consulta contextualizada", fontsize=9.5, color="#123C69")
+    ax.text(5.3, 0.35, "salida sustentada por evidencia recuperada", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Payload de consulta y fuentes curatoriales que alimentan la respuesta de MuseRAG", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_arquitectura_general_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 7.2))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 7.2)
+    ax.axis("off")
+
+    def caja(x, y, w, h, texto, color, fs=10):
+        patch = FancyBboxPatch(
+            (x, y), w, h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.5, edgecolor="#123C69", facecolor=color
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=fs, color="#102A43")
+
+    caja(0.6, 5.4, 2.4, 1.0, "Infraestructura física\nBeacons ESP32", "#D9F0F7")
+    caja(0.6, 3.7, 2.4, 1.0, "Visitante + entorno\nmovimiento y orientación", "#FCE7B2")
+    caja(3.7, 4.45, 2.9, 1.35, "App móvil MuseIQ\nBLE + sensores + UI + voz", "#D8F3DC")
+    caja(7.2, 5.4, 2.5, 1.0, "Base local\nSQLite del recorrido", "#F9D6D5")
+    caja(7.2, 3.7, 2.5, 1.0, "API MuseRAG\nFastAPI", "#E8F1FA")
+    caja(10.1, 5.4, 2.2, 1.0, "Chroma\níndice vectorial", "#EADCF8")
+    caja(10.1, 3.7, 2.2, 1.0, "LM Studio\nchat + embeddings", "#E8E8E8")
+    caja(7.2, 1.5, 5.1, 1.1, "Corpus curatorial\nPDF institucional + museum.json + datos.ts + imágenes", "#D8F3DC")
+
+    flechas = [
+        ((3.0, 5.9), (3.7, 5.15)),
+        ((3.0, 4.2), (3.7, 5.0)),
+        ((6.6, 5.25), (7.2, 5.9)),
+        ((6.6, 4.95), (7.2, 4.2)),
+        ((9.7, 5.9), (10.1, 5.9)),
+        ((9.7, 4.2), (10.1, 4.2)),
+        ((9.0, 2.6), (9.0, 3.7)),
+        ((10.8, 2.6), (10.8, 3.7)),
+        ((9.2, 2.6), (10.8, 5.4)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.text(5.15, 6.25, "captura de contexto", fontsize=9.5, color="#123C69")
+    ax.text(8.3, 6.35, "persistencia local", fontsize=9.5, color="#123C69")
+    ax.text(8.1, 3.15, "consulta contextual", fontsize=9.5, color="#123C69")
+    ax.text(9.15, 0.95, "fuentes del conocimiento institucional", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Arquitectura general del sistema MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_secuencia_operativa_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(13, 5.4))
+    ax.set_xlim(0, 13)
+    ax.set_ylim(0, 5)
+    ax.axis("off")
+
+    etapas = [
+        ("1. Beacon y sensores\nemiten contexto", "#D9F0F7"),
+        ("2. App detecta\nsala / obra probable", "#FCE7B2"),
+        ("3. Visitante pregunta\npor texto o voz", "#D8F3DC"),
+        ("4. MuseRAG recupera\nfuentes relevantes", "#F9D6D5"),
+        ("5. LLM redacta\nrespuesta guiada", "#E8F1FA"),
+        ("6. App entrega\ntexto, voz e imagen", "#EADCF8"),
+    ]
+    xs = [0.35, 2.35, 4.35, 6.35, 8.35, 10.35]
+
+    for (texto, color), x in zip(etapas, xs):
+        patch = FancyBboxPatch(
+            (x, 1.7), 1.8, 1.45,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4, edgecolor="#123C69", facecolor=color
+        )
+        ax.add_patch(patch)
+        ax.text(x + 0.9, 2.425, texto, ha="center", va="center", fontsize=9.7, color="#102A43")
+
+    for i in range(len(xs) - 1):
+        ax.annotate("", xy=(xs[i + 1], 2.425), xytext=(xs[i] + 1.8, 2.425),
+                    arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.text(1.2, 1.0, "captura física", fontsize=9.5, color="#123C69")
+    ax.text(5.0, 1.0, "contextualización", fontsize=9.5, color="#123C69")
+    ax.text(9.0, 1.0, "recuperación y generación", fontsize=9.5, color="#123C69")
+    ax.text(11.0, 3.85, "mediación final", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Secuencia operativa principal del prototipo MuseIQ", fontsize=14, color="#102A43", pad=14)
+    _guardar_figura(fig, nombre_salida)
+
+
+def grafico_despliegue_prototipo_museiq(nombre_salida):
+    fig, ax = plt.subplots(figsize=(12.8, 6.8))
+    ax.set_xlim(0, 12.8)
+    ax.set_ylim(0, 6.8)
+    ax.axis("off")
+
+    def caja(x, y, w, h, texto, color, fs=10):
+        patch = FancyBboxPatch(
+            (x, y), w, h,
+            boxstyle="round,pad=0.03,rounding_size=0.10",
+            linewidth=1.4, edgecolor="#123C69", facecolor=color
+        )
+        ax.add_patch(patch)
+        ax.text(x + w / 2, y + h / 2, texto, ha="center", va="center", fontsize=fs, color="#102A43")
+
+    caja(0.7, 4.8, 2.4, 1.0, "Sala del museo\nESP32 S1-M1 / M2 / M3", "#D9F0F7")
+    caja(0.7, 2.6, 2.4, 1.0, "Visitante con Android\nDevelopment Build", "#FCE7B2")
+    caja(4.0, 3.7, 2.8, 1.2, "Red local / Wi-Fi\nconectividad de pruebas", "#D8F3DC")
+    caja(7.5, 4.8, 2.3, 1.0, "PC servidor local\nMuseRAG + Chroma", "#F9D6D5")
+    caja(7.5, 2.6, 2.3, 1.0, "LM Studio local\nmodelos cargados", "#E8F1FA")
+    caja(10.3, 3.7, 1.7, 1.2, "Simulación web\nGitHub Pages", "#EADCF8")
+
+    flechas = [
+        ((3.1, 5.3), (4.0, 4.55)),
+        ((3.1, 3.1), (4.0, 4.0)),
+        ((6.8, 4.4), (7.5, 5.3)),
+        ((6.8, 4.1), (7.5, 3.1)),
+        ((9.8, 3.1), (9.8, 3.95)),
+        ((6.8, 4.3), (10.3, 4.3)),
+    ]
+    for inicio, fin in flechas:
+        ax.annotate("", xy=fin, xytext=inicio, arrowprops=dict(arrowstyle="->", lw=1.8, color="#123C69"))
+
+    ax.text(4.35, 5.45, "BLE", fontsize=9.5, color="#123C69")
+    ax.text(4.55, 3.25, "HTTP", fontsize=9.5, color="#123C69")
+    ax.text(7.95, 1.95, "OpenAI-compatible API local", fontsize=9.5, color="#123C69")
+    ax.text(10.25, 5.35, "maqueta complementaria", fontsize=9.5, color="#123C69")
+
+    ax.set_title("Esquema de despliegue del prototipo y entorno de validación", fontsize=14, color="#102A43", pad=14)
     _guardar_figura(fig, nombre_salida)
 
 
