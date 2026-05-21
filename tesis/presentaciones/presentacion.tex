@@ -5,6 +5,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{xcolor}
 \usepackage{graphicx}
+\usepackage{array}
+\usepackage{booktabs}
 
 \graphicspath{
   {../graficos/output/cap1/}
@@ -15,7 +17,9 @@
   {../graficos/output/cap6/}
   {../graficos/output/cap7/}
   {../graficos/output/cap8/}
+  {../graficos/output/cap9/}
   {../graficos/output/cap10/}
+  {./src/ilustraciones/}
 }
 
 \definecolor{MuseBlue}{HTML}{123C69}
@@ -23,11 +27,11 @@
 \definecolor{MuseLightBg}{HTML}{FFFFFF}
 \definecolor{MuseDarkText}{HTML}{102A43}
 \definecolor{MuseRule}{HTML}{8FA3B8}
+\definecolor{MuseSoft}{HTML}{F3F6F9}
 
 \usetheme{default}
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{headline}{}
-\setbeamertemplate{footline}{}
 
 \setbeamercolor{background canvas}{bg=MuseLightBg}
 \setbeamercolor{normal text}{fg=MuseDarkText,bg=MuseLightBg}
@@ -37,58 +41,68 @@
 \setbeamercolor{author}{fg=MuseDarkText}
 \setbeamercolor{institute}{fg=MuseDarkText}
 \setbeamercolor{date}{fg=MuseRule}
+\setbeamercolor{block title}{fg=white,bg=MuseBlue}
+\setbeamercolor{block body}{fg=MuseDarkText,bg=MuseLightBg}
+\setbeamercolor{itemize item}{fg=MuseGold}
+\setbeamercolor{itemize subitem}{fg=MuseGold}
+\setbeamercolor{enumerate item}{fg=MuseGold}
 \setbeamerfont{frametitle}{size=\Large,series=\bfseries}
 
 \newcommand{\uniLogo}{src/logo.png}
 
 \setbeamertemplate{frametitle}{
   \nointerlineskip
-  \begin{beamercolorbox}[wd=\paperwidth,ht=1.25cm,dp=0.22cm,leftskip=0.45cm,rightskip=0.35cm]{frametitle}
-    \usebeamerfont{frametitle}\insertframetitle
+  \begin{beamercolorbox}[wd=\paperwidth,ht=1.15cm,dp=0.20cm]{frametitle}
+    \hspace*{0.45cm}\usebeamerfont{frametitle}\insertframetitle
     \hfill
-    \includegraphics[height=0.82cm]{\uniLogo}
+    \includegraphics[height=0.78cm]{\uniLogo}\hspace*{0.35cm}
   \end{beamercolorbox}
+}
+
+\setbeamertemplate{footline}{
+  \leavevmode
+  \hbox{
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.36cm,dp=0.16cm,leftskip=0.35cm,rightskip=0.35cm]{author in head/foot}
+      \color{MuseDarkText}\scriptsize\insertshorttitle\hfill\insertframenumber/\inserttotalframenumber
+    \end{beamercolorbox}
+  }
 }
 
 \setbeamertemplate{title page}{
   \begin{center}
-    \vspace{0.8cm}
-    \includegraphics[height=2.4cm]{\uniLogo}\par
-    \vspace{0.8cm}
-    {\usebeamerfont{title}\LARGE\bfseries\inserttitle\par}
-    \vspace{0.35cm}
-    {\Large\color{MuseGold}\insertsubtitle\par}
-    \vspace{1.0cm}
+    \vspace{0.2cm}
+    \includegraphics[height=1.8cm]{\uniLogo}\par
+    \vspace{0.45cm}
+    {\usebeamerfont{title}\Large\bfseries\inserttitle\par}
+    \vspace{0.25cm}
+    {\large\color{MuseGold}\insertsubtitle\par}
+    \vspace{0.55cm}
     {\large\insertauthor\par}
-    \vspace{0.2cm}
-    {\normalsize\insertinstitute\par}
-    \vspace{0.2cm}
-    {\normalsize\insertdate\par}
+    \vspace{0.15cm}
+    {\small\insertinstitute\par}
+    \vspace{0.18cm}
+    {\small\insertdate\par}
     \vfill
   \end{center}
-}
-
-\newcommand{\imageframe}[2]{
-  \begin{frame}{#1}
-    \begin{center}
-      \includegraphics[width=0.90\paperwidth,height=0.73\paperheight,keepaspectratio]{src/#2}
-    \end{center}
-  \end{frame}
 }
 
 \newcommand{\graphframe}[2]{
   \begin{frame}{#1}
     \begin{center}
-      \includegraphics[width=0.90\paperwidth,height=0.73\paperheight,keepaspectratio]{#2}
+      \includegraphics[width=0.90\paperwidth,height=0.68\paperheight,keepaspectratio]{#2}
     \end{center}
   \end{frame}
 }
 
-\title{MuseIQ}
-\subtitle{Presentación ejecutiva de avances de tesis}
-\author{Jhunior Eduardo Guevara Lázaro}
-\institute{Universidad Nacional de Ingeniería}
-\date{\today}
+\newcommand{\slidebg}[1]{%
+  \usebackgroundtemplate{\includegraphics[width=\paperwidth,height=\paperheight]{#1}}%
+}
+
+\title[Guía inteligente contextual para museos]{Diseño y evaluación de una guía inteligente contextual\\para museos basada en BLE, enfoque BYOD\\y recuperación aumentada de información}
+\subtitle{Sustentación del proyecto de tesis}
+\author[Jhunior Guevara]{Jhunior Eduardo Guevara Lázaro}
+\institute{Universidad Nacional de Ingeniería\\Facultad de Ingeniería Eléctrica y Electrónica\\Tutor: MSc. MBA. Ing. René Mitma Ramírez}
+\date{Mayo de 2026}
 
 \begin{document}
 
@@ -96,196 +110,410 @@
   \titlepage
 \end{frame}
 
-\imageframe{El problema que vive hoy el visitante}{02.png}
-\imageframe{La oportunidad que propone MuseIQ}{03.png}
-\graphframe{Un contexto listo para una solución móvil}{smartphones_peru_2019_2024.png}
-\graphframe{La visita presencial ya se está recuperando}{visitas_museos_peru_2019_2024.png}
-\graphframe{La brecha central que queremos resolver}{mapa_problema_central_museiq.png}
-\graphframe{Cómo funciona la propuesta de valor}{arquitectura_conceptual_museiq.png}
-\graphframe{Del problema a la solución y al aporte}{relacion_problema_solucion_aporte.png}
-\graphframe{Por qué existe una brecha real en el mercado}{brecha_demanda_mediacion_digital.png}
-\graphframe{Hacia dónde se mueve el mercado cultural digital}{panorama_global_submercados_2024.png}
-\graphframe{Qué están haciendo hoy los museos inteligentes}{ecosistema_museos_inteligentes.png}
-\graphframe{Cómo validaremos que esto sí funciona}{ruta_metodologica_validacion_museiq.png}
-\graphframe{Dónde está el primer mercado más viable}{segmentos_mercado_objetivo_prioridad.png}
-\graphframe{Cómo se organiza el mercado objetivo}{mapa_segmentacion_mercado_objetivo.png}
-\graphframe{Por qué priorizamos ese segmento}{criterios_mercado_objetivo_prioritario.png}
-\graphframe{El ecosistema peruano ya tiene condiciones de adopción}{ecosistema_nacional_adopcion_museiq.png}
-\graphframe{Qué ofrece hoy el mercado internacional}{categorias_oferta_tecnologica_mundial.png}
-\graphframe{Cómo se comparan las soluciones actuales}{comparacion_capacidades_oferta_mundial.png}
-\graphframe{Dónde se posiciona MuseIQ frente a esa oferta}{posicionamiento_museiq_oferta_mundial.png}
-\graphframe{La integración de capacidades como diferenciador}{integracion_capacidades_mercado_vs_museiq.png}
-\graphframe{Cómo se genera valor económico en la propuesta}{estructura_ingresos_rubro.png}
-
-\begin{frame}{Capítulo 5: dos enfoques de negocio posibles}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{p{3.3cm} p{5.2cm} p{5.2cm}}
-      \hline
-      \textbf{Criterio} & \textbf{Modelo 1: servicio B2B al museo} & \textbf{Modelo 2: alianza con revenue share} \\
-      \hline
-      Cliente directo & Museo o institución cultural & Visitante final, con museo como socio \\
-      Ingreso principal & Implementación + mantenimiento + IA según uso & 50\% del pago por guía virtual \\
-      Riesgo comercial & Moderado & Alto \\
-      Facilidad de adopción & Más compatible con compra institucional & Requiere acuerdo comercial y cobro al visitante \\
-      Escalabilidad & Alta en red de museos & Alta si la afluencia turística sostiene la demanda \\
-      Uso en la tesis & Modelo principal evaluado & Modelo alternativo para discusión \\
-      \hline
-    \end{tabular}
-  \end{center}
+\begin{frame}{Agenda}
+  \begin{itemize}
+    \item Problema, oportunidad y objetivo de la tesis
+    \item Metodología, mercado objetivo y diferenciación
+    \item Diseño de la solución: tecnologías, datos, arquitectura y prototipo
+    \item Validación funcional, viabilidad económica y marco técnico
+    \item Conclusiones y trabajos futuros
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Capítulo 5: piloto económico en Sipán}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{l c c c}
-      \hline
-      \textbf{Ítem} & \textbf{Cantidad} & \textbf{Unitario (S/)} & \textbf{Subtotal (S/)} \\
-      \hline
-      Sensores BLE & 21 & 30 & 630 \\
-      Raspberry Pi 5 & 1 & 600 & 600 \\
-      Fuente oficial & 1 & 75 & 75 \\
-      Carcasa + microSD + cables & 1 & 80 & 80 \\
-      Baterías y soportes & 21 & -- & 116 \\
-      \hline
-      \textbf{Hardware base} & & & \textbf{1,501} \\
-      Instalación y configuración & 32 h & 60/h & 1,920 \\
-      Contingencia técnica & & & 480 \\
-      \hline
-      \textbf{Costo directo total} & & & \textbf{3,900} \\
-      Margen comercial 30\% & & & 1,170 \\
-      \hline
-      \textbf{Precio de implementación} & & & \textbf{5,100} \\
-      \hline
-    \end{tabular}
-  \end{center}
+{\slidebg{problema-oportunidad-ai-v1.png}
+\begin{frame}{Problema y oportunidad}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.50\textwidth}
+      \begin{block}{Brecha observada}
+        \footnotesize
+        \begin{itemize}
+          \item Mediación estática y poco adaptativa
+          \item Baja personalización del recorrido
+          \item Accesibilidad limitada durante la visita
+        \end{itemize}
+      \end{block}
+      \begin{block}{Datos del contexto}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{lcc}
+          \toprule
+          Indicador & 2019 & 2024 \\
+          \midrule
+          Hogares con smartphone & 78.0\% & 94.8\% \\
+          Visitas a museos del Estado & 1\,956\,034 & 1\,790\,502 \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        Oportunidad: solución móvil BYOD de bajo costo y despliegue progresivo.
+      \end{block}
+    \column{0.50\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{objetivo-aporte-ai-v1.png}
+\begin{frame}{Objetivo y aporte}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.50\textwidth}
+      \begin{block}{Objetivo}
+        \footnotesize
+        Reconocer la sala probable del visitante, activar contenido pertinente
+        y responder consultas con apoyo curatorial institucional.
+      \end{block}
+      \begin{block}{Aporte integrado}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.2}
+        \begin{tabular}{p{2.2cm} p{2.2cm}}
+          \textbf{BLE} & \textbf{Sensores} \\
+          proximidad por sala & orientación y movimiento \\
+          \addlinespace[0.15cm]
+          \textbf{Voz} & \textbf{RAG} \\
+          acceso multimodal & respuesta sustentada \\
+        \end{tabular}
+
+        \vspace{0.2cm}
+
+        Resultado: activación contextual útil, no posicionamiento centimétrico.
+      \end{block}
+    \column{0.50\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{metodologia-investigacion-ai-v1.png}
+\begin{frame}{Metodología de la investigación}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.52\textwidth}
+      \begin{block}{Enfoque}
+        \footnotesize
+        Investigación aplicada con diseño de solución.
+      \end{block}
+      \begin{block}{Ruta metodológica}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{cl}
+          1 & Contexto nacional y demanda museística \\
+          2 & Estado del arte: museos, voz, BLE y RAG \\
+          3 & Mercado objetivo y propuesta de valor \\
+          4 & Datos, arquitectura e implementación del MVP \\
+          5 & Validación funcional y evaluación económica \\
+        \end{tabular}
+      \end{block}
+    \column{0.48\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{mercado-objetivo-ai-v1.png}
+\begin{frame}{Mercado objetivo}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.50\textwidth}
+      \begin{block}{Cliente prioritario}
+        \footnotesize
+        Museos estatales de alta afluencia con necesidad real de mediación digital.
+      \end{block}
+      \begin{block}{Definición operativa}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{ll}
+          \toprule
+          Variable & Definición \\
+          \midrule
+          Entrada comercial & B2B institucional \\
+          Caso base & Museo Tumbas Reales de Sipán \\
+          Primer despliegue & piloto por sala / museo \\
+          Escala inicial & clúster museal regional \\
+          \bottomrule
+        \end{tabular}
+      \end{block}
+    \column{0.50\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{diferenciacion-oferta-mundial-ai-v1.png}
+\begin{frame}{Diferenciación frente a la oferta mundial}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.54\textwidth}
+      \begin{block}{Comparativo funcional}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{lcc}
+          \toprule
+          Capacidad & Oferta parcial & MuseIQ \\
+          \midrule
+          BYOD móvil & parcial & \checkmark \\
+          Proximidad por sala & parcial & \checkmark \\
+          Interacción por voz & parcial & \checkmark \\
+          RAG curatorial & rara & \checkmark \\
+          Integración en un solo flujo & no usual & \checkmark \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        La diferenciación no es un componente aislado, sino la integración.
+      \end{block}
+    \column{0.46\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{fundamentos-tecnologicos-ai-v1.png}
+\begin{frame}{Fundamentos tecnológicos de la propuesta}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.55\textwidth}
+      \begin{block}{Tecnologías base}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{3.0cm} p{3.6cm}}
+          \toprule
+          Componente & Función principal \\
+          \midrule
+          BLE con ESP32 & reconocer sala o nodo cercano \\
+          Smartphone BYOD & captar contexto y operar la experiencia \\
+          TTS/STT & habilitar interacción multimodal \\
+          RAG & responder con soporte documental \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        Criterio técnico: utilidad contextual con bajo costo de despliegue.
+      \end{block}
+    \column{0.45\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{datos-entrada-ai-v1.png}
+\begin{frame}{Diseño de los datos de entrada}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.58\textwidth}
+      \begin{block}{Estructura mínima de entradas}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{2.2cm} p{2.0cm} p{2.7cm}}
+          \toprule
+          Fuente & Dato clave & Uso \\
+          \midrule
+          BLE & sala, nodo, RSSI & contexto espacial \\
+          Sensores & orientación, pasos & inferencia local \\
+          Interacción & voz, texto, eventos & consulta del visitante \\
+          Corpus & obra, sala, metadatos & respuesta contextual \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        Clave: evitar un chatbot genérico y mantener trazabilidad.
+      \end{block}
+    \column{0.42\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{arquitectura-general-solucion-ai-v1.png}
+\begin{frame}{Arquitectura general de la solución}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.54\textwidth}
+      \begin{block}{Módulos principales}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{3.0cm} p{3.2cm}}
+          \toprule
+          Módulo & Rol \\
+          \midrule
+          Contexto físico & beacons y entorno \\
+          App móvil & captura, estado y experiencia \\
+          Persistencia local & salas, obras y ruta \\
+          MuseRAG & recuperación y respuesta \\
+          Entrega multimodal & texto, voz e imágenes \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        Criterios: modularidad, contextualización progresiva y tolerancia a degradación.
+      \end{block}
+    \column{0.46\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{secuencia-operativa-ai-v1.png}
+\begin{frame}{Secuencia operativa}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.56\textwidth}
+      \begin{block}{Flujo end-to-end}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{cl}
+          1 & detección BLE y sensores \\
+          2 & inferencia de sala o referencia próxima \\
+          3 & navegación o pregunta del visitante \\
+          4 & envío de \textit{payload} contextual \\
+          5 & recuperación de fuentes en MuseRAG \\
+          6 & respuesta multimodal al visitante \\
+        \end{tabular}
+      \end{block}
+    \column{0.44\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{prototipo-implementado-ai-v1.png}
+\begin{frame}{Prototipo implementado}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.58\textwidth}
+      \begin{block}{Estado actual del prototipo}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{2.8cm} p{3.5cm}}
+          \toprule
+          Capa & Implementación \\
+          \midrule
+          Infraestructura & beacons BLE para pruebas de sala \\
+          Cliente móvil & Android con Expo / React Native \\
+          Backend & FastAPI, Chroma y LM Studio \\
+          Apoyo demostrativo & simulación web del recorrido \\
+          \bottomrule
+        \end{tabular}
+
+        \vspace{0.15cm}
+
+        El proyecto ya supera la formulación conceptual.
+      \end{block}
+    \column{0.42\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{validacion-funcional-mvp-ai-v1.png}
+\begin{frame}{Validación funcional y alcance del MVP}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.58\textwidth}
+      \begin{block}{Qué se validó}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{2.7cm} p{3.7cm}}
+          \toprule
+          Dimensión & Criterio observado \\
+          \midrule
+          BLE & reconocimiento útil por sala \\
+          App móvil & recorrido y consulta coherentes \\
+          MuseRAG & respuesta anclada por contexto \\
+          Integración & demo reproducible \\
+          \bottomrule
+        \end{tabular}
+      \end{block}
+
+      \begin{block}{Alcance actual del MVP}
+        \scriptsize
+        Prueba por sala/nodo, Android en \textit{Development Build},
+        corpus de 2 salas y 22 obras, y backend aún en red local.
+      \end{block}
+    \column{0.42\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{modelo-economico-piloto-ai-v1.png}
+\begin{frame}{Modelo económico del piloto}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.60\textwidth}
+      \begin{block}{Unidad económica por museo}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{3.8cm} r}
+          \toprule
+          Rubro & Monto \\
+          \midrule
+          Implementación inicial & S/5\,100 \\
+          Costo directo de implementación & S/3\,900 \\
+          Mantenimiento técnico anual & S/900 \\
+          IA y analítica anual & S/10\,200 \\
+          Costo anual de IA y analítica & S/8\,530 \\
+          \bottomrule
+        \end{tabular}
+      \end{block}
+
+      \begin{block}{Lectura del modelo}
+        \scriptsize
+        Implementación = activa el piloto. Recurrentes = sostienen el negocio.
+        IA = principal margen y variable más sensible.
+      \end{block}
+    \column{0.40\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{viabilidad-economica-financiera-ai-v1.png}
+\begin{frame}{Viabilidad económica y financiera}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.62\textwidth}
+      \begin{block}{Escenario base a 10 años}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{3.9cm} r}
+          \toprule
+          Indicador & Resultado \\
+          \midrule
+          Inversión inicial & S/2\,500 \\
+          VAN & S/22\,445 \\
+          TIR & 56.0\% \\
+          Relación beneficio/costo & 1.10 \\
+          Payback descontado & 3.8 años \\
+          \bottomrule
+        \end{tabular}
+      \end{block}
+
+      \begin{block}{Lectura}
+        \footnotesize
+        \begin{itemize}
+          \item escenario prudente y financieramente positivo
+          \item mejora al crecer la base recurrente de museos
+          \item depende de controlar bien el costo variable de IA
+        \end{itemize}
+      \end{block}
+    \column{0.38\textwidth}
+  \end{columns}
+\end{frame}}
+
+\begin{frame}{Normas y gobernanza técnica}
+  \small
+  \begin{itemize}
+    \item \textbf{ISO/IEC/IEEE 12207:} orienta modularidad, ciclo de vida y separación de responsabilidades.
+    \item \textbf{Bluetooth Core Specification:} sustenta interoperabilidad de la capa BLE.
+    \item \textbf{RFC 8259 (JSON):} estructura el intercambio de datos entre la app y MuseRAG.
+    \item \textbf{OWASP para LLM:} guía el tratamiento de entradas no confiables y el anclaje en fuentes.
+    \item \textbf{ISO/IEC 25012:} refuerza calidad de datos y consistencia de metadatos.
+    \item \textbf{CIDOC CRM, LIDO y Dublin Core:} inspiran estabilidad e interoperabilidad del contenido curatorial.
+    \item \textbf{Ley N.\ 29733:} introduce criterios mínimos para el cuidado de datos del visitante.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Capítulo 5: costo variable de IA}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{l c c c c}
-      \hline
-      \textbf{Escenario} & \textbf{\% voz} & \textbf{Usuarios/año} & \textbf{Min. STT/año} & \textbf{Costo STT (S/)} \\
-      \hline
-      Conservador & 10\% & 19,168 & 38,336 & 2,128 \\
-      Base & 20\% & 38,336 & 153,346 & 8,514 \\
-      Alto & 35\% & 67,089 & 402,532 & 22,349 \\
-      \hline
-    \end{tabular}
-
-    \vspace{0.35cm}
-
-    \begin{tabular}{l c}
-      \hline
-      \textbf{Concepto} & \textbf{Escenario base (S/ año)} \\
-      \hline
-      STT en la nube & 8,514 \\
-      Embeddings + bolsa operativa & 10--20 \\
-      \hline
-      \textbf{Costo total de IA} & \textbf{8,530} \\
-      Margen operativo 20\% & 1,670 \\
-      \hline
-      \textbf{Precio IA y analítica} & \textbf{10,200} \\
-      \hline
-    \end{tabular}
-  \end{center}
+\begin{frame}{Conclusiones}
+  \small
+  \begin{itemize}
+    \item La tesis demuestra que existe espacio real para una solución de mediación cultural contextual en museos peruanos.
+    \item La arquitectura propuesta integra BLE, smartphone BYOD, voz y RAG de manera técnicamente coherente.
+    \item El prototipo supera el nivel conceptual: ya existe una base funcional de experimentación, integración y validación.
+    \item La viabilidad económica es positiva en el escenario base y mejora cuando se consolida la base recurrente de museos activos.
+    \item La propuesta queda alineada con criterios de interoperabilidad, calidad de datos, seguridad y evolución institucional.
+  \end{itemize}
 \end{frame}
 
-\begin{frame}{Capítulo 5: flujo de ingresos del piloto}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{l c c c c c}
-      \hline
-      \textbf{Año} & \textbf{Implementación} & \textbf{Mant. técnico} & \textbf{IA y analítica} & \textbf{Extras} & \textbf{Total} \\
-      \hline
-      2026 & 5,100 & 0 & 0 & 0 & 5,100 \\
-      2027 & 0 & 900 & 10,200 & 500 & 11,600 \\
-      2028 & 0 & 900 & 10,200 & 0 & 11,100 \\
-      \hline
-      \textbf{Acumulado} & \textbf{5,100} & \textbf{1,800} & \textbf{20,400} & \textbf{500} & \textbf{27,800} \\
-      \hline
-    \end{tabular}
-  \end{center}
+\begin{frame}{Trabajos futuros}
+  \small
+  \begin{itemize}
+    \item Ampliar la validación en más salas y con mayor cantidad de beacons.
+    \item Incorporar pruebas controladas con visitantes y personal del museo.
+    \item Expandir el corpus curatorial y evaluar estrategias adicionales de recuperación y control de alucinación.
+    \item Migrar hacia una arquitectura institucional con mayor disponibilidad, observabilidad y seguridad.
+    \item Profundizar interoperabilidad patrimonial y explorar expansión comercial hacia otros museos del clúster.
+  \end{itemize}
 \end{frame}
-
-\begin{frame}{Capítulo 5: escalamiento comercial}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{l c c c c}
-      \hline
-      \textbf{Escenario} & \textbf{2026} & \textbf{2027} & \textbf{2028} & \textbf{Acumulado} \\
-      \hline
-      Piloto sin expansión & 5,100 & 11,100 & 11,100 & 27,300 \\
-      2 museos nuevos/año & 5,100 & 21,300 & 43,500 & 69,900 \\
-      3 museos nuevos/año & 5,100 & 26,400 & 59,700 & 91,200 \\
-      4 museos nuevos/año & 5,100 & 31,500 & 75,900 & 112,500 \\
-      \hline
-    \end{tabular}
-
-    \vspace{0.35cm}
-    \raggedright
-    \footnotesize
-    Supuesto: Sipán se implementa en 2026 y, desde 2027, cada museo nuevo aporta
-    un precio de implementación de S/5,100; los recurrentes por mantenimiento técnico
-    e IA y analítica suman S/11,100 por museo desde el año siguiente.
-  \end{center}
-\end{frame}
-
-\begin{frame}{Capítulo 5: alternativa con pago por visitante}
-  \scriptsize
-  \begin{center}
-    \begin{tabular}{l c}
-      \hline
-      \textbf{Supuesto} & \textbf{Valor} \\
-      \hline
-      Precio de guía virtual por usuario & S/10 \\
-      Usuarios base de voz por año & 38,336 \\
-      \hline
-    \end{tabular}
-
-    \vspace{0.35cm}
-
-    \begin{tabular}{l c c}
-      \hline
-      \textbf{Participación MuseIQ} & \textbf{Neto por usuario} & \textbf{Ingreso anual estimado} \\
-      \hline
-      50\% & S/5.00 & S/191,680 \\
-      40\% & S/4.00 & S/153,344 \\
-      30\% & S/3.00 & S/115,008 \\
-      20\% & S/2.00 & S/76,672 \\
-      \hline
-    \end{tabular}
-
-    \vspace{0.35cm}
-    \raggedright
-    \footnotesize
-    Lectura: este esquema puede elevar mucho el ingreso potencial, pero exige
-    que el museo acepte un modelo de coparticipación y que el visitante esté
-    dispuesto a pagar por una guía virtual premium.
-  \end{center}
-\end{frame}
-\graphframe{Cómo crecerían los ingresos con más museos por año}{escenarios_ingresos_comparados.png}
-%\graphframe{Los componentes que sostienen la experiencia}{fundamentos_museiq_componentes.png}
-%\graphframe{Los principios de diseño detrás de MuseIQ}{principios_diseno_museiq.png}
-%\graphframe{La base tecnológica que hace posible la solución}{capas_tecnologicas_museiq.png}
-%\graphframe{Cómo se activa una respuesta contextual}{flujo_contextual_museiq.png}
-%\graphframe{Qué información necesita el sistema}{clasificacion_datos_entrada_museiq.png}
-%\graphframe{Cómo conectamos beacon, sala y contexto}{mapeo_beacon_sala_museiq.png}
-%\graphframe{La estructura mínima de datos para operar}{modelo_logico_datos_museiq.png}
-\graphframe{La lógica económica anual del proyecto}{flujo_economico_anual.png}
-\graphframe{Cómo cambia el flujo neto con distintos ritmos de expansión}{flujo_neto_escenarios_expansion.png}
-\graphframe{Cómo mejora el VAN al acelerar la expansión}{van_escenarios_expansion.png}
-\graphframe{Cómo protege el VAN un piso fijo con cobro por sobreuso de voz}{sensibilidad_van.png}
 
 \begin{frame}{Cierre}
   \begin{center}
-    \includegraphics[height=2cm]{\uniLogo}\par
-    \vspace{0.6cm}
-    {\Large MuseIQ como propuesta de mediación cultural inteligente}
-
-    \vspace{0.4cm}
-    {\large Integración de contexto, accesibilidad y sostenibilidad}
+    \includegraphics[height=2.0cm]{\uniLogo}\par
+    \vspace{0.55cm}
+    {\Large \textbf{MuseIQ como propuesta de mediación cultural inteligente}}\par
+    \vspace{0.35cm}
+    {\large Integración de contexto, accesibilidad y sostenibilidad para la visita museística}\par
+    \vspace{0.8cm}
+    {\normalsize Gracias}
   \end{center}
 \end{frame}
 
