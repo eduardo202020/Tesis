@@ -115,8 +115,8 @@
     \item Problema, oportunidad y objetivo de la tesis
     \item Metodología, mercado objetivo y diferenciación
     \item Diseño de la solución: tecnologías, datos, arquitectura y prototipo
-    \item Validación funcional, viabilidad económica y marco técnico
-    \item Conclusiones y trabajos futuros
+    \item Validación funcional y modelo económico del piloto
+    \item Viabilidad económica-financiera, conclusiones y cierre
   \end{itemize}
 \end{frame}
 
@@ -412,64 +412,152 @@
 {\slidebg{modelo-economico-piloto-ai-v1.png}
 \begin{frame}{Modelo económico del piloto}
   \begin{columns}[T,totalwidth=\textwidth]
-    \column{0.60\textwidth}
+    \column{0.64\textwidth}
       \begin{block}{Unidad económica por museo}
         \scriptsize
-        \renewcommand{\arraystretch}{1.15}
-        \begin{tabular}{p{3.8cm} r}
+        \setlength{\tabcolsep}{2.5pt}
+        \renewcommand{\arraystretch}{1.14}
+        \begin{tabular}{p{2.75cm} r r r}
           \toprule
-          Rubro & Monto \\
+          Rubro & Ingreso & Costo & Margen \\
           \midrule
-          Implementación inicial & S/5\,100 \\
-          Costo directo de implementación & S/3\,900 \\
-          Mantenimiento técnico anual & S/900 \\
-          IA y analítica anual & S/10\,200 \\
-          Costo anual de IA y analítica & S/8\,530 \\
+          Implementación inicial & S/5\,100 & S/3\,900 & S/1\,200 \\
+          Mantenimiento técnico anual & S/900 & S/900 & S/0 \\
+          IA y analítica anual & S/10\,200 & S/8\,530 & S/1\,670 \\
           \bottomrule
         \end{tabular}
       \end{block}
 
       \begin{block}{Lectura del modelo}
         \scriptsize
-        Implementación = activa el piloto. Recurrentes = sostienen el negocio.
-        IA = principal margen y variable más sensible.
+        La implementación activa el piloto; el mantenimiento asegura continuidad
+        operativa; IA y analítica concentran el margen recurrente y la variable
+        más sensible del costo.
       \end{block}
-    \column{0.40\textwidth}
+    \column{0.36\textwidth}
+  \end{columns}
+\end{frame}}
+
+{\slidebg{modelo-economico-piloto-ai-v1.png}
+\begin{frame}{Flujo de ingresos del piloto}
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.58\textwidth}
+      \begin{block}{Horizonte 2026--2035}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.15}
+        \begin{tabular}{p{3.3cm} r}
+          \toprule
+          Rubro acumulado & Monto \\
+          \midrule
+          Implementación inicial & S/5\,100 \\
+          Mantenimiento técnico & S/8\,100 \\
+          IA y analítica & S/91\,800 \\
+          Servicios adicionales & S/500 \\
+          \midrule
+          Total proyectado & S/105\,500 \\
+          \bottomrule
+        \end{tabular}
+      \end{block}
+
+      \begin{block}{Secuencia comercial}
+        \scriptsize
+        Año 1: instalación del piloto en Sipán. Desde el año 2:
+        S/900 de mantenimiento y S/10\,200 de IA y analítica por año.
+      \end{block}
+    \column{0.42\textwidth}
+      \begin{block}{Idea defendible}
+        \scriptsize
+        El piloto no se sostiene por una venta única, sino por convertir la
+        instalación inicial en una relación anual de servicio.
+
+        \vspace{0.15cm}
+
+        La capa conversacional debe contratarse con piso fijo y cobro por
+        sobreuso si la voz supera el escenario base.
+      \end{block}
   \end{columns}
 \end{frame}}
 
 {\slidebg{viabilidad-economica-financiera-ai-v1.png}
 \begin{frame}{Viabilidad económica y financiera}
   \begin{columns}[T,totalwidth=\textwidth]
-    \column{0.62\textwidth}
-      \begin{block}{Escenario base a 10 años}
+    \column{0.48\textwidth}
+      \begin{block}{Supuestos del margen}
         \scriptsize
-        \renewcommand{\arraystretch}{1.15}
-        \begin{tabular}{p{3.9cm} r}
+        \renewcommand{\arraystretch}{1.12}
+        \begin{tabular}{p{3.0cm} r}
           \toprule
-          Indicador & Resultado \\
+          Variable & Valor \\
           \midrule
-          Inversión inicial & S/2\,500 \\
-          VAN & S/22\,445 \\
-          TIR & 56.0\% \\
-          Relación beneficio/costo & 1.10 \\
-          Payback descontado & 3.8 años \\
+          Horizonte & 10 años \\
+          Escala base & 1 museo/año \\
+          Margen implementación & S/1\,200 \\
+          Margen mantenimiento & S/0 \\
+          Margen IA anual & S/1\,670 \\
           \bottomrule
         \end{tabular}
       \end{block}
-
-      \begin{block}{Lectura}
-        \footnotesize
-        \begin{itemize}
-          \item escenario prudente y financieramente positivo
-          \item mejora al crecer la base recurrente de museos
-          \item depende de controlar bien el costo variable de IA
-        \end{itemize}
+    \column{0.48\textwidth}
+      \begin{block}{Márgenes a 10 años}
+        \scriptsize
+        \renewcommand{\arraystretch}{1.12}
+        \begin{tabular}{p{3.0cm} r}
+          \toprule
+          Rubro & Margen \\
+          \midrule
+          Implementación & S/12\,000 \\
+          Mantenimiento & S/0 \\
+          IA y analítica & S/75\,150 \\
+          \midrule
+          Margen bruto total & S/87\,150 \\
+          \bottomrule
+        \end{tabular}
       \end{block}
-    \column{0.38\textwidth}
   \end{columns}
+
+  \vspace{0.12cm}
+
+  \begin{block}{Lectura}
+    \scriptsize
+    La lectura todavía es económica preliminar: se observa el margen acumulado
+    del servicio antes de entrar a la evaluación financiera formal.
+  \end{block}
 \end{frame}}
 
+\begin{frame}{Expansión posterior al piloto}
+  \begin{block}{Margen bruto acumulado a 10 años}
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \renewcommand{\arraystretch}{1.12}
+    \begin{tabular}{p{3.0cm} r r r r}
+      \toprule
+      Escenario & Museos & Implementación & IA y analítica & Total \\
+      \midrule
+      1 museo nuevo/año & 10 & S/12\,000 & S/75\,150 & S/87\,150 \\
+      2 museos nuevos/año & 19 & S/22\,800 & S/135\,270 & S/158\,070 \\
+      3 museos nuevos/año & 28 & S/33\,600 & S/195\,390 & S/228\,990 \\
+      4 museos nuevos/año & 37 & S/44\,400 & S/255\,510 & S/299\,910 \\
+      \bottomrule
+    \end{tabular}
+  \end{block}
+
+  \begin{columns}[T,totalwidth=\textwidth]
+    \column{0.58\textwidth}
+      \begin{block}{Lectura económica}
+        \scriptsize
+        Al replicar el piloto, el margen crece por acumulación de museos activos
+        y por la recurrencia anual de IA y analítica.
+      \end{block}
+    \column{0.42\textwidth}
+      \begin{block}{Criterio de control}
+        \scriptsize
+        El margen depende de proteger el costo de voz/IA con un piso contratado
+        y cobro por sobreuso cuando la demanda supere el escenario base.
+      \end{block}
+  \end{columns}
+\end{frame}
+
+\iffalse
 \begin{frame}{Normas y gobernanza técnica}
   \small
   \begin{itemize}
@@ -482,6 +570,7 @@
     \item \textbf{Ley N.\ 29733:} introduce criterios mínimos para el cuidado de datos del visitante.
   \end{itemize}
 \end{frame}
+\fi
 
 \begin{frame}{Conclusiones}
   \small
@@ -489,11 +578,12 @@
     \item La tesis demuestra que existe espacio real para una solución de mediación cultural contextual en museos peruanos.
     \item La arquitectura propuesta integra BLE, smartphone BYOD, voz y RAG de manera técnicamente coherente.
     \item El prototipo supera el nivel conceptual: ya existe una base funcional de experimentación, integración y validación.
-    \item La viabilidad económica es positiva en el escenario base y mejora cuando se consolida la base recurrente de museos activos.
-    \item La propuesta queda alineada con criterios de interoperabilidad, calidad de datos, seguridad y evolución institucional.
+    \item El modelo económico muestra margen bruto positivo a 10 años cuando se consolida la base recurrente de museos activos.
+    \item La sostenibilidad preliminar depende de replicar el piloto y gestionar con disciplina el consumo de voz e IA.
   \end{itemize}
 \end{frame}
 
+\iffalse
 \begin{frame}{Trabajos futuros}
   \small
   \begin{itemize}
@@ -504,6 +594,7 @@
     \item Profundizar interoperabilidad patrimonial y explorar expansión comercial hacia otros museos del clúster.
   \end{itemize}
 \end{frame}
+\fi
 
 \begin{frame}{Cierre}
   \begin{center}
