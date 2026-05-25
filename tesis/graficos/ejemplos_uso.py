@@ -382,29 +382,40 @@ def generar_integracion_capacidades():
 def generar_estructura_ingresos():
     grafico_barras_horizontales(
         categorias=[
-            "Implementacion inicial",
-            "Mantenimiento tecnico anual",
-            "IA y analitica anual",
-            "Servicios adicionales referenciales",
+            "Basico",
+            "Estandar",
+            "Avanzado",
         ],
-        valores=[5100, 900, 10200, 1000],
-        etiquetas=["S/ 5,100", "S/ 900", "S/ 10,200", "S/ 500-1,500"],
-        titulo="Precios base del modelo de ingresos de MuseIQ",
-        eje_x="Monto referencial (S/)",
-        eje_y="Rubro",
+        valores=[48000, 96000, 185000],
+        etiquetas=["S/ 48,000", "S/ 96,000", "S/ 185,000"],
+        titulo="Precio de implementacion por paquete comercial",
+        eje_x="Precio de implementacion (S/)",
+        eje_y="Paquete",
         nombre_salida="cap5/estructura_ingresos_rubro.png",
     )
 
 
 def generar_flujo_ingresos():
-    grafico_lineas(
+    grafico_lineas_multiples(
         x=ANIOS_PROYECCION,
-        y=_serie_ingresos_piloto(),
-        titulo="Flujo de ingresos del piloto base en Sipan",
+        series=[
+            {
+                "nombre": "Ingresos",
+                "y": [344000, 258000, 527000, 514000, 694000, 907000, 1031000, 988000, 1300000, 1438000],
+            },
+            {
+                "nombre": "Costos",
+                "y": [329000, 278000, 435825, 426491, 530516, 652417, 719712, 691423, 873069, 948673],
+            },
+            {
+                "nombre": "Flujo neto",
+                "y": [15000, -20000, 91175, 87509, 163484, 254583, 311288, 296577, 426931, 489327],
+            },
+        ],
+        titulo="Escenario base comercial de MuseIQ",
         eje_x="Anio",
-        eje_y="Ingreso total anual (S/)",
+        eje_y="Monto anual (S/)",
         nombre_salida="cap5/flujo_ingresos_10_anios.png",
-        serie="Piloto base",
     )
 
 
@@ -412,12 +423,11 @@ def generar_instituciones_activas():
     grafico_lineas_multiples(
         x=ANIOS_PROYECCION,
         series=[
-            {"nombre": "Piloto base", "y": _serie_museos_activos(0)},
-            {"nombre": "2 museos nuevos/anio", "y": _serie_museos_activos(2)},
-            {"nombre": "3 museos nuevos/anio", "y": _serie_museos_activos(3)},
-            {"nombre": "4 museos nuevos/anio", "y": _serie_museos_activos(4)},
+            {"nombre": "Conservador", "y": [1, 2, 3, 5, 7, 9, 11, 14, 17, 20]},
+            {"nombre": "Base", "y": [2, 4, 7, 10, 13, 17, 21, 25, 30, 35]},
+            {"nombre": "Optimista", "y": [3, 7, 11, 16, 21, 26, 32, 38, 43, 49]},
         ],
-        titulo="Museos activos acumulados segun escenario de expansion",
+        titulo="Museos activos acumulados segun escenario comercial",
         eje_x="Anio",
         eje_y="Museos activos",
         nombre_salida="cap5/instituciones_activas_10_anios.png",
@@ -429,23 +439,19 @@ def generar_escenarios_ingresos():
         x=ANIOS_PROYECCION,
         series=[
             {
-                "nombre": "Piloto base",
-                "y": _serie_ingresos_expansion(0),
+                "nombre": "Conservador",
+                "y": [226000, 170000, 199000, 287000, 330000, 373000, 416000, 685000, 780000, 875000],
             },
             {
-                "nombre": "2 museos nuevos/anio",
-                "y": _serie_ingresos_expansion(2),
+                "nombre": "Base",
+                "y": [344000, 258000, 527000, 514000, 694000, 907000, 1031000, 988000, 1300000, 1438000],
             },
             {
-                "nombre": "3 museos nuevos/anio",
-                "y": _serie_ingresos_expansion(3),
-            },
-            {
-                "nombre": "4 museos nuevos/anio",
-                "y": _serie_ingresos_expansion(4),
+                "nombre": "Optimista",
+                "y": [462000, 631000, 755000, 938000, 1076000, 1214000, 1470000, 1637000, 1686000, 1942000],
             },
         ],
-        titulo="Escenarios de ingresos segun ritmo de expansion comercial",
+        titulo="Ingresos anuales segun escenario comercial",
         eje_x="Anio",
         eje_y="Ingreso total anual (S/)",
         nombre_salida="cap5/escenarios_ingresos_comparados.png",
