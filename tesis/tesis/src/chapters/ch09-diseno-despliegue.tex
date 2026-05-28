@@ -2,9 +2,70 @@
 
 \section{Propósito del capítulo}
 
-Luego de haber definido la base tecnológica del proyecto en el Capítulo 7 y el contrato de datos de entrada en el Capítulo 8, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla la arquitectura general de la solución propuesta, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
+Luego de haber definido la base tecnológica del proyecto en el Capítulo 7, el contrato de datos de entrada en el Capítulo 8 y los paquetes comerciales en el Capítulo 5, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla el diseño del paquete de solución MuseIQ, la arquitectura general, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
 
-La finalidad metodológica del capítulo es doble. En primer lugar, demostrar que la propuesta puede traducirse a módulos concretos, con responsabilidades bien delimitadas y flujos de información verificables. En segundo lugar, evidenciar que el prototipo desarrollado ya materializa una parte sustantiva de esa arquitectura mediante tres componentes principales: una capa IoT de proximidad BLE basada en ESP32, una aplicación móvil orientada a la experiencia del visitante y un backend RAG encargado de recuperación y respuesta contextual.
+La finalidad metodológica del capítulo es doble. En primer lugar, demostrar que la propuesta puede traducirse a módulos concretos, entregables verificables y flujos de información trazables. En segundo lugar, evidenciar que el prototipo desarrollado ya materializa una parte sustantiva de esa arquitectura mediante tres componentes principales: una capa IoT de proximidad BLE basada en ESP32, una aplicación móvil orientada a la experiencia del visitante y un backend RAG encargado de recuperación y respuesta contextual.
+
+\section{Diseño del paquete de solución MuseIQ}
+
+\subsection{Definición del paquete implementable}
+
+En coherencia con el Capítulo 5, MuseIQ no se diseña como una aplicación aislada, sino como un paquete institucional de interpretación cultural digital. El paquete combina componentes físicos, software, servicios profesionales y operación recurrente. Esta precisión es importante porque el valor entregado al museo no proviene únicamente de instalar beacons o habilitar un chat, sino de convertir el recorrido museográfico en una experiencia contextual, accesible y medible.
+
+El paquete implementable se compone de seis bloques. El primero es el diagnóstico museográfico y técnico, donde se identifican salas, recorridos, públicos prioritarios y condiciones de conectividad. El segundo es la infraestructura de proximidad, formada por beacons BLE, señalética QR y accesorios de instalación. El tercero es la experiencia digital del visitante, materializada en la aplicación móvil o PWA. El cuarto es la base curatorial estructurada, que transforma textos, fichas y guiones de sala en insumos consultables. El quinto es la capa de inteligencia contextual, responsable de recuperación aumentada, voz y analítica. El sexto es la operación institucional, compuesta por capacitación, soporte, mantenimiento y mejora continua.
+
+\begin{table}[h!]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{5.1cm} >{\raggedright\arraybackslash}p{5.1cm}}
+        \hline
+        \textbf{Bloque del paquete} & \textbf{Diseño incluido} & \textbf{Entregable verificable} \\
+        \hline
+        Diagnóstico museográfico y técnico & Levantamiento de salas, recorrido, necesidades de accesibilidad y condiciones de despliegue & Mapa funcional de zonas, requerimientos y alcance del paquete \\
+        Infraestructura de proximidad & Distribución de beacons BLE, señalética QR y criterios de instalación & Inventario de beacons y matriz sala--dispositivo \\
+        Experiencia digital del visitante & Interfaz BYOD, navegación por salas, obra activa, voz y contenido contextual & Aplicación móvil o PWA configurada para el museo \\
+        Base curatorial estructurada & Limpieza, segmentación y metadatos de textos, fichas y guiones curatoriales & Corpus inicial indexado y trazable por sala u obra \\
+        Inteligencia contextual y analítica & RAG, STT/TTS según paquete, reportes de uso y reglas de sobreconsumo & Backend configurado, tablero básico y pruebas funcionales \\
+        Operación institucional & Capacitación, soporte, mantenimiento y actualización de contenidos & Manual operativo, acta de puesta en marcha y plan de soporte \\
+        \hline
+    \end{tabular}
+    \caption[Diseño del paquete implementable MuseIQ]{Diseño del paquete implementable MuseIQ como solución institucional. Fuente: elaboración propia.}
+    \label{tab:diseno-paquete-museiq}
+\end{table}
+
+La Tabla~\ref{tab:diseno-paquete-museiq} permite distinguir el diseño del paquete de la arquitectura de software. La arquitectura explica cómo se comunican los módulos; el paquete explica qué se entrega al comprador institucional y cómo se verifica que el servicio está listo para operar.
+
+\subsection{Relación entre paquetes comerciales y diseño técnico}
+
+Los paquetes Básico, Estándar y Avanzado definidos en el Capítulo 5 comparten una misma arquitectura base, pero difieren en cobertura, profundidad curatorial, nivel de automatización y soporte. Esta decisión evita mantener tres productos inconexos. En cambio, MuseIQ se diseña como una plataforma modular que puede activarse con mayor o menor alcance según la escala del museo.
+
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{3pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{3.1cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.5cm} >{\raggedright\arraybackslash}p{3.8cm}}
+        \hline
+        \textbf{Paquete} & \textbf{Cobertura funcional} & \textbf{Diseño técnico predominante} & \textbf{Entregables principales} & \textbf{Criterio de aceptación} \\
+        \hline
+        Básico & 3--5 salas, contenido textual, QR, reconocimiento de sala y analítica simple & PWA o app ligera, BLE mínimo, corpus reducido y operación remota & Mapa de salas, beacons instalados, app configurada, contenido inicial y capacitación básica & El visitante accede al recorrido, reconoce sala o QR y consume contenido contextual \\
+        Estándar & 6--10 salas, TTS, RAG acotado, dos idiomas y reportes periódicos & App móvil con sensores, BLE calibrado, backend RAG y dashboard operativo & Corpus por sala/obra, narración por voz, reportes de uso y protocolo de mantenimiento & La consulta contextual recupera fuentes pertinentes y la operación recurrente queda definida \\
+        Avanzado & 12--18 salas, STT/TTS, RAG integral, accesibilidad reforzada, SLA y analítica avanzada & Arquitectura completa, mayor cobertura BLE, perfiles de recorrido, voz bidireccional e integración institucional & Plataforma configurada, tablero ejecutivo, rutas inclusivas, plan de continuidad y formación ampliada & El museo opera una experiencia multimodal, medible y sostenible con soporte formal \\
+        \hline
+    \end{tabular}%
+    }
+    \caption[Relación entre paquetes comerciales y diseño técnico]{Relación entre paquetes comerciales y diseño técnico de MuseIQ. Fuente: elaboración propia.}
+    \label{tab:paquetes-diseno-tecnico-museiq}
+\end{table}
+
+Desde el punto de vista de ingeniería, la diferencia entre paquetes se controla mediante parámetros de configuración y alcance: número de salas, cantidad de beacons, idiomas, profundidad del corpus, funciones de voz, nivel de analítica y soporte. Así, el diseño evita duplicar la solución para cada cliente y favorece una evolución escalable.
+
+\subsection{Flujo de implementación del paquete}
+
+El paquete MuseIQ se implementa mediante una secuencia de trabajo que conecta venta, diseño, despliegue y operación. Primero se realiza el diagnóstico del museo y se confirma el paquete aplicable. Luego se diseña la cobertura de salas y se prepara el inventario de beacons. En paralelo se organiza el corpus curatorial inicial, se normalizan metadatos y se definen rutas de visita. Después se configura la aplicación, el backend y la base local del recorrido. Finalmente se ejecutan pruebas funcionales, capacitación y puesta en marcha.
+
+Esta secuencia convierte la propuesta comercial en un proceso técnico controlable. Cada etapa produce una evidencia: mapa de zonas, inventario de dispositivos, corpus estructurado, aplicación configurada, pruebas de consulta y acta de operación. Con ello, la aceptación del paquete no depende de una percepción general de funcionamiento, sino de entregables concretos que pueden revisarse con el personal del museo.
 
 \section{Arquitectura general del sistema}
 
