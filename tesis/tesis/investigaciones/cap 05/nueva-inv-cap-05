@@ -1,0 +1,61 @@
+Listo, Dante. Para escalar la investigación de **20 a 35 museos nacionales**, conviene no cambiar todo el capítulo, sino **ampliar la cartera nominal de museos priorizados** y hacerla coherente con el escenario base, que en tu documento ya proyecta **35 museos activos al año 10**. El propio capítulo ya trabaja con un mercado amplio de **386 museos e instituciones museales** y un núcleo público de **56 museos del Ministerio de Cultura**, por lo que la ampliación es defendible.  El portal oficial del Ministerio de Cultura también confirma que cuenta con **56 museos a nivel nacional**. ([Museos][1])
+
+### Texto corregido para insertar en la investigación
+
+La investigación se escala de una cartera inicial de 20 museos priorizados a una cartera ampliada de **35 museos e instituciones museales nacionales**, seleccionados por su valor patrimonial, flujo potencial de visitantes, ubicación estratégica, capacidad de mediación cultural y posibilidad de implementación tecnológica mediante una solución BYOD, BLE e inteligencia artificial contextual. Esta ampliación no supone atender de manera indiscriminada a todos los museos del país, sino construir una ruta comercial progresiva sobre instituciones con mayor probabilidad de adopción, especialmente en Lima, Lambayeque, Cusco, Ayacucho, Áncash, Ica, La Libertad, Junín, Piura y Tacna.
+
+La cartera ampliada mantiene los 20 museos inicialmente priorizados y agrega 15 instituciones museales adicionales, principalmente del circuito del Ministerio de Cultura, porque este sector cuenta con una red nacional formalmente identificada y administrada. Esta decisión fortalece la viabilidad comercial del proyecto, ya que permite pasar de una validación piloto a una estrategia nacional escalable, sin perder realismo en los supuestos económicos.
+
+### Cartera ampliada de 35 museos nacionales priorizados
+
+| N.° | Museo o institución museal                                      | Región              | Tipo de prioridad | Paquete sugerido  |
+| --: | --------------------------------------------------------------- | ------------------- | ----------------- | ----------------- |
+|   1 | Museo Tumbas Reales de Sipán                                    | Lambayeque          | Muy alta          | Avanzado          |
+|   2 | Museo de Sitio Pucllana                                         | Lima                | Muy alta          | Avanzado          |
+|   3 | Museo Histórico Regional del Cusco                              | Cusco               | Muy alta          | Avanzado          |
+|   4 | Museo Nacional de Arqueología, Antropología e Historia del Perú | Lima                | Muy alta          | Avanzado          |
+|   5 | Museo Arqueológico y Etnográfico del Conjunto Monumental Belén  | Cajamarca           | Alta              | Estándar          |
+|   6 | Museo de Sitio Pachacamac                                       | Lima                | Muy alta          | Avanzado          |
+|   7 | Lugar de la Memoria, la Tolerancia y la Inclusión Social        | Lima                | Alta              | Estándar          |
+|   8 | Museo de Sitio Wari                                             | Ayacucho            | Alta              | Estándar          |
+|   9 | Museo de Sitio de Chan Chan                                     | La Libertad         | Alta              | Avanzado          |
+|  10 | Museo Nacional Chavín                                           | Áncash              | Alta              | Estándar          |
+|  11 | Museo Nacional Sicán                                            | Lambayeque          | Alta              | Estándar          |
+|  12 | Museo de Sitio Túcume                                           | Lambayeque          | Alta              | Estándar          |
+|  13 | Museo Arqueológico Nacional Brüning                             | Lambayeque          | Alta              | Estándar          |
+|  14 | Museo de Arte de Lima — MALI                                    | Lima                | Muy alta          | Avanzado          |
+|  15 | Museo Central — MUCEN                                           | Lima / red regional | Alta              | Avanzado          |
+|  16 | Museo Pedro de Osma                                             | Lima                | Alta              | Estándar          |
+|  17 | Museo de Artes y Tradiciones Populares Luis Repetto Málaga      | Lima                | Media alta        | Básico / Estándar |
+|  18 | Museo de Artes y Ciencias Ing. Eduardo de Habich                | Lima                | Media             | Básico            |
+|  19 | Museo de Arqueología y Antropología de la UNMSM                 | Lima                | Media alta        | Estándar          |
+|  20 | Yuyanapaq. Para recordar                                        | Lima                | Media alta        | Estándar          |
+|  21 | Museo Nacional del Perú — MUNA                                  | Lima                | Muy alta          | Avanzado          |
+|  22 | Museo Nacional de la Cultura Peruana                            | Lima                | Alta              | Estándar          |
+|  23 | Museo de Arte Italiano                                          | Lima                | Alta              | Estándar          |
+|  24 | Museo de Sitio Arturo Jiménez Borja — Puruchuco                 | Lima                | Alta              | Estándar          |
+|  25 | Museo de Sitio Huallamarca                                      | Lima                | Media alta        | Básico / Estándar |
+|  26 | Museo de Sitio Julio C. Tello de Paracas                        | Ica                 | Alta              | Estándar          |
+|  27 | Museo Regional de Ica Adolfo Bermúdez Jenkins                   | Ica                 | Alta              | Estándar          |
+|  28 | Museo de Sitio Manuel Chávez Ballón                             | Cusco               | Muy alta          | Avanzado          |
+|  29 | Museo de Sitio de Chinchero                                     | Cusco               | Alta              | Estándar          |
+|  30 | Sala de Exhibición de Pikillaqta                                | Cusco               | Media alta        | Básico / Estándar |
+|  31 | Sala de Exhibición de la Zona Arqueológica Monumental de Kotosh | Huánuco             | Media alta        | Estándar          |
+|  32 | Museo Histórico Regional Hipólito Unanue                        | Ayacucho            | Alta              | Estándar          |
+|  33 | Museo Histórico Regional de Tacna                               | Tacna               | Media alta        | Estándar          |
+|  34 | Museo Regional de Arqueología de Junín                          | Junín               | Media             | Básico / Estándar |
+|  35 | Museo de Sitio de Narihualá                                     | Piura               | Media alta        | Estándar          |
+
+Los museos 21 al 35 se justifican porque aparecen dentro del circuito oficial de museos del Ministerio de Cultura, incluyendo el MUNA, Museo Nacional de la Cultura Peruana, Museo de Arte Italiano, Puruchuco, Huallamarca, Julio C. Tello de Paracas, Museo Regional de Ica, Manuel Chávez Ballón, Chinchero, Pikillaqta, Kotosh, Hipólito Unanue, Museo Histórico Regional de Tacna, Museo Regional de Arqueología de Junín y Narihualá. ([Museos][1])
+
+### Ajuste económico-comercial
+
+El flujo financiero no necesita rehacerse desde cero, porque tu propio documento ya tiene un **escenario base de 35 museos activos al año 10**. Ese escenario proyecta un **ingreso acumulado de S/ 8 001 000**, un **costo acumulado de S/ 5 878 126** y un **flujo neto acumulado de S/ 2 122 874**. 
+
+Lo que sí debe ajustarse es la explicación: antes parecía que la investigación solo sustentaba 20 museos nominales, mientras que el flujo hablaba de 35. Con esta cartera ampliada, la tesis queda más coherente porque ahora el escenario base de 35 museos tiene respaldo institucional y territorial.
+
+### Redacción final sugerida
+
+En consecuencia, la investigación deja de limitarse a una muestra inicial de 20 museos priorizados y se escala hacia una cartera nacional de 35 museos e instituciones museales con potencial de adopción tecnológica. Esta ampliación permite demostrar que el proyecto no se reduce a una solución piloto, sino que puede operar como un servicio cultural escalable para instituciones públicas, privadas, universitarias y patrimoniales. Bajo esta lógica, la estrategia comercial se mantiene realista: primero se atienden museos de alta afluencia y valor patrimonial, luego se expande hacia museos regionales, universitarios y de sitio, hasta alcanzar una cobertura nacional progresiva.
+
+[1]: https://museos.cultura.pe/museos "Museos del Ministerio de Cultura | Museos"
