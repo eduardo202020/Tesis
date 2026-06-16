@@ -2,8 +2,29 @@
   "latex-workshop.latexindent.path": "/home/eduardo/bin/latexindent",
   "latex-workshop.chktex.path": "/home/eduardo/bin/chktex",
   "latex-workshop.latex.autoBuild.run": "onSave",
-  "latex-workshop.latex.recipe.default": "lastUsed",
-  "workbench.editorAssociations": {
-    "*.pdf": "pdfViewer.customEditor"
-  }
+  "latex-workshop.latex.autoBuild.enabled": true,
+  "latex-workshop.latex.recipe.default": "latexmk",
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk",
+      "tools": [
+        "latexmk"
+      ]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-pdf",
+        "-interaction=nonstopmode",
+        "-synctex=1",
+        "-file-line-error",
+        "%DOC%"
+      ]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab",
+  "latex-workshop.view.pdf.autoReload.enabled": true
 }
