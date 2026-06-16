@@ -36,89 +36,107 @@ from generar_grafico import (
 
 ANIOS_PROYECCION = list(range(2026, 2036))
 HORIZONTE_EVALUACION = list(range(1, 11))
-PRECIO_IMPLEMENTACION = 5100
-COSTO_IMPLEMENTACION = 3900
-PRECIO_RECURRENTE_BASE = 11100
-COSTO_RECURRENTE_BASE = 9430
-INVERSION_INICIAL = 2500
-REPOSICION_TECNICA = 1050
+PAQUETES_MUSEIQ = {
+    "B": {
+        "implementacion": 48000,
+        "costo_impl": 29000,
+        "recurrente": 14000,
+        "costo_recurrente": 7000,
+    },
+    "E": {
+        "implementacion": 96000,
+        "costo_impl": 58000,
+        "recurrente": 29000,
+        "costo_recurrente": 14000,
+    },
+    "A": {
+        "implementacion": 185000,
+        "costo_impl": 111000,
+        "recurrente": 52000,
+        "costo_recurrente": 24000,
+    },
+}
+MEZCLA_BASE_ANUAL = [
+    {"B": 0, "E": 0, "A": 2},
+    {"B": 0, "E": 0, "A": 2},
+    {"B": 0, "E": 2, "A": 1},
+    {"B": 0, "E": 2, "A": 1},
+    {"B": 0, "E": 3, "A": 0},
+    {"B": 1, "E": 1, "A": 2},
+    {"B": 1, "E": 2, "A": 1},
+    {"B": 1, "E": 3, "A": 0},
+    {"B": 1, "E": 3, "A": 1},
+    {"B": 1, "E": 4, "A": 0},
+]
+INVERSION_INICIAL = 200000
+REPOSICION_TECNICA = 50000
 TASA_DESCUENTO = 0.12
-GASTO_FIJO_BASE = 2400
-CRECIMIENTO_GASTO_FIJO = 0.03
+GASTO_FIJO_BASE = 130000
+CRECIMIENTO_GASTO_FIJO = 0.05
+PROPORCION_SERVICIOS_ADICIONALES = 0.08
+MARGEN_COSTO_SERVICIOS_ADICIONALES = 0.50
+FACTOR_RECURRENCIA_CLIENTE_NUEVO = 0.50
 
 
 def _gasto_fijo_anual(anio):
     return round(GASTO_FIJO_BASE * ((1 + CRECIMIENTO_GASTO_FIJO) ** (anio - 1)))
 
 
-def _serie_ingresos_piloto():
-    serie = []
-    for anio in ANIOS_PROYECCION:
-        if anio == 2026:
-            total = 5100
-        elif anio == 2027:
-            total = 11600
-        else:
-            total = 11100
-        serie.append(total)
-    return serie
+def _valor_mezcla(mezcla, campo):
+    return sum(PAQUETES_MUSEIQ[paquete][campo] * cantidad for paquete, cantidad in mezcla.items())
 
 
-def _serie_ingresos_expansion(nuevos_por_anio):
-    serie = []
-    museos_activos = 1
-
-    for anio in ANIOS_PROYECCION:
-        if anio == 2026:
-            total = 5100
-        else:
-            total = nuevos_por_anio * PRECIO_IMPLEMENTACION + museos_activos * PRECIO_RECURRENTE_BASE
-            museos_activos += nuevos_por_anio
-        serie.append(total)
-
-    return serie
-
-
-def _serie_museos_activos(nuevos_por_anio):
-    serie = []
-    museos_activos = 1
-
-    for anio in ANIOS_PROYECCION:
-        serie.append(museos_activos)
-        if anio != 2026:
-            museos_activos += nuevos_por_anio
-
-    return serie
+def _sumar_mezclas(mezclas):
+    acumulado = {"B": 0, "E": 0, "A": 0}
+    for mezcla in mezclas:
+        for paquete, cantidad in mezcla.items():
+            acumulado[paquete] += cantidad
+    return acumulado
 
 
 def _flujo_financiero_proyecto(
-    nuevos_por_anio,
-    precio_recurrente=PRECIO_RECURRENTE_BASE,
-    costo_recurrente=COSTO_RECURRENTE_BASE,
+    factor_ingresos=1.0,
+    factor_costos=1.0,
 ):
     flujos = [-INVERSION_INICIAL]
     filas = []
 
-    for anio in HORIZONTE_EVALUACION:
-        museos_nuevos = 1 if anio == 1 else nuevos_por_anio
-        activos_previos = 0 if anio == 1 else 1 + (anio - 2) * nuevos_por_anio
-        ingresos = museos_nuevos * PRECIO_IMPLEMENTACION + activos_previos * precio_recurrente
-        costo_impl = museos_nuevos * COSTO_IMPLEMENTACION
-        costo_rec = activos_previos * costo_recurrente
+    for anio, mezcla_nueva in zip(HORIZONTE_EVALUACION, MEZCLA_BASE_ANUAL):
+        mezcla_previa = _sumar_mezclas(MEZCLA_BASE_ANUAL[: anio - 1])
+        mezcla_recurrente = {
+            paquete: mezcla_previa[paquete]
+            + FACTOR_RECURRENCIA_CLIENTE_NUEVO * mezcla_nueva[paquete]
+            for paquete in PAQUETES_MUSEIQ
+        }
+
+        ingreso_impl = _valor_mezcla(mezcla_nueva, "implementacion")
+        ingreso_recurrente = _valor_mezcla(mezcla_recurrente, "recurrente")
+        ingreso_adicional = ingreso_impl * PROPORCION_SERVICIOS_ADICIONALES
+        ingresos = (ingreso_impl + ingreso_recurrente + ingreso_adicional) * factor_ingresos
+
+        costo_impl = _valor_mezcla(mezcla_nueva, "costo_impl")
+        costo_adicional = ingreso_adicional * MARGEN_COSTO_SERVICIOS_ADICIONALES
+        costo_rec = _valor_mezcla(mezcla_recurrente, "costo_recurrente")
         costo_fijo = _gasto_fijo_anual(anio)
-        flujo_operativo = ingresos - costo_impl - costo_rec - costo_fijo
+        costos = (costo_impl + costo_adicional + costo_rec + costo_fijo) * factor_costos
+        flujo_operativo = ingresos - costos
         reposicion = REPOSICION_TECNICA if anio == 6 else 0
         flujo_proyecto = flujo_operativo - reposicion
 
         filas.append(
             {
                 "anio": anio,
-                "museos_nuevos": museos_nuevos,
-                "activos_previos": activos_previos,
+                "museos_nuevos": sum(mezcla_nueva.values()),
+                "museos_activos": sum(_sumar_mezclas(MEZCLA_BASE_ANUAL[:anio]).values()),
+                "mezcla": f'{mezcla_nueva["B"]}/{mezcla_nueva["E"]}/{mezcla_nueva["A"]}',
+                "ingreso_impl": ingreso_impl * factor_ingresos,
+                "ingreso_recurrente": ingreso_recurrente * factor_ingresos,
+                "ingreso_adicional": ingreso_adicional * factor_ingresos,
                 "ingresos": ingresos,
-                "costo_impl": costo_impl,
-                "costo_rec": costo_rec,
-                "costo_fijo": costo_fijo,
+                "costo_impl": (costo_impl + costo_adicional) * factor_costos,
+                "costo_rec": costo_rec * factor_costos,
+                "costo_fijo": costo_fijo * factor_costos,
+                "costos": costos,
                 "flujo_operativo": flujo_operativo,
                 "reposicion": reposicion,
                 "flujo_proyecto": flujo_proyecto,
@@ -152,28 +170,17 @@ def _calcular_tir(flujos):
     return (inferior + superior) / 2
 
 
-def _calcular_relacion_bc(
-    nuevos_por_anio,
-    precio_recurrente=PRECIO_RECURRENTE_BASE,
-    costo_recurrente=COSTO_RECURRENTE_BASE,
-):
+def _calcular_relacion_bc(factor_ingresos=1.0, factor_costos=1.0):
+    _, filas = _flujo_financiero_proyecto(factor_ingresos, factor_costos)
     valor_actual_ingresos = 0
     valor_actual_costos = INVERSION_INICIAL
 
-    for anio in HORIZONTE_EVALUACION:
-        museos_nuevos = 1 if anio == 1 else nuevos_por_anio
-        activos_previos = 0 if anio == 1 else 1 + (anio - 2) * nuevos_por_anio
-        ingresos = museos_nuevos * PRECIO_IMPLEMENTACION + activos_previos * precio_recurrente
-        costos = (
-            museos_nuevos * COSTO_IMPLEMENTACION
-            + activos_previos * costo_recurrente
-            + _gasto_fijo_anual(anio)
+    for fila in filas:
+        anio = fila["anio"]
+        valor_actual_ingresos += fila["ingresos"] / ((1 + TASA_DESCUENTO) ** anio)
+        valor_actual_costos += (fila["costos"] + fila["reposicion"]) / (
+            (1 + TASA_DESCUENTO) ** anio
         )
-        if anio == 6:
-            costos += REPOSICION_TECNICA
-
-        valor_actual_ingresos += ingresos / ((1 + TASA_DESCUENTO) ** anio)
-        valor_actual_costos += costos / ((1 + TASA_DESCUENTO) ** anio)
 
     return valor_actual_ingresos / valor_actual_costos
 
@@ -194,33 +201,19 @@ def _calcular_payback(flujos, descontado=False):
     return None
 
 
-def _valores_sensibilidad_van_cobro_variable():
-    # Se modela un contrato con piso fijo que cubre el uso base
-    # y un sobrecargo por sobreconsumo cuando la voz supera
-    # el umbral del escenario central.
-    costos_ia = {
-        "Conservador 10%": 2128,
-        "Base 20%": 8530,
-        "Alto 35%": 22349,
-    }
-    costo_base = 8530
-    precio_base = 10200
-    factor_sobrecargo = 1.10
-
+def _valores_sensibilidad_van():
+    escenarios = [
+        ("Ingresos -15%", 0.85, 1.00),
+        ("Base", 1.00, 1.00),
+        ("Costos +10%", 1.00, 1.10),
+        ("Ingresos +10%", 1.10, 1.00),
+    ]
     categorias = []
     valores = []
     etiquetas = []
 
-    for categoria, costo in costos_ia.items():
-        if costo <= costo_base:
-            precio = precio_base
-        else:
-            precio = precio_base + factor_sobrecargo * (costo - costo_base)
-        flujos, _ = _flujo_financiero_proyecto(
-            1,
-            precio_recurrente=900 + precio,
-            costo_recurrente=900 + costo,
-        )
+    for categoria, factor_ingresos, factor_costos in escenarios:
+        flujos, _ = _flujo_financiero_proyecto(factor_ingresos, factor_costos)
         van = round(_calcular_van(flujos))
         categorias.append(categoria)
         valores.append(van)
@@ -470,15 +463,19 @@ def generar_principios_museiq():
 # Capitulo 10
 def generar_composicion_inversion():
     grafico_pastel(
-        categorias=["Base tangible reutilizable", "Adecuacion preoperativa y capital de trabajo"],
-        valores=[1050, 1450],
+        categorias=[
+            "Activos tangibles reutilizables",
+            "Adecuacion software y documentacion",
+            "Capital de trabajo inicial",
+        ],
+        valores=[80000, 70000, 50000],
         titulo="Composicion de la inversion inicial de MuseIQ",
         nombre_salida="cap10/composicion_inversion_inicial.png",
     )
 
 
 def generar_flujo_economico():
-    _, filas = _flujo_financiero_proyecto(1)
+    _, filas = _flujo_financiero_proyecto()
     grafico_lineas_multiples(
         x=HORIZONTE_EVALUACION,
         series=[
@@ -488,10 +485,7 @@ def generar_flujo_economico():
             },
             {
                 "nombre": "Costos desembolsables",
-                "y": [
-                    fila["costo_impl"] + fila["costo_rec"] + fila["costo_fijo"]
-                    for fila in filas
-                ],
+                "y": [fila["costos"] for fila in filas],
             },
             {
                 "nombre": "Flujo neto de caja",
@@ -506,12 +500,12 @@ def generar_flujo_economico():
 
 
 def generar_sensibilidad_van():
-    categorias, valores, etiquetas = _valores_sensibilidad_van_cobro_variable()
+    categorias, valores, etiquetas = _valores_sensibilidad_van()
     grafico_barras_horizontales(
         categorias=categorias,
         valores=valores,
         etiquetas=etiquetas,
-        titulo="Sensibilidad del VAN con piso fijo y cobro por sobreuso de voz",
+        titulo="Sensibilidad del VAN del escenario base MuseIQ",
         eje_x="Valor actual neto (S/)",
         eje_y="Escenario",
         nombre_salida="cap10/sensibilidad_van.png",
@@ -520,11 +514,17 @@ def generar_sensibilidad_van():
 
 def generar_flujo_expansion_escenarios():
     series = []
-    for nuevos_por_anio in [1, 2, 3, 4]:
-        flujos, _ = _flujo_financiero_proyecto(nuevos_por_anio)
+    escenarios = [
+        ("Ingresos -15%", 0.85, 1.00),
+        ("Base", 1.00, 1.00),
+        ("Costos +10%", 1.00, 1.10),
+        ("Ingresos +10%", 1.10, 1.00),
+    ]
+    for nombre, factor_ingresos, factor_costos in escenarios:
+        flujos, _ = _flujo_financiero_proyecto(factor_ingresos, factor_costos)
         series.append(
             {
-                "nombre": f"{nuevos_por_anio} museo{'s' if nuevos_por_anio > 1 else ''}/anio",
+                "nombre": nombre,
                 "y": flujos[1:],
             }
         )
@@ -532,7 +532,7 @@ def generar_flujo_expansion_escenarios():
     grafico_lineas_multiples(
         x=HORIZONTE_EVALUACION,
         series=series,
-        titulo="Flujo neto anual segun ritmo de expansion comercial",
+        titulo="Flujo neto anual segun sensibilidad financiera",
         eje_x="Anio",
         eje_y="Flujo neto anual (S/)",
         nombre_salida="cap10/flujo_neto_escenarios_expansion.png",
@@ -540,22 +540,13 @@ def generar_flujo_expansion_escenarios():
 
 
 def generar_van_expansion():
-    categorias = []
-    valores = []
-    etiquetas = []
-
-    for nuevos_por_anio in [1, 2, 3, 4]:
-        flujos, _ = _flujo_financiero_proyecto(nuevos_por_anio)
-        van = round(_calcular_van(flujos))
-        categorias.append(f"{nuevos_por_anio} museo{'s' if nuevos_por_anio > 1 else ''} nuevos/anio")
-        valores.append(van)
-        etiquetas.append(f"S/ {van:,.0f}")
+    categorias, valores, etiquetas = _valores_sensibilidad_van()
 
     grafico_barras_horizontales(
         categorias=categorias,
         valores=valores,
         etiquetas=etiquetas,
-        titulo="VAN de MuseIQ segun escenarios de expansion",
+        titulo="VAN de MuseIQ segun sensibilidad financiera",
         eje_x="Valor actual neto (S/)",
         eje_y="Escenario",
         nombre_salida="cap10/van_escenarios_expansion.png",

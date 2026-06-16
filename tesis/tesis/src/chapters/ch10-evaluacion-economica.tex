@@ -1,430 +1,534 @@
 \chapter{Evaluación Económica Financiera}
 
-\section{Propósito del capítulo}
+\begingroup
+\sloppy
+\setlength{\emergencystretch}{3em}
 
-Luego de haber definido el mercado objetivo en el Capítulo 3, el posicionamiento competitivo en el Capítulo 4, el flujo de ingresos en el Capítulo 5 y la solución técnica en los capítulos 7, 8 y 9, corresponde contrastar si la solución propuesta también resulta defendible desde una perspectiva económica y financiera. En una tesis aplicada, esta etapa no solo responde cuánto podría costar o cuánto podría cobrarse por la solución, sino también si el proyecto genera valor suficiente para justificar su despliegue progresivo en un entorno institucional real~\cite{europeancommission2014cba,unido2017manual}.
+\definecolor{MuseIQBlue}{HTML}{008CC7}
+\definecolor{MuseIQBlueDark}{HTML}{006E9E}
+\definecolor{MuseIQLight}{HTML}{CDEFF8}
+\definecolor{MuseIQLighter}{HTML}{EAF8FC}
+\definecolor{MuseIQTotal}{HTML}{00A6CF}
+\definecolor{MuseIQGrid}{HTML}{1B4F63}
 
-En coherencia con el sílabo del Taller de Investigación, el presente capítulo articula cinco componentes: determinación del volumen de servicio, estructura de costos, inversión inicial y depreciación, proyección económica-financiera y evaluación de viabilidad bajo escenarios. El enfoque adoptado es \textit{ex ante}, de carácter prudente y centrado en el piloto del Museo Tumbas Reales de Sipán como unidad base de validación comercial.
+\newcommand{\mqiWhite}[1]{\textcolor{white}{\textbf{#1}}}
+\newcommand{\mqiHead}[1]{\textbf{#1}}
+\newcommand{\mqiTableSetup}{\arrayrulecolor{MuseIQGrid}\renewcommand{\arraystretch}{1.16}\setlength{\tabcolsep}{4pt}}
+\newcommand{\mqiTitle}[2]{\rowcolor{MuseIQBlueDark}\multicolumn{#1}{|c|}{\mqiWhite{#2}}\\ \hline}
+\newcommand{\mqiSubTitle}[2]{\rowcolor{MuseIQBlue}\multicolumn{#1}{|c|}{\mqiWhite{#2}}\\ \hline}
 
-\section{Enfoque y supuestos de evaluación}
+\section{Propósito y alcance de la evaluación}
 
-La evaluación se construye sobre un horizonte de diez años y sobre flujos pretributarios, sin incorporar IGV ni financiamiento bancario, dado que el objetivo es valorar la capacidad intrínseca del proyecto para generar caja antes de decisiones tributarias o de estructura de capital. El escenario base supone que el piloto comienza con Sipán en el año 1 y que, a partir de allí, se incorpora un museo nuevo por año dentro del clúster museal priorizado. Asimismo, se asume que cada museo implementado pasa a generar ingresos recurrentes desde el año siguiente a su instalación.
+Luego de definir el mercado objetivo en el Capítulo 3, la oferta tecnológica en el Capítulo 4, el flujo de ingresos en el Capítulo 5 y la arquitectura técnica en los Capítulos 7, 8 y 9, corresponde evaluar si MuseIQ también resulta defendible desde una perspectiva económica y financiera. En una tesis aplicada, esta evaluación no debe limitarse a sumar componentes de hardware: debe mostrar si el proyecto puede sostenerse como servicio institucional de interpretación cultural digital.
 
-Además de la tasa de descuento y de la inversión inicial, la modelación conserva la unidad económica ya construida en el Capítulo 5: un precio de implementación de S/5\,100 por museo, un mantenimiento técnico anual de S/900 y un servicio anual de IA y analítica de S/10\,200, con sus respectivos costos asociados. Para no sobreestimar ingresos, la evaluación financiera excluye servicios extraordinarios no estructurales y trabaja solo con los rubros recurrentes que pueden sostenerse contractualmente. Para mantener consistencia contable mínima, se incorpora también una depreciación anual sobre los activos tangibles reutilizables del prototipo, una estructura ligera de gastos fijos operativos y una reposición técnica programada a mitad del horizonte.
+La documentación económica revisada organiza el estudio en cuatro bloques: determinación de costos, proyección de la inversión, proyección de ingresos y evaluación financiera mediante estado de resultados, presupuesto de caja, flujo de efectivo e indicadores como VAN, TIR e índice de rentabilidad. El capítulo adopta esa lógica, pero la adapta a MuseIQ: la unidad económica no es una máquina ni una línea de producción, sino un museo implementado y posteriormente atendido mediante soporte, mantenimiento, IA, analítica y servicios adicionales.
 
-\begin{table}[h!]
+Por ello, el objetivo del capítulo es convertir el modelo comercial formulado en el Capítulo 5 en una evaluación financiera verificable. El resultado debe responder tres preguntas: cuánto capital requiere el promotor para iniciar una operación comercial mínima, cómo evolucionan ingresos y egresos durante diez años, y bajo qué condiciones el proyecto genera valor suficiente para justificar su escalamiento.
+
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{8.5cm} c}
+	\mqiTableSetup
+	\begin{tabular}{|p{4.0cm}|p{5.2cm}|p{5.5cm}|}
 		\hline
-		\textbf{Supuesto} & \textbf{Valor} \\
-		\hline
-		Horizonte de evaluación & 10 años \\
-		Tasa de descuento anual & 12\% \\
-		Base de modelación & Flujos pretributarios, sin IGV y sin deuda \\
-		Inversión inicial total & S/2\,500 \\
-		Activos tangibles depreciables & S/1\,050 \\
-		Vida útil de activos tangibles & 5 años \\
-		Depreciación anual por línea recta & S/210 \\
-		Reposición técnica de la base tangible & Año 6 por S/1\,050 \\
-		Nuevas implementaciones por año & Escenario base: 1 museo/año \\
-		Precio de implementación por museo & S/5\,100 \\
-		Costo directo de implementación por museo & S/3\,900 \\
-		Mantenimiento técnico anual por museo & S/900 \\
-		Costo anual del mantenimiento técnico & S/900 \\
-		Servicio anual de IA y analítica por museo & S/10\,200 \\
-		Costo anual de IA y analítica por museo & S/8\,530 \\
-		Gasto fijo anual de operación en año 1 & S/2\,400 \\
-		Crecimiento anual del gasto fijo & 3\% \\
-		\hline
+		\mqiTitle{3}{ESTRUCTURA METODOLÓGICA DEL CAPÍTULO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Bloque de evaluación} & \mqiWhite{Aplicación en la documentación económica} & \mqiWhite{Adaptación para MuseIQ} \\ \hline
+		\rowcolor{MuseIQLight}
+		Determinación de costos & Volumen de servicio, mano de obra, costos indirectos, gastos administrativos y ventas & Museos captados, paquetes Básico/Estándar/Avanzado, costos directos, herramientas, soporte e IA \\ \hline
+		\rowcolor{MuseIQLighter}
+		Proyección de inversión & Activos tangibles, intangibles, depreciación, capital de trabajo y balance de apertura & Base preoperativa reutilizable, adecuación de software, documentación y capital de trabajo inicial \\ \hline
+		\rowcolor{MuseIQLight}
+		Proyección de ingresos & Producción anual, ventas, cobros al contado/crédito e ingresos de efectivo & Implementación, mantenimiento, IA/analítica y servicios adicionales por museo activo \\ \hline
+		\rowcolor{MuseIQLighter}
+		Evaluación financiera & Estado de resultados, presupuesto de caja, flujo de efectivo, VAN, TIR e IR & Flujo pretributario sin deuda, VAN, TIR, relación beneficio/costo, recuperación y sensibilidad \\ \hline
 	\end{tabular}
-	\caption[Supuestos económicos y financieros de la solución propuesta]{Supuestos económicos y financieros adoptados para la evaluación de la solución propuesta. Fuente: elaboración propia con base en los capítulos 5 y 9.}
+	\caption[Estructura metodológica de la evaluación económica]{Estructura metodológica adoptada para la evaluación económica y financiera de MuseIQ. Fuente: elaboración propia con base en la documentación económica revisada y el modelo comercial del Capítulo 5.}
+	\label{tab:metodo-economico-museiq}
+\end{table}
+
+\section{Supuestos generales de evaluación}
+
+La evaluación se desarrolla sobre un horizonte de diez años, en soles constantes de 2026, sin IGV, sin deuda y sin impuestos. Esta simplificación permite observar la capacidad intrínseca del proyecto para generar caja antes de decisiones tributarias o de estructura de capital. Se adopta una tasa de descuento anual de 12\%, razonable para una iniciativa tecnológica aplicada con riesgo comercial moderado y todavía dependiente de validación institucional~\cite{europeancommission2014cba,unido2017manual}.
+
+El escenario base utilizado es el escenario nominal ajustado del Capítulo 5: captación gradual de 35 museos en diez años, con mezcla acumulada de 5 contratos Básicos, 20 Estándar y 10 Avanzados. Los ingresos recurrentes de clientes nuevos se reconocen al 50\% en el año de implementación y al 100\% desde el año siguiente, debido a que la contratación, configuración y puesta en marcha no ocurren necesariamente al inicio del periodo.
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\mqiTableSetup
+	\begin{tabular}{|p{8.7cm}|c|}
+		\hline
+		\mqiTitle{2}{SUPUESTOS ECONÓMICOS Y FINANCIEROS}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Supuesto} & \mqiWhite{Valor adoptado} \\ \hline
+		\rowcolor{MuseIQLight} Horizonte de evaluación & 10 años \\ \hline
+		\rowcolor{MuseIQLighter} Moneda de análisis & Soles constantes de 2026 \\ \hline
+		\rowcolor{MuseIQLight} Base de modelación & Flujos pretributarios, sin IGV y sin deuda \\ \hline
+		\rowcolor{MuseIQLighter} Tasa de descuento anual & 12\% \\ \hline
+		\rowcolor{MuseIQLight} Escenario comercial base & 35 museos captados al año 10 \\ \hline
+		\rowcolor{MuseIQLighter} Mezcla acumulada de paquetes & 5 Básicos, 20 Estándar y 10 Avanzados \\ \hline
+		\rowcolor{MuseIQLight} Reconocimiento recurrente de clientes nuevos & 50\% en el año de captación \\ \hline
+		\rowcolor{MuseIQLighter} Servicios adicionales & 8\% de la implementación anual \\ \hline
+		\rowcolor{MuseIQLight} Costo directo de servicios adicionales & 50\% del ingreso adicional \\ \hline
+		\rowcolor{MuseIQLighter} Gasto fijo operativo inicial & S/130\,000 en el año 1 \\ \hline
+		\rowcolor{MuseIQLight} Crecimiento del gasto fijo operativo & 5\% anual aproximado \\ \hline
+		\rowcolor{MuseIQLighter} Inversión inicial preoperativa & S/200\,000 \\ \hline
+		\rowcolor{MuseIQLight} Reposición técnica programada & S/50\,000 en el año 6 \\ \hline
+	\end{tabular}
+	\caption[Supuestos económicos y financieros de MuseIQ]{Supuestos económicos y financieros adoptados para la evaluación de MuseIQ. Fuente: elaboración propia con base en los Capítulos 5 y 9.}
 	\label{tab:supuestos-econ-museiq}
 \end{table}
 
-Estos supuestos responden a una lógica prudente. No se modela una expansión nacional inmediata ni una curva de adopción optimista. En cambio, se parte de una sola institución piloto y se observa cómo evoluciona el negocio si la solución logra transformarse en un servicio recurrente replicable. Esa prudencia metodológica vuelve más creíble la lectura de los indicadores de rentabilidad posteriores.
+Estos supuestos buscan un punto medio entre prudencia y realismo. No se asume penetración masiva del mercado nacional, pues 35 museos representan menos del 10\% del universo de 386 museos e instituciones museales identificado oficialmente en el Capítulo 5. Al mismo tiempo, no se reduce el proyecto a un piloto físico mínimo, porque una operación comercial requiere documentación, soporte, formalización, plantillas de despliegue, herramientas de demostración y capital de trabajo inicial.
 
-\section{Determinación del volumen de servicio y la estructura de costos}
+\section{Determinación del volumen de servicio y estructura de costos}
 
-\subsection{Volumen de servicio proyectado}
+\subsection{Estimación del volumen de servicio}
 
-Desde la lógica del sílabo, la solución propuesta no produce bienes en serie, sino servicios tecnológicos institucionales. Por ello, la unidad de volumen relevante no es el número de dispositivos vendidos, sino el número de museos implementados y el número de museos activos que generan ingresos recurrentes. Bajo el escenario base, el volumen de servicio proyectado se representa en la Tabla~\ref{tab:volumen-servicio-museiq}.
+MuseIQ no produce bienes en serie; presta servicios tecnológicos institucionales. En consecuencia, la unidad de volumen relevante es el número de museos implementados y activos. Esta adaptación sigue la lógica de estimar volumen de producción del servicio, pero reemplaza sesiones, pacientes o unidades físicas por contratos institucionales.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{5pt}
-	\begin{tabular}{c c c c}
+	\scriptsize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|c|c|c|p{6.2cm}|}
 		\hline
-		\textbf{Año} & \textbf{Museos nuevos} & \textbf{Museos con servicio recurrente} & \textbf{Museos acumulados} \\
-		\hline
-		1 & 1 & 0 & 1 \\
-		2 & 1 & 1 & 2 \\
-		3 & 1 & 2 & 3 \\
-		4 & 1 & 3 & 4 \\
-		5 & 1 & 4 & 5 \\
-		6 & 1 & 5 & 6 \\
-		7 & 1 & 6 & 7 \\
-		8 & 1 & 7 & 8 \\
-		9 & 1 & 8 & 9 \\
-		10 & 1 & 9 & 10 \\
-		\hline
-	\end{tabular}
-	\caption[Volumen de servicio proyectado de la solución propuesta]{Volumen de servicio proyectado de la solución propuesta en el escenario base, medido en museos implementados y museos activos con servicios recurrentes. Fuente: elaboración propia.}
+		\mqiTitle{5}{VOLUMEN DE SERVICIO PROYECTADO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Año} & \mqiWhite{Museos nuevos} & \mqiWhite{Museos activos} & \mqiWhite{B/E/A} & \mqiWhite{Lectura comercial} \\ \hline
+		\rowcolor{MuseIQLight} 1  & 2 & 2  & 0/0/2 & Casos ancla de alta visibilidad institucional. \\ \hline
+		\rowcolor{MuseIQLighter} 2  & 2 & 4  & 0/0/2 & Consolidación con museos emblemáticos. \\ \hline
+		\rowcolor{MuseIQLight} 3  & 3 & 7  & 0/2/1 & Entrada a museos de sitio y memoria. \\ \hline
+		\rowcolor{MuseIQLighter} 4  & 3 & 10 & 0/2/1 & Expansión hacia nodos arqueológicos regionales. \\ \hline
+		\rowcolor{MuseIQLight} 5  & 3 & 13 & 0/3/0 & Profundización del clúster Lambayeque. \\ \hline
+		\rowcolor{MuseIQLighter} 6  & 4 & 17 & 1/1/2 & Ingreso a instituciones privadas y financieras. \\ \hline
+		\rowcolor{MuseIQLight} 7  & 4 & 21 & 1/2/1 & Combinación de museos universitarios, memoria y nacionales. \\ \hline
+		\rowcolor{MuseIQLighter} 8  & 4 & 25 & 1/3/0 & Cobertura de museos medianos y de sitio. \\ \hline
+		\rowcolor{MuseIQLight} 9  & 5 & 30 & 1/3/1 & Expansión sur hacia Ica y Cusco. \\ \hline
+		\rowcolor{MuseIQLighter} 10 & 5 & 35 & 1/4/0 & Consolidación regional sin cobertura total del mercado. \\ \hline
+	\end{tabular}%
+	}
+	\caption[Volumen de servicio proyectado para MuseIQ]{Volumen de servicio proyectado para MuseIQ en el escenario base. B/E/A indica la cantidad anual de contratos Básico, Estándar y Avanzado. Fuente: elaboración propia con base en el Capítulo 5.}
 	\label{tab:volumen-servicio-museiq}
 \end{table}
 
-La Tabla~\ref{tab:volumen-servicio-museiq} muestra que la lógica del modelo no depende de vender una gran cantidad de instalaciones en el corto plazo. Lo que vuelve económicamente interesante a la solución propuesta es la acumulación progresiva de instituciones activas que, luego de la implementación, mantienen contratos recurrentes de mantenimiento e IA y analítica.
+El patrón de crecimiento es progresivo. Durante los primeros años predominan paquetes Avanzados en instituciones de alta visibilidad, útiles para validar valor técnico y reputacional. Luego, la cartera incorpora una mayor proporción de paquetes Estándar y Básicos, lo que permite ampliar cobertura sin asumir que todos los museos contratarán el alcance máximo de la solución.
 
-\subsection{Unidad económica por museo}
+\subsection{Unidad económica por paquete}
 
-La unidad económica de la solución propuesta se apoya en tres rubros. El primero es la implementación inicial, que genera un ingreso de S/5\,100 y un costo directo de S/3\,900 por museo. El segundo es el mantenimiento técnico anual, cuyo precio y costo coinciden en S/900, de modo que su función principal es sostener continuidad operativa más que rentabilidad. El tercero es el servicio anual de IA y analítica, valorizado en S/10\,200 frente a un costo anual de S/8\,530, que se convierte en la principal fuente de margen recurrente.
+La unidad económica de MuseIQ se compone de tres fuentes: implementación inicial, servicios recurrentes de mantenimiento e IA/analítica, y servicios adicionales. La implementación recupera diagnóstico, hardware BLE, señalética, configuración, estructuración curatorial, pruebas y capacitación. Los servicios recurrentes sostienen continuidad operativa, soporte, analítica, voz y recuperación aumentada.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
-	\footnotesize
-	\begin{tabular}{l c c c}
+	\scriptsize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|r|r|r|r|r|r|}
 		\hline
-		\textbf{Rubro} & \textbf{Ingreso (S/)} & \textbf{Costo (S/)} & \textbf{Margen bruto (S/)} \\
-		\hline
-		Implementación inicial por museo & 5\,100 & 3\,900 & 1\,200 \\
-		Mantenimiento técnico anual & 900 & 900 & 0 \\
-		IA y analítica anual & 10\,200 & 8\,530 & 1\,670 \\
-		\hline
-	\end{tabular}
-	\caption[Unidad económica base de la solución propuesta]{Unidad económica base utilizada para la evaluación económica y financiera de la solución propuesta. Fuente: elaboración propia con base en el Capítulo 5.}
+		\mqiTitle{7}{UNIDAD ECONÓMICA POR PAQUETE COMERCIAL}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Paquete} & \mqiWhite{Ingreso impl.} & \mqiWhite{Costo impl.} & \mqiWhite{Margen impl.} & \mqiWhite{Ingreso recurrente} & \mqiWhite{Costo recurrente} & \mqiWhite{Margen recurrente} \\ \hline
+		\rowcolor{MuseIQLight} Básico   & S/48\,000  & S/29\,000  & S/19\,000 & S/14\,000 & S/7\,000  & S/7\,000 \\ \hline
+		\rowcolor{MuseIQLighter} Estándar & S/96\,000  & S/58\,000  & S/38\,000 & S/29\,000 & S/14\,000 & S/15\,000 \\ \hline
+		\rowcolor{MuseIQLight} Avanzado & S/185\,000 & S/111\,000 & S/74\,000 & S/52\,000 & S/24\,000 & S/28\,000 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{7}{|r|}{\mqiWhite{Los valores están expresados en soles constantes de 2026, sin IGV.}} \\ \hline
+	\end{tabular}%
+	}
+	\caption[Unidad económica por paquete comercial de MuseIQ]{Unidad económica por paquete comercial de MuseIQ. El ingreso recurrente anual agrega mantenimiento técnico e IA/analítica. Fuente: elaboración propia con base en el Capítulo 5.}
 	\label{tab:unidad-economica-museiq}
 \end{table}
 
-\subsection{Costos operativos, administrativos y de venta}
+La lectura financiera es clara: el margen no proviene del hardware aislado, sino de la integración institucional. Los beacons, la aplicación y el backend son necesarios, pero el valor económico se produce cuando esos componentes se configuran con contenido curatorial, soporte, analítica y operación recurrente.
 
-Además de los costos directos por museo, el proyecto incorpora una estructura fija anual ligera. Este componente responde a lo que el sílabo exige como gastos administrativos, costos de operación transversal y gastos de venta proyectados. En lugar de modelar una empresa sobredimensionada, se asume una operación mínima compatible con un MVP institucional en expansión gradual.
+\subsection{Costos de operación}
 
-\begin{table}[h!]
+La documentación económica distingue mano de obra directa, costos indirectos, gastos administrativos y gastos comerciales. En MuseIQ esos rubros se reinterpretan como una estructura operativa mínima para desplegar, soportar y vender la solución. Se adopta un gasto fijo inicial de S/130\,000 en el año 1, con crecimiento anual de 5\%, coherente con una operación que aumenta cartera sin convertirse todavía en una empresa de gran escala.
+
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{8.3cm} c}
+	\mqiTableSetup
+	\begin{tabular}{|p{7.0cm}|r|p{4.4cm}|}
 		\hline
-		\textbf{Rubro fijo anual de operación en el año 1} & \textbf{Monto (S/)} \\
-		\hline
-		Coordinación administrativa y seguimiento contractual & 900 \\
-		Soporte transversal, monitoreo general y ajustes menores & 1\,100 \\
-		Gestión comercial y relación institucional & 400 \\
-		\hline
-		\textbf{Total gasto fijo anual} & \textbf{2\,400} \\
-		\hline
+		\mqiTitle{3}{ESTRUCTURA OPERATIVA FIJA DEL AÑO 1}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Rubro operativo} & \mqiWhite{Monto anual} & \mqiWhite{Función dentro del servicio} \\ \hline
+		\rowcolor{MuseIQLight} Coordinación de proyectos, despliegues y seguimiento contractual & S/50\,000 & Dirección técnica y control de implementación \\ \hline
+		\rowcolor{MuseIQLighter} Soporte técnico transversal, monitoreo y ajustes menores & S/45\,000 & Continuidad operativa y atención posventa \\ \hline
+		\rowcolor{MuseIQLight} Herramientas digitales, pruebas, nube y entorno de demostración & S/20\,000 & Infraestructura indirecta de operación \\ \hline
+		\rowcolor{MuseIQLighter} Gestión comercial, prospección y relación institucional & S/15\,000 & Captación y seguimiento de clientes \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{1}{|r|}{\mqiWhite{TOTAL GASTO FIJO ANUAL INICIAL}} & \mqiWhite{S/130\,000} & \mqiWhite{Base operativa del año 1} \\ \hline
 	\end{tabular}
-	\caption[Gasto fijo anual de operación de la solución propuesta]{Composición del gasto fijo anual de operación de la solución propuesta para el año 1. Fuente: elaboración propia.}
-	\label{tab:gasto-fijo-museiq}
+	\caption[Gasto fijo anual de operación de MuseIQ]{Gasto fijo anual de operación de MuseIQ para el año 1. Fuente: elaboración propia.}
+	\label{tab:estructura-operativa-museiq}
 \end{table}
 
-Esta estructura no representa el costo completo de una empresa consolidada, sino el costo mínimo razonable para administrar, sostener y comercializar un despliegue institucional de baja escala. Por ello, se aplica un crecimiento anual de 3\%, suficiente para reflejar expansión operativa sin sobrecargar artificialmente el modelo.
+Los costos indirectos corresponden a herramientas y servicios que no se imputan a un museo específico, pero que hacen posible la operación continua. A diferencia de una planta industrial, aquí no predominan energía eléctrica o mantenimiento de maquinaria pesada; predominan nube, repositorios, monitoreo, pruebas, demostraciones, seguridad y comunicaciones.
 
-\section{Inversión inicial, depreciación y estructura financiera}
+\begin{table}[H]
+	\centering
+	\scriptsize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|r|r|r|r|r|r|}
+		\hline
+		\mqiTitle{7}{CUADRO DE COSTOS INDIRECTOS Y HERRAMIENTAS}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Herramientas indirectas} & \mqiWhite{Año 1} & \mqiWhite{Año 2} & \mqiWhite{Año 3} & \mqiWhite{Año 4} & \mqiWhite{Año 5} & \mqiWhite{Año 6} \\ \hline
+		\rowcolor{MuseIQLight} Nube, hosting, pruebas de API e IA & 9\,000 & 9\,450 & 9\,923 & 10\,419 & 10\,940 & 11\,487 \\ \hline
+		\rowcolor{MuseIQLighter} Repositorios, monitoreo y colaboración técnica & 4\,000 & 4\,200 & 4\,410 & 4\,631 & 4\,862 & 5\,105 \\ \hline
+		\rowcolor{MuseIQLight} Entorno de demostración y dispositivos de prueba & 3\,000 & 3\,150 & 3\,308 & 3\,473 & 3\,647 & 3\,829 \\ \hline
+		\rowcolor{MuseIQLighter} Seguridad, comunicaciones y dominios & 4\,000 & 4\,200 & 4\,410 & 4\,631 & 4\,862 & 5\,105 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\mqiWhite{TOTAL COSTO INDIRECTO DE HERRAMIENTAS} & \mqiWhite{S/20\,000} & \mqiWhite{S/21\,000} & \mqiWhite{S/22\,050} & \mqiWhite{S/23\,153} & \mqiWhite{S/24\,310} & \mqiWhite{S/25\,526} \\ \hline
+	\end{tabular}%
+	}
+	\caption[Costos indirectos y herramientas de MuseIQ]{Costos indirectos y herramientas de MuseIQ para los primeros seis años. Fuente: elaboración propia.}
+	\label{tab:herramientas-indirectas-museiq}
+\end{table}
 
-\subsection{Inversión inicial del proyecto}
+\subsection{Costo total del servicio}
 
-El proyecto requiere una inversión inicial preoperativa de S/2\,500. Dado que la solución propuesta adopta una arquitectura BYOD y que los costos de hardware específico del museo se transfieren al contrato de implementación, esta inversión no se concentra en equipamiento masivo, sino en dos rubros: base tangible reutilizable para prototipado y validación, y adecuación preoperativa para formalización, ajustes y capital de trabajo inicial.
+El costo total del servicio agrega costos directos de implementación y servicios adicionales, costos recurrentes de mantenimiento e IA, gasto fijo operativo y reposición técnica cuando corresponde. La Tabla~\ref{tab:costo-total-servicio-museiq} cumple la función equivalente al costo total del servicio en la plantilla económica, pero expresado para un negocio de software, IA y despliegue institucional.
 
-\begin{figure}[h!]
+\begin{table}[H]
+	\centering
+	\scriptsize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|r|r|r|r|r|r|r|r|r|r|}
+		\hline
+		\mqiTitle{11}{COSTO TOTAL DEL SERVICIO MUSEIQ}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
+		\rowcolor{MuseIQLight} Costos directos y recurrentes & 260\,800 & 308\,800 & 364\,080 & 416\,080 & 406\,520 & 606\,060 & 613\,500 & 610\,940 & 790\,340 & 801\,780 \\ \hline
+		\rowcolor{MuseIQLighter} Gasto fijo operativo & 130\,000 & 136\,500 & 143\,325 & 150\,491 & 158\,016 & 165\,917 & 174\,213 & 182\,924 & 192\,070 & 201\,674 \\ \hline
+		\rowcolor{MuseIQLight} Reposición técnica & 0 & 0 & 0 & 0 & 0 & 50\,000 & 0 & 0 & 0 & 0 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\mqiWhite{TOTAL EGRESOS DEL PROYECTO} & \mqiWhite{390\,800} & \mqiWhite{445\,300} & \mqiWhite{507\,405} & \mqiWhite{566\,571} & \mqiWhite{564\,536} & \mqiWhite{821\,977} & \mqiWhite{787\,713} & \mqiWhite{793\,864} & \mqiWhite{982\,410} & \mqiWhite{1\,003\,454} \\ \hline
+	\end{tabular}%
+	}
+	\caption[Costo total del servicio MuseIQ]{Costo total del servicio MuseIQ, expresado como egresos desembolsables del proyecto por año. Fuente: elaboración propia.}
+	\label{tab:costo-total-servicio-museiq}
+\end{table}
+
+\section{Proyección de la inversión y financiamiento}
+
+\subsection{Estimación de la inversión inicial}
+
+Aunque el enfoque BYOD reduce el CAPEX dentro del museo, el proveedor de MuseIQ necesita una inversión inicial para convertir el prototipo en una operación comercial mínima. Esta inversión no equivale al costo de implementar un museo específico; corresponde a la base preoperativa reutilizable del proyecto: equipos de prueba, servidor y dispositivos de demostración, adecuación de software, documentación, plantillas de despliegue, formalización y capital de trabajo.
+
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.68\textwidth]{composicion_inversion_inicial.png}
-	\caption[Composición de la inversión inicial de la solución propuesta]{Composición de la inversión inicial de la solución propuesta, diferenciando base tangible reutilizable y adecuación preoperativa para la salida al piloto. Fuente: elaboración propia.}
+	\caption[Composición de la inversión inicial de MuseIQ]{Composición de la inversión inicial de MuseIQ. Fuente: elaboración propia.}
 	\label{fig:composicion-inversion-museiq}
 \end{figure}
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{>{\raggedright\arraybackslash}p{8.5cm} c}
+	\mqiTableSetup
+	\begin{tabular}{|p{9.0cm}|r|}
 		\hline
-		\textbf{Componente de inversión} & \textbf{Monto (S/)} \\
-		\hline
-		Base tangible reutilizable de prototipo, pruebas y demostración & 1\,050 \\
-		Adecuación preoperativa, formalización y capital de trabajo inicial & 1\,450 \\
-		\hline
-		\textbf{Inversión total} & \textbf{2\,500} \\
-		\hline
+		\mqiTitle{2}{ESTIMACIÓN DE LA INVERSIÓN INICIAL}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Componente de inversión inicial} & \mqiWhite{Monto} \\ \hline
+		\rowcolor{MuseIQLight} Activos tangibles reutilizables: servidor local, dispositivos de prueba, smartphones, kits BLE y materiales de demostración & S/80\,000 \\ \hline
+		\rowcolor{MuseIQLighter} Adecuación de software, plantillas de configuración, documentación técnica, pruebas y formalización preoperativa & S/70\,000 \\ \hline
+		\rowcolor{MuseIQLight} Capital de trabajo inicial para prospección, soporte temprano y continuidad de operación & S/50\,000 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{1}{|r|}{\mqiWhite{INVERSIÓN INICIAL TOTAL}} & \mqiWhite{S/200\,000} \\ \hline
 	\end{tabular}
-	\caption[Inversión inicial de la solución propuesta]{Estimación de la inversión inicial requerida por la solución propuesta antes del despliegue comercial del piloto. Fuente: elaboración propia.}
+	\caption[Inversión inicial requerida para MuseIQ]{Inversión inicial requerida para iniciar una operación comercial mínima de MuseIQ. Fuente: elaboración propia.}
 	\label{tab:inversion-inicial-museiq}
 \end{table}
 
+El monto adoptado es mayor que el costo de un piloto académico porque incorpora elementos que un despliegue comercial necesita desde el inicio: capacidad de demostración, estandarización de entregables, documentación, soporte, configuración repetible y margen de trabajo antes de recibir flujos recurrentes relevantes.
+
 \subsection{Depreciación de activos tangibles}
 
-Solo la parte tangible reutilizable de la inversión inicial se somete a depreciación contable. Se adopta el método de línea recta y una vida útil de cinco años, coherente con un prototipo tecnológico que podría requerir renovación o actualización moderada. Bajo este criterio, la depreciación anual asciende a S/210. Como la evaluación cubre diez años, se programa además una reposición técnica equivalente al inicio del año 6 para sostener el mismo estándar de operación durante el segundo quinquenio.
+Solo la base tangible reutilizable se somete a depreciación contable. Se adopta depreciación lineal a cinco años, lo que genera un cargo anual de S/16\,000. Además, se programa una reposición técnica de S/50\,000 en el año 6 para renovar parte de los equipos de demostración, servidor o dispositivos de prueba y sostener la capacidad operativa durante el segundo quinquenio.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
-	\scriptsize
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{l c c c}
+	\footnotesize
+	\mqiTableSetup
+	\begin{tabular}{|p{5.7cm}|r|c|r|}
 		\hline
-		\textbf{Activo} & \textbf{Base depreciable (S/)} & \textbf{Vida útil (años)} & \textbf{Depreciación anual (S/)} \\
-		\hline
-		Base tangible reutilizable del prototipo & 1\,050 & 5 & 210 \\
-		\hline
-	\end{tabular}%
-	}
-	\caption[Depreciación anual de los activos tangibles de la solución propuesta]{Depreciación anual de los activos tangibles reutilizables del proyecto propuesto bajo el método de línea recta. Fuente: elaboración propia.}
+		\mqiTitle{4}{DEPRECIACIÓN DE ACTIVOS TANGIBLES}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Activo} & \mqiWhite{Base depreciable} & \mqiWhite{Vida útil} & \mqiWhite{Depreciación anual} \\ \hline
+		\rowcolor{MuseIQLight} Activos tangibles reutilizables & S/80\,000 & 5 años & S/16\,000 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\mqiWhite{TOTAL} & \mqiWhite{S/80\,000} & \mqiWhite{5 años} & \mqiWhite{S/16\,000} \\ \hline
+	\end{tabular}
+	\caption[Depreciación anual de activos tangibles de MuseIQ]{Depreciación anual de activos tangibles de MuseIQ bajo método de línea recta. Fuente: elaboración propia.}
 	\label{tab:depreciacion-museiq}
 \end{table}
 
-La reposición técnica del año 6 se registra como una salida de caja adicional en el flujo financiero y permite mantener constante el cargo anual de depreciación sobre la base tangible activa en cada quinquenio.
+La depreciación se usa en el estado de resultados simplificado, mientras que la reposición técnica se registra como salida de caja en el flujo financiero del proyecto. Esta separación evita confundir utilidad contable con disponibilidad efectiva de caja.
 
-\subsection{Fuentes de financiamiento y balance de apertura}
+\subsection{Plan de inversión, capital de trabajo y balance de apertura}
 
-La inversión inicial de la solución propuesta es lo suficientemente ligera como para no requerir deuda en el escenario base. Por ello, se modela una estructura financiera 100\% patrimonial, financiada con aportes del promotor. Esta decisión simplifica la evaluación y permite observar la capacidad del proyecto para generar caja sin distorsiones derivadas de intereses o cronogramas de crédito.
+Para realizar el plan de inversión se consideran tres aspectos: activos tangibles, activos intangibles o preoperativos y capital de trabajo. En el escenario base se asume financiamiento 100\% patrimonial, con lo cual no se calculan gastos financieros ni amortización de deuda.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\begin{tabular}{l c c}
+	\mqiTableSetup
+	\begin{tabular}{|p{6.5cm}|r|r|r|}
 		\hline
-		\textbf{Fuente} & \textbf{Monto (S/)} & \textbf{Participación} \\
-		\hline
-		Aporte propio del promotor & 2\,500 & 100\% \\
-		Financiamiento externo & 0 & 0\% \\
-		\hline
-		\textbf{Total} & \textbf{2\,500} & \textbf{100\%} \\
-		\hline
+		\mqiTitle{4}{PLAN DE INVERSIÓN Y CAPITAL DE TRABAJO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Activo o necesidad inicial} & \mqiWhite{Monto} & \mqiWhite{Fondos propios} & \mqiWhite{Financiamiento} \\ \hline
+		\rowcolor{MuseIQLight} Activos tangibles reutilizables & S/80\,000 & S/80\,000 & S/0 \\ \hline
+		\rowcolor{MuseIQLighter} Adecuación de software y documentación preoperativa & S/70\,000 & S/70\,000 & S/0 \\ \hline
+		\rowcolor{MuseIQLight} Capital de trabajo inicial & S/50\,000 & S/50\,000 & S/0 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\mqiWhite{TOTAL} & \mqiWhite{S/200\,000} & \mqiWhite{S/200\,000} & \mqiWhite{S/0} \\ \hline
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Participación} & \mqiWhite{100\%} & \mqiWhite{100\%} & \mqiWhite{0\%} \\ \hline
 	\end{tabular}
-	\caption[Estructura financiera inicial de la solución propuesta]{Estructura financiera inicial asumida para la solución propuesta en el escenario base de evaluación. Fuente: elaboración propia.}
-	\label{tab:financiamiento-museiq}
+	\caption[Plan de inversión y capital de trabajo de MuseIQ]{Plan de inversión y capital de trabajo de MuseIQ. Fuente: elaboración propia.}
+	\label{tab:plan-inversion-museiq}
 \end{table}
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\begin{tabular}{l c}
+	\mqiTableSetup
+	\begin{tabular}{|p{8.5cm}|r|}
 		\hline
-		\textbf{Balance de apertura simplificado} & \textbf{Monto (S/)} \\
-		\hline
-		\multicolumn{2}{l}{\textbf{Activo}} \\
-		Caja y capital de trabajo inicial & 1\,450 \\
-		Activos tangibles reutilizables & 1\,050 \\
-		\textbf{Total activo} & \textbf{2\,500} \\
-		\hline
-		\multicolumn{2}{l}{\textbf{Pasivo}} \\
-		Pasivo financiero & 0 \\
-		\textbf{Total pasivo} & \textbf{0} \\
-		\hline
-		\multicolumn{2}{l}{\textbf{Patrimonio}} \\
-		Aporte del promotor & 2\,500 \\
-		\textbf{Total patrimonio} & \textbf{2\,500} \\
-		\hline
+		\mqiTitle{2}{BALANCE DE APERTURA SIMPLIFICADO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Cuenta} & \mqiWhite{Monto} \\ \hline
+		\rowcolor{MuseIQLight} Caja y capital de trabajo inicial & S/50\,000 \\ \hline
+		\rowcolor{MuseIQLighter} Activos tangibles reutilizables & S/80\,000 \\ \hline
+		\rowcolor{MuseIQLight} Adecuación software y documentación preoperativa & S/70\,000 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{1}{|r|}{\mqiWhite{TOTAL ACTIVO}} & \mqiWhite{S/200\,000} \\ \hline
+		\rowcolor{MuseIQLighter} Pasivo financiero & S/0 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{1}{|r|}{\mqiWhite{TOTAL PASIVO}} & \mqiWhite{S/0} \\ \hline
+		\rowcolor{MuseIQLight} Aporte patrimonial del promotor & S/200\,000 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{1}{|r|}{\mqiWhite{TOTAL PATRIMONIO}} & \mqiWhite{S/200\,000} \\ \hline
 	\end{tabular}
-	\caption[Balance de apertura simplificado de la solución propuesta]{Balance de apertura simplificado de la solución propuesta bajo una estructura de financiamiento íntegramente patrimonial. Fuente: elaboración propia.}
+	\caption[Balance de apertura simplificado de MuseIQ]{Balance de apertura simplificado de MuseIQ bajo financiamiento patrimonial. Fuente: elaboración propia.}
 	\label{tab:balance-apertura-museiq}
 \end{table}
 
-\section{Proyección económica y financiera}
+\section{Proyección de ingresos}
 
-\subsection{Flujo económico anual del proyecto}
+La proyección de ingresos consolida implementación, mantenimiento, IA/analítica y servicios adicionales. A diferencia de una proyección basada en venta unitaria, el ingreso aumenta por dos vías: nuevos contratos y acumulación de museos activos que pagan recurrencia.
 
-Con los supuestos anteriores, el flujo económico anual se construye diferenciando ingresos, costos directos de implementación, costos recurrentes, gastos fijos y flujo neto operativo. En el escenario base, el año 1 contiene únicamente el piloto inicial; desde el año 2 en adelante, el modelo combina una nueva implementación por año con una base creciente de museos que ya pagan servicios recurrentes. La reposición técnica del año 6 no se incorpora todavía en esta tabla porque corresponde al flujo financiero del proyecto y no al resultado operativo ordinario.
-
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\scriptsize
-	\setlength{\tabcolsep}{3pt}
-	\begin{tabular}{c c c c c c c c}
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|r|r|r|r|r|}
 		\hline
-		\textbf{Año} & \textbf{Nuevos} & \textbf{Activos previos} & \textbf{Ingresos} & \textbf{Costo impl.} & \textbf{Costo rec.} & \textbf{Costo fijo} & \textbf{Flujo neto} \\
-		\hline
-		1 & 1 & 0 & 5\,100  & 3\,900 & 0      & 2\,400 & -1\,200 \\
-		2 & 1 & 1 & 16\,200 & 3\,900 & 9\,430  & 2\,472 & 398 \\
-		3 & 1 & 2 & 27\,300 & 3\,900 & 18\,860 & 2\,546 & 1\,994 \\
-		4 & 1 & 3 & 38\,400 & 3\,900 & 28\,290 & 2\,623 & 3\,587 \\
-		5 & 1 & 4 & 49\,500 & 3\,900 & 37\,720 & 2\,701 & 5\,179 \\
-		6 & 1 & 5 & 60\,600 & 3\,900 & 47\,150 & 2\,782 & 6\,768 \\
-		7 & 1 & 6 & 71\,700 & 3\,900 & 56\,580 & 2\,866 & 8\,354 \\
-		8 & 1 & 7 & 82\,800 & 3\,900 & 66\,010 & 2\,952 & 9\,938 \\
-		9 & 1 & 8 & 93\,900 & 3\,900 & 75\,440 & 3\,040 & 11\,520 \\
-		10 & 1 & 9 & 105\,000 & 3\,900 & 84\,870 & 3\,131 & 13\,099 \\
-		\hline
-	\end{tabular}
-	\caption[Flujo económico anual de la solución propuesta]{Flujo económico anual de la solución propuesta bajo el escenario base de despliegue progresivo. Fuente: elaboración propia con base en los supuestos del modelo.}
-	\label{tab:flujo-economico-museiq}
+		\mqiTitle{6}{PROYECCIÓN DE INGRESOS DEL ESCENARIO BASE}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Año} & \mqiWhite{Implementación} & \mqiWhite{Mantenimiento} & \mqiWhite{IA y analítica} & \mqiWhite{Servicios adicionales} & \mqiWhite{Total ingresos} \\ \hline
+		\rowcolor{MuseIQLight} 1  & 370\,000 & 34\,000  & 18\,000  & 29\,600 & 451\,600 \\ \hline
+		\rowcolor{MuseIQLighter} 2  & 370\,000 & 102\,000 & 54\,000  & 29\,600 & 555\,600 \\ \hline
+		\rowcolor{MuseIQLight} 3  & 377\,000 & 171\,000 & 92\,000  & 30\,160 & 670\,160 \\ \hline
+		\rowcolor{MuseIQLighter} 4  & 377\,000 & 241\,000 & 132\,000 & 30\,160 & 780\,160 \\ \hline
+		\rowcolor{MuseIQLight} 5  & 288\,000 & 303\,000 & 168\,500 & 23\,040 & 782\,540 \\ \hline
+		\rowcolor{MuseIQLighter} 6  & 514\,000 & 377\,250 & 211\,250 & 41\,120 & 1\,143\,620 \\ \hline
+		\rowcolor{MuseIQLight} 7  & 425\,000 & 463\,750 & 260\,250 & 34\,000 & 1\,183\,000 \\ \hline
+		\rowcolor{MuseIQLighter} 8  & 336\,000 & 534\,250 & 302\,250 & 26\,880 & 1\,199\,380 \\ \hline
+		\rowcolor{MuseIQLight} 9  & 521\,000 & 613\,750 & 349\,750 & 41\,680 & 1\,526\,180 \\ \hline
+		\rowcolor{MuseIQLighter} 10 & 432\,000 & 702\,250 & 402\,750 & 34\,560 & 1\,571\,560 \\ \hline
+		\rowcolor{MuseIQTotal}
+		\mqiWhite{TOTAL} & \mqiWhite{4\,010\,000} & \mqiWhite{3\,542\,250} & \mqiWhite{1\,990\,750} & \mqiWhite{320\,800} & \mqiWhite{9\,863\,800} \\ \hline
+	\end{tabular}%
+	}
+	\caption[Proyección de ingresos de MuseIQ]{Proyección de ingresos de MuseIQ bajo el escenario base nominal ajustado. Fuente: elaboración propia con base en el Capítulo 5.}
+	\label{tab:proyeccion-ingresos-museiq}
 \end{table}
 
-El patrón es claro: el año 1 es deficitario porque el piloto todavía no ha construido base recurrente suficiente para absorber la estructura fija. Sin embargo, desde el año 2 el flujo operativo se vuelve positivo y crece de forma acumulativa a lo largo del horizonte. La mejora no surge tanto del margen de la implementación inicial como de la consolidación de museos activos que sostienen pagos anuales de IA y analítica.
+El resultado muestra que la recurrencia gana peso conforme crece la base instalada. En los primeros años la implementación impulsa la caja; desde la mitad del horizonte, mantenimiento e IA/analítica sostienen el flujo, lo que vuelve menos dependiente al proyecto de ventas puntuales.
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.82\textwidth]{flujo_economico_anual.png}
-	\caption[Flujo económico anual de la solución propuesta en el escenario base]{Comparación entre ingresos, costos desembolsables y flujo neto anual de la solución propuesta en el escenario base de expansión de un museo nuevo por año. Fuente: elaboración propia.}
-	\label{fig:flujo-economico-base}
-\end{figure}
+\section{Evaluación financiera}
 
 \subsection{Estado de resultados simplificado}
 
-Con fines de mayor formalidad financiera, puede construirse también un estado de resultados simplificado. En este caso, a los costos desembolsables del flujo económico se añade la depreciación anual de S/210. No se consideran gastos financieros ni impuestos, porque la evaluación busca medir la capacidad operativa del proyecto en estado base.
+Con fines contables, se construye un estado de resultados simplificado incorporando depreciación anual de S/16\,000. No se incluyen gastos financieros ni impuestos, debido a que el escenario base se analiza sin deuda y antes de carga tributaria.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\scriptsize
-	\setlength{\tabcolsep}{3pt}
-	\begin{tabular}{c c c c c c}
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|r|r|r|r|r|}
 		\hline
-		\textbf{Año} & \textbf{Ingresos} & \textbf{Costos directos desembolsables} & \textbf{Gastos fijos} & \textbf{Depreciación} & \textbf{Resultado operativo} \\
-		\hline
-		1 & 5\,100 & 3\,900 & 2\,400 & 210 & -1\,410 \\
-		2 & 16\,200 & 13\,330 & 2\,472 & 210 & 188 \\
-		3 & 27\,300 & 22\,760 & 2\,546 & 210 & 1\,784 \\
-		4 & 38\,400 & 32\,190 & 2\,623 & 210 & 3\,377 \\
-		5 & 49\,500 & 41\,620 & 2\,701 & 210 & 4\,969 \\
-		6 & 60\,600 & 51\,050 & 2\,782 & 210 & 6\,558 \\
-		7 & 71\,700 & 60\,480 & 2\,866 & 210 & 8\,144 \\
-		8 & 82\,800 & 69\,910 & 2\,952 & 210 & 9\,728 \\
-		9 & 93\,900 & 79\,340 & 3\,040 & 210 & 11\,310 \\
-		10 & 105\,000 & 88\,770 & 3\,131 & 210 & 12\,889 \\
-		\hline
-	\end{tabular}
-	\caption[Estado de resultados simplificado de la solución propuesta]{Estado de resultados simplificado de la solución propuesta para el horizonte de evaluación, sin carga financiera ni tributaria. Fuente: elaboración propia.}
+		\mqiTitle{6}{ESTADO DE RESULTADOS SIMPLIFICADO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Año} & \mqiWhite{Ingresos} & \mqiWhite{Costos directos y recurrentes} & \mqiWhite{Gasto fijo} & \mqiWhite{Depreciación} & \mqiWhite{Resultado operativo} \\ \hline
+		\rowcolor{MuseIQLight} 1  & 451\,600   & 260\,800 & 130\,000 & 16\,000 & 44\,800 \\ \hline
+		\rowcolor{MuseIQLighter} 2  & 555\,600   & 308\,800 & 136\,500 & 16\,000 & 94\,300 \\ \hline
+		\rowcolor{MuseIQLight} 3  & 670\,160   & 364\,080 & 143\,325 & 16\,000 & 146\,755 \\ \hline
+		\rowcolor{MuseIQLighter} 4  & 780\,160   & 416\,080 & 150\,491 & 16\,000 & 197\,589 \\ \hline
+		\rowcolor{MuseIQLight} 5  & 782\,540   & 406\,520 & 158\,016 & 16\,000 & 202\,004 \\ \hline
+		\rowcolor{MuseIQLighter} 6  & 1\,143\,620 & 606\,060 & 165\,917 & 16\,000 & 355\,643 \\ \hline
+		\rowcolor{MuseIQLight} 7  & 1\,183\,000 & 613\,500 & 174\,213 & 16\,000 & 379\,287 \\ \hline
+		\rowcolor{MuseIQLighter} 8  & 1\,199\,380 & 610\,940 & 182\,924 & 16\,000 & 389\,516 \\ \hline
+		\rowcolor{MuseIQLight} 9  & 1\,526\,180 & 790\,340 & 192\,070 & 16\,000 & 527\,770 \\ \hline
+		\rowcolor{MuseIQLighter} 10 & 1\,571\,560 & 801\,780 & 201\,674 & 16\,000 & 552\,106 \\ \hline
+	\end{tabular}%
+	}
+	\caption[Estado de resultados simplificado de MuseIQ]{Estado de resultados simplificado de MuseIQ, sin gastos financieros ni impuestos. Fuente: elaboración propia.}
 	\label{tab:estado-resultados-museiq}
 \end{table}
 
-La Tabla~\ref{tab:estado-resultados-museiq} refuerza la misma lectura del flujo operativo: el resultado es negativo en el primer año y luego se vuelve positivo de manera sostenida. La diferencia entre este resultado y el flujo neto de la Tabla~\ref{tab:flujo-economico-museiq} se explica exclusivamente por la depreciación, que es un cargo contable no desembolsable.
+El estado de resultados muestra utilidad operativa positiva desde el primer año bajo el escenario base. Esto ocurre porque el modelo ya no parte de un único piloto de bajo precio, sino de dos implementaciones Avanzadas iniciales que funcionan como casos ancla y justifican una estructura operativa mínima.
 
-\subsection{Flujo de caja del proyecto}
+\subsection{Presupuesto de caja y flujo del proyecto}
 
-El flujo de caja que sirve de base para los indicadores financieros incorpora la inversión inicial del año 0, los flujos operativos anuales y la reposición técnica programada en el año 6. Como no existe deuda, el flujo neto del proyecto puede expresarse de forma compacta.
+El presupuesto de caja incorpora la inversión inicial del año 0 y la reposición técnica del año 6. La Tabla~\ref{tab:flujo-caja-museiq} es la base para calcular los indicadores financieros.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
-	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{c c c c c}
+	\scriptsize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|c|r|r|r|r|r|}
 		\hline
-		\textbf{Año} & \textbf{Inversión inicial} & \textbf{Flujo operativo neto} & \textbf{Reposición técnica} & \textbf{Flujo neto del proyecto} \\
-		\hline
-		0 & -2\,500 & 0 & 0 & -2\,500 \\
-		1 & 0 & -1\,200 & 0 & -1\,200 \\
-		2 & 0 & 398 & 0 & 398 \\
-		3 & 0 & 1\,994 & 0 & 1\,994 \\
-		4 & 0 & 3\,587 & 0 & 3\,587 \\
-		5 & 0 & 5\,179 & 0 & 5\,179 \\
-		6 & 0 & 6\,768 & -1\,050 & 5\,718 \\
-		7 & 0 & 8\,354 & 0 & 8\,354 \\
-		8 & 0 & 9\,938 & 0 & 9\,938 \\
-		9 & 0 & 11\,520 & 0 & 11\,520 \\
-		10 & 0 & 13\,099 & 0 & 13\,099 \\
-		\hline
-	\end{tabular}
-	\caption[Flujo de caja del proyecto propuesto]{Flujo de caja del proyecto propuesto utilizado como base para la evaluación financiera del escenario principal. Fuente: elaboración propia.}
+		\mqiTitle{6}{PRESUPUESTO DE CAJA Y FLUJO DEL PROYECTO}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Año} & \mqiWhite{Inversión inicial} & \mqiWhite{Ingresos de efectivo} & \mqiWhite{Egresos de efectivo} & \mqiWhite{Flujo neto} & \mqiWhite{Flujo acumulado} \\ \hline
+		\rowcolor{MuseIQLight} 0  & -200\,000 & 0 & 0 & -200\,000 & -200\,000 \\ \hline
+		\rowcolor{MuseIQLighter} 1  & 0 & 451\,600 & 390\,800 & 60\,800 & -139\,200 \\ \hline
+		\rowcolor{MuseIQLight} 2  & 0 & 555\,600 & 445\,300 & 110\,300 & -28\,900 \\ \hline
+		\rowcolor{MuseIQLighter} 3  & 0 & 670\,160 & 507\,405 & 162\,755 & 133\,855 \\ \hline
+		\rowcolor{MuseIQLight} 4  & 0 & 780\,160 & 566\,571 & 213\,589 & 347\,444 \\ \hline
+		\rowcolor{MuseIQLighter} 5  & 0 & 782\,540 & 564\,536 & 218\,004 & 565\,448 \\ \hline
+		\rowcolor{MuseIQLight} 6  & 0 & 1\,143\,620 & 821\,977 & 321\,643 & 887\,091 \\ \hline
+		\rowcolor{MuseIQLighter} 7  & 0 & 1\,183\,000 & 787\,713 & 395\,287 & 1\,282\,378 \\ \hline
+		\rowcolor{MuseIQLight} 8  & 0 & 1\,199\,380 & 793\,864 & 405\,516 & 1\,687\,894 \\ \hline
+		\rowcolor{MuseIQLighter} 9  & 0 & 1\,526\,180 & 982\,410 & 543\,770 & 2\,231\,664 \\ \hline
+		\rowcolor{MuseIQLight} 10 & 0 & 1\,571\,560 & 1\,003\,454 & 568\,106 & 2\,799\,770 \\ \hline
+	\end{tabular}%
+	}
+	\caption[Flujo de caja del proyecto MuseIQ]{Flujo de caja del proyecto MuseIQ utilizado para la evaluación financiera. Fuente: elaboración propia.}
 	\label{tab:flujo-caja-museiq}
 \end{table}
 
-\section{Indicadores de evaluación financiera}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\textwidth]{flujo_economico_anual.png}
+	\caption[Flujo económico anual de MuseIQ]{Ingresos, costos desembolsables y flujo operativo anual de MuseIQ en el escenario base. Fuente: elaboración propia.}
+	\label{fig:flujo-economico-base}
+\end{figure}
 
-Los indicadores financieros se calculan a partir del flujo de caja presentado en la Tabla~\ref{tab:flujo-caja-museiq}. Dado que el proyecto se evalúa sin financiamiento externo, los indicadores obtenidos reflejan la conveniencia económica del negocio en sí mismo y no de una estructura particular de deuda.
+Una vez incorporadas la inversión inicial y la reposición técnica, el flujo neto acumulado del proyecto alcanza S/2\,799\,770 al final del año 10. Este resultado confirma que el modelo comercial del Capítulo 5 conserva viabilidad incluso después de introducir una inversión preoperativa más realista.
 
-\begin{table}[h!]
+\subsection{Indicadores financieros: VAN, TIR e índice de rentabilidad}
+
+Los indicadores financieros se calculan con base en el flujo de caja de la Tabla~\ref{tab:flujo-caja-museiq}. El VAN se obtiene descontando los flujos netos a la tasa de corte de 12\%; la TIR corresponde a la tasa que vuelve cero el VAN; la relación beneficio/costo compara el valor presente de ingresos frente al valor presente de egresos e inversión.
+
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{5pt}
-	\begin{tabular}{l c}
+	\mqiTableSetup
+	\begin{tabular}{|p{6.4cm}|r|p{5.0cm}|}
 		\hline
-		\textbf{Indicador} & \textbf{Resultado} \\
-		\hline
-		Valor actual neto (VAN) & S/22\,445 \\
-		Tasa interna de retorno (TIR) & 56.0\% aprox. \\
-		Relación beneficio/costo & 1.10 \\
-		Periodo simple de recuperación & 3.4 años aprox. \\
-		Periodo descontado de recuperación & 3.8 años aprox. \\
-		\hline
+		\mqiTitle{3}{INDICADORES FINANCIEROS DE RENTABILIDAD}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Indicador} & \mqiWhite{Resultado} & \mqiWhite{Criterio de decisión} \\ \hline
+		\rowcolor{MuseIQLight} Valor actual neto (VAN) & S/1\,202\,050 & Aceptar si VAN $>$ 0 \\ \hline
+		\rowcolor{MuseIQLighter} Tasa interna de retorno (TIR) & 66.2\% aprox. & Aceptar si TIR $>$ tasa de corte \\ \hline
+		\rowcolor{MuseIQLight} Relación beneficio/costo & 1.32 & Aceptar si B/C $>$ 1 \\ \hline
+		\rowcolor{MuseIQLighter} Periodo simple de recuperación & 2.2 años aprox. & Menor plazo reduce exposición del capital \\ \hline
+		\rowcolor{MuseIQLight} Periodo descontado de recuperación & 2.5 años aprox. & Recuperación con flujos traídos a valor presente \\ \hline
+		\rowcolor{MuseIQTotal}
+		\multicolumn{3}{|r|}{\mqiWhite{Resultado general: proyecto financieramente viable bajo el escenario base.}} \\ \hline
 	\end{tabular}
-	\caption[Indicadores económicos y financieros de la solución propuesta]{Indicadores económicos y financieros de la solución propuesta bajo el escenario base de despliegue progresivo. Fuente: elaboración propia.}
+	\caption[Indicadores financieros de MuseIQ]{Indicadores financieros de MuseIQ bajo el escenario base nominal ajustado. Fuente: elaboración propia.}
 	\label{tab:indicadores-financieros-museiq}
 \end{table}
 
-El VAN positivo indica que el proyecto crea valor bajo la tasa de descuento adoptada. La TIR supera claramente el 12\%, lo que sugiere que el retorno esperado es compatible con un proyecto tecnológico aplicado de riesgo moderado. A diferencia de la lectura de corto plazo, el horizonte de diez años muestra con mayor claridad cómo la base recurrente de museos activos termina fortaleciendo la rentabilidad del modelo.
+El VAN positivo indica que el proyecto crea valor por encima de la tasa de descuento adoptada. La TIR de aproximadamente 66.2\% supera ampliamente el 12\%, y la relación beneficio/costo de 1.32 indica que el valor presente de los ingresos excede de manera relevante el valor presente de los costos e inversión. El periodo descontado de recuperación de 2.5 años es coherente con un proyecto que inicia con casos ancla y luego consolida recurrencia.
 
-\section{Escenarios de expansión y análisis de sensibilidad}
+\section{Escenarios y análisis de sensibilidad}
 
-\subsection{Escenarios de expansión comercial}
+\subsection{Escenarios comerciales acumulados}
 
-Además del escenario base, resulta pertinente analizar qué ocurriría si la solución propuesta logra capitalizar más rápidamente el aprendizaje del piloto y convertirlo en despliegues adicionales dentro del mismo clúster museal. Para ello se modelan tres escenarios complementarios: dos, tres y cuatro museos nuevos por año. En todos los casos se conserva la misma unidad económica por museo, la misma estructura de gasto fijo, el mismo criterio de activación de ingresos recurrentes desde el año posterior a la implementación y la misma reposición técnica programada en el año 6.
+El Capítulo 5 formuló tres escenarios comerciales de adopción: conservador, base y optimista. Aunque la evaluación financiera principal se concentra en el escenario base, la comparación acumulada permite dimensionar la dependencia del modelo respecto de la velocidad de captación institucional.
 
-\begin{table}[h!]
+\begin{table}[H]
 	\centering
 	\footnotesize
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{l c c c c}
-		\hline
-		\textbf{Escenario} & \textbf{VAN (S/)} & \textbf{TIR} & \textbf{B/C} & \textbf{Payback descontado} \\
-		\hline
-		1 museo nuevo/año & 22\,445 & 56.0\% & 1.10 & 3.8 años \\
-		2 museos nuevos/año & 54\,033 & 87.6\% & 1.14 & 2.7 años \\
-		3 museos nuevos/año & 85\,622 & 110.7\% & 1.15 & 2.2 años \\
-		4 museos nuevos/año & 117\,210 & 129.9\% & 1.16 & 2.1 años \\
-		\hline
-	\end{tabular}
-	\caption[Indicadores financieros según escenarios de expansión]{Comparación de indicadores financieros de la solución propuesta según el ritmo de incorporación de nuevos museos por año. Fuente: elaboración propia con base en los supuestos del modelo.}
-	\label{tab:indicadores-expansion-museiq}
-\end{table}
-
-La mejora de los indicadores es significativa. Apenas el proyecto supera la etapa estrictamente piloto, los costos fijos anuales se distribuyen mejor y la base recurrente de museos activos crece con suficiente rapidez como para mejorar de manera visible el VAN, la TIR y el periodo de recuperación.
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.82\textwidth]{flujo_neto_escenarios_expansion.png}
-	\caption[Flujo neto anual según escenarios de expansión]{Flujo neto anual de la solución propuesta bajo escenarios de incorporación de uno, dos, tres y cuatro museos nuevos por año. Fuente: elaboración propia.}
-	\label{fig:flujo-neto-expansion}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.82\textwidth]{van_escenarios_expansion.png}
-	\caption[VAN según escenarios de expansión]{Valor actual neto de la solución propuesta según el ritmo de expansión comercial posterior al piloto de Sipán. Fuente: elaboración propia.}
-	\label{fig:van-expansion}
-\end{figure}
-
-\subsection{Análisis de sensibilidad}
-
-La variable más crítica del modelo sigue siendo el costo asociado a la operación de IA. Como este costo depende de la intensidad real de uso de voz por parte de los visitantes, resulta necesario ensayar una sensibilidad específica. En este caso se conserva un esquema con piso fijo para el nivel base de uso y sobrecargo cuando la demanda supera ese umbral, pues esa lógica refleja mejor una política comercial plausible que una tarifa completamente rígida.
-
-\begin{table}[h!]
-	\centering
-	\scriptsize
-	\setlength{\tabcolsep}{3pt}
+	\mqiTableSetup
 	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{>{\raggedright\arraybackslash}p{8.1cm} c >{\raggedright\arraybackslash}p{5.2cm}}
+	\begin{tabular}{|p{3.1cm}|c|r|r|r|p{4.4cm}|}
 		\hline
-		\textbf{Escenario de sensibilidad} & \textbf{VAN} & \textbf{Lectura} \\
-		\hline
-		Escenario conservador: 10\% de visitantes usan voz & S/152\,112 & El piso fijo protege la facturación recurrente y amplía de forma marcada el margen \\
-		Escenario base: 20\% de visitantes usan voz & S/22\,445 & El proyecto sigue siendo viable y consolida su retorno en el horizonte largo \\
-		Escenario alto: 35\% de visitantes usan voz con cobro por sobreuso & S/50\,434 & El mayor uso sigue siendo rentable si el sobreconsumo se traslada al precio \\
-		\hline
+		\mqiTitle{6}{COMPARACIÓN DE ESCENARIOS COMERCIALES ACUMULADOS}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Escenario} & \mqiWhite{Museos} & \mqiWhite{Ingreso acum.} & \mqiWhite{Costo acum.} & \mqiWhite{Flujo operativo acum.} & \mqiWhite{Lectura} \\ \hline
+		\rowcolor{MuseIQLight} Conservador & 20 & S/4\,341\,000 & S/3\,957\,126 & S/383\,874 & Viable solo con recuperación tardía y menor holgura financiera. \\ \hline
+		\rowcolor{MuseIQLighter} Base nominal ajustado & 35 & S/9\,863\,800 & S/6\,814\,030 & S/3\,049\,770 & Escenario principal: crecimiento gradual y cartera institucional concreta. \\ \hline
+		\rowcolor{MuseIQLight} Optimista & 49 & S/11\,811\,000 & S/7\,883\,126 & S/3\,927\,874 & Mayor tracción comercial por referencias y contratos multisede. \\ \hline
 	\end{tabular}%
 	}
-	\caption[Análisis de sensibilidad de la solución propuesta]{Análisis de sensibilidad de la solución propuesta respecto de la intensidad de uso de la capa conversacional bajo un esquema con piso fijo y cobro adicional por sobreconsumo. Fuente: elaboración propia.}
+	\caption[Comparación de escenarios comerciales acumulados]{Comparación de escenarios comerciales acumulados para MuseIQ antes de inversión inicial y reposición técnica. Fuente: elaboración propia con base en el Capítulo 5.}
+	\label{tab:escenarios-comerciales-museiq}
+\end{table}
+
+La comparación muestra que la sostenibilidad depende de convertir el piloto en cartera recurrente. El escenario conservador conserva margen operativo positivo, pero deja poca holgura luego de considerar inversión inicial, riesgo comercial y costos de maduración. Por ello, el escenario base es el más adecuado para la tesis: no exige penetración masiva, pero sí supone una estrategia comercial activa y una secuencia nominal de compradores.
+
+\subsection{Sensibilidad financiera}
+
+Para reconocer la incertidumbre del modelo, se evalúan variaciones sobre ingresos y costos. Se consideran tres casos alternativos: reducción de ingresos de 15\%, incremento de costos de 10\% e incremento de ingresos de 10\%. Esta lógica reproduce el análisis de sensibilidad observado en la hoja de cálculo económica revisada, pero lo concentra en las variables más relevantes para MuseIQ.
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\mqiTableSetup
+	\begin{tabular}{|p{5.0cm}|r|c|p{5.0cm}|}
+		\hline
+		\mqiTitle{4}{ANÁLISIS DE SENSIBILIDAD FINANCIERA}
+		\rowcolor{MuseIQBlue}
+		\mqiWhite{Escenario de sensibilidad} & \mqiWhite{VAN} & \mqiWhite{TIR} & \mqiWhite{Lectura} \\ \hline
+		\rowcolor{MuseIQLight} Ingresos -15\% & S/464\,310 & 34.6\% & El proyecto sigue creando valor, pero pierde holgura comercial. \\ \hline
+		\rowcolor{MuseIQLighter} Base & S/1\,202\,050 & 66.2\% & La cartera base cubre inversión, reposición y costos operativos. \\ \hline
+		\rowcolor{MuseIQLight} Costos +10\% & S/852\,961 & 50.3\% & El modelo resiste sobrecostos moderados si se mantiene la captación prevista. \\ \hline
+		\rowcolor{MuseIQLighter} Ingresos +10\% & S/1\,693\,877 & 87.0\% & La rentabilidad aumenta con contratos adicionales o mejor monetización recurrente. \\ \hline
+	\end{tabular}
+	\caption[Análisis de sensibilidad financiera de MuseIQ]{Análisis de sensibilidad financiera de MuseIQ respecto de variaciones en ingresos y costos. Fuente: elaboración propia.}
 	\label{tab:sensibilidad-financiera-museiq}
 \end{table}
 
-La sensibilidad deja una conclusión relevante: la sostenibilidad del proyecto no depende principalmente del hardware, sino de cómo se monetiza la capa conversacional. Si el uso de voz cae por debajo del umbral base, el piso fijo evita que la rentabilidad se deteriore. Si, por el contrario, el uso crece, el sobrecargo protege el margen frente al mayor costo variable de STT y operación de IA.
-
-\begin{figure}[h!]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.82\textwidth]{sensibilidad_van.png}
-	\caption[Sensibilidad del VAN según uso de voz]{Sensibilidad del valor actual neto de la solución propuesta bajo un esquema de piso fijo para el nivel base de uso y cobro adicional por sobreconsumo de voz. Fuente: elaboración propia.}
-	\label{fig:sensibilidad-van-voz}
+	\caption[Sensibilidad del VAN de MuseIQ]{Sensibilidad del VAN de MuseIQ bajo variaciones de ingresos y costos. Fuente: elaboración propia.}
+	\label{fig:sensibilidad-van}
 \end{figure}
+
+La sensibilidad refuerza dos conclusiones. Primero, MuseIQ depende más de la captación institucional y de la recurrencia que del costo unitario del hardware. Segundo, la capa de IA y analítica debe mantenerse contractualmente controlada mediante bolsas de uso, reglas de sobreconsumo y monitoreo de costos, tal como se planteó en el Capítulo 5. Si esos elementos se gestionan adecuadamente, el proyecto conserva viabilidad incluso ante escenarios menos favorables.
 
 \section{Viabilidad económica y financiera}
 
-Desde una perspectiva económica, la solución propuesta resulta atractivo porque combina una inversión de entrada ligera con una estructura de ingresos recurrentes por museo activo. La adopción del smartphone del visitante como interfaz principal reduce el CAPEX institucional, mientras que los costos más relevantes se trasladan a contratos de implementación y operación digital. En otras palabras, la propuesta evita depender de dispositivos de préstamo costosos y desplaza la captura de valor hacia servicios tecnológicos institucionales.
+Desde una perspectiva económica, MuseIQ resulta atractivo porque transforma una solución técnica modular en un servicio institucional con fuentes de ingreso diferenciadas. El enfoque BYOD reduce costos de hardware para el museo, mientras que el proveedor captura valor mediante diagnóstico, configuración, corpus curatorial, soporte, mantenimiento, IA y analítica. Esta estructura es más realista que vender beacons o una aplicación genérica, porque reconoce que la mediación cultural digital requiere adaptación institucional.
 
-Desde una perspectiva financiera, el escenario base confirma viabilidad positiva, pero también muestra que el proyecto no debe permanecer indefinidamente en fase de piloto. Su sostenibilidad mejora cuando la base de museos activos crece y cuando el costo variable de IA se gestiona con disciplina contractual y técnica. Los escenarios de expansión y sensibilidad revelan justamente eso: el proyecto puede ser rentable desde el inicio, pero se vuelve significativamente más robusto cuando combina mayor escala institucional con un buen diseño tarifario y una maduración suficiente del horizonte recurrente.
+Desde una perspectiva financiera, el escenario base confirma viabilidad positiva. Con una inversión inicial de S/200\,000, una reposición técnica de S/50\,000 en el año 6, un VAN de S/1\,202\,050, una TIR aproximada de 66.2\% y una relación beneficio/costo de 1.32, el proyecto genera valor bajo los supuestos adoptados. La recuperación descontada en aproximadamente 2.5 años muestra, además, que el modelo no depende únicamente del largo plazo para justificar su despliegue.
+
+No obstante, la viabilidad no debe interpretarse como ausencia de riesgo. Los principales riesgos son comerciales y operativos: lentitud de contratación pública, dificultad para cerrar instituciones ancla, sobrecostos de soporte, variabilidad del uso de IA y necesidad de mantener actualizado el corpus curatorial. En consecuencia, el proyecto será financieramente defendible si combina tres condiciones: captación gradual de museos con nombre propio, control del costo recurrente de IA y estandarización de entregables para reducir esfuerzo por cada nueva implementación.
 
 \section{Síntesis del capítulo}
 
-El capítulo ha reformulado la evaluación económica y financiera de la solución propuesta de manera más alineada con el sílabo del Taller de Investigación. Ya no se presenta solo una lectura resumida de rentabilidad, sino una estructura completa que incluye volumen de servicio, costos operativos y fijos, inversión inicial, depreciación, balance de apertura, estado de resultados simplificado, flujo de caja, indicadores, escenarios y sensibilidad, todo ello sobre un horizonte de diez años.
+El capítulo ha construido la evaluación económica y financiera de MuseIQ siguiendo la estructura de los estudios económico-financieros revisados: costos, inversión, ingresos, flujo de caja, indicadores y sensibilidad. La evaluación ya no parte de un piloto pequeño valorizado en pocos miles de soles, sino del modelo comercial institucional definido en el Capítulo 5: paquetes Básico, Estándar y Avanzado, 35 museos captados en diez años, ingresos por implementación, recurrencia y servicios adicionales, y costos operativos coherentes con una solución producto-servicio.
 
-La conclusión central es que la solución propuesta sí presenta viabilidad económica y financiera bajo un escenario base prudente. Con una inversión inicial de S/2\,500, un VAN positivo de S/22\,445, una TIR aproximada de 56.0\% y una relación beneficio/costo de 1.10, el proyecto resulta defendible como solución tecnológica institucional. Sin embargo, la tesis también deja explícito que su sostenibilidad depende de dos condiciones: una expansión gradual más allá del primer piloto y una monetización técnicamente disciplinada de la capa conversacional de IA y analítica.
+Los resultados muestran que MuseIQ presenta viabilidad económica y financiera bajo el escenario base nominal ajustado. El flujo operativo acumulado alcanza S/3\,049\,770 antes de inversión inicial y reposición técnica, mientras que el flujo neto acumulado del proyecto llega a S/2\,799\,770 después de dichos desembolsos. Los indicadores financieros principales —VAN positivo de S/1\,202\,050, TIR aproximada de 66.2\%, relación beneficio/costo de 1.32 y recuperación descontada cercana a 2.5 años— respaldan la pertinencia del proyecto como propuesta tecnológica institucional escalable para mediación cultural digital.
 
+\arrayrulecolor{black}
+\endgroup
