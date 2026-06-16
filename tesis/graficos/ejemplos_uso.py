@@ -71,6 +71,9 @@ MEZCLA_BASE_ANUAL = [
 INVERSION_INICIAL = 200000
 REPOSICION_TECNICA = 50000
 TASA_DESCUENTO = 0.12
+TASAS_DESCUENTO_SENSIBILIDAD = [0.08, 0.12, 0.15]
+DEPRECIACION_ANUAL = 16000
+TASA_IMPUESTO_RENTA = 0.295
 GASTO_FIJO_BASE = 130000
 CRECIMIENTO_GASTO_FIJO = 0.05
 PROPORCION_SERVICIOS_ADICIONALES = 0.08
@@ -147,8 +150,8 @@ def _flujo_financiero_proyecto(
     return flujos, filas
 
 
-def _calcular_van(flujos):
-    return sum(flujo / ((1 + TASA_DESCUENTO) ** indice) for indice, flujo in enumerate(flujos))
+def _calcular_van(flujos, tasa=TASA_DESCUENTO):
+    return sum(flujo / ((1 + tasa) ** indice) for indice, flujo in enumerate(flujos))
 
 
 def _calcular_tir(flujos):
@@ -185,11 +188,11 @@ def _calcular_relacion_bc(factor_ingresos=1.0, factor_costos=1.0):
     return valor_actual_ingresos / valor_actual_costos
 
 
-def _calcular_payback(flujos, descontado=False):
+def _calcular_payback(flujos, descontado=False, tasa=TASA_DESCUENTO):
     acumulado = 0
 
     for indice, flujo in enumerate(flujos):
-        valor = flujo / ((1 + TASA_DESCUENTO) ** indice) if descontado else flujo
+        valor = flujo / ((1 + tasa) ** indice) if descontado else flujo
         previo = acumulado
         acumulado += valor
 
@@ -199,6 +202,52 @@ def _calcular_payback(flujos, descontado=False):
             return (indice - 1) + ((-previo) / valor)
 
     return None
+
+
+def _flujo_despues_impuesto():
+    flujos_pretributarios, filas = _flujo_financiero_proyecto()
+    flujos_despues_impuesto = [flujos_pretributarios[0]]
+    filas_tributarias = []
+    acumulado = flujos_pretributarios[0]
+
+    for fila in filas:
+        resultado_operativo = fila["flujo_operativo"] - DEPRECIACION_ANUAL
+        impuesto_renta = max(resultado_operativo, 0) * TASA_IMPUESTO_RENTA
+        utilidad_neta = resultado_operativo - impuesto_renta
+        flujo_neto = fila["flujo_proyecto"] - impuesto_renta
+        acumulado += flujo_neto
+
+        filas_tributarias.append(
+            {
+                "anio": fila["anio"],
+                "resultado_operativo": resultado_operativo,
+                "impuesto_renta": impuesto_renta,
+                "utilidad_neta": utilidad_neta,
+                "flujo_pretributario": fila["flujo_proyecto"],
+                "flujo_despues_impuesto": flujo_neto,
+                "flujo_acumulado": acumulado,
+            }
+        )
+        flujos_despues_impuesto.append(flujo_neto)
+
+    return flujos_despues_impuesto, filas_tributarias
+
+
+def _valores_van_tasas_descuento():
+    flujos_pretributarios, _ = _flujo_financiero_proyecto()
+    flujos_despues_impuesto, _ = _flujo_despues_impuesto()
+
+    categorias = [f"{int(tasa * 100)}%" for tasa in TASAS_DESCUENTO_SENSIBILIDAD]
+    van_pretributario = [
+        round(_calcular_van(flujos_pretributarios, tasa))
+        for tasa in TASAS_DESCUENTO_SENSIBILIDAD
+    ]
+    van_despues_impuesto = [
+        round(_calcular_van(flujos_despues_impuesto, tasa))
+        for tasa in TASAS_DESCUENTO_SENSIBILIDAD
+    ]
+
+    return categorias, van_pretributario, van_despues_impuesto
 
 
 def _valores_sensibilidad_van():
@@ -512,6 +561,59 @@ def generar_sensibilidad_van():
     )
 
 
+def generar_van_pre_post_impuesto():
+    flujos_pretributarios, _ = _flujo_financiero_proyecto()
+    flujos_despues_impuesto, _ = _flujo_despues_impuesto()
+    valores = [
+        round(_calcular_van(flujos_pretributarios)),
+        round(_calcular_van(flujos_despues_impuesto)),
+    ]
+
+    grafico_barras(
+        categorias=["Pretributario", "Despues de IR"],
+        valores=valores,
+        etiquetas=[f"S/ {valor:,.0f}" for valor in valores],
+        titulo="VAN pretributario y despues de Impuesto a la Renta",
+        eje_x="Escenario de evaluacion",
+        eje_y="Valor actual neto (S/)",
+        nombre_salida="cap10/van_pre_post_impuesto.png",
+    )
+
+
+def generar_van_tasas_descuento():
+    categorias, van_pretributario, van_despues_impuesto = _valores_van_tasas_descuento()
+    grafico_lineas_multiples(
+        x=categorias,
+        series=[
+            {
+                "nombre": "Pretributario",
+                "y": van_pretributario,
+            },
+            {
+                "nombre": "Despues de IR",
+                "y": van_despues_impuesto,
+            },
+        ],
+        titulo="VAN de MuseIQ segun tasa de descuento",
+        eje_x="Tasa de descuento anual",
+        eje_y="Valor actual neto (S/)",
+        nombre_salida="cap10/van_tasas_descuento.png",
+    )
+
+
+def generar_flujo_acumulado_despues_impuesto():
+    _, filas_tributarias = _flujo_despues_impuesto()
+    grafico_lineas(
+        x=HORIZONTE_EVALUACION,
+        y=[fila["flujo_acumulado"] for fila in filas_tributarias],
+        titulo="Flujo acumulado de MuseIQ despues de Impuesto a la Renta",
+        eje_x="Anio",
+        eje_y="Flujo acumulado (S/)",
+        nombre_salida="cap10/flujo_acumulado_despues_impuesto.png",
+        serie="Flujo acumulado despues de IR",
+    )
+
+
 def generar_flujo_expansion_escenarios():
     series = []
     escenarios = [
@@ -634,6 +736,9 @@ GRAFICOS = {
     "composicion_inversion": generar_composicion_inversion,
     "flujo_economico": generar_flujo_economico,
     "sensibilidad_van": generar_sensibilidad_van,
+    "van_pre_post_impuesto": generar_van_pre_post_impuesto,
+    "van_tasas_descuento": generar_van_tasas_descuento,
+    "flujo_acumulado_despues_impuesto": generar_flujo_acumulado_despues_impuesto,
     "flujo_expansion_escenarios": generar_flujo_expansion_escenarios,
     "van_expansion": generar_van_expansion,
 }
@@ -696,6 +801,9 @@ CAPITULOS = {
         "composicion_inversion",
         "flujo_economico",
         "sensibilidad_van",
+        "van_pre_post_impuesto",
+        "van_tasas_descuento",
+        "flujo_acumulado_despues_impuesto",
         "flujo_expansion_escenarios",
         "van_expansion",
     ],
