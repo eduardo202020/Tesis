@@ -13,12 +13,16 @@ OUT = Path(__file__).resolve().parent / "FLUJO_DE_CAJA_MUSEIQ.xlsx"
 YEARS = list(range(1, 11))
 YEAR_LABELS = [f"Año {year}" for year in YEARS]
 
-PRICE_ADJUSTMENT = 1.20
-ADDITIONAL_SERVICE_RATE = 0.08
+PRICE_ADJUSTMENT = 1.00
+ADDITIONAL_SERVICE_RATE = 0.05
 ADDITIONAL_SERVICE_COST_RATE = 0.50
 INCOME_TAX = 0.295
-EQUITY_COST = 0.09
-LOAN_RATE = 0.18
+EXPECTED_INFLATION = 0.02
+BCRP_REFERENCE_RATE = 0.0425
+EQUITY_RISK_PREMIUM = 0.0575
+EQUITY_COST = BCRP_REFERENCE_RATE + EQUITY_RISK_PREMIUM
+PROJECT_RISK_PREMIUM = 0.02
+LOAN_RATE = 0.1973
 LOAN_RATE_STRESS = 0.24
 LOAN_SHARE = 0.60
 EQUITY_SHARE = 0.40
@@ -29,7 +33,8 @@ TANGIBLE_ASSETS = 118_000.0
 INTANGIBLE_ASSETS = 132_000.0
 INITIAL_CASH = INITIAL_INVESTMENT - TANGIBLE_ASSETS - INTANGIBLE_ASSETS
 SALVAGE_VALUE = 35_000.0
-INFLATION = [0.03, 0.03, 0.03, 0.03, 0.035, 0.04, 0.04, 0.04, 0.04, 0.04]
+INFLATION = [EXPECTED_INFLATION] * 10
+FLOW_ESCALATION = [0.0] * 10
 COLLECTION_CASH = 0.40
 COLLECTION_CREDIT = 0.60
 COLLECTION_CURRENT_CREDIT = 0.80
@@ -37,10 +42,10 @@ PURCHASE_CASH = 0.30
 PURCHASE_CREDIT = 0.70
 PAY_CURRENT_CREDIT = 0.85
 
-# Conservative commercial path: 31 museums, starting with a real anchor case.
-NEW_BASIC = [0, 1, 0, 0, 1, 0, 1, 1, 1, 1]
-NEW_STANDARD = [1, 0, 2, 2, 2, 2, 2, 3, 3, 4]
-NEW_ADVANCED = [1, 0, 0, 0, 0, 1, 1, 0, 1, 0]
+# Commercial path aligned with Chapter 5: 35 museums and a 5/20/10 mix.
+NEW_BASIC = [0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
+NEW_STANDARD = [0, 0, 2, 2, 3, 1, 2, 3, 3, 4]
+NEW_ADVANCED = [2, 2, 1, 1, 0, 2, 1, 0, 1, 0]
 
 
 @dataclass(frozen=True)
@@ -56,9 +61,19 @@ class Package:
 
 
 PACKAGES = {
-    "B": Package("B", "Basico", 48_000, 14_000, 12_000, 5_000, "3 a 5 salas", "8 a 12"),
-    "E": Package("E", "Estandar", 96_000, 29_000, 25_000, 9_500, "6 a 10 salas", "18 a 25"),
-    "A": Package("A", "Avanzado", 185_000, 52_000, 52_000, 17_000, "12 a 18 salas", "35 a 45"),
+    "B": Package("B", "Basico", 48_000, 14_000, 18_000, 6_000, "3 a 5 salas", "8 a 12"),
+    "E": Package("E", "Estandar", 96_000, 29_000, 36_000, 11_500, "6 a 10 salas", "18 a 25"),
+    "A": Package("A", "Avanzado", 185_000, 52_000, 68_000, 20_000, "12 a 18 salas", "35 a 45"),
+}
+
+SOURCES = {
+    "bcrp": "https://www.bcrp.gob.pe/",
+    "sbs": "https://www.sbs.gob.pe/app/pp/EstadisticasSAEEPortal/Paginas/TIActivaTipoCreditoEmpresa.aspx?tip=B",
+    "sunat": "https://renta.sunat.gob.pe/empresas/tasas-de-impuesto",
+    "openai": "https://openai.com/api/pricing/",
+    "google_stt": "https://cloud.google.com/speech-to-text/pricing",
+    "google_tts": "https://cloud.google.com/text-to-speech/pricing",
+    "digitalocean": "https://www.digitalocean.com/pricing/droplets",
 }
 
 
@@ -129,7 +144,7 @@ def discounted_payback(flows: list[float], rate: float) -> float:
 def inflation_factors() -> list[float]:
     factors = [1.0]
     for i in range(1, len(YEARS)):
-        factors.append(factors[-1] * (1 + INFLATION[i - 1]))
+        factors.append(factors[-1] * (1 + FLOW_ESCALATION[i - 1]))
     return factors
 
 
@@ -397,7 +412,7 @@ def build_model(
         tax_year = max(0.0, ebt_year * INCOME_TAX)
         income_tax.append(tax_year)
         cash_tax_paid.append(0.0 if i == 0 else income_tax[i - 1])
-        current_debt.append(debt["principal"][i] if i < LOAN_TOTAL_YEARS else 0.0)
+        current_debt.append(debt["principal"][i + 1] if i + 1 < LOAN_TOTAL_YEARS else 0.0)
 
         net_income = ebt_year - tax_year
         legal = min(max(0.0, net_income * 0.10), max(0.0, reserve_limit - reserve_acc))
@@ -435,10 +450,14 @@ def build_model(
         flow_net.append(cash_income[i] - cash_egress[i] + terminal)
     flows_for_valuation = [-INITIAL_INVESTMENT] + flow_net
 
-    cost_capital = EQUITY_SHARE * EQUITY_COST + LOAN_SHARE * interest_rate
+    nominal_wacc = (
+        EQUITY_SHARE * EQUITY_COST
+        + LOAN_SHARE * interest_rate * (1 - INCOME_TAX)
+    )
     avg_inflation = sum(INFLATION) / len(INFLATION)
-    risk = cost_capital * avg_inflation
-    cut_rate = cost_capital + avg_inflation + risk
+    real_wacc = (1 + nominal_wacc) / (1 + avg_inflation) - 1
+    risk = PROJECT_RISK_PREMIUM
+    cut_rate = (1 + real_wacc) * (1 + risk) - 1
     model_npv = npv(cut_rate, flows_for_valuation)
     model_irr = irr(flows_for_valuation)
     profitability_index = (model_npv + INITIAL_INVESTMENT) / INITIAL_INVESTMENT
@@ -539,7 +558,8 @@ def build_model(
         "assets": assets,
         "flow_net": flow_net,
         "flows_for_valuation": flows_for_valuation,
-        "cost_capital": cost_capital,
+        "cost_capital": nominal_wacc,
+        "real_cost_capital": real_wacc,
         "avg_inflation": avg_inflation,
         "risk": risk,
         "cut_rate": cut_rate,
@@ -549,6 +569,7 @@ def build_model(
         "payback": payback,
         "current_assets": current_assets,
         "current_liabilities": current_liabilities,
+        "current_debt": current_debt,
         "fixed_net": fixed_net,
         "intangible_net": intangible_net,
         "total_assets": total_assets,
@@ -576,15 +597,22 @@ def make_formats(workbook: xlsxwriter.Workbook) -> dict[str, object]:
         "header": workbook.add_format({"bold": True, "font_color": "white", "bg_color": "#00A6CF", "align": "center", "border": 1}),
         "label": workbook.add_format({"border": 1, "bg_color": "#EAF8FC"}),
         "text": workbook.add_format({"border": 1, "text_wrap": True, "valign": "top"}),
-        "money": workbook.add_format({"border": 1, "num_format": 'S/ #,##0;[Red]-S/ #,##0'}),
-        "money_blue": workbook.add_format({"border": 1, "bg_color": "#CDEFF8", "num_format": 'S/ #,##0;[Red]-S/ #,##0'}),
+        "money": workbook.add_format({"border": 1, "num_format": '"S/" #,##0;[Red]-"S/" #,##0'}),
+        "money_blue": workbook.add_format({"border": 1, "bg_color": "#CDEFF8", "num_format": '"S/" #,##0;[Red]-"S/" #,##0'}),
         "number": workbook.add_format({"border": 1, "num_format": "#,##0.00"}),
         "integer": workbook.add_format({"border": 1, "num_format": "#,##0"}),
         "percent": workbook.add_format({"border": 1, "num_format": "0.00%"}),
-        "total": workbook.add_format({"bold": True, "font_color": "white", "bg_color": "#008CC7", "border": 1, "num_format": 'S/ #,##0;[Red]-S/ #,##0'}),
+        "total": workbook.add_format({"bold": True, "font_color": "white", "bg_color": "#008CC7", "border": 1, "num_format": '"S/" #,##0;[Red]-"S/" #,##0'}),
         "total_num": workbook.add_format({"bold": True, "font_color": "white", "bg_color": "#008CC7", "border": 1, "num_format": "#,##0.00"}),
         "total_pct": workbook.add_format({"bold": True, "font_color": "white", "bg_color": "#008CC7", "border": 1, "num_format": "0.00%"}),
         "note": workbook.add_format({"italic": True, "font_color": "#3D4B54", "text_wrap": True}),
+        "input": workbook.add_format({"border": 1, "bg_color": "#FFF2CC", "num_format": "#,##0.00"}),
+        "input_money": workbook.add_format({"border": 1, "bg_color": "#FFF2CC", "num_format": '"S/" #,##0;[Red]-"S/" #,##0'}),
+        "input_pct": workbook.add_format({"border": 1, "bg_color": "#FFF2CC", "num_format": "0.00%"}),
+        "formula": workbook.add_format({"border": 1, "bg_color": "#E2F0D9", "num_format": "#,##0.00"}),
+        "formula_money": workbook.add_format({"border": 1, "bg_color": "#E2F0D9", "num_format": '"S/" #,##0;[Red]-"S/" #,##0'}),
+        "formula_pct": workbook.add_format({"border": 1, "bg_color": "#E2F0D9", "num_format": "0.00%"}),
+        "url": workbook.add_format({"font_color": "blue", "underline": True, "text_wrap": True, "valign": "top", "border": 1}),
     }
 
 
@@ -639,6 +667,225 @@ def write_section(ws, row: int, title: str, formats: dict[str, object], last_col
     return row + 1
 
 
+def define_cell_name(workbook, name: str, row: int, col: int = 1) -> None:
+    workbook.define_name(name, f"=SUPUESTOS!${xlsxwriter.utility.xl_col_to_name(col)}${row + 1}")
+
+
+def write_assumptions(workbook, model, formats):
+    ws = workbook.add_worksheet("SUPUESTOS")
+    setup(ws, "Supuestos editables y fuentes del modelo MuseIQ", formats, 12)
+    ws.freeze_panes(4, 1)
+    ws.set_column(0, 0, 40)
+    ws.set_column(1, 2, 18)
+    ws.set_column(3, 3, 56)
+    ws.set_column(4, 4, 70)
+    ws.write(1, 0, "Celdas amarillas: entradas editables. Celdas verdes: resultados calculados por formula.", formats["note"])
+
+    row = 3
+    row = write_section(ws, row, "PARAMETROS COMERCIALES Y OPERATIVOS", formats, 4)
+    for col, label in enumerate(["Concepto", "Valor", "Unidad", "Criterio", "Fuente"]):
+        ws.write(row, col, label, formats["header"])
+    row += 1
+
+    commercial = [
+        ("Factor aplicado a precios base", PRICE_ADJUSTMENT, "factor", "Se elimina el recargo adicional de 20% del libro anterior.", "Capitulo 5"),
+        ("Servicios adicionales sobre implementacion", ADDITIONAL_SERVICE_RATE, "%", "Escenario prudente para ampliaciones y capacitacion.", "Supuesto de tesis"),
+        ("Costo directo de servicios adicionales", ADDITIONAL_SERVICE_COST_RATE, "%", "Participacion de curaduria, capacitacion y despliegue.", "Supuesto operativo"),
+        ("Ventas al contado", COLLECTION_CASH, "%", "Cobro inicial o contra hitos.", "Politica comercial"),
+        ("Ventas al credito", COLLECTION_CREDIT, "%", "Saldo sujeto a conformidad institucional.", "Politica comercial"),
+        ("Cobro del credito dentro del año", COLLECTION_CURRENT_CREDIT, "%", "El remanente queda como cuenta por cobrar.", "Politica comercial"),
+        ("Compras y servicios pagados al contado", PURCHASE_CASH, "%", "Estructura de pagos a proveedores.", "Supuesto operativo"),
+        ("Credito de proveedores pagado en el año", PAY_CURRENT_CREDIT, "%", "El remanente queda como cuenta por pagar.", "Supuesto operativo"),
+        ("Escalamiento anual de flujos reales", FLOW_ESCALATION[0], "%", "Cero porque los flujos se expresan en soles constantes de 2026.", "Criterio metodologico"),
+        ("Inflacion esperada de largo plazo", EXPECTED_INFLATION, "%", "Punto medio del rango meta de inflacion de 1% a 3%.", SOURCES["bcrp"]),
+    ]
+    commercial_names = [
+        "factor_precio_base",
+        "tasa_servicios_adicionales",
+        "tasa_costo_servicios_adicionales",
+        "porcentaje_ventas_contado",
+        "porcentaje_ventas_credito",
+        "porcentaje_cobro_credito_actual",
+        "porcentaje_compras_contado",
+        "porcentaje_pago_proveedor_actual",
+        "escalamiento_flujos",
+        "inflacion_esperada",
+    ]
+    for (label, value, unit, criterion, source), name in zip(commercial, commercial_names):
+        ws.write(row, 0, label, formats["label"])
+        value_format = formats["input_pct"] if unit == "%" else formats["input"]
+        ws.write_number(row, 1, value, value_format)
+        ws.write(row, 2, unit, formats["text"])
+        ws.write(row, 3, criterion, formats["text"])
+        if source.startswith("http"):
+            ws.write_url(row, 4, source, formats["url"], string=source)
+        else:
+            ws.write(row, 4, source, formats["text"])
+        define_cell_name(workbook, name, row)
+        row += 1
+
+    row += 1
+    row = write_section(ws, row, "FINANCIAMIENTO, IMPUESTOS Y TASA DE CORTE", formats, 4)
+    for col, label in enumerate(["Concepto", "Valor", "Unidad", "Formula o sustento", "Fuente"]):
+        ws.write(row, col, label, formats["header"])
+    row += 1
+
+    financial_inputs = [
+        ("Inversion inicial", INITIAL_INVESTMENT, "S/", "Activos tangibles + intangibles + caja inicial.", "Modelo MuseIQ"),
+        ("Activos tangibles", TANGIBLE_ASSETS, "S/", "Equipos, servidor, herramientas y mobiliario.", "Modelo MuseIQ"),
+        ("Activos intangibles", INTANGIBLE_ASSETS, "S/", "Desarrollo base, documentacion y formalizacion.", "Modelo MuseIQ"),
+        ("Valor de salvamento", SALVAGE_VALUE, "S/", "Valor residual conservador al cierre del año 10.", "Modelo MuseIQ"),
+        ("Participacion de fondos propios", EQUITY_SHARE, "%", "Estructura de financiamiento.", "Supuesto financiero"),
+        ("Participacion de deuda", LOAN_SHARE, "%", "Estructura de financiamiento.", "Supuesto financiero"),
+        ("Tasa de referencia BCRP", BCRP_REFERENCE_RATE, "%", "Referencia macroeconomica al 11/06/2026.", SOURCES["bcrp"]),
+        ("Prima de riesgo del capital propio", EQUITY_RISK_PREMIUM, "%", "Riesgo comercial, tecnologico y de adopcion institucional.", "Criterio conservador"),
+        ("Tasa bancaria para pequeña empresa", LOAN_RATE, "%", "Promedio SBS en moneda nacional al 17/06/2026.", SOURCES["sbs"]),
+        ("Prima especifica del proyecto", PROJECT_RISK_PREMIUM, "%", "Riesgo residual adicional al WACC real.", "Criterio conservador"),
+        ("Impuesto a la renta", INCOME_TAX, "%", "Regimen General empresarial.", SOURCES["sunat"]),
+    ]
+    financial_names = [
+        "inversion_inicial",
+        "activos_tangibles",
+        "activos_intangibles",
+        "valor_salvamento",
+        "participacion_capital",
+        "participacion_deuda",
+        "tasa_referencia_bcrp",
+        "prima_capital_propio",
+        "tasa_deuda",
+        "prima_riesgo_proyecto",
+        "tasa_impuesto_renta",
+    ]
+    for (label, value, unit, criterion, source), name in zip(financial_inputs, financial_names):
+        ws.write(row, 0, label, formats["label"])
+        if unit == "%":
+            value_format = formats["input_pct"]
+        elif unit == "S/":
+            value_format = formats["input_money"]
+        else:
+            value_format = formats["input"]
+        ws.write_number(row, 1, value, value_format)
+        ws.write(row, 2, unit, formats["text"])
+        ws.write(row, 3, criterion, formats["text"])
+        if source.startswith("http"):
+            ws.write_url(row, 4, source, formats["url"], string=source)
+        else:
+            ws.write(row, 4, source, formats["text"])
+        define_cell_name(workbook, name, row)
+        row += 1
+
+    ws.write(row, 0, "Capital de trabajo inicial", formats["label"])
+    ws.write_formula(row, 1, "=inversion_inicial-activos_tangibles-activos_intangibles", formats["formula_money"], INITIAL_CASH)
+    ws.write(row, 2, "S/", formats["text"])
+    ws.write(row, 3, "Liquidez inicial obtenida por diferencia.", formats["text"])
+    define_cell_name(workbook, "capital_trabajo_inicial", row)
+    row += 1
+
+    cost_equity_row = row
+    ws.write(row, 0, "Costo de capital propio", formats["label"])
+    ws.write_formula(row, 1, "=tasa_referencia_bcrp+prima_capital_propio", formats["formula_pct"], EQUITY_COST)
+    ws.write(row, 2, "%", formats["text"])
+    ws.write(row, 3, "Ke = tasa de referencia BCRP + prima de riesgo del capital propio.", formats["text"])
+    define_cell_name(workbook, "costo_capital_propio", row)
+    row += 1
+
+    nominal_wacc_row = row
+    ws.write(row, 0, "WACC nominal despues de impuestos", formats["label"])
+    ws.write_formula(
+        row,
+        1,
+        "=participacion_capital*costo_capital_propio+participacion_deuda*tasa_deuda*(1-tasa_impuesto_renta)",
+        formats["formula_pct"],
+        model["cost_capital"],
+    )
+    ws.write(row, 2, "%", formats["text"])
+    ws.write(row, 3, "WACC = E/V x Ke + D/V x Kd x (1-IR).", formats["text"])
+    define_cell_name(workbook, "wacc_nominal", row)
+    row += 1
+
+    real_wacc_row = row
+    ws.write(row, 0, "WACC real", formats["label"])
+    ws.write_formula(row, 1, "=(1+wacc_nominal)/(1+inflacion_esperada)-1", formats["formula_pct"], model["real_cost_capital"])
+    ws.write(row, 2, "%", formats["text"])
+    ws.write(row, 3, "Conversion de Fisher para flujos en soles constantes.", formats["text"])
+    define_cell_name(workbook, "wacc_real", row)
+    row += 1
+
+    ws.write(row, 0, "Tasa de corte real", formats["total"])
+    ws.write_formula(row, 1, "=(1+wacc_real)*(1+prima_riesgo_proyecto)-1", formats["total_pct"], model["cut_rate"])
+    ws.write(row, 2, "%", formats["text"])
+    ws.write(row, 3, "Tasa usada para descontar los flujos reales del proyecto.", formats["text"])
+    define_cell_name(workbook, "tasa_corte", row)
+    row += 2
+
+    row = write_section(ws, row, "PAQUETES, PRECIOS Y COSTOS DIRECTOS", formats, 8)
+    headers = ["Paquete", "Precio implementacion", "Costo directo implementacion", "Margen contribucion", "Precio recurrente", "Costo directo recurrente", "Margen recurrente", "Cobertura", "BLE"]
+    for col, label in enumerate(headers):
+        ws.write(row, col, label, formats["header"])
+    row += 1
+    package_rows = {}
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        package_rows[key] = row
+        ws.write(row, 0, pkg.name, formats["label"])
+        ws.write_number(row, 1, pkg.base_implementation_price, formats["input_money"])
+        ws.write_number(row, 2, pkg.implementation_cost, formats["input_money"])
+        ws.write_formula(row, 3, f"=1-C{row + 1}/B{row + 1}", formats["formula_pct"], 1 - pkg.implementation_cost / pkg.base_implementation_price)
+        ws.write_number(row, 4, pkg.base_recurring_price, formats["input_money"])
+        ws.write_number(row, 5, pkg.recurring_cost, formats["input_money"])
+        ws.write_formula(row, 6, f"=1-F{row + 1}/E{row + 1}", formats["formula_pct"], 1 - pkg.recurring_cost / pkg.base_recurring_price)
+        ws.write(row, 7, pkg.coverage, formats["text"])
+        ws.write(row, 8, pkg.beacons, formats["text"])
+        define_cell_name(workbook, f"precio_impl_{key}", row, 1)
+        define_cell_name(workbook, f"costo_impl_{key}", row, 2)
+        define_cell_name(workbook, f"precio_rec_{key}", row, 4)
+        define_cell_name(workbook, f"costo_rec_{key}", row, 5)
+        row += 1
+
+    row += 1
+    row = write_section(ws, row, "CRONOGRAMA DE CAPTACION ALINEADO CON EL CAPITULO 5", formats, 10)
+    ws.write(row, 0, "Paquete", formats["header"])
+    for col, label in enumerate(YEAR_LABELS, start=1):
+        ws.write(row, col, label, formats["header"])
+    ws.write(row, 11, "Total", formats["header"])
+    row += 1
+    schedule_rows = {}
+    for key, label in [("B", "Basico"), ("E", "Estandar"), ("A", "Avanzado")]:
+        schedule_rows[key] = row
+        ws.write(row, 0, label, formats["label"])
+        for col, value in enumerate({"B": NEW_BASIC, "E": NEW_STANDARD, "A": NEW_ADVANCED}[key], start=1):
+            ws.write_number(row, col, value, formats["input"])
+        ws.write_formula(row, 11, f"=SUM(B{row + 1}:K{row + 1})", formats["total_num"], sum({"B": NEW_BASIC, "E": NEW_STANDARD, "A": NEW_ADVANCED}[key]))
+        workbook.define_name(f"nuevos_{key}", f"=SUPUESTOS!$B${row + 1}:$K${row + 1}")
+        row += 1
+    ws.write(row, 0, "TOTAL MUSEOS", formats["total"])
+    for col in range(1, 11):
+        ws.write_formula(row, col, f"=SUM({cell(schedule_rows['B'], col)}:{cell(schedule_rows['A'], col)})", formats["total_num"], model["total_new"][col - 1])
+    ws.write_formula(row, 11, f"=SUM(L{schedule_rows['B'] + 1}:L{schedule_rows['A'] + 1})", formats["total_num"], sum(model["total_new"]))
+
+    row += 2
+    row = write_section(ws, row, "REFERENCIAS DE COSTOS TECNOLOGICOS", formats, 4)
+    ws.write(row, 0, "Componente", formats["header"])
+    ws.write(row, 1, "Referencia verificable", formats["header"])
+    ws.write(row, 2, "Dato usado para contrastar", formats["header"])
+    ws.write(row, 3, "Uso en el modelo", formats["header"])
+    row += 1
+    references = [
+        ("Speech-to-Text", SOURCES["google_stt"], "US$0.016 por minuto en reconocimiento estandar", "Parte del costo recurrente"),
+        ("Text-to-Speech", SOURCES["google_tts"], "Desde US$4 por millon de caracteres en voces estandar", "Parte del costo recurrente"),
+        ("API de modelos y embeddings", SOURCES["openai"], "Tarifas por tokens segun modelo", "Consultas RAG y embeddings"),
+        ("Servidor cloud", SOURCES["digitalocean"], "Droplets basicos desde US$4 por mes", "Hosting, monitoreo y respaldo"),
+    ]
+    for component, source, datum, use in references:
+        ws.write(row, 0, component, formats["label"])
+        ws.write_url(row, 1, source, formats["url"], string=source)
+        ws.write(row, 2, datum, formats["text"])
+        ws.write(row, 3, use, formats["text"])
+        row += 1
+
+    ws.autofilter(4, 0, 4 + len(commercial), 4)
+
+
 def write_ingresos(workbook, model, formats):
     ws = workbook.add_worksheet("INGRESOS")
     setup(ws, "Servicio de Implementacion MuseIQ - Soporte, IA y Analitica", formats, 11)
@@ -646,11 +893,35 @@ def write_ingresos(workbook, model, formats):
     row = write_section(ws, row, "PROYECCION DE INGRESOS - IMPLEMENTACION MUSEIQ", formats)
     row = write_year_header(ws, row, formats)
     new_basic_row = row
-    row = write_series(ws, row, "Museos nuevos - Basico", model["new"]["B"], formats, kind="integer")
+    row = write_series(
+        ws,
+        row,
+        "Museos nuevos - Basico",
+        model["new"]["B"],
+        formats,
+        kind="integer",
+        formulas=[f"=INDEX(nuevos_B,1,{col})" for col in range(1, 11)],
+    )
     new_standard_row = row
-    row = write_series(ws, row, "Museos nuevos - Estandar", model["new"]["E"], formats, kind="integer")
+    row = write_series(
+        ws,
+        row,
+        "Museos nuevos - Estandar",
+        model["new"]["E"],
+        formats,
+        kind="integer",
+        formulas=[f"=INDEX(nuevos_E,1,{col})" for col in range(1, 11)],
+    )
     new_advanced_row = row
-    row = write_series(ws, row, "Museos nuevos - Avanzado", model["new"]["A"], formats, kind="integer")
+    row = write_series(
+        ws,
+        row,
+        "Museos nuevos - Avanzado",
+        model["new"]["A"],
+        formats,
+        kind="integer",
+        formulas=[f"=INDEX(nuevos_A,1,{col})" for col in range(1, 11)],
+    )
     total_new_row = row
     row = write_series(
         ws,
@@ -671,7 +942,7 @@ def write_ingresos(workbook, model, formats):
         "Servicios adicionales de despliegue",
         model["sales_extra"],
         formats,
-        formulas=[f"={cell(sales_impl_row, col)}*{ADDITIONAL_SERVICE_RATE}" for col in range(1, 11)],
+        formulas=[f"={cell(sales_impl_row, col)}*tasa_servicios_adicionales" for col in range(1, 11)],
     )
     row += 1
     row = write_section(ws, row, "INGRESOS - SOPORTE, IA Y ANALITICA", formats)
@@ -747,7 +1018,7 @@ def write_ingresos(workbook, model, formats):
         "Ventas al contado 40%",
         model["cash_sales"],
         formats,
-        formulas=[f"={cell(sales_total_row, col)}*{COLLECTION_CASH}" for col in range(1, 11)],
+        formulas=[f"={cell(sales_total_row, col)}*porcentaje_ventas_contado" for col in range(1, 11)],
     )
     credit_sales_row = row
     row = write_series(
@@ -756,7 +1027,7 @@ def write_ingresos(workbook, model, formats):
         "Ventas al credito 60%",
         model["credit_sales"],
         formats,
-        formulas=[f"={cell(sales_total_row, col)}*{COLLECTION_CREDIT}" for col in range(1, 11)],
+        formulas=[f"={cell(sales_total_row, col)}*porcentaje_ventas_credito" for col in range(1, 11)],
     )
     current_credit_row = row
     row = write_series(
@@ -765,7 +1036,7 @@ def write_ingresos(workbook, model, formats):
         "Recuperacion de cuentas por cobrar del año",
         model["current_credit_collection"],
         formats,
-        formulas=[f"={cell(credit_sales_row, col)}*{COLLECTION_CURRENT_CREDIT}*(1-{model['bad_debt_rate']})" for col in range(1, 11)],
+        formulas=[f"={cell(credit_sales_row, col)}*porcentaje_cobro_credito_actual*(1-{model['bad_debt_rate']})" for col in range(1, 11)],
     )
     previous_cxc_row = row
     row = write_series(
@@ -792,13 +1063,32 @@ def write_ingresos(workbook, model, formats):
         "Saldo de cuentas por cobrar al final del año",
         model["cxc_end"],
         formats,
-        formulas=[f"={cell(credit_sales_row, col)}*(1-{COLLECTION_CURRENT_CREDIT})" for col in range(1, 11)],
+        formulas=[f"={cell(credit_sales_row, col)}*(1-porcentaje_cobro_credito_actual)" for col in range(1, 11)],
     )
+    workbook.define_name("cuentas_cobrar_finales", f"=INGRESOS!$B${cxc_end_row + 1}:$K${cxc_end_row + 1}")
     row += 1
-    row = write_section(ws, row, "INFLACION PROYECTADA Y PRECIOS BASE", formats)
+    row = write_section(ws, row, "FLUJOS REALES, INFLACION DE REFERENCIA Y PRECIOS BASE", formats)
     row = write_year_header(ws, row, formats)
     inflation_row = row
-    row = write_series(ws, row, "Inflacion anual proyectada", INFLATION, formats, kind="percent")
+    row = write_series(
+        ws,
+        row,
+        "Inflacion esperada de referencia",
+        INFLATION,
+        formats,
+        kind="percent",
+        formulas=["=inflacion_esperada" for _ in range(10)],
+    )
+    escalation_row = row
+    row = write_series(
+        ws,
+        row,
+        "Escalamiento aplicado a flujos reales",
+        FLOW_ESCALATION,
+        formats,
+        kind="percent",
+        formulas=["=escalamiento_flujos" for _ in range(10)],
+    )
     factor_row = row
     row = write_series(
         ws,
@@ -807,20 +1097,20 @@ def write_ingresos(workbook, model, formats):
         model["factors"],
         formats,
         kind="number",
-        formulas=[f"=1" if col == 1 else f"={cell(factor_row, col - 1)}*(1+{cell(inflation_row, col - 1)})" for col in range(1, 11)],
+        formulas=[f"=1" if col == 1 else f"={cell(factor_row, col - 1)}*(1+{cell(escalation_row, col - 1)})" for col in range(1, 11)],
     )
     for col in range(1, 11):
         ws.write_formula(
             sales_impl_row,
             col,
-            f"=({cell(new_basic_row, col)}*{PACKAGES['B'].base_implementation_price}+{cell(new_standard_row, col)}*{PACKAGES['E'].base_implementation_price}+{cell(new_advanced_row, col)}*{PACKAGES['A'].base_implementation_price})*{model['price_adjustment']}*{cell(factor_row, col)}",
+            f"=({cell(new_basic_row, col)}*precio_impl_B+{cell(new_standard_row, col)}*precio_impl_E+{cell(new_advanced_row, col)}*precio_impl_A)*factor_precio_base*{cell(factor_row, col)}",
             formats["total"],
             money(model["sales_impl"][col - 1]),
         )
         ws.write_formula(
             sales_rec_row,
             col,
-            f"=({cell(effective_basic_row, col)}*{PACKAGES['B'].base_recurring_price}+{cell(effective_standard_row, col)}*{PACKAGES['E'].base_recurring_price}+{cell(effective_advanced_row, col)}*{PACKAGES['A'].base_recurring_price})*{model['price_adjustment']}*{cell(factor_row, col)}",
+            f"=({cell(effective_basic_row, col)}*precio_rec_B+{cell(effective_standard_row, col)}*precio_rec_E+{cell(effective_advanced_row, col)}*precio_rec_A)*factor_precio_base*{cell(factor_row, col)}",
             formats["total"],
             money(model["sales_rec"][col - 1]),
         )
@@ -843,14 +1133,14 @@ def write_ingresos(workbook, model, formats):
     for key in ["B", "E", "A"]:
         pkg = PACKAGES[key]
         ws.write(row, 0, pkg.name, formats["label"])
-        ws.write_number(row, 1, pkg.base_implementation_price, formats["money"])
-        ws.write_number(row, 2, pkg.base_implementation_price * model["price_adjustment"], formats["money"])
-        ws.write_number(row, 3, pkg.base_recurring_price, formats["money"])
-        ws.write_number(row, 4, pkg.base_recurring_price * model["price_adjustment"], formats["money"])
+        ws.write_formula(row, 1, f"=precio_impl_{key}", formats["money"], pkg.base_implementation_price)
+        ws.write_formula(row, 2, f"=precio_impl_{key}*factor_precio_base", formats["money"], pkg.base_implementation_price * model["price_adjustment"])
+        ws.write_formula(row, 3, f"=precio_rec_{key}", formats["money"], pkg.base_recurring_price)
+        ws.write_formula(row, 4, f"=precio_rec_{key}*factor_precio_base", formats["money"], pkg.base_recurring_price * model["price_adjustment"])
         ws.write(row, 5, pkg.coverage, formats["text"])
         ws.write(row, 6, pkg.beacons, formats["text"])
         row += 1
-    ws.write(row + 1, 0, "Nota: el precio economico aplica un factor comercial de 20% sobre los valores del capitulo 5 para cubrir formalizacion, garantia, gestion contractual y contingencia operativa.", formats["note"])
+    ws.write(row + 1, 0, "Nota: el precio economico parte de los valores del Capitulo 5 sin recargo adicional. Los flujos se expresan en soles constantes, por lo que la inflacion no se acumula sobre ventas ni costos.", formats["note"])
 
 
 def write_costos(workbook, model, formats):
@@ -860,11 +1150,46 @@ def write_costos(workbook, model, formats):
     row = write_section(ws, row, "MATERIALES Y SERVICIOS DIRECTOS", formats)
     row = write_year_header(ws, row, formats)
     direct_impl_row = row
-    row = write_series(ws, row, "Hardware BLE, señalizacion e instalacion", model["direct_impl_cost"], formats)
+    row = write_series(
+        ws,
+        row,
+        "Hardware BLE, señalizacion e instalacion",
+        model["direct_impl_cost"],
+        formats,
+        formulas=[
+            f"=(INDEX(nuevos_B,1,{col})*costo_impl_B+INDEX(nuevos_E,1,{col})*costo_impl_E+INDEX(nuevos_A,1,{col})*costo_impl_A)*(1+escalamiento_flujos)^{col - 1}"
+            for col in range(1, 11)
+        ],
+    )
     direct_rec_row = row
-    row = write_series(ws, row, "Nube, voz, IA y soporte variable", model["direct_rec_cost"], formats)
+    row = write_series(
+        ws,
+        row,
+        "Nube, voz, IA y soporte variable",
+        model["direct_rec_cost"],
+        formats,
+        formulas=[
+            (
+                f"=((SUM(INDEX(nuevos_B,1,1):INDEX(nuevos_B,1,{col}))-0.5*INDEX(nuevos_B,1,{col}))*costo_rec_B"
+                f"+(SUM(INDEX(nuevos_E,1,1):INDEX(nuevos_E,1,{col}))-0.5*INDEX(nuevos_E,1,{col}))*costo_rec_E"
+                f"+(SUM(INDEX(nuevos_A,1,1):INDEX(nuevos_A,1,{col}))-0.5*INDEX(nuevos_A,1,{col}))*costo_rec_A)"
+                f"*(1+escalamiento_flujos)^{col - 1}"
+            )
+            for col in range(1, 11)
+        ],
+    )
     direct_extra_row = row
-    row = write_series(ws, row, "Curaduria, capacitacion y servicios adicionales", model["direct_extra_cost"], formats)
+    row = write_series(
+        ws,
+        row,
+        "Curaduria, capacitacion y servicios adicionales",
+        model["direct_extra_cost"],
+        formats,
+        formulas=[
+            f"={sheet_cell('INGRESOS', 9, col)}*tasa_costo_servicios_adicionales"
+            for col in range(1, 11)
+        ],
+    )
     direct_total_row = row
     row = write_series(
         ws,
@@ -891,7 +1216,7 @@ def write_costos(workbook, model, formats):
         "Compra de contado 30%",
         model["purchase_cash"],
         formats,
-        formulas=[f"={cell(direct_total_row, col)}*{PURCHASE_CASH}" for col in range(1, 11)],
+        formulas=[f"={cell(direct_total_row, col)}*porcentaje_compras_contado" for col in range(1, 11)],
     )
     purchase_credit_row = row
     row = write_series(
@@ -900,7 +1225,7 @@ def write_costos(workbook, model, formats):
         "Proveedores credito 70%",
         model["purchase_credit"],
         formats,
-        formulas=[f"={cell(direct_total_row, col)}*{PURCHASE_CREDIT}" for col in range(1, 11)],
+        formulas=[f"={cell(direct_total_row, col)}*(1-porcentaje_compras_contado)" for col in range(1, 11)],
     )
     current_payment_row = row
     row = write_series(
@@ -909,7 +1234,7 @@ def write_costos(workbook, model, formats):
         "Pago a proveedores en el año",
         model["current_supplier_payment"],
         formats,
-        formulas=[f"={cell(purchase_credit_row, col)}*{PAY_CURRENT_CREDIT}" for col in range(1, 11)],
+        formulas=[f"={cell(purchase_credit_row, col)}*porcentaje_pago_proveedor_actual" for col in range(1, 11)],
     )
     previous_supplier_row = row
     row = write_series(ws, row, "Pago a proveedores año anterior", model["previous_supplier_payment"], formats)
@@ -930,8 +1255,9 @@ def write_costos(workbook, model, formats):
         "Saldo cuentas por pagar",
         model["cxp_end"],
         formats,
-        formulas=[f"={cell(purchase_credit_row, col)}*(1-{PAY_CURRENT_CREDIT})" for col in range(1, 11)],
+        formulas=[f"={cell(purchase_credit_row, col)}*(1-porcentaje_pago_proveedor_actual)" for col in range(1, 11)],
     )
+    workbook.define_name("cuentas_pagar_finales", f"=COSTOS!$B${cxp_row + 1}:$K${cxp_row + 1}")
     for col in range(1, 11):
         ws.write_formula(
             previous_supplier_row,
@@ -1136,10 +1462,10 @@ def write_expenses_finance(workbook, model, formats):
         "Intereses",
         model["debt"]["interest"],
         formats,
-        formulas=[f"={cell(initial_debt_row, col)}*{model['interest_rate']}" for col in range(1, 11)],
+        formulas=[f"={cell(initial_debt_row, col)}*tasa_deuda" for col in range(1, 11)],
     )
     principal_row = row
-    payment_formula = f"PMT({model['interest_rate']},{LOAN_TOTAL_YEARS - LOAN_GRACE_YEARS},-{model['loan']})"
+    payment_formula = f"PMT(tasa_deuda,{LOAN_TOTAL_YEARS - LOAN_GRACE_YEARS},-inversion_inicial*participacion_deuda)"
     row = write_series(
         ws,
         row,
@@ -1174,11 +1500,11 @@ def write_expenses_finance(workbook, model, formats):
         ws.write_formula(
             initial_debt_row,
             col,
-            f"={model['loan']}" if col == 1 else f"={cell(final_debt_row, col - 1)}",
+            "=inversion_inicial*participacion_deuda" if col == 1 else f"={cell(final_debt_row, col - 1)}",
             formats["money"],
             money(model["debt"]["initial_balance"][col - 1]),
         )
-    ws.write(row + 1, 0, "Condicion adoptada: 2 años de gracia de capital y amortizacion en 6 cuotas anuales; tasa base 18% anual.", formats["note"])
+    ws.write(row + 1, 0, "Condicion adoptada: 2 años de gracia de capital y amortizacion en 6 cuotas anuales; tasa base vinculada al promedio SBS para pequeñas empresas.", formats["note"])
 
 
 def write_depreciation(workbook, model, formats):
@@ -1302,8 +1628,11 @@ def write_investment_plan(workbook, model, formats):
         formats["total"],
         money(INITIAL_INVESTMENT),
     )
-    ws.write_formula(row_by_label["Fondos propios"], 1, f"=B{row_by_label['TOTAL INVERSION'] + 1}*{EQUITY_SHARE}", formats["money"], money(model["equity"]))
-    ws.write_formula(row_by_label["Financiamiento"], 1, f"=B{row_by_label['TOTAL INVERSION'] + 1}*{LOAN_SHARE}", formats["money"], money(model["loan"]))
+    ws.write_formula(row_by_label["Activos tangibles"], 1, "=activos_tangibles", formats["money"], money(TANGIBLE_ASSETS))
+    ws.write_formula(row_by_label["Activos intangibles y diferidos"], 1, "=activos_intangibles", formats["money"], money(INTANGIBLE_ASSETS))
+    ws.write_formula(row_by_label["Capital de trabajo inicial"], 1, "=capital_trabajo_inicial", formats["money"], money(INITIAL_CASH))
+    ws.write_formula(row_by_label["Fondos propios"], 1, f"=B{row_by_label['TOTAL INVERSION'] + 1}*participacion_capital", formats["money"], money(model["equity"]))
+    ws.write_formula(row_by_label["Financiamiento"], 1, f"=B{row_by_label['TOTAL INVERSION'] + 1}*participacion_deuda", formats["money"], money(model["loan"]))
 
 
 def write_opening_balance(workbook, model, formats):
@@ -1347,6 +1676,11 @@ def write_opening_balance(workbook, model, formats):
         formats["total"],
         money(INITIAL_INVESTMENT),
     )
+    ws.write_formula(row_by_label["Caja y bancos"], 1, "=capital_trabajo_inicial", formats["money"], money(INITIAL_CASH))
+    ws.write_formula(row_by_label["Mobiliario, equipos y herramientas"], 1, "=activos_tangibles", formats["money"], money(TANGIBLE_ASSETS))
+    ws.write_formula(row_by_label["Activos intangibles y diferidos"], 1, "=activos_intangibles", formats["money"], money(INTANGIBLE_ASSETS))
+    ws.write_formula(row_by_label["Prestamo bancario"], 1, "=inversion_inicial*participacion_deuda", formats["money"], money(model["loan"]))
+    ws.write_formula(row_by_label["Capital social"], 1, "=inversion_inicial*participacion_capital", formats["money"], money(model["equity"]))
 
 
 def write_cost_of_sales(workbook, model, formats):
@@ -1436,8 +1770,9 @@ def write_income_statement(workbook, model, formats):
         "Impuesto a la renta 29.5%",
         model["income_tax"],
         formats,
-        formulas=[f"=MAX(0,{cell(ebt_row, col)}*{INCOME_TAX})" for col in range(1, 11)],
+        formulas=[f"=MAX(0,{cell(ebt_row, col)}*tasa_impuesto_renta)" for col in range(1, 11)],
     )
+    workbook.define_name("impuesto_renta_anual", f"='ESTADO DE RESULTADOS'!$B${tax_row + 1}:$K${tax_row + 1}")
     net_income_row = row
     row = write_series(
         ws,
@@ -1456,9 +1791,9 @@ def write_income_statement(workbook, model, formats):
         model["reserve_legal"],
         formats,
         formulas=[
-            f"=MIN(MAX(0,{cell(net_income_row, col)}*10%),MAX(0,{model['equity'] * 0.20}-SUM($B${reserve_row + 1}:{cell(reserve_row, col - 1) if col > 1 else '$A$1'})))"
+            f"=MIN(MAX(0,{cell(net_income_row, col)}*10%),MAX(0,inversion_inicial*participacion_capital*20%-SUM($B${reserve_row + 1}:{cell(reserve_row, col - 1) if col > 1 else '$A$1'})))"
             if col > 1
-            else f"=MIN(MAX(0,{cell(net_income_row, col)}*10%),{model['equity'] * 0.20})"
+            else f"=MIN(MAX(0,{cell(net_income_row, col)}*10%),inversion_inicial*participacion_capital*20%)"
             for col in range(1, 11)
         ],
     )
@@ -1511,6 +1846,8 @@ def write_cash_budget(workbook, model, formats, *, sheet_name: str = "PRESUPUEST
         for col, value in enumerate(values, start=1):
             ws.write_number(row, col, value, formats["total"] if label == "Total ingresos" else formats["money"])
         row += 1
+    ws.write_formula(income_rows["Fondos propios"], 1, "=inversion_inicial*participacion_capital", formats["money"], money(model["equity"]))
+    ws.write_formula(income_rows["Financiamiento"], 1, "=inversion_inicial*participacion_deuda", formats["money"], money(model["loan"]))
     for col in range(2, 12):
         year_col = col - 1
         ws.write_formula(income_rows["Ingresos por venta de contado"], col, f"={sheet_cell('INGRESOS', 22, year_col)}", formats["money"], money(model["cash_sales"][year_col - 1]))
@@ -1551,6 +1888,17 @@ def write_cash_budget(workbook, model, formats, *, sheet_name: str = "PRESUPUEST
     ws.write(row, 0, "Total egresos", formats["total"])
     for col, value in enumerate(total_egress, start=1):
         ws.write_formula(row, col, f"=SUM({cell(egress_start_row, col)}:{cell(egress_end_row, col)})", formats["total"], money(value))
+    ws.write_formula(egress_start_row, 1, "=activos_tangibles", formats["money"], money(TANGIBLE_ASSETS))
+    ws.write_formula(egress_start_row + 1, 1, "=activos_intangibles", formats["money"], money(INTANGIBLE_ASSETS))
+    if sheet_name == "PRESUPUESTO CAJA":
+        workbook.define_name(
+            "ingresos_efectivo_base",
+            f"='PRESUPUESTO CAJA'!$C${income_rows['Total ingresos'] + 1}:$L${income_rows['Total ingresos'] + 1}",
+        )
+        workbook.define_name(
+            "egresos_efectivo_base",
+            f"='PRESUPUESTO CAJA'!$C${total_egress_row + 1}:$L${total_egress_row + 1}",
+        )
     row += 2
     flow = [INITIAL_CASH] + model["cash_budget_flow"]
     flow_row = row
@@ -1689,9 +2037,9 @@ def write_balance(workbook, model, formats):
         ws.write_formula(fixed_net_row, col, f"={sheet_cell('DEPRECIACIONES AMORTIZACION', 11, col)}", formats["money"], money(model["fixed_net"][col - 1]))
         ws.write_formula(intangible_net_row, col, f"={sheet_cell('DEPRECIACIONES AMORTIZACION', 23, col)}", formats["money"], money(model["intangible_net"][col - 1]))
         ws.write_formula(cxp_row, col, f"={sheet_cell('COSTOS', 22, col)}", formats["money"], money(model["cxp_end"][col - 1]))
-        ws.write_formula(short_debt_row, col, f"={sheet_cell('GASTOS_ADM_VTAS_FINANZAS', 20, col)}", formats["money"], money(model["debt"]["principal"][col - 1]))
-        ws.write_formula(tax_row, col, f"={sheet_cell('ESTADO DE RESULTADOS', 13, col)}", formats["money"], money(model["income_tax"][col - 1]))
         next_principal = sheet_cell("GASTOS_ADM_VTAS_FINANZAS", 20, col + 1) if col < 10 else "0"
+        ws.write_formula(short_debt_row, col, f"={next_principal}", formats["money"], money(model["current_debt"][col - 1]))
+        ws.write_formula(tax_row, col, f"={sheet_cell('ESTADO DE RESULTADOS', 13, col)}", formats["money"], money(model["income_tax"][col - 1]))
         ws.write_formula(long_debt_row, col, f"=MAX(0,{sheet_cell('GASTOS_ADM_VTAS_FINANZAS', 22, col)}-{next_principal})", formats["money"], money(model["long_debt"][col - 1]))
         ws.write_formula(capital_row, col, f"={sheet_cell('PLAN DE INVERSION', 8, 1)}", formats["money"], money(model["equity"]))
 
@@ -1729,8 +2077,8 @@ def write_ratio_comments(workbook, model, formats):
     ws = workbook.add_worksheet("COMENTARIOS DE LAS RAZONES")
     setup(ws, "Comentarios de las Razones Financieras", formats, 9)
     comments = [
-        ("INDICES DE LIQUIDEZ", "El flujo presenta presion de caja en los primeros años por la demora institucional de cobros. La lectura no debe ocultarse: MuseIQ necesita gestionar capital de trabajo o anticipos contractuales."),
-        ("CAPITAL DE TRABAJO", "El capital de trabajo negativo inicial es coherente con venta B2B publica o institucional. La caja se recupera cuando crece la cartera recurrente y se reduce la amortizacion de deuda."),
+        ("INDICES DE LIQUIDEZ", "El escenario base conserva caja positiva, pero la holgura del primer año es reducida. MuseIQ debe gestionar anticipos, hitos facturables y seguimiento de cobranza."),
+        ("CAPITAL DE TRABAJO", "El capital de trabajo inicial cubre el descalce del escenario base. Un retraso adicional de cobro o un sobrecosto de despliegue podria requerir una linea temporal de liquidez."),
         ("CUENTAS POR COBRAR", "La politica considerada combina anticipo, avance y retencion. Aun asi, queda un saldo por cobrar al cierre de cada año, por lo que la cobranza es un riesgo relevante."),
         ("ENDEUDAMIENTO", "El proyecto se modela con 60% de financiamiento y dos años de gracia de capital. Esta condicion reduce estrangulamiento inicial pero mantiene gasto financiero real."),
         ("RENTABILIDAD", "El margen mejora cuando la base recurrente crece; no se obtiene por venta aislada de beacons sino por implementacion, corpus, soporte, IA y analitica."),
@@ -1863,6 +2211,50 @@ def write_flow_sheet(workbook, model, formats, sheet_name: str, title: str):
         for col, value in enumerate(values, start=1):
             ws.write_number(row, col, value, formats["total"] if total else formats["money"])
         row += 1
+    if sheet_name == "FLUJO DE EFECTIVO":
+        for col in range(1, 12):
+            ws.write_formula(
+                line_rows["Inversion"],
+                col,
+                "=inversion_inicial" if col == 1 else "=0",
+                formats["money"],
+                money(([INITIAL_INVESTMENT] + [0] * 10)[col - 1]),
+            )
+            ws.write_formula(
+                line_rows["Flujo de ingresos"],
+                col,
+                "=0" if col == 1 else f"=INDEX(ingresos_efectivo_base,1,{col - 1})",
+                formats["money"],
+                money(([0] + model["cash_income"])[col - 1]),
+            )
+            ws.write_formula(
+                line_rows["Flujo de egresos"],
+                col,
+                "=0" if col == 1 else f"=INDEX(egresos_efectivo_base,1,{col - 1})",
+                formats["money"],
+                money(([0] + model["cash_egress"])[col - 1]),
+            )
+        ws.write_formula(
+            line_rows["Mas liquidacion cuentas por cobrar"],
+            11,
+            "=INDEX(cuentas_cobrar_finales,1,10)",
+            formats["money"],
+            money(model["cxc_end"][-1]),
+        )
+        ws.write_formula(
+            line_rows["Mas valor de salvamento"],
+            11,
+            "=valor_salvamento",
+            formats["money"],
+            money(SALVAGE_VALUE),
+        )
+        ws.write_formula(
+            line_rows["Menos pasivo circulante"],
+            11,
+            "=-(INDEX(cuentas_pagar_finales,1,10)+INDEX(impuesto_renta_anual,1,10))",
+            formats["money"],
+            money(-(model["cxp_end"][-1] + model["income_tax"][-1])),
+        )
     for col in range(1, 12):
         ws.write_formula(
             line_rows["Flujo de efectivo"],
@@ -1874,10 +2266,63 @@ def write_flow_sheet(workbook, model, formats, sheet_name: str, title: str):
         ws.write_formula(
             line_rows["Flujo Neto de efectivo"],
             col,
-            f"=SUM({cell(line_rows['Inversion'], col)}:{cell(line_rows['Menos pasivo circulante'], col)})",
+            f"={cell(line_rows['Inversion'], col)}"
+            if col == 1
+            else f"=SUM({cell(line_rows['Flujo de efectivo'], col)}:{cell(line_rows['Menos pasivo circulante'], col)})",
             formats["total"],
             money(([INITIAL_INVESTMENT] + model["flow_net"])[col - 1]),
         )
+
+    if sheet_name != "FLUJO DE EFECTIVO":
+        row += 2
+        ws.write(row, 0, "Flujo para evaluacion", formats["subtitle"])
+        evaluation_row = row
+        for col in range(1, 12):
+            ws.write_formula(
+                row,
+                col,
+                f"=-{cell(line_rows['Flujo Neto de efectivo'], col)}"
+                if col == 1
+                else f"={cell(line_rows['Flujo Neto de efectivo'], col)}",
+                formats["money"],
+                money(model["flows_for_valuation"][col - 1]),
+            )
+        row += 1
+        ws.write(row, 0, "Tasa de corte", formats["label"])
+        ws.write_number(row, 1, model["cut_rate"], formats["percent"])
+        cut_rate_cell = cell(row, 1)
+        row += 1
+        ws.write(row, 0, "Valor actual neto", formats["total"])
+        ws.write_formula(
+            row,
+            1,
+            f"=NPV({cut_rate_cell},{cell(evaluation_row, 2)}:{cell(evaluation_row, 11)})+{cell(evaluation_row, 1)}",
+            formats["total"],
+            model["npv"],
+        )
+        van_excel_row = row + 1
+        row += 1
+        ws.write(row, 0, "Tasa interna de retorno", formats["total"])
+        ws.write_formula(
+            row,
+            1,
+            f"=IRR({cell(evaluation_row, 1)}:{cell(evaluation_row, 11)})",
+            formats["total_pct"],
+            model["irr"],
+        )
+        row += 1
+        ws.write(row, 0, "Indice de rentabilidad", formats["total"])
+        ws.write_formula(
+            row,
+            1,
+            f"=(B{van_excel_row}+ABS({cell(evaluation_row, 1)}))/ABS({cell(evaluation_row, 1)})",
+            formats["total_num"],
+            model["profitability_index"],
+        )
+        row += 1
+        decision = "PROYECTO SE ACEPTA" if model["npv"] > 0 and model["irr"] > model["cut_rate"] else "PROYECTO NO SE ACEPTA"
+        ws.write(row, 0, "Comentario", formats["subtitle"])
+        ws.write(row, 1, decision, formats["text"])
 
 
 def write_cost_capital(workbook, model, formats):
@@ -1900,22 +2345,40 @@ def write_cost_capital(workbook, model, formats):
     ]
     for offset, (label, amount, cost) in enumerate(capital_rows):
         ws.write(row, 0, label, formats["label"])
-        ws.write_number(row, 1, amount, formats["money"])
+        ws.write_formula(
+            row,
+            1,
+            "=inversion_inicial*participacion_capital" if offset == 0 else "=inversion_inicial*participacion_deuda",
+            formats["money"],
+            amount,
+        )
         excel_row = row + 1
         ws.write_formula(row, 2, f"=B{excel_row}/SUM($B${base_row + 1}:$B${base_row + 2})", formats["percent"], [EQUITY_SHARE, LOAN_SHARE][offset])
-        ws.write_number(row, 3, cost, formats["percent"])
-        ws.write_formula(row, 4, f"=C{excel_row}*D{excel_row}", formats["percent"], [EQUITY_SHARE * EQUITY_COST, LOAN_SHARE * model["interest_rate"]][offset])
+        ws.write_formula(
+            row,
+            3,
+            "=costo_capital_propio" if offset == 0 else "=tasa_deuda*(1-tasa_impuesto_renta)",
+            formats["percent"],
+            cost if offset == 0 else cost * (1 - INCOME_TAX),
+        )
+        ws.write_formula(
+            row,
+            4,
+            f"=C{excel_row}*D{excel_row}",
+            formats["percent"],
+            [EQUITY_SHARE * EQUITY_COST, LOAN_SHARE * model["interest_rate"] * (1 - INCOME_TAX)][offset],
+        )
         row += 1
 
-    ws.write(row, 0, "Costo de capital", formats["label"])
+    ws.write(row, 0, "WACC nominal despues de impuestos", formats["label"])
     ws.write_formula(row, 4, f"=SUM(E{base_row + 1}:E{base_row + 2})", formats["percent"], model["cost_capital"])
     cost_capital_row = row + 1
     row += 1
 
-    ws.write(row, 0, "Inflacion anual", formats["label"])
+    ws.write(row, 0, "Inflacion esperada anual", formats["label"])
     inflation_values_row = row + 1
     for col, value in enumerate(INFLATION, start=6):
-        ws.write_number(row, col, value, formats["percent"])
+        ws.write_formula(row, col, "=inflacion_esperada", formats["percent"], value)
     row += 1
 
     ws.write(row, 0, "Inflacion promedio", formats["label"])
@@ -1923,13 +2386,18 @@ def write_cost_capital(workbook, model, formats):
     inflation_row = row + 1
     row += 1
 
-    ws.write(row, 0, "Riesgo de la inversion", formats["label"])
-    ws.write_formula(row, 4, f"=E{cost_capital_row}*E{inflation_row}", formats["percent"], model["risk"])
+    ws.write(row, 0, "WACC real", formats["label"])
+    ws.write_formula(row, 4, f"=(1+E{cost_capital_row})/(1+E{inflation_row})-1", formats["percent"], model["real_cost_capital"])
+    real_cost_capital_row = row + 1
+    row += 1
+
+    ws.write(row, 0, "Prima especifica del proyecto", formats["label"])
+    ws.write_formula(row, 4, "=prima_riesgo_proyecto", formats["percent"], model["risk"])
     risk_row = row + 1
     row += 1
 
     ws.write(row, 0, "Tasa de corte", formats["total"])
-    ws.write_formula(row, 4, f"=E{cost_capital_row}+E{inflation_row}+E{risk_row}", formats["total_pct"], model["cut_rate"])
+    ws.write_formula(row, 4, f"=(1+E{real_cost_capital_row})*(1+E{risk_row})-1", formats["total_pct"], model["cut_rate"])
     cut_rate_row = row + 1
     row += 1
 
@@ -1953,13 +2421,16 @@ def write_cost_capital(workbook, model, formats):
     row += 1
     ws.write(row, 0, "VAN", formats["total"])
     ws.write_formula(row, 1, f"=SUM(C{first_flow_row}:C{last_flow_row})", formats["total"], model["npv"])
+    workbook.define_name("van_base", f"='COSTO CAPITAL VAN TIR IR'!$B${row + 1}")
     van_row = row + 1
     row += 1
     ws.write(row, 0, "TIR", formats["total"])
     ws.write_formula(row, 1, f"=IRR(B{first_flow_row}:B{last_flow_row})", formats["total_pct"], model["irr"])
+    workbook.define_name("tir_base", f"='COSTO CAPITAL VAN TIR IR'!$B${row + 1}")
     row += 1
     ws.write(row, 0, "Indice de rentabilidad", formats["total"])
     ws.write_formula(row, 1, f"=(B{van_row}+ABS(B{first_flow_row}))/ABS(B{first_flow_row})", formats["total_num"], model["profitability_index"])
+    workbook.define_name("indice_rentabilidad_base", f"='COSTO CAPITAL VAN TIR IR'!$B${row + 1}")
     row += 1
     ws.write(row, 0, "Periodo recuperacion descontado", formats["total"])
     ws.write_number(row, 1, model["payback"], formats["total_num"])
@@ -1984,8 +2455,46 @@ def write_risk_admin(workbook, model, admin_model, formats):
 
 def write_price_analysis(workbook, base_model, formats):
     ws = workbook.add_worksheet("Analisis Precio")
-    setup(ws, "Analisis de Precio - MuseIQ", formats, 11)
+    setup(ws, "Analisis de Precio y contraste de supuestos - MuseIQ", formats, 11)
     row = 3
+    row = write_section(ws, row, "COMPARACION ENTRE EL LIBRO ANTERIOR Y EL MODELO REVISADO", formats, 5)
+    for col, label in enumerate(["Indicador", "Modelo anterior", "Modelo revisado", "Variacion", "Lectura"]):
+        ws.write(row, col, label, formats["header"])
+    row += 1
+    comparisons = [
+        ("Museos captados", 31, 35, "La cartera se alinea con el Capitulo 5."),
+        ("Factor adicional sobre precios", 1.20, PRICE_ADJUSTMENT, "Se elimina el recargo duplicado de 20%."),
+        ("Ventas acumuladas", 10_085_737.40, sum(base_model["sales_total"]), "El ingreso baja aun atendiendo cuatro museos adicionales."),
+        ("Costos directos acumulados", 2_611_928.80, sum(base_model["direct_total"]), "Se reconocen mayores costos de despliegue y soporte."),
+        ("VAN", 148_934.56, base_model["npv"], "La rentabilidad se mantiene positiva sin flujo inflado."),
+    ]
+    for label, previous, revised, note in comparisons:
+        ws.write(row, 0, label, formats["label"])
+        if "Factor" in label:
+            ws.write_number(row, 1, previous, formats["number"])
+            ws.write_formula(row, 2, "=factor_precio_base", formats["formula"], revised)
+            ws.write_formula(row, 3, f"=C{row + 1}/B{row + 1}-1", formats["percent"], revised / previous - 1)
+        elif label == "Museos captados":
+            ws.write_number(row, 1, previous, formats["integer"])
+            ws.write_formula(row, 2, "=SUM(nuevos_B)+SUM(nuevos_E)+SUM(nuevos_A)", formats["formula"], revised)
+            ws.write_formula(row, 3, f"=C{row + 1}-B{row + 1}", formats["integer"], revised - previous)
+        elif label == "Ventas acumuladas":
+            ws.write_number(row, 1, previous, formats["money"])
+            ws.write_formula(row, 2, "=SUM(INGRESOS!B19:K19)", formats["formula_money"], revised)
+            ws.write_formula(row, 3, f"=C{row + 1}/B{row + 1}-1", formats["percent"], revised / previous - 1)
+        elif label == "Costos directos acumulados":
+            ws.write_number(row, 1, previous, formats["money"])
+            ws.write_formula(row, 2, "=SUM(COSTOS!B8:K8)", formats["formula_money"], revised)
+            ws.write_formula(row, 3, f"=C{row + 1}/B{row + 1}-1", formats["percent"], revised / previous - 1)
+        else:
+            ws.write_number(row, 1, previous, formats["money"])
+            ws.write_formula(row, 2, "=van_base", formats["formula_money"], revised)
+            ws.write_formula(row, 3, f"=C{row + 1}/B{row + 1}-1", formats["percent"], revised / previous - 1)
+        ws.write(row, 4, note, formats["text"])
+        row += 1
+
+    row += 2
+    row = write_section(ws, row, "SENSIBILIDAD DE PRECIOS", formats, 5)
     ws.write(row, 0, "Escenario", formats["header"])
     ws.write(row, 1, "Factor precio", formats["header"])
     ws.write(row, 2, "Ventas acumuladas", formats["header"])
@@ -2028,7 +2537,9 @@ def write_all() -> None:
     reduced_price = build_model(name="Precio -10%", revenue_factor=0.90)
 
     workbook = xlsxwriter.Workbook(OUT)
+    workbook.set_calc_mode("auto")
     formats = make_formats(workbook)
+    write_assumptions(workbook, base, formats)
     write_ingresos(workbook, base, formats)
     write_costos(workbook, base, formats)
     write_unit_cost(workbook, base, formats)
