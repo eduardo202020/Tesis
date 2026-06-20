@@ -834,23 +834,166 @@ def write_ingresos(workbook, model, formats):
     row += 2
     ws.write(row, 0, "Paquete", formats["header"])
     ws.write(row, 1, "Precio base cap. 5", formats["header"])
-    ws.write(row, 2, "Precio economico año 1", formats["header"])
-    ws.write(row, 3, "Recurrente base cap. 5", formats["header"])
-    ws.write(row, 4, "Recurrente economico año 1", formats["header"])
-    ws.write(row, 5, "Cobertura", formats["header"])
-    ws.write(row, 6, "BLE estimados", formats["header"])
+    ws.write(row, 2, "Factor economico", formats["header"])
+    ws.write(row, 3, "Precio economico año 1", formats["header"])
+    ws.write(row, 4, "Recurrente base cap. 5", formats["header"])
+    ws.write(row, 5, "Recurrente economico año 1", formats["header"])
+    ws.write(row, 6, "Cobertura", formats["header"])
+    ws.write(row, 7, "BLE estimados", formats["header"])
     row += 1
+    package_rows = {}
     for key in ["B", "E", "A"]:
         pkg = PACKAGES[key]
+        package_rows[key] = row
         ws.write(row, 0, pkg.name, formats["label"])
         ws.write_number(row, 1, pkg.base_implementation_price, formats["money"])
-        ws.write_number(row, 2, pkg.base_implementation_price * model["price_adjustment"], formats["money"])
-        ws.write_number(row, 3, pkg.base_recurring_price, formats["money"])
-        ws.write_number(row, 4, pkg.base_recurring_price * model["price_adjustment"], formats["money"])
-        ws.write(row, 5, pkg.coverage, formats["text"])
-        ws.write(row, 6, pkg.beacons, formats["text"])
+        ws.write_number(row, 2, model["price_adjustment"], formats["number"])
+        ws.write_formula(row, 3, f"=B{row + 1}*C{row + 1}", formats["money"], money(pkg.base_implementation_price * model["price_adjustment"]))
+        ws.write_number(row, 4, pkg.base_recurring_price, formats["money"])
+        ws.write_formula(row, 5, f"=E{row + 1}*C{row + 1}", formats["money"], money(pkg.base_recurring_price * model["price_adjustment"]))
+        ws.write(row, 6, pkg.coverage, formats["text"])
+        ws.write(row, 7, pkg.beacons, formats["text"])
         row += 1
     ws.write(row + 1, 0, "Nota: el precio economico aplica un factor comercial de 20% sobre los valores del capitulo 5 para cubrir formalizacion, garantia, gestion contractual y contingencia operativa.", formats["note"])
+
+    row += 3
+    row = write_section(ws, row, "DETALLE DE PRECIOS Y VENTAS DE IMPLEMENTACION", formats)
+    row = write_year_header(ws, row, formats)
+    impl_price_rows = {}
+    impl_sales_rows = {}
+    for key, source_row in package_rows.items():
+        pkg = PACKAGES[key]
+        impl_price_rows[key] = row
+        values = [pkg.base_implementation_price * model["price_adjustment"] * model["factors"][i] for i in range(10)]
+        row = write_series(
+            ws,
+            row,
+            f"Precio implementacion - {pkg.name}",
+            values,
+            formats,
+            formulas=[f"=${cell(source_row, 3, abs_col=True, abs_row=True)}*{cell(factor_row, col)}" for col in range(1, 11)],
+        )
+    source_new_rows = {"B": new_basic_row, "E": new_standard_row, "A": new_advanced_row}
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        impl_sales_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Venta implementacion - {pkg.name}",
+            [
+                model["new"][key][i] * pkg.base_implementation_price * model["price_adjustment"] * model["factors"][i]
+                for i in range(10)
+            ],
+            formats,
+            formulas=[f"={cell(source_new_rows[key], col)}*{cell(impl_price_rows[key], col)}" for col in range(1, 11)],
+        )
+    impl_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL VENTAS IMPLEMENTACION DETALLADAS",
+        model["sales_impl"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [impl_sales_rows[key] for key in ["B", "E", "A"]], col) for col in range(1, 11)],
+    )
+
+    row += 1
+    row = write_section(ws, row, "DETALLE DE PRECIOS Y VENTAS RECURRENTES", formats)
+    row = write_year_header(ws, row, formats)
+    rec_price_rows = {}
+    rec_sales_rows = {}
+    for key, source_row in package_rows.items():
+        pkg = PACKAGES[key]
+        rec_price_rows[key] = row
+        values = [pkg.base_recurring_price * model["price_adjustment"] * model["factors"][i] for i in range(10)]
+        row = write_series(
+            ws,
+            row,
+            f"Precio recurrente - {pkg.name}",
+            values,
+            formats,
+            formulas=[f"=${cell(source_row, 5, abs_col=True, abs_row=True)}*{cell(factor_row, col)}" for col in range(1, 11)],
+        )
+    source_effective_rows = {"B": effective_basic_row, "E": effective_standard_row, "A": effective_advanced_row}
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        rec_sales_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Venta soporte, IA y analitica - {pkg.name}",
+            [
+                model["effective"][key][i] * pkg.base_recurring_price * model["price_adjustment"] * model["factors"][i]
+                for i in range(10)
+            ],
+            formats,
+            formulas=[f"={cell(source_effective_rows[key], col)}*{cell(rec_price_rows[key], col)}" for col in range(1, 11)],
+        )
+    rec_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL VENTAS RECURRENTES DETALLADAS",
+        model["sales_rec"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [rec_sales_rows[key] for key in ["B", "E", "A"]], col) for col in range(1, 11)],
+    )
+
+    row += 1
+    row = write_section(ws, row, "VALORES PROMEDIO Y POLITICA DE COBRANZA", formats)
+    row = write_year_header(ws, row, formats)
+    row = write_series(
+        ws,
+        row,
+        "Valor promedio por museo implementado",
+        [safe_div(model["sales_impl"][i], model["total_new"][i]) for i in range(10)],
+        formats,
+        formulas=[f"=IFERROR({cell(sales_impl_row, col)}/{cell(total_new_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "Valor promedio por museo recurrente equivalente",
+        [
+            safe_div(model["sales_rec"][i], sum(model["effective"][key][i] for key in ["B", "E", "A"]))
+            for i in range(10)
+        ],
+        formats,
+        formulas=[
+            f"=IFERROR({cell(sales_rec_row, col)}/SUM({cell(effective_basic_row, col)}:{cell(effective_advanced_row, col)}),0)"
+            for col in range(1, 11)
+        ],
+    )
+    row += 1
+    ws.write(row, 0, "Politica de cobranza", formats["header"])
+    ws.write(row, 1, "Valor", formats["header"])
+    row += 1
+    collection_cash_policy_row = row
+    ws.write(row, 0, "Contado", formats["label"])
+    ws.write_number(row, 1, COLLECTION_CASH, formats["percent"])
+    row += 1
+    collection_credit_policy_row = row
+    ws.write(row, 0, "Credito", formats["label"])
+    ws.write_formula(row, 1, f"=1-B{collection_cash_policy_row + 1}", formats["percent"], COLLECTION_CREDIT)
+    row += 1
+    current_collection_policy_row = row
+    ws.write(row, 0, "Recuperacion del credito en el año", formats["label"])
+    ws.write_number(row, 1, COLLECTION_CURRENT_CREDIT, formats["percent"])
+    row += 1
+    ws.write(row, 0, "Saldo de credito al cierre", formats["label"])
+    ws.write_formula(row, 1, f"=1-B{current_collection_policy_row + 1}", formats["percent"], 1 - COLLECTION_CURRENT_CREDIT)
+
+    for col in range(1, 11):
+        ws.write_formula(sales_impl_row, col, f"={cell(impl_detail_total_row, col)}", formats["total"], money(model["sales_impl"][col - 1]))
+        ws.write_formula(sales_rec_row, col, f"={cell(rec_detail_total_row, col)}", formats["total"], money(model["sales_rec"][col - 1]))
+        ws.write_formula(sales_extra_row, col, f"={cell(sales_impl_row, col)}*{ADDITIONAL_SERVICE_RATE}", formats["money"], money(model["sales_extra"][col - 1]))
+        ws.write_formula(cash_sales_row, col, f"={cell(sales_total_row, col)}*$B${collection_cash_policy_row + 1}", formats["money"], money(model["cash_sales"][col - 1]))
+        ws.write_formula(credit_sales_row, col, f"={cell(sales_total_row, col)}*$B${collection_credit_policy_row + 1}", formats["money"], money(model["credit_sales"][col - 1]))
+        ws.write_formula(current_credit_row, col, f"={cell(credit_sales_row, col)}*$B${current_collection_policy_row + 1}*(1-{model['bad_debt_rate']})", formats["money"], money(model["current_credit_collection"][col - 1]))
+        ws.write_formula(cxc_end_row, col, f"={cell(credit_sales_row, col)}*(1-$B${current_collection_policy_row + 1})", formats["money"], money(model["cxc_end"][col - 1]))
 
 
 def write_costos(workbook, model, formats):
@@ -953,6 +1096,7 @@ def write_costos(workbook, model, formats):
     row = write_series(ws, row, "Mantenimiento menor de equipos", model["maintenance"], formats)
     production_dep_row = row
     row = write_series(ws, row, "Depreciacion asignada a produccion", [v * 0.60 for v in model["assets"]["depreciation"]], formats)
+    indirect_total_row = row
     row = write_series(
         ws,
         row,
@@ -983,6 +1127,226 @@ def write_costos(workbook, model, formats):
         ws.write_number(row, 4, item[4], formats["percent"])
         row += 1
 
+    row += 2
+    row = write_section(ws, row, "DETALLE DE COSTOS DIRECTOS UNITARIOS Y ANUALES", formats)
+    row = write_year_header(ws, row, formats)
+    factor_refs = [sheet_cell("INGRESOS", 32, col) for col in range(1, 11)]
+    new_refs = {"B": 4, "E": 5, "A": 6}
+    effective_refs = {"B": 14, "E": 15, "A": 16}
+
+    impl_unit_rows = {}
+    impl_annual_rows = {}
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        impl_unit_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Costo unitario implementacion - {pkg.name}",
+            [pkg.implementation_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={pkg.implementation_cost}*{factor_refs[col - 1]}" for col in range(1, 11)],
+        )
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        impl_annual_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Costo anual implementacion - {pkg.name}",
+            [model["new"][key][i] * pkg.implementation_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={sheet_cell('INGRESOS', new_refs[key], col)}*{cell(impl_unit_rows[key], col)}" for col in range(1, 11)],
+        )
+    impl_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL COSTO IMPLEMENTACION DETALLADO",
+        model["direct_impl_cost"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [impl_annual_rows[key] for key in ["B", "E", "A"]], col) for col in range(1, 11)],
+    )
+
+    rec_unit_rows = {}
+    rec_annual_rows = {}
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        rec_unit_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Costo unitario soporte, IA y analitica - {pkg.name}",
+            [pkg.recurring_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={pkg.recurring_cost}*{factor_refs[col - 1]}" for col in range(1, 11)],
+        )
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        rec_annual_rows[key] = row
+        row = write_series(
+            ws,
+            row,
+            f"Costo anual soporte, IA y analitica - {pkg.name}",
+            [model["effective"][key][i] * pkg.recurring_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={sheet_cell('INGRESOS', effective_refs[key], col)}*{cell(rec_unit_rows[key], col)}" for col in range(1, 11)],
+        )
+    rec_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL COSTO RECURRENTE DETALLADO",
+        model["direct_rec_cost"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [rec_annual_rows[key] for key in ["B", "E", "A"]], col) for col in range(1, 11)],
+    )
+    extra_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Costo servicios adicionales de despliegue",
+        model["direct_extra_cost"],
+        formats,
+        formulas=[f"={sheet_cell('INGRESOS', 9, col)}*{ADDITIONAL_SERVICE_COST_RATE}" for col in range(1, 11)],
+    )
+    direct_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL COSTO DIRECTO DETALLADO",
+        model["direct_total"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [impl_detail_total_row, rec_detail_total_row, extra_detail_row], col) for col in range(1, 11)],
+    )
+
+    row += 1
+    ws.write(row, 0, "Politica de compra de insumos y servicios directos", formats["header"])
+    ws.write(row, 1, "Valor", formats["header"])
+    row += 1
+    purchase_cash_policy_row = row
+    ws.write(row, 0, "Compra de contado", formats["label"])
+    ws.write_number(row, 1, PURCHASE_CASH, formats["percent"])
+    row += 1
+    purchase_credit_policy_row = row
+    ws.write(row, 0, "Compra al credito", formats["label"])
+    ws.write_formula(row, 1, f"=1-B{purchase_cash_policy_row + 1}", formats["percent"], PURCHASE_CREDIT)
+    row += 1
+    supplier_payment_policy_row = row
+    ws.write(row, 0, "Pago del credito en el año", formats["label"])
+    ws.write_number(row, 1, PAY_CURRENT_CREDIT, formats["percent"])
+
+    row += 2
+    row = write_section(ws, row, "DETALLE DE COSTOS INDIRECTOS DE PRODUCCION", formats)
+    row = write_year_header(ws, row, formats)
+    energy_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Energia, internet y comunicaciones",
+        model["energy"],
+        formats,
+        formulas=[f"=20000*(1.04^{col - 1})" for col in range(1, 11)],
+    )
+    tools_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Herramientas cloud, repositorios y monitoreo",
+        model["platform_tools"],
+        formats,
+        formulas=["=0" if col == 1 else f"=9000*(1.04^{col - 2})" for col in range(1, 11)],
+    )
+    supplies_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Papeleria, insumos de oficina y pruebas",
+        model["supplies"],
+        formats,
+        formulas=[f"=3800*(1.04^{col - 1})" for col in range(1, 11)],
+    )
+    maintenance_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Mantenimiento menor de equipos",
+        model["maintenance"],
+        formats,
+        formulas=[f"=4500*(1.04^{col - 1})" for col in range(1, 11)],
+    )
+    dep_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Depreciacion asignada a produccion",
+        [v * 0.60 for v in model["assets"]["depreciation"]],
+        formats,
+        formulas=[f"={sheet_cell('DEPRECIACIONES AMORTIZACION', 10, col)}*60%" for col in range(1, 11)],
+    )
+    indirect_detail_total_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL COSTO INDIRECTO DETALLADO",
+        model["indirect_total"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [energy_detail_row, tools_detail_row, supplies_detail_row, maintenance_detail_row, dep_detail_row], col) for col in range(1, 11)],
+    )
+
+    row += 2
+    ws.write(row, 0, "Equipo / recurso", formats["header"])
+    ws.write(row, 1, "KW o base", formats["header"])
+    ws.write(row, 2, "Horas/dia", formats["header"])
+    ws.write(row, 3, "Dias/año", formats["header"])
+    ws.write(row, 4, "Tarifa o factor", formats["header"])
+    ws.write(row, 5, "Gasto anual", formats["header"])
+    ws.write(row, 6, "% produccion", formats["header"])
+    ws.write(row, 7, "% ventas", formats["header"])
+    ws.write(row, 8, "% adm.", formats["header"])
+    ws.write(row, 9, "Asignado produccion", formats["header"])
+    row += 1
+    indirect_equipment = [
+        ("Laptops de desarrollo y pruebas", 1.20, 8, 270, 0.55, 0.65, 0.10),
+        ("Servidor/NAS para RAG y datos", 0.80, 24, 365, 0.55, 0.80, 0.00),
+        ("Smartphones y tablets de prueba", 0.25, 4, 270, 0.55, 0.70, 0.10),
+        ("Red WiFi, router y UPS", 0.18, 24, 365, 0.55, 0.60, 0.20),
+        ("Comunicaciones e internet anual", 9_600.00, 1, 1, 1.00, 0.70, 0.10),
+        ("Ambiente de pruebas y energia comun", 10_400.00, 1, 1, 1.00, 0.65, 0.10),
+    ]
+    for name, kw_or_base, hours, days, tariff, production_pct, sales_pct in indirect_equipment:
+        ws.write(row, 0, name, formats["label"])
+        ws.write_number(row, 1, kw_or_base, formats["number"])
+        ws.write_number(row, 2, hours, formats["number"])
+        ws.write_number(row, 3, days, formats["integer"])
+        ws.write_number(row, 4, tariff, formats["number"])
+        ws.write_formula(row, 5, f"=B{row + 1}*C{row + 1}*D{row + 1}*E{row + 1}", formats["money"], money(kw_or_base * hours * days * tariff))
+        ws.write_number(row, 6, production_pct, formats["percent"])
+        ws.write_number(row, 7, sales_pct, formats["percent"])
+        ws.write_formula(row, 8, f"=1-G{row + 1}-H{row + 1}", formats["percent"], 1 - production_pct - sales_pct)
+        ws.write_formula(row, 9, f"=F{row + 1}*G{row + 1}", formats["money"], money(kw_or_base * hours * days * tariff * production_pct))
+        row += 1
+
+    for col in range(1, 11):
+        ws.write_formula(direct_impl_row, col, f"={cell(impl_detail_total_row, col)}", formats["money"], money(model["direct_impl_cost"][col - 1]))
+        ws.write_formula(direct_rec_row, col, f"={cell(rec_detail_total_row, col)}", formats["money"], money(model["direct_rec_cost"][col - 1]))
+        ws.write_formula(direct_extra_row, col, f"={cell(extra_detail_row, col)}", formats["money"], money(model["direct_extra_cost"][col - 1]))
+        ws.write_formula(direct_total_row, col, f"={cell(direct_detail_total_row, col)}", formats["total"], money(model["direct_total"][col - 1]))
+        ws.write_formula(purchase_cash_row, col, f"={cell(direct_total_row, col)}*$B${purchase_cash_policy_row + 1}", formats["money"], money(model["purchase_cash"][col - 1]))
+        ws.write_formula(purchase_credit_row, col, f"={cell(direct_total_row, col)}*$B${purchase_credit_policy_row + 1}", formats["money"], money(model["purchase_credit"][col - 1]))
+        ws.write_formula(current_payment_row, col, f"={cell(purchase_credit_row, col)}*$B${supplier_payment_policy_row + 1}", formats["money"], money(model["current_supplier_payment"][col - 1]))
+        ws.write_formula(cxp_row, col, f"={cell(purchase_credit_row, col)}*(1-$B${supplier_payment_policy_row + 1})", formats["money"], money(model["cxp_end"][col - 1]))
+        ws.write_formula(energy_row, col, f"={cell(energy_detail_row, col)}", formats["money"], money(model["energy"][col - 1]))
+        ws.write_formula(tools_row, col, f"={cell(tools_detail_row, col)}", formats["money"], money(model["platform_tools"][col - 1]))
+        ws.write_formula(supplies_row, col, f"={cell(supplies_detail_row, col)}", formats["money"], money(model["supplies"][col - 1]))
+        ws.write_formula(maintenance_row, col, f"={cell(maintenance_detail_row, col)}", formats["money"], money(model["maintenance"][col - 1]))
+        ws.write_formula(production_dep_row, col, f"={cell(dep_detail_row, col)}", formats["money"], money(model["assets"]["depreciation"][col - 1] * 0.60))
+        ws.write_formula(indirect_total_row, col, f"={cell(indirect_detail_total_row, col)}", formats["total"], money(model["indirect_total"][col - 1]))
+
 
 def write_unit_cost(workbook, model, formats):
     ws = workbook.add_worksheet("COSTO DE PRODUCCION UNITARIO")
@@ -1006,6 +1370,7 @@ def write_unit_cost(workbook, model, formats):
         formulas=[same_row_formula("SUM", [direct_row, labor_row, indirect_row], col) for col in range(1, 11)],
     )
     unit = [safe_div(model["cost_of_production"][i], max(1, model["total_new"][i] + sum(model["effective"][key][i] for key in ["B", "E", "A"]))) for i in range(10)]
+    unit_cost_row = row
     row = write_series(
         ws,
         row,
@@ -1017,7 +1382,193 @@ def write_unit_cost(workbook, model, formats):
             for col in range(1, 11)
         ],
     )
-    ws.write(row + 1, 0, "El costo unitario se expresa por museo equivalente: museos implementados en el año mas museos recurrentes ponderados.", formats["note"])
+    row += 1
+    row = write_section(ws, row, "CUADRO DE PRODUCCION - UNIDADES EQUIVALENTES", formats)
+    row = write_year_header(ws, row, formats)
+    implemented_units_row = row
+    row = write_series(
+        ws,
+        row,
+        "Museos implementados en el año",
+        model["total_new"],
+        formats,
+        kind="integer",
+        formulas=[f"={sheet_cell('COSTOS', 11, col)}" for col in range(1, 11)],
+    )
+    recurrent_units_row = row
+    recurrent_units = [sum(model["effective"][key][i] for key in ["B", "E", "A"]) for i in range(10)]
+    row = write_series(
+        ws,
+        row,
+        "Museos recurrentes equivalentes",
+        recurrent_units,
+        formats,
+        kind="number",
+        formulas=[f"={sheet_cell('COSTOS', 13, col)}" for col in range(1, 11)],
+    )
+    total_equivalent_units_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL MUSEOS EQUIVALENTES",
+        [model["total_new"][i] + recurrent_units[i] for i in range(10)],
+        formats,
+        kind="number",
+        total=True,
+        formulas=[same_row_formula("SUM", [implemented_units_row, recurrent_units_row], col) for col in range(1, 11)],
+    )
+    active_units_row = row
+    row = write_series(
+        ws,
+        row,
+        "Museos activos al cierre",
+        model["total_active"],
+        formats,
+        kind="integer",
+        formulas=[f"={sheet_cell('INGRESOS', 13, col)}" for col in range(1, 11)],
+    )
+
+    row += 1
+    row = write_section(ws, row, "COMPOSICION DEL COSTO DE PRODUCCION", formats)
+    row = write_year_header(ws, row, formats)
+    direct_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Insumos y servicios directos",
+        model["direct_total"],
+        formats,
+        formulas=[f"={cell(direct_row, col)}" for col in range(1, 11)],
+    )
+    labor_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Mano de obra directa",
+        model["production_labor"],
+        formats,
+        formulas=[f"={cell(labor_row, col)}" for col in range(1, 11)],
+    )
+    indirect_detail_row = row
+    row = write_series(
+        ws,
+        row,
+        "Costos indirectos de servicio",
+        model["indirect_total"],
+        formats,
+        formulas=[f"={cell(indirect_row, col)}" for col in range(1, 11)],
+    )
+    detailed_total_cost_row = row
+    row = write_series(
+        ws,
+        row,
+        "TOTAL COSTO DE PRODUCCION DETALLADO",
+        model["cost_of_production"],
+        formats,
+        total=True,
+        formulas=[same_row_formula("SUM", [direct_detail_row, labor_detail_row, indirect_detail_row], col) for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "Costo unitario total por museo equivalente",
+        unit,
+        formats,
+        formulas=[f"=IFERROR({cell(detailed_total_cost_row, col)}/{cell(total_equivalent_units_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "% insumos directos sobre costo",
+        [safe_div(model["direct_total"][i], model["cost_of_production"][i]) for i in range(10)],
+        formats,
+        kind="percent",
+        formulas=[f"=IFERROR({cell(direct_detail_row, col)}/{cell(detailed_total_cost_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "% mano de obra directa sobre costo",
+        [safe_div(model["production_labor"][i], model["cost_of_production"][i]) for i in range(10)],
+        formats,
+        kind="percent",
+        formulas=[f"=IFERROR({cell(labor_detail_row, col)}/{cell(detailed_total_cost_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "% costos indirectos sobre costo",
+        [safe_div(model["indirect_total"][i], model["cost_of_production"][i]) for i in range(10)],
+        formats,
+        kind="percent",
+        formulas=[f"=IFERROR({cell(indirect_detail_row, col)}/{cell(detailed_total_cost_row, col)},0)" for col in range(1, 11)],
+    )
+
+    row += 1
+    row = write_section(ws, row, "COSTOS UNITARIOS DIRECTOS POR PAQUETE", formats)
+    row = write_year_header(ws, row, formats)
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        row = write_series(
+            ws,
+            row,
+            f"Costo directo implementacion - {pkg.name}",
+            [pkg.implementation_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={pkg.implementation_cost}*{sheet_cell('INGRESOS', 32, col)}" for col in range(1, 11)],
+        )
+    for key in ["B", "E", "A"]:
+        pkg = PACKAGES[key]
+        row = write_series(
+            ws,
+            row,
+            f"Costo directo recurrente - {pkg.name}",
+            [pkg.recurring_cost * model["factors"][i] for i in range(10)],
+            formats,
+            formulas=[f"={pkg.recurring_cost}*{sheet_cell('INGRESOS', 32, col)}" for col in range(1, 11)],
+        )
+
+    row += 1
+    row = write_section(ws, row, "COSTOS UNITARIOS PROMEDIO POR NATURALEZA", formats)
+    row = write_year_header(ws, row, formats)
+    row = write_series(
+        ws,
+        row,
+        "Costo directo por museo implementado",
+        [safe_div(model["direct_impl_cost"][i], model["total_new"][i]) for i in range(10)],
+        formats,
+        formulas=[f"=IFERROR({sheet_cell('COSTOS', 4, col)}/{cell(implemented_units_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "Costo directo por museo recurrente equivalente",
+        [safe_div(model["direct_rec_cost"][i], recurrent_units[i]) for i in range(10)],
+        formats,
+        formulas=[f"=IFERROR({sheet_cell('COSTOS', 5, col)}/{cell(recurrent_units_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "Mano de obra directa por museo equivalente",
+        [safe_div(model["production_labor"][i], model["total_new"][i] + recurrent_units[i]) for i in range(10)],
+        formats,
+        formulas=[f"=IFERROR({cell(labor_row, col)}/{cell(total_equivalent_units_row, col)},0)" for col in range(1, 11)],
+    )
+    row = write_series(
+        ws,
+        row,
+        "Costo indirecto por museo equivalente",
+        [safe_div(model["indirect_total"][i], model["total_new"][i] + recurrent_units[i]) for i in range(10)],
+        formats,
+        formulas=[f"=IFERROR({cell(indirect_row, col)}/{cell(total_equivalent_units_row, col)},0)" for col in range(1, 11)],
+    )
+    for col in range(1, 11):
+        ws.write_formula(direct_row, col, f"={sheet_cell('COSTOS', 7, col)}", formats["money"], money(model["direct_total"][col - 1]))
+        ws.write_formula(indirect_row, col, f"={sheet_cell('COSTOS', 31, col)}", formats["money"], money(model["indirect_total"][col - 1]))
+        ws.write_formula(total_cost_row, col, f"={cell(detailed_total_cost_row, col)}", formats["total"], money(model["cost_of_production"][col - 1]))
+        ws.write_formula(unit_cost_row, col, f"=IFERROR({cell(total_cost_row, col)}/{cell(total_equivalent_units_row, col)},0)", formats["money"], money(unit[col - 1]))
+    ws.write(row + 1, 0, "El costo unitario se expresa por museo equivalente: museos implementados en el año mas museos recurrentes ponderados. Las filas inferiores separan insumos, mano de obra e indirectos para explicar la variacion anual.", formats["note"])
 
 
 def write_planilla(workbook, model, formats, *, admin_factor: float = 1.0, cost_factor: float = 1.0, sheet_name: str = "PLANILLA"):
