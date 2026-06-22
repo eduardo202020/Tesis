@@ -3,147 +3,167 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MuseIQ Simulacion 3D</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@400;500;700&display=swap" rel="stylesheet">
+  <title>MuseIQ | Recorrido MVP</title>
+  <link rel="icon" href="src/imgs/mvp/museiq-logo.png">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="layout">
-    <section class="game-shell">
-      <header class="game-header">
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <img src="src/imgs/mvp/museiq-logo.png" alt="" class="brand-mark">
         <div>
-          <p class="eyebrow">MuseIQ Interactive Tour</p>
-          <h1>Simulacion de Navegacion en Museo</h1>
+          <p class="eyebrow">MuseIQ · Simulacion de visita</p>
+          <h1>Recorrido Moche, Inca y Chavín en 3D</h1>
         </div>
-        <div class="status-pill">
-          <span id="visited-counter">0/16 obras vistas</span>
-        </div>
-      </header>
-
-      <div class="game-stage">
-        <aside class="phone-panel">
-          <div class="phone-frame">
-            <div class="phone-camera"></div>
-            <div class="phone-speaker"></div>
-            <div class="phone-screen">
-              <div class="phone-topbar">
-                <span class="phone-signal">MuseIQ Guide AI</span>
-                <span class="phone-battery" id="voice-state">Voice on</span>
-              </div>
-
-              <figure class="art-preview">
-                <img id="art-image" src="src/imgs/sala-01-sipan.jpg" alt="Vista previa de la obra">
-                <figcaption>
-                  <span id="art-image-caption">Obra destacada</span>
-                  <span id="art-image-room">Sala 1</span>
-                </figcaption>
-              </figure>
-
-              <section class="voice-module">
-                <div class="voice-avatar">
-                  <span class="voice-orb"></span>
-                  <div>
-                    <p class="voice-name">Bot narrador</p>
-                    <p class="voice-mode" id="voice-mode">Narracion automatica</p>
-                  </div>
-                </div>
-                <div class="voice-bars" aria-hidden="true">
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                </div>
-                <button id="voice-toggle" class="voice-toggle voice-toggle-inline" type="button">Silenciar voz</button>
-              </section>
-
-              <div class="chat-thread" id="chat-thread">
-                <article class="chat-bubble chat-bubble-bot" id="chat-status">
-                  <p class="chat-author">MuseIQ Voice</p>
-                  <p>Bienvenido. Inicia en la Sala 1 y me encargaré de narrar cada obra mientras avanzas.</p>
-                </article>
-              </div>
-
-              <form class="phone-input phone-form" id="question-form">
-                <span class="phone-mic">◉</span>
-                <input id="question-input" class="phone-question" type="text" placeholder="Pregunta por una obra, sala u orientacion...">
-                <button class="phone-send" type="submit">Enviar</button>
-              </form>
-              <div class="phone-helper" id="phone-prompt">Bot activo: escucha contextual y visual.</div>
-            </div>
-          </div>
-        </aside>
-
-        <section class="museum-panel">
-          <div class="museum-topbar">
-            <div class="phone-floating-compass">
-              <div class="floating-compass-ring">
-                <div class="floating-compass-needle" id="compass-needle"></div>
-              </div>
-              <div class="floating-compass-copy">
-                <span class="floating-compass-label">Magnetico</span>
-                <span id="heading-text">Rumbo: Norte 0°</span>
-              </div>
-            </div>
-
-            <div class="museum-compass-card">
-              <div class="museum-compass-ring">
-                <div class="museum-compass-needle" id="museum-compass-needle"></div>
-                <span class="compass-mark compass-n">N</span>
-                <span class="compass-mark compass-e">E</span>
-                <span class="compass-mark compass-s">S</span>
-                <span class="compass-mark compass-w">O</span>
-              </div>
-              <div class="compass-copy">
-                <p class="voice-name">Orientacion del museo</p>
-                <p class="voice-mode" id="museum-heading-text">Vista superior del recorrido</p>
-                <p class="compass-instruction" id="turn-instruction">Sigue al frente para iniciar el recorrido.</p>
-              </div>
-            </div>
-          </div>
-
-          <canvas id="game" width="960" height="576" aria-label="Simulacion retro de museo"></canvas>
-        </section>
-
-        <aside class="hud">
-          <section class="hud-card">
-            <h2>Controles</h2>
-            <p>Mover: <strong>W A S D</strong> o flechas</p>
-            <p>Interactuar: <strong>Espacio</strong> o <strong>Enter</strong></p>
-            <button id="technical-toggle" type="button">Tecnico: visible</button>
-          </section>
-
-          <section class="hud-card">
-            <h2>Recorrido</h2>
-            <p id="room-name">Sala actual: Lobby</p>
-            <p id="position-text">Posicion: (0, 0)</p>
-            <p id="direction-text">Orientacion: Norte</p>
-            <p id="hint-text">Acercate a una obra para verla.</p>
-          </section>
-
-          <section class="hud-card">
-            <h2>Obra cercana</h2>
-            <p id="artwork-name">Ninguna</p>
-            <p id="artwork-description">Explora las salas para activar fichas de obra.</p>
-          </section>
-        </aside>
       </div>
 
-      <section class="technical-panel">
-        <div class="hud-card technical-card">
-          <h2>Capa Técnica</h2>
-          <p id="scan-room">Sala detectada: --</p>
-          <p id="scan-nodes">ESP32 activos: --</p>
-          <p id="scan-rssi">Señal estimada: --</p>
-          <p id="occupancy-status">Ocupacion: --</p>
-          <p id="lighting-status">Iluminacion: --</p>
-          <p id="brain-status">Raspberry Pi: --</p>
-          <p id="doc-status">Consulta documental: --</p>
+      <div class="topbar-status">
+        <div class="metric">
+          <span class="metric-label">Sala</span>
+          <strong id="room-status">SALA_1</strong>
         </div>
+        <div class="metric">
+          <span class="metric-label">Progreso</span>
+          <strong id="visited-counter">0 / 6</strong>
+        </div>
+      </div>
+    </header>
+
+    <section class="workspace">
+      <section class="simulation-panel">
+        <div class="simulation-toolbar">
+          <div class="location-readout">
+            <span class="location-dot" id="location-dot"></span>
+            <div>
+              <span class="toolbar-label">Ubicacion fisica</span>
+              <strong id="physical-location">Entrada de Sala 1</strong>
+            </div>
+          </div>
+
+          <div class="command-readout" id="command-readout">
+            <span class="toolbar-label">Comando iot-museiq</span>
+            <strong id="expected-command">--</strong>
+          </div>
+
+          <button id="reset-button" class="icon-button" type="button" title="Reiniciar recorrido" aria-label="Reiniciar recorrido">
+            ↺
+          </button>
+        </div>
+
+        <div class="canvas-shell">
+          <canvas id="game" width="1152" height="768" tabindex="0" aria-label="Plano interactivo del museo MuseIQ"></canvas>
+          <div class="canvas-hint" id="canvas-hint">Acercate a una obra</div>
+        </div>
+
+        <nav class="route-strip" aria-label="Estado del recorrido">
+          <button class="route-step" data-command="1" type="button"><span>1</span>Músico Moche</button>
+          <button class="route-step" data-command="2" type="button"><span>2</span>Botella Chimú-Lambayeque</button>
+          <button class="route-step" data-command="3" type="button"><span>3</span>Aríbalo inca</button>
+          <button class="route-step" data-command="4" type="button"><span>4</span>Asiento del Inca</button>
+          <button class="route-step" data-command="5" type="button"><span>5</span>Botella Chavín</button>
+          <button class="route-step" data-command="6" type="button"><span>6</span>Obelisco Tello</button>
+          <button class="route-step route-step-vr" data-command="vr" type="button"><span>VR</span>Sala inmersiva</button>
+        </nav>
       </section>
+
+      <aside class="inspector">
+        <section class="artwork-card">
+          <div class="artwork-image-wrap">
+            <img id="artwork-image" src="src/imgs/mvp/01-musico-moche.png" alt="Músico Moche">
+            <span class="zone-chip" id="zone-chip">Sala 1</span>
+          </div>
+
+          <div class="artwork-copy">
+            <p class="section-kicker" id="artwork-kicker">Recorrido listo</p>
+            <h2 id="artwork-title">Sala 1</h2>
+            <p class="artwork-meta" id="artwork-meta">6 sectores · 6 obras · 12 recursos QR</p>
+            <p class="artwork-summary" id="artwork-summary">
+              Recorre la sala y aproxima al visitante a cada pieza. La app MuseIQ respondera a la zona que selecciones en iot-museiq.
+            </p>
+          </div>
+        </section>
+
+        <section class="qr-section">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker" id="resource-kicker">Recursos de la obra</p>
+              <h3 id="resource-title">QR disponibles</h3>
+            </div>
+            <span class="resource-count" id="resource-count">2 QR</span>
+          </div>
+
+          <div class="qr-grid" id="qr-grid">
+            <figure class="qr-card">
+              <img id="qr-a-image" src="src/qr/SALA_1-01-A.png" alt="QR A">
+              <figcaption>
+                <strong id="qr-a-title">Músico Moche en 3D</strong>
+                <span id="qr-a-code">SALA_1-01-A</span>
+              </figcaption>
+            </figure>
+            <figure class="qr-card">
+              <img id="qr-b-image" src="src/qr/SALA_1-01-B.png" alt="QR B">
+              <figcaption>
+                <strong id="qr-b-title">Botella Chimú-Lambayeque</strong>
+                <span id="qr-b-code">SALA_1-01-B</span>
+              </figcaption>
+            </figure>
+          </div>
+
+          <div class="vr-resources" id="vr-resources" hidden>
+            <span>Puerta Monumental Inca</span>
+            <span>Sala inmersiva Sipán</span>
+            <span>Ushnu</span>
+            <span>Ushnu 2</span>
+          </div>
+        </section>
+
+        <section class="bridge-card">
+          <div class="section-heading">
+            <div>
+              <p class="section-kicker">iot-museiq</p>
+              <h3>Sincronizacion</h3>
+            </div>
+            <span class="bridge-badge bridge-offline" id="bridge-badge">Sin conexion</span>
+          </div>
+
+          <div class="sync-state" id="sync-state">
+            <span class="sync-icon">↔</span>
+            <div>
+              <strong id="sync-title">Esperando bridge</strong>
+              <p id="sync-detail">Inicia dev_location_bridge.py para comparar el recorrido.</p>
+            </div>
+          </div>
+
+          <form class="bridge-form" id="bridge-form">
+            <input id="bridge-url" type="url" aria-label="URL del bridge de iot-museiq">
+            <button type="submit">Conectar</button>
+          </form>
+        </section>
+
+        <section class="session-card">
+          <div class="session-line">
+            <span>Posicion</span>
+            <strong id="position-text">9.5, 11.5</strong>
+          </div>
+          <div class="session-line">
+            <span>Orientacion</span>
+            <strong id="direction-text">Norte</strong>
+          </div>
+          <div class="session-line">
+            <span>Ultima accion</span>
+            <strong id="last-action">Recorrido iniciado</strong>
+          </div>
+        </section>
+      </aside>
     </section>
+
+    <footer class="footer">
+      <span><kbd>WASD</kbd><kbd>↑↓←→</kbd> Mover</span>
+      <span><kbd>Espacio</kbd> Registrar visita</span>
+      <span><kbd>R</kbd> Reiniciar</span>
+      <span class="footer-note">Los botones inferiores permiten saltar de zona durante el ensayo.</span>
+    </footer>
   </main>
 
   <script src="app.js"></script>

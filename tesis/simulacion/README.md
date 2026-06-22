@@ -1,58 +1,72 @@
-# Simulacion MuseIQ
+# Simulacion MuseIQ MVP
 
-Aplicacion web tipo top-down para simular el recorrido de un visitante en un museo con salas conectadas, obras por zona y panel de informacion contextual.
+Museo virtual top-down para demostrar el flujo conjunto entre:
 
-## Archivos principales
+- `Tesis`: desplazamiento fisico del visitante.
+- `iot-museiq`: ubicacion BLE simulada mediante comandos.
+- `museApp`: respuesta contextual del guia virtual.
 
-- Entrada web: [index.html](index.html)
-- Logica principal: [app.js](app.js)
-- Estilos: [styles.css](styles.css)
-- Datos y recursos: [src](src)
+## Espacios del MVP
 
-## Funcionalidad principal
+- `SALA_1`: una sala normal dividida en seis sectores.
+- Cada sector contiene una obra y dos QR reales compatibles con `museApp`.
+- `SALA_VR`: espacio separado que activa el modo inmersivo mediante `vr`.
+- El visitante comienza en un vestibulo de entrada y debe cruzar la puerta
+  principal antes de acercarse a la primera obra.
 
-- Navegacion por dos salas
-- Deteccion de zona y obra cercana
-- Panel contextual de contenido curatorial
-- Indicadores de estado de la simulacion
-- Minimap y elementos de interfaz de apoyo
+| Comando | Zona | Obra |
+| --- | --- | --- |
+| `1` | `Z1` | Musico Moche |
+| `2` | `Z2` | Botella Chimu-Lambayeque |
+| `3` | `Z3` | Aribalo inca |
+| `4` | `Z4` | Asiento del Inca |
+| `5` | `Z5` | Botella Chavin 204002 |
+| `6` | `Z6` | Obelisco Tello |
+| `vr` | `S4` | Sala VR |
 
-## Ejecutar en local
+## Ejecutar
 
-Opcion rapida:
+```bash
+cd /home/eduardo/proyectos/MuseIQ/Tesis/tesis/simulacion
+python3 -m http.server 5500
+```
 
-1. Abrir [index.html](index.html) en el navegador.
+Abre:
 
-Opcion recomendada (servidor local):
-
-cd tesis/simulacion
-python -m http.server 5500
-
-Abrir en navegador:
-
+```text
 http://localhost:5500
+```
 
 ## Controles
 
-- W A S D o flechas: movimiento
-- Espacio o Enter: interaccion contextual
+- `WASD` o flechas: mover al visitante.
+- `Espacio` o `Enter`: registrar la visita a la obra cercana.
+- `R`: reiniciar el recorrido.
+- Los botones inferiores permiten saltar entre zonas durante un ensayo.
 
-## Publicacion en GitHub Pages
+## Demostracion integrada
 
-El despliegue esta automatizado con GitHub Actions desde la carpeta [tesis/simulacion](../simulacion).
+En otra terminal:
 
-Workflow:
+```bash
+cd /home/eduardo/proyectos/MuseIQ/iot-museiq
+source .venv/bin/activate
+python dev_location_bridge.py --host 0.0.0.0 --port 8787
+```
 
-[/.github/workflows/deploy-simulacion-pages.yml](../../.github/workflows/deploy-simulacion-pages.yml)
+Cuando el visitante entre en una zona de la simulacion, escribe el comando indicado
+en `iot-museiq`. El panel de sincronizacion compara la posicion fisica con el estado
+del bridge y confirma cuando ambos coinciden.
 
-URL publica de la simulacion web:
+La URL predeterminada del bridge se calcula usando el mismo host de la simulacion y
+el puerto `8787`. Puede cambiarse desde el panel lateral.
 
-http://eduardoguev.me/Tesis/
+## QR
 
-## Objetivo de la demo
+Los doce QR contienen exactamente los codigos consumidos por `museApp`:
 
-Esta simulacion se usa como maqueta de experiencia para validar la propuesta MuseIQ en el contexto de tesis:
-
-- Recorrido guiado por salas
-- Interaccion contextual por proximidad
-- Base visual para explicar la arquitectura funcional
+```text
+SALA_1-01-A / SALA_1-01-B
+...
+SALA_1-06-A / SALA_1-06-B
+```
