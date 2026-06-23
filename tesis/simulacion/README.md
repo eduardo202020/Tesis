@@ -3,7 +3,7 @@
 Museo virtual top-down para demostrar el flujo conjunto entre:
 
 - `Tesis`: desplazamiento fisico del visitante.
-- `iot-museiq`: ubicacion BLE simulada mediante comandos.
+- `iot-museiq`: ubicacion BLE sincronizada automaticamente mediante el bridge HTTP.
 - `museApp`: respuesta contextual del guia virtual.
 
 ## Espacios del MVP
@@ -42,7 +42,8 @@ http://localhost:5500
 - `WASD` o flechas: mover al visitante.
 - `Espacio` o `Enter`: registrar la visita a la obra cercana.
 - `R`: reiniciar el recorrido.
-- Los botones inferiores permiten saltar entre zonas durante un ensayo.
+- Los botones inferiores permiten saltar entre zonas durante un ensayo y envian
+  automaticamente `1..6` o `vr` a `iot-museiq`.
 
 ## Demostracion integrada
 
@@ -54,9 +55,10 @@ source .venv/bin/activate
 python dev_location_bridge.py --host 0.0.0.0 --port 8787
 ```
 
-Cuando el visitante entre en una zona de la simulacion, escribe el comando indicado
-en `iot-museiq`. El panel de sincronizacion compara la posicion fisica con el estado
-del bridge y confirma cuando ambos coinciden.
+Cuando el visitante entra en una zona o usa los botones inferiores, la simulacion
+llama automaticamente a `GET /set?zone=<zona>` en `iot-museiq`. Al abandonar una
+zona envia `clear`. El panel de sincronizacion confirma cuando la posicion fisica y
+el estado del bridge coinciden; no es necesario escribir comandos en la terminal.
 
 La URL predeterminada del bridge se calcula usando el mismo host de la simulacion y
 el puerto `8787`. Puede cambiarse desde el panel lateral.

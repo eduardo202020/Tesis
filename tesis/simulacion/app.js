@@ -181,6 +181,8 @@ let lastFrameAt = performance.now();
 let bridgeSnapshot = null;
 let bridgeConnected = false;
 let bridgePollTimer = null;
+let pendingBridgeCommand = null;
+let bridgeCommandSyncPromise = null;
 
 function preloadImage(src) {
   if (imageCache.has(src)) {
@@ -346,7 +348,7 @@ function renderRoomOverview() {
   ui.artworkTitle.textContent = "Sala 1";
   ui.artworkMeta.textContent = "6 sectores · 6 obras · 12 recursos QR";
   ui.artworkSummary.textContent =
-    "Aproxímate a una pieza. Cuando aparezca el número de zona, introduce ese mismo comando en iot-museiq para que MuseIQ responda al recorrido.";
+    "Aproxímate a una pieza. La simulación enviará automáticamente la zona activa a iot-museiq para que MuseIQ responda al recorrido.";
   ui.zoneChip.textContent = "SALA_1";
   ui.qrGrid.hidden = true;
   ui.vrResources.hidden = true;
@@ -431,6 +433,8 @@ function updatePhysicalState() {
       renderArtwork(activeTarget);
       setLastAction(`Proximidad detectada: ${activeTarget.zoneId}`);
     }
+
+    scheduleBridgeCommand(activeTarget?.command ?? "clear");
   }
 
   ui.roomStatus.textContent = entranceActive
@@ -456,8 +460,8 @@ function updatePhysicalState() {
     ? "Avanza hacia el norte para ingresar a Sala 1"
     : activeTarget
     ? activeTarget.id === "SALA_VR"
-      ? "Escribe vr en iot-museiq"
-      : `Escribe ${activeTarget.command} en iot-museiq · Espacio para registrar visita`
+      ? "Sala VR sincronizada automáticamente con iot-museiq"
+      : `Zona ${activeTarget.command} sincronizada con iot-museiq · Espacio para registrar visita`
     : "Acércate a una obra o cruza hacia la Sala VR";
 
   updateRouteStrip();
@@ -471,7 +475,7 @@ function interact() {
   }
 
   if (activeTarget.id === "SALA_VR") {
-    setLastAction("Sala VR registrada · usa el comando vr");
+    setLastAction("Sala VR registrada y sincronizada");
     return;
   }
 
@@ -525,6 +529,60 @@ function getBridgeCommand(snapshot) {
   return String(snapshot.beacon.beaconNode ?? "");
 }
 
+function getNavigationCommand() {
+  return activeTarget?.command ?? "clear";
+}
+
+async function sendBridgeCommand(command) {
+  const baseUrl = ui.bridgeUrl.value.trim().replace(/\/$/, "");
+
+  if (!baseUrl) {
+    return;
+  }
+
+  try {
+    const response = await fetch(`${baseUrl}/set?zone=${encodeURIComponent(command)}`, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    bridgeSnapshot = await response.json();
+    bridgeConnected = true;
+  } catch {
+    bridgeSnapshot = null;
+    bridgeConnected = false;
+  }
+
+  updateSyncState();
+}
+
+async function flushBridgeCommands() {
+  while (pendingBridgeCommand !== null) {
+    const command = pendingBridgeCommand;
+    pendingBridgeCommand = null;
+    await sendBridgeCommand(command);
+  }
+}
+
+function scheduleBridgeCommand(command) {
+  pendingBridgeCommand = command || "clear";
+
+  if (bridgeCommandSyncPromise) {
+    return;
+  }
+
+  bridgeCommandSyncPromise = flushBridgeCommands().finally(() => {
+    bridgeCommandSyncPromise = null;
+    if (pendingBridgeCommand !== null) {
+      scheduleBridgeCommand(pendingBridgeCommand);
+    }
+  });
+}
+
 function updateSyncState() {
   ui.bridgeBadge.className = `bridge-badge ${bridgeConnected ? "bridge-online" : "bridge-offline"}`;
   ui.bridgeBadge.textContent = bridgeConnected ? "Conectado" : "Sin conexión";
@@ -542,7 +600,7 @@ function updateSyncState() {
   if (!actual) {
     ui.syncTitle.textContent = "Bridge activo · simulación pausada";
     ui.syncDetail.textContent = expected
-      ? `La ubicación física espera el comando ${expected}.`
+      ? `Enviando automáticamente la zona ${expected}.`
       : "Muévete hacia una obra para iniciar una zona.";
     return;
   }
@@ -563,7 +621,7 @@ function updateSyncState() {
 
   ui.syncState.classList.add("mismatch");
   ui.syncTitle.textContent = `Desfase: museo ${expected} · iot ${actual}`;
-  ui.syncDetail.textContent = `Introduce ${expected} en la consola para sincronizar MuseIQ.`;
+  ui.syncDetail.textContent = `Actualizando iot-museiq automáticamente a la zona ${expected}.`;
 }
 
 function defaultBridgeUrl() {
@@ -593,6 +651,12 @@ async function pollBridge() {
 
     bridgeSnapshot = await response.json();
     bridgeConnected = true;
+
+    const expected = getNavigationCommand();
+    const actual = getBridgeCommand(bridgeSnapshot) ?? "clear";
+    if (actual !== expected) {
+      scheduleBridgeCommand(expected);
+    }
   } catch {
     bridgeSnapshot = null;
     bridgeConnected = false;
