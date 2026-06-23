@@ -124,3 +124,38 @@ http://eduardoguev.me/Tesis/
 1. Completar el Capitulo 9 con arquitectura general del sistema, diseno de subsistemas, diseno computacional, integracion e interfaces, implementacion/prototipo y pruebas o validacion.
 2. Reactivar en la compilacion los capitulos 9, 11 y 12 conforme vayan quedando listos.
 3. Revisar el flujo completo del documento compilado para asegurar continuidad entre tecnologias, datos, arquitectura y evaluacion economica.
+
+## Pruebas en Windows (PowerShell)
+
+Simulacion web:
+
+```powershell
+cd C:\Users\pc\Documents\proyectos\Museiq\Tesis\tesis\simulacion
+py -3.11 -m http.server 5500
+```
+
+En otra terminal inicia el bridge; al navegar, la simulacion envia
+automaticamente `1..6`, `vr` o `clear`:
+
+```powershell
+cd C:\Users\pc\Documents\proyectos\Museiq\iot-museiq
+.\.venv\Scripts\python.exe dev_location_bridge.py --host 0.0.0.0 --port 8787
+```
+
+Abre <http://127.0.0.1:5500>. Verifica el bridge con:
+
+```powershell
+irm http://127.0.0.1:8787/state
+```
+
+Compilacion de la tesis y la presentacion con MiKTeX disponible en `PATH`:
+
+```powershell
+cd C:\Users\pc\Documents\proyectos\Museiq\Tesis\tesis\tesis
+latexmk -pdf tesis.tex
+
+cd ..\presentaciones
+pdflatex presentacion.tex
+```
+
+Usa `Ctrl+C` en cada terminal para cerrar el bridge y el servidor web.
