@@ -34,6 +34,27 @@ La proximidad aporta una se\~nal sobre qu\'e sector del espacio podr\'ia concent
 
 Este criterio es consistente con la manera en que se desarrolla una visita real. El visitante suele desplazarse por salas, detenerse en determinados puntos y orientar su cuerpo o su dispositivo hacia piezas concretas. Por eso, la combinaci\'on de sala, proximidad y orientaci\'on se justifica como un m\'inimo viable de contexto para la mediaci\'on cultural digital presencial.
 
+El art\'iculo experimental desarrollado como antecedente t\'ecnico del proyecto refuerza esta decisi\'on: RSSI permite estimar un sector probable, pero la orientaci\'on del dispositivo aporta informaci\'on adicional para discriminar qu\'e obra o vitrina se encuentra en el foco de atenci\'on. Por tanto, el dise\~no no debe tratar la localizaci\'on como una coordenada absoluta, sino como una inferencia gradual con niveles de confianza, correcci\'on manual y confirmaci\'on por QR cuando la evidencia sea insuficiente.
+
+\begin{table}[h!]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm} >{\raggedright\arraybackslash}p{5.1cm} >{\raggedright\arraybackslash}p{5.4cm}}
+        \hline
+        \textbf{Variable contextual} & \textbf{Aporte al recorrido} & \textbf{Implicancia de dise\~no} \\
+        \hline
+        RSSI BLE & Reconoce sala, nodo o sector probable a partir de intensidad de se\~nal & Usar suavizado, historial corto y umbrales; no basar la decisi\'on en una lectura aislada \\
+        Orientaci\'on del smartphone & Discrimina el foco probable de observaci\'on dentro de una misma sala & Representar el rumbo como variable circular y compararlo con la disposici\'on de obras o vitrinas \\
+        Estado de movimiento & Diferencia desplazamiento, pausa y posible momento de atenci\'on & Evitar activaciones agresivas mientras el visitante se desplaza; priorizar sugerencias cuando est\'a detenido \\
+        Confirmaci\'on del visitante & Corrige ambig\"uedades producidas por ruido de se\~nal o sensores & Mantener selecci\'on manual y QR como mecanismos de validaci\'on y control del usuario \\
+        Confianza de inferencia & Expresa cu\'an defendible es la activaci\'on autom\'atica & Activar contenido solo cuando la evidencia sea suficiente; en caso contrario, presentar sugerencias \\
+        \hline
+    \end{tabular}
+    \caption[Criterios contextuales para la mediaci\'on situada]{Criterios contextuales derivados del uso combinado de proximidad, orientaci\'on y confirmaci\'on del visitante. Fuente: elaboraci\'on propia.}
+    \label{tab:criterios-contextuales-mediacion}
+\end{table}
+
 \section{T\'opicos de contexto espacial e interacci\'on con el visitante}
 
 \subsection{Localizaci\'on funcional en interiores}
@@ -110,7 +131,6 @@ Estas implicancias preparan el paso hacia los cap\'itulos posteriores. Una vez d
 
 \section{Conclusi\'on}
 
-Este cap\'itulo ha desarrollado los temas directamente relacionados con la soluci\'on tecnol\'ogica la solución propuesta, en concordancia con la estructura planteada por la plantilla del taller de investigaci\'on. El an\'alisis muestra que la propuesta se sostiene sobre un conjunto coherente de t\'opicos: mediaci\'on cultural digital presencial, contextualizaci\'on del contenido, interpretaci\'on espacial por sala o zona, accesibilidad por voz, uso del smartphone como interfaz principal, recuperaci\'on curatorial del conocimiento y criterios de sostenibilidad operativa.
+Este cap\'itulo ha desarrollado los temas directamente relacionados con la soluci\'on tecnol\'ogica propuesta, en concordancia con la estructura planteada por la plantilla del taller de investigaci\'on. El an\'alisis muestra que la propuesta se sostiene sobre un conjunto coherente de t\'opicos: mediaci\'on cultural digital presencial, contextualizaci\'on del contenido, interpretaci\'on espacial por sala o zona, accesibilidad por voz, uso del smartphone como interfaz principal, recuperaci\'on curatorial del conocimiento y criterios de sostenibilidad operativa.
 
-En consecuencia, la solución propuesta queda justificado no solo como una integraci\'on de herramientas tecnol\'ogicas, sino como una respuesta de ingenier\'ia aplicada a necesidades reales del entorno muse\'istico peruano. Sobre esta base, los cap\'itulos siguientes pueden concentrarse en la descripci\'on de las tecnolog\'ias, los datos y el dise\~no del sistema sin perder el anclaje conceptual y funcional construido en este punto.
-
+En consecuencia, la soluci\'on propuesta queda justificada no solo como una integraci\'on de herramientas tecnol\'ogicas, sino como una respuesta de ingenier\'ia aplicada a necesidades reales del entorno muse\'istico peruano. Sobre esta base, los cap\'itulos siguientes pueden concentrarse en la descripci\'on de las tecnolog\'ias, los datos y el dise\~no del sistema sin perder el anclaje conceptual y funcional construido en este punto.

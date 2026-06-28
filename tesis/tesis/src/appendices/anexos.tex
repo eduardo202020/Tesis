@@ -1,3 +1,257 @@
 \chapter{Anexos}
 
-Incluye aquí anexos, instrumentos, tablas extendidas, capturas, diagramas o material complementario.
+\section{Funciones representativas del prototipo}
+
+Los siguientes anexos muestran funciones representativas de los módulos técnicos usados para validar la solución propuesta. Los fragmentos se presentan de forma abreviada y con nombres generalizados para facilitar su lectura dentro de la tesis. Su propósito no es reemplazar la documentación del código fuente, sino evidenciar las funciones principales que sostienen la emisión BLE, la lectura móvil, la consulta contextual y la recuperación aumentada.
+
+\section{Funciones del módulo IoT BLE}
+
+El módulo IoT BLE se encarga de emitir datos de proximidad. La función de armado del paquete de advertising agrega banderas BLE, nombre visible, \textit{service data} y potencia de transmisión. Esto permite que la aplicación móvil lea sala, nodo, versión, potencia y batería sin mantener una conexión permanente.
+
+\begin{center}
+\textbf{Listing A.1.} Función de construcción del paquete BLE
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def advertising_payload(name=None, service_uuid_16=None,
+                        service_data=None, tx_power=None):
+    payload = bytearray()
+
+    def append(ad_type, value):
+        payload.extend(struct.pack("BB", len(value) + 1, ad_type) + value)
+
+    # LE General Discoverable + BR/EDR not supported
+    append(0x01, b"\x06")
+
+    if name:
+        append(0x09, name.encode("utf-8"))
+
+    if service_data is not None and service_uuid_16 is not None:
+        value = struct.pack("<H", service_uuid_16) + service_data
+        append(0x16, value)
+
+    if tx_power is not None:
+        append(0x0A, struct.pack("b", tx_power))
+
+    return payload
+\end{lstlisting}
+
+La emisión del beacon empaqueta la sala y el nodo con metadatos mínimos. Esta decisión permite que el identificador físico sea estable y que la app pueda aplicar filtros o reglas de proximidad sobre una estructura simple.
+
+\begin{center}
+\textbf{Listing A.2.} Función de emisión BLE con datos de sala y nodo
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def advertise(self):
+    room_bytes = ROOM_ID.encode("utf-8")
+    fw_major, fw_minor = FW_VERSION
+
+    extra = struct.pack(
+        "<BBBbH",
+        BEACON_NODE,
+        fw_major,
+        fw_minor,
+        TX_POWER_DBM,
+        BATTERY_MV,
+    )
+    service_data = room_bytes + extra
+
+    adv_data = advertising_payload(
+        name=ROOM_ID,
+        service_uuid_16=SERVICE_UUID_16,
+        service_data=service_data,
+        tx_power=TX_POWER_DBM,
+    )
+
+    self.ble.gap_advertise(ADV_INTERVAL_US, adv_data=adv_data)
+\end{lstlisting}
+
+\section{Funciones de lectura e inferencia en la aplicación móvil}
+
+La aplicación móvil interpreta el \textit{service data} BLE y lo transforma en un objeto operativo. El parseo conserva la relación entre sala, nodo, versión de firmware, potencia y batería; luego esta información se combina con RSSI suavizado para decidir sala o zona probable.
+
+\begin{center}
+\textbf{Listing A.3.} Función de parseo del \textit{service data} BLE
+\end{center}
+
+\begin{lstlisting}[style=typescriptcode]
+function parseServiceData(serviceData: string) {
+  const buffer = Buffer.from(serviceData, 'base64');
+
+  if (buffer.length < 6) {
+    return null;
+  }
+
+  const beaconNode = buffer[buffer.length - 6];
+  const firmwareMajor = buffer[buffer.length - 5];
+  const firmwareMinor = buffer[buffer.length - 4];
+  const txPower = buffer.readInt8(buffer.length - 3);
+  const batteryMv = buffer.readUInt16LE(buffer.length - 2);
+  const roomId = normalizeRoomId(
+    buffer.slice(0, buffer.length - 6).toString('utf-8')
+  );
+
+  return {
+    roomId,
+    beaconNode,
+    firmwareVersion: `${firmwareMajor}.${firmwareMinor}`,
+    txPower,
+    battery: batteryMv,
+    id: `${roomId}-B${beaconNode.toString().padStart(2, '0')}`,
+  };
+}
+\end{lstlisting}
+
+El escaneo BLE no usa directamente el RSSI crudo. Para evitar activaciones por lecturas aisladas, la app mantiene una ventana corta y calcula un promedio exponencial. Esta función es coherente con el diseño descrito en el Capítulo 9.
+
+\begin{center}
+\textbf{Listing A.4.} Función de actualización de RSSI suavizado
+\end{center}
+
+\begin{lstlisting}[style=typescriptcode]
+function updateSmoothedRssi(beaconId: string, rawRssi: number) {
+  const history = rssiHistory.get(beaconId) ?? [];
+  const nextHistory = [...history, rawRssi].slice(-RSSI_WINDOW_SIZE);
+  rssiHistory.set(beaconId, nextHistory);
+
+  const average =
+    nextHistory.reduce((sum, value) => sum + value, 0) /
+    Math.max(1, nextHistory.length);
+
+  const previousEma = emaRssi.get(beaconId);
+  const hasPrevious = typeof previousEma === 'number';
+  const nextEma = hasPrevious
+    ? EMA_ALPHA * rawRssi + (1 - EMA_ALPHA) * previousEma
+    : average;
+
+  emaRssi.set(beaconId, nextEma);
+  return Math.round(nextEma);
+}
+\end{lstlisting}
+
+\section{Función de consulta contextual desde la aplicación}
+
+Cuando el visitante formula una pregunta, la app no envía solo texto libre. La solicitud incluye museo, sala, obra, sesión y contexto curatorial disponible. Esta estructura permite que el backend recupere fuentes relacionadas con el punto real del recorrido.
+
+\begin{center}
+\textbf{Listing A.5.} Función de consulta contextual al backend RAG
+\end{center}
+
+\begin{lstlisting}[style=typescriptcode]
+async function askContextualBackend(params: QueryParams) {
+  const payload = {
+    pregunta: params.question,
+    museo: params.museumSlug,
+    sala: params.roomId,
+    obra: params.artworkId ?? params.artworkName,
+    modo: params.responseMode ?? 'breve',
+    session_id: params.sessionId,
+    artwork_context: params.artworkContext,
+  };
+
+  const response = await fetch(`${baseUrl}/api/preguntar`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+    signal: params.signal,
+  });
+
+  if (!response.ok) {
+    throw new Error(`Error HTTP ${response.status}`);
+  }
+
+  return response.json();
+}
+\end{lstlisting}
+
+\section{Funciones del backend RAG}
+
+El backend recibe el contrato móvil y lo convierte a una solicitud interna de consulta. Este endpoint constituye el puente entre la experiencia móvil y la capa de recuperación aumentada.
+
+\begin{center}
+\textbf{Listing A.6.} Endpoint móvil de consulta contextual
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+@app.post("/api/preguntar", response_model=MobileQuestionResponse)
+def mobile_question(payload: MobileQuestionRequest):
+    internal_payload = ChatQueryRequest(
+        question=payload.pregunta,
+        museum_id=payload.museo,
+        room_id=payload.sala,
+        artwork_id=payload.obra,
+        session_id=payload.session_id,
+        response_mode=payload.modo,
+        artwork_context=payload.artwork_context,
+    )
+
+    answer, sources, meta = rag_service.answer_question(internal_payload)
+
+    return MobileQuestionResponse(
+        respuesta=answer,
+        markdown=answer,
+        fuentes=sources,
+        museo=payload.museo,
+        sala=payload.sala,
+        obra=payload.obra,
+        session_id=payload.session_id,
+        meta=meta,
+    )
+\end{lstlisting}
+
+La búsqueda de fuentes prioriza primero la obra activa, luego la sala y, finalmente, el corpus general. Así se reduce la probabilidad de respuestas desancladas del recorrido.
+
+\begin{center}
+\textbf{Listing A.7.} Función de priorización de fuentes contextuales
+\end{center}
+
+\begin{lstlisting}[style=pythoncode]
+def query_sources(payload, top_k):
+    collected = []
+    applied_filters = []
+    query_text = build_query_text(payload)
+
+    if payload.artwork_id:
+        exact = get_exact_sources(
+            where={"artwork_id": payload.artwork_id},
+            limit=1,
+        )
+        collected.extend(exact)
+        if exact:
+            applied_filters.append(f"artwork_id={payload.artwork_id}")
+
+    if payload.room_id:
+        room_sources = run_query(
+            query_text,
+            top_k=max(top_k, MIN_CONTEXTUAL_RESULTS),
+            where={"room_id": payload.room_id},
+        )
+        collected.extend(room_sources)
+        if room_sources:
+            applied_filters.append(f"room_id={payload.room_id}")
+
+    collected.extend(run_query(query_text, top_k=max(top_k, 3)))
+    selected = select_sources(dedupe_sources(collected), top_k)
+    return selected, list(dict.fromkeys(applied_filters))
+\end{lstlisting}
+
+\section{Relación de anexos con los capítulos de diseño}
+
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{4.1cm} >{\raggedright\arraybackslash}p{5.0cm} >{\raggedright\arraybackslash}p{5.0cm}}
+        \hline
+        \textbf{Anexo} & \textbf{Función técnica documentada} & \textbf{Relación con la tesis} \\
+        \hline
+        A.1--A.2 & Emisión BLE y payload de sala/nodo. & Sustenta el contrato físico del Capítulo 8 y la arquitectura del Capítulo 9. \\
+        A.3--A.4 & Lectura móvil, normalización y RSSI suavizado. & Sustenta la inferencia indoor descrita en los Capítulos 7 y 9. \\
+        A.5 & Consulta contextual desde la app. & Sustenta el contrato HTTP/JSON del Capítulo 8. \\
+        A.6--A.7 & Endpoint móvil y recuperación priorizada por contexto. & Sustenta la capa RAG y la validación funcional del Capítulo 9. \\
+        \hline
+    \end{tabular}
+    \caption[Relación entre anexos y capítulos técnicos]{Relación entre funciones anexadas y capítulos técnicos de la tesis. Fuente: elaboración propia.}
+    \label{tab:relacion-anexos-capitulos}
+\end{table}

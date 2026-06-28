@@ -1,4 +1,4 @@
-\documentclass[10pt]{report}
+\documentclass[12pt]{report}
 \usepackage[spanish]{babel}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
@@ -36,6 +36,11 @@
 \definecolor{CodeBg}{HTML}{F7F7F5}
 \definecolor{CodeBorder}{HTML}{C9CDD3}
 \definecolor{CodeNumber}{HTML}{6B7280}
+\definecolor{PyKeyword}{HTML}{1D4ED8}
+\definecolor{PyComment}{HTML}{6B7280}
+\definecolor{PyString}{HTML}{B45309}
+\definecolor{PyBuiltin}{HTML}{7C3AED}
+\definecolor{JsonString}{HTML}{9A3412}
 
 \lstdefinestyle{codebase}{
   basicstyle=\ttfamily\small,
@@ -59,17 +64,41 @@
   backgroundcolor=\color{CodeBg}
 }
 
+\lstdefinestyle{pythoncode}{
+  style=codebase,
+  language=Python,
+  keywordstyle=\bfseries\color{PyKeyword},
+  commentstyle=\itshape\color{PyComment},
+  stringstyle=\color{PyString},
+  emph={Path,BaseModel,FastAPI,HTTPException,ResponseMeta},
+  emphstyle=\bfseries\color{PyBuiltin}
+}
+
+\lstdefinestyle{typescriptcode}{
+  style=codebase,
+  keywordstyle=\bfseries\color{PyKeyword},
+  commentstyle=\itshape\color{PyComment},
+  stringstyle=\color{PyString}
+}
+
+\lstdefinestyle{jsoncode}{
+  style=codebase,
+  keywordstyle=\bfseries\color{black},
+  commentstyle=\color{PyComment},
+  stringstyle=\color{JsonString}
+}
+
 \setlength{\headheight}{15pt}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[L]{\textit{Guía inteligente contextual para museos}}
-\fancyhead[R]{\textit{Jhunior  2 Eduardo Guevara Lázaro}}
+\fancyhead[R]{\textit{Jhunior Eduardo Guevara Lázaro}}
 \renewcommand{\headrulewidth}{0pt}
 
 \fancypagestyle{plain}{
   \fancyhf{}
   \fancyhead[L]{\textit{Guía inteligente contextual para museos}}
-  \fancyhead[R]{\textit{Jhunior  2 Eduardo Guevara Lázaro}}
+  \fancyhead[R]{\textit{Jhunior Eduardo Guevara Lázaro}}
   \renewcommand{\headrulewidth}{0pt}
 }
 
@@ -98,8 +127,8 @@
 \include{src/chapters/ch11-normas-tecnicas}
 \include{src/chapters/ch12-conclusiones}
 
-% \appendix
-% \include{src/appendices/anexos}
+\appendix
+\include{src/appendices/anexos}
 \cleardoublepage
 \bibliographystyle{unsrt}
 \bibliography{src/backmatter/referencias}

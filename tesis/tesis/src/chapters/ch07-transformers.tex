@@ -71,6 +71,51 @@ En términos funcionales, esta información reduce ambigüedad contextual. BLE p
 
 En la Figura~\ref{fig:sensores-smartphone-orientacion} se observa cómo la orientación del teléfono añade una capa interpretativa adicional que ayuda a reducir ambigüedad entre piezas cercanas dentro de una misma sala.
 
+\subsection{Modelo RSSI--orientaci\'on para activaci\'on contextual}
+
+El dise\~no de localizaci\'on interior de la soluci\'on propuesta se apoya en una conclusi\'on central del art\'iculo experimental desarrollado como antecedente del proyecto: RSSI es suficiente para estimar sala o sector probable, pero no siempre basta para decidir qu\'e obra espec\'ifica observa el visitante. Para ese segundo nivel de decisi\'on, la orientaci\'on del smartphone aporta una se\~nal complementaria porque permite contrastar la direcci\'on de observaci\'on con la ubicaci\'on relativa de vitrinas, paneles u obras dentro de la sala.
+
+Desde el punto de vista computacional, la orientaci\'on no debe representarse como un valor angular lineal simple, porque 0 grados y 360 grados son direcciones equivalentes. Por ello, el modelo considera una representaci\'on circular:
+
+\[
+    o_i = [\sin(\theta_i), \cos(\theta_i)]
+\]
+
+donde \(\theta_i\) corresponde al rumbo estimado por el smartphone en el instante \(i\). Esta representaci\'on evita discontinuidades alrededor del norte magn\'etico y facilita combinar la orientaci\'on con observaciones RSSI suavizadas. Para activar una obra candidata \(o_k\), el puntaje contextual puede expresarse como:
+
+\[
+    S(o_k \mid i) = P(c=s_k \mid x_i^r) \cdot e^{\kappa \cos(\theta_i-\beta_k)}
+\]
+
+donde \(P(c=s_k \mid x_i^r)\) representa la probabilidad de que el usuario se encuentre en el sector \(s_k\) estimado con RSSI, \(\beta_k\) es la direcci\'on esperada hacia la obra y \(\kappa\) controla cu\'anto peso se asigna a la compatibilidad angular. As\'i, la soluci\'on no reemplaza BLE por orientaci\'on, sino que combina ambas se\~nales: BLE delimita el sector y la orientaci\'on prioriza la pieza m\'as coherente con el foco de observaci\'on.
+
+\begin{table}[h!]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.5cm} >{\centering\arraybackslash}p{2.4cm} >{\centering\arraybackslash}p{2.8cm} >{\centering\arraybackslash}p{2.6cm} >{\raggedright\arraybackslash}p{3.4cm}}
+        \hline
+        \textbf{Escenario} & \textbf{RSSI solo} & \textbf{RSSI + orientaci\'on} & \textbf{Mejora} & \textbf{Lectura para el dise\~no} \\
+        \hline
+        Potencia -8 dBm & 73.43\% & 84.57\% & +11.14 pp & La orientaci\'on incrementa discriminaci\'on entre obras cercanas \\
+        Potencia -4 dBm & 71.00\% & 81.14\% & +10.14 pp & La mejora se mantiene aun con distinta potencia de emisi\'on \\
+        Potencia 0 dBm & 67.00\% & 81.29\% & +14.29 pp & La orientaci\'on compensa parte de la ambig\"uedad de RSSI \\
+        Promedio & 70.48\% & 82.33\% & +11.86 pp & El modelo h\'ibrido es preferible para activaci\'on contextual \\
+        \hline
+    \end{tabular}
+    \caption[Resultados experimentales RSSI--orientaci\'on]{Resultados del escenario simulado de 7 sectores para comparar clasificaci\'on con RSSI solo frente a RSSI combinado con orientaci\'on. Fuente: elaboraci\'on propia a partir del art\'iculo experimental de localizaci\'on indoor.}
+    \label{tab:resultados-rssi-orientacion}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.94\textwidth]{resultados_rssi_orientacion.png}
+    \caption[Comparaci\'on de exactitud RSSI y RSSI con orientaci\'on]{Comparaci\'on visual de exactitud entre el enfoque basado solo en RSSI y el enfoque h\'ibrido RSSI--orientaci\'on. Fuente: elaboraci\'on propia.}
+    \label{fig:resultados-rssi-orientacion}
+\end{figure}
+
+La Tabla~\ref{tab:resultados-rssi-orientacion} y la Figura~\ref{fig:resultados-rssi-orientacion} justifican que el dise\~no de la soluci\'on trabaje con dos niveles. El primero es el reconocimiento funcional de sala o sector usando BLE/RSSI. El segundo es la selecci\'on de obra probable usando orientaci\'on, inventario espacial y confirmaci\'on del usuario cuando la confianza no sea suficiente. Esta decisi\'on es especialmente adecuada para museos, donde el objetivo no es guiar al visitante como un sistema de navegaci\'on vehicular, sino entregar mediaci\'on cultural pertinente en el punto de observaci\'on.
+
 \section{Tecnologías de interacción con el visitante}
 
 \subsection{Smartphone como plataforma base BYOD}
@@ -199,4 +244,3 @@ Estas limitaciones no invalidan la propuesta, pero sí condicionan sus decisione
 La base tecnológica aquí descrita condiciona de forma directa los capítulos siguientes de la tesis. En el diseño de datos de entrada será necesario formalizar el esquema del corpus curatorial, su segmentación y sus relaciones con salas, piezas y zonas. En el diseño y despliegue del sistema se deberá especificar la arquitectura de comunicación entre aplicación móvil, servicios de backend, capa de recuperación y módulo conversacional. Finalmente, en la implementación y validación será imprescindible definir estrategias de calibración de beacons, reglas de inferencia contextual, control de permisos y métricas de desempeño técnico y de experiencia de usuario.
 
 En consecuencia, este capítulo no agota el detalle ingenieril de la solución, pero sí establece con claridad qué tecnologías sostienen la solución propuesta y por qué su combinación resulta defendible dentro de una tesis de ingeniería aplicada orientada al contexto museístico peruano.
-
