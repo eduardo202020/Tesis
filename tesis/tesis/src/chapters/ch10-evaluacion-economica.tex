@@ -4,65 +4,56 @@
 \sloppy
 \setlength{\emergencystretch}{3em}
 
-\definecolor{MuseIQBlue}{HTML}{008CC7}
-\definecolor{MuseIQBlueDark}{HTML}{006E9E}
-\definecolor{MuseIQLight}{HTML}{CDEFF8}
-\definecolor{MuseIQLighter}{HTML}{EAF8FC}
-\definecolor{MuseIQTotal}{HTML}{00A6CF}
-\definecolor{MuseIQGrid}{HTML}{1B4F63}
+\definecolor{EvalBlue}{HTML}{008CC7}
+\definecolor{EvalBlueDark}{HTML}{006E9E}
+\definecolor{EvalLight}{HTML}{CDEFF8}
+\definecolor{EvalLighter}{HTML}{EAF8FC}
+\definecolor{EvalTotal}{HTML}{00A6CF}
+\definecolor{EvalGrid}{HTML}{1B4F63}
 
 \newcommand{\mqiWhite}[1]{\textcolor{white}{\textbf{#1}}}
-\newcommand{\mqiTableSetup}{\arrayrulecolor{MuseIQGrid}\renewcommand{\arraystretch}{1.12}\setlength{\tabcolsep}{3.5pt}}
-\newcommand{\mqiTitle}[2]{\rowcolor{MuseIQBlueDark}\multicolumn{#1}{|c|}{\mqiWhite{#2}}\\ \hline}
-\newcommand{\mqiHead}{\rowcolor{MuseIQBlue}}
-\newcommand{\mqiA}{\rowcolor{MuseIQLight}}
-\newcommand{\mqiB}{\rowcolor{MuseIQLighter}}
-\newcommand{\mqiT}{\rowcolor{MuseIQTotal}}
+\newcommand{\mqiTableSetup}{\arrayrulecolor{EvalGrid}\renewcommand{\arraystretch}{1.12}\setlength{\tabcolsep}{3.5pt}}
+\newcommand{\mqiTitle}[2]{\rowcolor{EvalBlueDark}\multicolumn{#1}{|c|}{\mqiWhite{#2}}\\ \hline}
+\newcommand{\mqiHead}{\rowcolor{EvalBlue}}
+\newcommand{\mqiA}{\rowcolor{EvalLight}}
+\newcommand{\mqiB}{\rowcolor{EvalLighter}}
+\newcommand{\mqiT}{\rowcolor{EvalTotal}}
 
-\section{Estimación del alcance económico}
+\section{Criterio de evaluación y alcance económico}
 
-\subsection{Concordancia con el modelo económico de referencia}
+El presente capítulo desarrolla la evaluación económica financiera de la solución tecnológica propuesta. El flujo fue construido siguiendo la lógica del libro de trabajo económico financiero utilizado como referencia docente y la explicación metodológica del documento de análisis económico financiero. Por ello, el análisis no se limita a una estimación simple de ingresos y egresos, sino que incorpora determinación de costos, planilla, gastos administrativos, gastos de venta, depreciaciones, amortizaciones, financiamiento, balance de apertura, presupuesto de caja, balance proyectado, punto de equilibrio, flujo de efectivo, VAN, TIR e indicadores de sensibilidad.
 
-El presente capítulo reconstruye la evaluación financiera de MuseIQ siguiendo la secuencia metodológica y el estilo expositivo del Capítulo 10 de la tesis de referencia: primero se explica el criterio utilizado, después se presenta el cuadro de resultados y finalmente se interpreta su efecto sobre la viabilidad. Para mantener trazabilidad, se comparó el libro \texttt{FLUJO\_DE\_CAJA\_MUSEIQ.xlsx} con el archivo \texttt{FLUJO DE CAJA DE PROYECTO DE TITULO FIEE UNI.xls} proporcionado por el profesor. La verificación confirmó que MuseIQ conserva las 26 hojas funcionales del modelo original y agrega la hoja \texttt{SUPUESTOS} para centralizar entradas editables, fórmulas y fuentes.
-
-Las hojas principales mantienen vínculos dinámicos entre ingresos, costos, planilla, gastos, presupuesto de caja, balance, flujo de efectivo y cálculo de VAN, TIR e índice de rentabilidad. Por ello, las tablas de este capítulo resumen resultados obtenidos en el libro y no cálculos aislados escritos manualmente. La concordancia se evalúa por función financiera y trazabilidad, no por igualdad literal de filas, debido a que MuseIQ no requiere inventarios clínicos, terrenos, edificios ni maquinaria hospitalaria.
-
-La unidad económica ya no es un procedimiento clínico ni una venta simple de hardware. En MuseIQ, la unidad de análisis es un museo implementado y luego atendido mediante soporte, mantenimiento, IA, analítica y actualización de contenidos. Por ello, las dos líneas principales de ingreso del modelo son: implementación MuseIQ y soporte, IA y analítica. Esta adaptación se apoya en el mercado institucional definido en el Capítulo 3, los paquetes comerciales del Capítulo 5, el diseño de datos del Capítulo 8 y la arquitectura de despliegue del Capítulo 9.
+La unidad económica evaluada no es una venta aislada de hardware ni una aplicación móvil independiente. El proyecto se modela como un servicio tecnológico institucional para museos, compuesto por implementación, configuración técnica, estructuración curatorial, soporte recurrente, consumo de IA, analítica y mantenimiento. Esta definición recoge lo desarrollado en los capítulos previos: el mercado objetivo de museos peruanos, la cartera comercial, los paquetes de servicio, la arquitectura técnica, el uso de BLE/RAG y el diseño de despliegue.
 
 \begin{table}[H]
 	\centering
 	\scriptsize
 	\mqiTableSetup
 	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{|c|p{5.0cm}|c|p{5.0cm}|}
+	\begin{tabular}{|c|p{5.1cm}|c|p{5.1cm}|}
 		\hline
-		\mqiTitle{4}{HOJAS REPLICADAS EN EL FLUJO DE CAJA MUSEIQ}
+		\mqiTitle{4}{HOJAS DEL FLUJO DE CAJA DEL PROYECTO}
 		\mqiHead \mqiWhite{N.} & \mqiWhite{Hoja} & \mqiWhite{N.} & \mqiWhite{Hoja} \\ \hline
-		\mqiA 1 & SUPUESTOS & 15 & COMENTARIOS DE LAS RAZONES \\ \hline
-		\mqiB 2 & INGRESOS & 16 & PUNTO DE EQUILIBRIO \\ \hline
-		\mqiA 3 & COSTOS & 17 & FLUJO DE EFECTIVO \\ \hline
-		\mqiB 4 & COSTO DE PRODUCCION UNITARIO & 18 & COSTO CAPITAL VAN TIR IR \\ \hline
-		\mqiA 5 & PLANILLA & 19 & Sensibilidad Ingresos Bajos \\ \hline
-		\mqiB 6 & GASTOS\_ADM\_VTAS\_FINANZAS & 20 & Sensibilidad Incremento Gastos \\ \hline
-		\mqiA 7 & DEPRECIACIONES AMORTIZACION & 21 & Sensibilidad Incremento Interes \\ \hline
-		\mqiB 8 & PLAN DE INVERSION & 22 & Riesgo no recuperacion CxC \\ \hline
-		\mqiA 9 & BALANCE DE APERTURA & 23 & Riesgo Administrativo \\ \hline
-		\mqiB 10 & COSTO DE VENTA & 24 & Flujo Optimista \\ \hline
-		\mqiA 11 & ESTADO DE RESULTADOS & 25 & Analisis Precio \\ \hline
-		\mqiB 12 & PRESUPUESTO CAJA & 26 & Presupuesto Caja Bajando Precio \\ \hline
-		\mqiA 13 & BALANCE GENERAL PROYECTADO & 27 & Flujo Efectivo Bajando Precio \\ \hline
-		\mqiB 14 & RAZONES FINANCIERAS & -- & -- \\ \hline
+		\mqiA 1 & INGRESOS & 14 & COMENTARIOS DE LAS RAZONES \\ \hline
+		\mqiB 2 & COSTOS & 15 & PUNTO DE EQUILIBRIO \\ \hline
+		\mqiA 3 & COSTO DE PRODUCCION UNITARIO & 16 & FLUJO DE EFECTIVO \\ \hline
+		\mqiB 4 & PLANILLA & 17 & COSTO CAPITAL VAN TIR IR \\ \hline
+		\mqiA 5 & GASTOS\_ADM\_VTAS\_FINANZAS & 18 & Sensibilidad Ingresos Bajos \\ \hline
+		\mqiB 6 & DEPRECIACIONES AMORTIZACION & 19 & Sensibilidad Incremento Gastos \\ \hline
+		\mqiA 7 & PLAN DE INVERSION & 20 & Sensibilidad Incremento Interes \\ \hline
+		\mqiB 8 & BALANCE DE APERTURA & 21 & Riesgo no recuperacion CxC \\ \hline
+		\mqiA 9 & COSTO DE VENTA & 22 & Riesgo Administrativo \\ \hline
+		\mqiB 10 & ESTADO DE RESULTADOS & 23 & Flujo Optimista \\ \hline
+		\mqiA 11 & PRESUPUESTO CAJA & 24 & Analisis Precio \\ \hline
+		\mqiB 12 & BALANCE GENERAL PROYECTADO & 25 & Presupuesto Caja Bajando Precio \\ \hline
+		\mqiA 13 & RAZONES FINANCIERAS & 26 & Flujo Efectivo Bajando Precio \\ \hline
 	\end{tabular}%
 	}
-	\caption[Estructura del flujo de caja MuseIQ]{Estructura de hojas replicada en el flujo de caja MuseIQ. Fuente: elaboración propia con base en el archivo económico de referencia.}
-	\label{tab:estructura-flujo-museiq}
+	\caption[Estructura del flujo financiero del proyecto]{Estructura del flujo financiero del proyecto. Fuente: elaboración propia con base en el archivo económico de referencia.}
+	\label{tab:estructura-flujo-proyecto}
 \end{table}
 
-La reconstrucción corrige cuatro debilidades del cálculo anterior. Primero, alinea el escenario base con los 35 museos y la mezcla 5/20/10 definidos en el Capítulo 5. Segundo, elimina el recargo adicional de 20\% que elevaba precios ya definidos comercialmente. Tercero, los ingresos no se cobran íntegramente en el mismo año, sino mediante una política de contado, crédito y cuentas por cobrar. Cuarto, se incorporan planilla, cargas sociales, gastos administrativos, gastos de venta, depreciación, amortización, financiamiento, impuesto a la renta y escenarios de sensibilidad.
-
-\subsection{Supuestos generales del modelo}
-
-El horizonte de evaluación es de diez años. Los importes se expresan en soles constantes de 2026 y sin IGV. Por ello, la inflación esperada se utiliza para convertir el costo nominal del capital a una tasa real, pero no se acumula nuevamente sobre precios y costos. El escenario base considera los 35 museos del Capítulo 5, distribuidos en 5 contratos Básicos, 20 Estándar y 10 Avanzados.
+La evaluación se realiza en un horizonte de diez años, en soles nominales y sin IGV. El escenario base considera una captación progresiva de treinta y cinco museos al final del horizonte, con una mezcla comercial de 5 paquetes Básicos, 20 paquetes Estándar y 10 paquetes Avanzados. A diferencia de una evaluación idealizada, el modelo considera ventas al contado y al crédito, recuperación parcial de cuentas por cobrar dentro del año, pago diferido a proveedores, impuesto a la renta, deuda bancaria y variaciones por sensibilidad.
 
 \begin{table}[H]
 	\centering
@@ -70,51 +61,31 @@ El horizonte de evaluación es de diez años. Los importes se expresan en soles 
 	\mqiTableSetup
 	\begin{tabular}{|p{8.2cm}|p{5.2cm}|}
 		\hline
-		\mqiTitle{2}{SUPUESTOS CENTRALES DEL FLUJO DE CAJA}
+		\mqiTitle{2}{SUPUESTOS CENTRALES DEL FLUJO}
 		\mqiHead \mqiWhite{Supuesto} & \mqiWhite{Valor adoptado} \\ \hline
 		\mqiA Horizonte de evaluación & 10 años \\ \hline
-		\mqiB Moneda & Soles constantes de 2026, sin IGV \\ \hline
-		\mqiA Museos captados en escenario base & 35 museos al año 10 \\ \hline
+		\mqiB Moneda & Soles nominales, sin IGV \\ \hline
+		\mqiA Museos captados en escenario base & 35 museos acumulados al año 10 \\ \hline
 		\mqiB Mezcla acumulada de paquetes & 5 Básicos, 20 Estándar y 10 Avanzados \\ \hline
-		\mqiA Ajuste comercial sobre precios del Capítulo 5 & 0\%; se usan los precios base sin recargo adicional \\ \hline
-		\mqiB Servicios adicionales & 5\% de la implementación anual \\ \hline
-		\mqiA Cobranza de ventas & 40\% contado y 60\% crédito \\ \hline
+		\mqiA Ajuste comercial sobre precios del Capítulo 5 & 20\% por formalización, garantía, gestión contractual y contingencia operativa \\ \hline
+		\mqiB Servicios adicionales de despliegue & 8\% de la implementación anual \\ \hline
+		\mqiA Política de cobranza & 40\% contado y 60\% crédito \\ \hline
 		\mqiB Recuperación del crédito en el año & 80\% del crédito anual; el saldo queda como cuenta por cobrar \\ \hline
-		\mqiA Compras directas & 30\% contado y 70\% crédito \\ \hline
-		\mqiB Pago del crédito a proveedores & 85\% en el año; el saldo queda como cuenta por pagar \\ \hline
+		\mqiA Política de compras directas & 30\% contado y 70\% crédito \\ \hline
+		\mqiB Pago a proveedores en el año & 85\% del crédito anual; el saldo queda como cuenta por pagar \\ \hline
 		\mqiA Impuesto a la renta & 29.5\% sobre utilidad antes de impuesto \\ \hline
 		\mqiB Financiamiento & 40\% fondos propios y 60\% deuda \\ \hline
-		\mqiA Tasa de deuda & 19.73\% anual, con dos años de gracia de capital \\ \hline
+		\mqiA Tasa de deuda & 18\% anual, con dos años de gracia de capital \\ \hline
 	\end{tabular}
-	\caption[Supuestos centrales del flujo económico MuseIQ]{Supuestos centrales del flujo económico y financiero MuseIQ. Fuente: elaboración propia.}
-	\label{tab:supuestos-flujo-museiq}
+	\caption[Supuestos centrales del flujo del proyecto]{Supuestos centrales del flujo económico financiero del proyecto. Fuente: elaboración propia.}
+	\label{tab:supuestos-flujo-proyecto}
 \end{table}
 
-La revisión mostró que el nivel de ingresos se elevaba por dos mecanismos simultáneos: un factor comercial de 1.20 y una inflación acumulada aplicada sobre precios. Ambos se eliminaron del escenario real. En paralelo, los costos directos de implementación se elevaron para reconocer hardware, señalética, instalación, preparación de contenido, viajes, pruebas, soporte y contingencia. La hoja \texttt{SUPUESTOS} concentra estas entradas y sus fuentes, mientras que \texttt{Analisis Precio} compara el libro anterior con el modelo revisado.
+\section{Proyección de servicios e ingresos}
 
-\section{Proyección de ingresos}
+La capacidad de producción del servicio se expresa como número de museos implementados y número de museos activos con servicio recurrente. A diferencia del proyecto de referencia, donde la unidad productiva es un procedimiento médico, aquí la unidad de producción es un proyecto institucional de implementación y posterior operación. Cada museo requiere diagnóstico, instalación, configuración del backend, corpus curatorial, pruebas, capacitación y soporte.
 
-La proyección de ingresos toma los tres paquetes del Capítulo 5 y los convierte en valores de venta para el flujo económico. El paquete Básico queda orientado a salas pequeñas o museos universitarios; el Estándar funciona como paquete central para museos medianos y de sitio; y el Avanzado se reserva para museos emblemáticos, como el caso ancla de Sipán o instituciones nacionales con mayor complejidad curatorial.
-
-\begin{table}[H]
-	\centering
-	\footnotesize
-	\mqiTableSetup
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{|l|r|r|r|r|p{3.0cm}|}
-		\hline
-		\mqiTitle{6}{VALORES ECONÓMICOS POR PAQUETE}
-		\mqiHead \mqiWhite{Paquete} & \mqiWhite{Impl. Cap. 5} & \mqiWhite{Impl. flujo} & \mqiWhite{Costo directo impl.} & \mqiWhite{Recurrente anual} & \mqiWhite{Cobertura} \\ \hline
-		\mqiA Básico & S/48\,000 & S/48\,000 & S/18\,000 & S/14\,000 & 3 a 5 salas \\ \hline
-		\mqiB Estándar & S/96\,000 & S/96\,000 & S/36\,000 & S/29\,000 & 6 a 10 salas \\ \hline
-		\mqiA Avanzado & S/185\,000 & S/185\,000 & S/68\,000 & S/52\,000 & 12 a 18 salas \\ \hline
-	\end{tabular}%
-	}
-	\caption[Valores económicos por paquete MuseIQ]{Valores económicos por paquete usados en el flujo de caja. Fuente: elaboración propia con base en el Capítulo 5.}
-	\label{tab:precios-flujo-museiq}
-\end{table}
-
-El cronograma comercial replica la cartera nominal del Capítulo 5. Los dos primeros años priorizan contratos Avanzados como casos ancla; posteriormente crece la participación de contratos Estándar y Básicos, sin modificar la meta total de 35 museos.
+El cronograma de captación comercial prioriza los paquetes Avanzados en los primeros años porque son los que permiten validar la propuesta en museos con mayor complejidad curatorial y mayor visibilidad institucional. Luego se incrementa la venta de paquetes Estándar y, desde el sexto año, se incorporan paquetes Básicos para instituciones de menor escala.
 
 \begin{table}[H]
 	\centering
@@ -131,11 +102,31 @@ El cronograma comercial replica la cartera nominal del Capítulo 5. Los dos prim
 		\mqiT \mqiWhite{Total anual} & \mqiWhite{2} & \mqiWhite{2} & \mqiWhite{3} & \mqiWhite{3} & \mqiWhite{3} & \mqiWhite{4} & \mqiWhite{4} & \mqiWhite{4} & \mqiWhite{5} & \mqiWhite{5} & \mqiWhite{35} \\ \hline
 	\end{tabular}%
 	}
-	\caption[Cronograma de captación MuseIQ]{Cronograma de captación comercial usado en el escenario base. Fuente: elaboración propia.}
-	\label{tab:cronograma-captacion-museiq}
+	\caption[Cronograma de captación del proyecto]{Cronograma de captación comercial del escenario base. Fuente: hoja \texttt{INGRESOS}.}
+	\label{tab:cronograma-captacion-proyecto}
 \end{table}
 
-La Tabla~\ref{tab:ingresos-caja-museiq} resume el efecto de esta captación sobre ventas y caja. Las ventas acumuladas del horizonte llegan a S/9\,743\,500, cifra menor que la del libro anterior pese a incorporar cuatro museos adicionales. La reducción se explica por eliminar el recargo de 20\%, no aplicar inflación sobre flujos reales y disminuir los servicios adicionales de 8\% a 5\%.
+Los precios económicos toman como base los paquetes definidos en el Capítulo 5 y agregan un factor comercial de 20\%. Este ajuste cubre formalización, garantía, gestión contractual, documentación, coordinación institucional y contingencias de operación. No se trata de inflar el precio arbitrariamente, sino de trasladar los precios técnicos a una operación empresarial completa.
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\mqiTableSetup
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|l|r|r|r|r|p{3.0cm}|}
+		\hline
+		\mqiTitle{6}{VALORES ECONÓMICOS POR PAQUETE}
+		\mqiHead \mqiWhite{Paquete} & \mqiWhite{Impl. Cap. 5} & \mqiWhite{Impl. flujo} & \mqiWhite{Recurrente Cap. 5} & \mqiWhite{Recurrente flujo} & \mqiWhite{Cobertura} \\ \hline
+		\mqiA Básico & S/48\,000 & S/57\,600 & S/14\,000 & S/16\,800 & 3 a 5 salas \\ \hline
+		\mqiB Estándar & S/96\,000 & S/115\,200 & S/29\,000 & S/34\,800 & 6 a 10 salas \\ \hline
+		\mqiA Avanzado & S/185\,000 & S/222\,000 & S/52\,000 & S/62\,400 & 12 a 18 salas \\ \hline
+	\end{tabular}%
+	}
+	\caption[Valores económicos por paquete del proyecto]{Valores económicos por paquete usados en el flujo de caja. Fuente: elaboración propia con base en el Capítulo 5.}
+	\label{tab:precios-flujo-proyecto}
+\end{table}
+
+La Tabla~\ref{tab:ingresos-caja-proyecto} muestra la diferencia entre ventas devengadas e ingresos de efectivo. Esta separación es necesaria porque el servicio se vende a instituciones culturales, donde los pagos suelen depender de contratos, conformidad de entregables y tiempos administrativos. Por ello, el flujo no asume que toda venta se cobra en el mismo periodo.
 
 \begin{table}[H]
 	\centering
@@ -146,20 +137,20 @@ La Tabla~\ref{tab:ingresos-caja-museiq} resume el efecto de esta captación sobr
 		\hline
 		\mqiTitle{11}{VENTAS E INGRESOS DE EFECTIVO}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Ventas totales & 440\,500 & 544\,500 & 658\,850 & 768\,850 & 773\,900 & 1\,128\,200 & 1\,170\,250 & 1\,189\,300 & 1\,510\,550 & 1\,558\,600 \\ \hline
-		\mqiB Ingresos de efectivo & 387\,640 & 532\,020 & 645\,128 & 755\,650 & 773\,294 & 1\,085\,684 & 1\,165\,204 & 1\,187\,014 & 1\,472\,000 & 1\,552\,834 \\ \hline
-		\mqiA Cuentas por cobrar al cierre & 52\,860 & 65\,340 & 79\,062 & 92\,262 & 92\,868 & 135\,384 & 140\,430 & 142\,716 & 181\,266 & 187\,032 \\ \hline
+		\mqiA Ventas totales & 541\,920 & 686\,722 & 853\,167 & 1\,023\,002 & 1\,056\,907 & 1\,598\,646 & 1\,719\,842 & 1\,813\,402 & 2\,399\,807 & 2\,570\,010 \\ \hline
+		\mqiB Ingresos de efectivo & 476\,890 & 669\,345 & 833\,194 & 1\,002\,622 & 1\,052\,838 & 1\,533\,637 & 1\,705\,299 & 1\,802\,174 & 2\,329\,438 & 2\,549\,586 \\ \hline
+		\mqiA Cuentas por cobrar al cierre & 65\,030 & 82\,407 & 102\,380 & 122\,760 & 126\,829 & 191\,837 & 206\,381 & 217\,608 & 287\,977 & 308\,401 \\ \hline
 	\end{tabular}%
 	}
-	\caption[Ventas e ingresos de efectivo MuseIQ]{Ventas, ingresos de efectivo y cuentas por cobrar del escenario base. Fuente: elaboración propia.}
-	\label{tab:ingresos-caja-museiq}
+	\caption[Ventas e ingresos de efectivo del proyecto]{Ventas, ingresos de efectivo y cuentas por cobrar del escenario base. Fuente: hoja \texttt{INGRESOS}.}
+	\label{tab:ingresos-caja-proyecto}
 \end{table}
 
-\section{Costos de operación}
+\section{Determinación de costos}
 
-Los costos se organizan como en la plantilla económica: insumos directos, mano de obra directa, costos indirectos, gastos administrativos, gastos de venta y gastos financieros. Para MuseIQ, los insumos directos no son materia prima industrial, sino hardware BLE, señalética, instalación, estructuración curatorial, nube, voz, IA, monitoreo y soporte variable por museo activo.
+Los costos del proyecto se organizan como en el documento de referencia: insumos y servicios directos, mano de obra de producción, costos indirectos de producción, gastos administrativos, gastos de venta y gastos financieros. En este caso, los insumos directos incluyen beacons BLE, nodos de borde, señalética, cableado, instalación, configuración, estructuración de corpus, pruebas, capacitación, documentación, nube, voz, RAG y soporte técnico.
 
-\subsection{Costos directos e indirectos}
+El costo de venta se reconoce en el mismo año porque la propuesta presta un servicio por proyecto y no mantiene productos terminados. Por ello, el inventario final es cero y el costo de producción se transfiere íntegramente al costo de venta del periodo.
 
 \begin{table}[H]
 	\centering
@@ -168,21 +159,19 @@ Los costos se organizan como en la plantilla económica: insumos directos, mano 
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{|l|rrrrrrrrrr|}
 		\hline
-		\mqiTitle{11}{COSTOS DE PRODUCCIÓN DEL SERVICIO}
+		\mqiTitle{11}{COSTO DE PRODUCCIÓN TRANSFERIDO}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Costos directos & 165\,250 & 205\,250 & 250\,925 & 293\,925 & 298\,450 & 432\,100 & 451\,125 & 461\,650 & 584\,775 & 606\,800 \\ \hline
-		\mqiB Mano de obra directa & 68\,069 & 103\,035 & 128\,652 & 133\,798 & 139\,150 & 168\,002 & 174\,722 & 208\,581 & 216\,924 & 225\,601 \\ \hline
-		\mqiA Costos indirectos & 42\,820 & 52\,952 & 54\,489 & 56\,088 & 50\,551 & 46\,040 & 47\,838 & 49\,709 & 51\,654 & 53\,677 \\ \hline
-		\mqiT \mqiWhite{Costo de producción} & \mqiWhite{276\,139} & \mqiWhite{361\,237} & \mqiWhite{434\,066} & \mqiWhite{483\,811} & \mqiWhite{488\,150} & \mqiWhite{646\,142} & \mqiWhite{673\,686} & \mqiWhite{719\,939} & \mqiWhite{853\,353} & \mqiWhite{886\,078} \\ \hline
+		\mqiA Insumos y servicios directos & 256\,760 & 299\,483 & 351\,260 & 401\,136 & 385\,007 & 613\,230 & 622\,589 & 622\,265 & 859\,276 & 879\,308 \\ \hline
+		\mqiB Planilla de producción & 94\,043 & 143\,527 & 165\,929 & 174\,226 & 182\,937 & 207\,310 & 217\,675 & 273\,341 & 287\,008 & 301\,359 \\ \hline
+		\mqiA Costos indirectos de servicio & 42\,675 & 52\,807 & 54\,344 & 55\,943 & 50\,478 & 46\,029 & 47\,828 & 49\,698 & 51\,643 & 53\,666 \\ \hline
+		\mqiT \mqiWhite{Costo de producción} & \mqiWhite{393\,477} & \mqiWhite{495\,816} & \mqiWhite{571\,533} & \mqiWhite{631\,304} & \mqiWhite{618\,422} & \mqiWhite{866\,569} & \mqiWhite{888\,091} & \mqiWhite{945\,304} & \mqiWhite{1\,197\,928} & \mqiWhite{1\,234\,333} \\ \hline
 	\end{tabular}%
 	}
-	\caption[Costos de producción MuseIQ]{Costos de producción del servicio MuseIQ. Fuente: elaboración propia.}
-	\label{tab:costos-produccion-museiq}
+	\caption[Costo de producción del proyecto]{Costo de producción transferido al costo de venta. Fuente: hojas \texttt{COSTOS} y \texttt{COSTO DE VENTA}.}
+	\label{tab:costos-produccion-proyecto}
 \end{table}
 
-\subsection{Mano de obra directa}
-
-La planilla se calculó con sueldo mensual, sueldo anual, gratificaciones, EsSalud, CTS, vacaciones y cesantía, igual que en la hoja de referencia. La estructura inicial es deliberadamente pequeña: un responsable general-administrativo, un asistente administrativo, un líder técnico, un especialista curatorial y un ejecutivo comercial. A medida que la cartera crece se incorporan ingeniería mobile/BLE, QA, implementación de campo, analítica de datos, relaciones institucionales y postventa.
+La planilla se calculó con la estructura laboral empleada en el archivo de referencia: sueldo mensual, sueldo anual, gratificaciones, EsSalud, CTS, vacaciones y cesantía. La estructura inicia con un equipo reducido y se amplía de acuerdo con la cartera de museos, separando administración, producción y ventas.
 
 \begin{table}[H]
 	\centering
@@ -193,133 +182,89 @@ La planilla se calculó con sueldo mensual, sueldo anual, gratificaciones, EsSal
 		\hline
 		\mqiTitle{11}{PLANILLA POR ÁREA}
 		\mqiHead \mqiWhite{Área} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Administración & 48\,365 & 50\,299 & 52\,311 & 54\,404 & 78\,075 & 81\,198 & 84\,446 & 87\,824 & 91\,337 & 94\,991 \\ \hline
-		\mqiB Producción & 68\,069 & 103\,035 & 128\,652 & 133\,798 & 139\,150 & 168\,002 & 174\,722 & 208\,581 & 216\,924 & 225\,601 \\ \hline
-		\mqiA Ventas & 30\,452 & 31\,670 & 32\,937 & 61\,124 & 63\,568 & 66\,111 & 68\,756 & 94\,793 & 98\,584 & 102\,528 \\ \hline
+		\mqiA Administración & 81\,504 & 85\,579 & 89\,858 & 94\,351 & 114\,294 & 120\,009 & 126\,009 & 132\,310 & 138\,925 & 145\,871 \\ \hline
+		\mqiB Producción del servicio & 94\,043 & 143\,527 & 165\,929 & 174\,226 & 182\,937 & 207\,310 & 217\,675 & 273\,341 & 287\,008 & 301\,359 \\ \hline
+		\mqiA Ventas & 15\,226 & 15\,987 & 16\,787 & 32\,852 & 34\,494 & 36\,219 & 38\,030 & 55\,158 & 57\,915 & 60\,811 \\ \hline
+		\mqiT \mqiWhite{Total planilla} & \mqiWhite{190\,772} & \mqiWhite{245\,093} & \mqiWhite{272\,573} & \mqiWhite{301\,428} & \mqiWhite{331\,725} & \mqiWhite{363\,538} & \mqiWhite{381\,714} & \mqiWhite{460\,808} & \mqiWhite{483\,849} & \mqiWhite{508\,041} \\ \hline
 	\end{tabular}%
 	}
-	\caption[Planilla por área MuseIQ]{Planilla por área usada en el flujo de caja MuseIQ. Fuente: elaboración propia.}
-	\label{tab:planilla-area-museiq}
+	\caption[Planilla por área del proyecto]{Planilla por área usada en el flujo de caja del proyecto. Fuente: hoja \texttt{PLANILLA}.}
+	\label{tab:planilla-area-proyecto}
 \end{table}
 
-\section{Gastos administrativos y comerciales}
+Los gastos administrativos y de ventas incluyen personal, servicios contables y legales, oficina, comunicaciones, prospección, viajes, marketing y comisiones comerciales. Los gastos financieros provienen del préstamo inicial de S/180\,000, con una tasa efectiva anual de 18\%, dos años de gracia de capital y amortización posterior hasta el año 8.
 
-\subsection{Gastos administrativos}
+\section{Inversión, depreciación y financiamiento}
 
-Los gastos administrativos incluyen la planilla del área, servicios profesionales, comunicaciones, oficina y la proporción administrativa de la depreciación y amortización. Su comportamiento no crece de manera automática con las ventas: aumenta cuando la operación requiere nuevas capacidades y se mantiene controlado mediante una estructura organizacional compacta.
-
-\subsection{Gastos de venta y financieros}
-
-Los gastos de venta comprenden remuneraciones comerciales, difusión, visitas institucionales y una comisión equivalente al 2.5\% de las ventas. Los gastos financieros corresponden a los intereses del préstamo de S/180\,000 y disminuyen conforme se amortiza el principal.
-
-\begin{table}[H]
-	\centering
-	\scriptsize
-	\mqiTableSetup
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{|l|rrrrrrrrrr|}
-		\hline
-		\mqiTitle{11}{GASTOS ADMINISTRATIVOS, COMERCIALES Y FINANCIEROS}
-		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Gastos administrativos & 100\,445 & 103\,019 & 105\,697 & 108\,482 & 128\,073 & 101\,385 & 105\,411 & 109\,599 & 113\,954 & 118\,484 \\ \hline
-		\mqiB Gastos de venta & 57\,464 & 61\,922 & 66\,714 & 98\,343 & 101\,634 & 113\,783 & 118\,257 & 145\,580 & 158\,245 & 164\,266 \\ \hline
-		\mqiA Intereses & 35\,514 & 35\,514 & 35\,514 & 31\,913 & 27\,602 & 22\,440 & 16\,260 & 8\,860 & 0 & 0 \\ \hline
-	\end{tabular}%
-	}
-	\caption[Gastos administrativos y comerciales MuseIQ]{Gastos administrativos, comerciales y financieros de MuseIQ. Fuente: elaboración propia.}
-	\label{tab:gastos-administrativos-comerciales-museiq}
-\end{table}
-
-La lectura del cuadro muestra que el gasto financiero se extingue en el año 8, mientras los gastos comerciales aumentan con la cartera. Esta composición obliga a evaluar el margen de cada contrato y evita asumir que todo crecimiento de ventas se convierte automáticamente en utilidad.
-
-\section{Costos totales}
-
-La hoja de costos considera compras al contado y al crédito. El saldo de cuentas por pagar al cierre del año 10 asciende a S/63\,714. Este rubro es menor que las cuentas por cobrar, lo que refuerza la necesidad de gestionar anticipos y entregables parciales para no financiar al cliente institucional con recursos propios.
-
-\begin{table}[H]
-	\centering
-	\scriptsize
-	\mqiTableSetup
-	\resizebox{\textwidth}{!}{%
-	\begin{tabular}{|l|rrrrrrrrrr|}
-		\hline
-		\mqiTitle{11}{COSTOS Y GASTOS TOTALES}
-		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Costo de producción & 276\,139 & 361\,237 & 434\,066 & 483\,811 & 488\,150 & 646\,142 & 673\,686 & 719\,939 & 853\,353 & 886\,078 \\ \hline
-		\mqiB Gastos administrativos y de venta & 157\,909 & 164\,941 & 172\,411 & 206\,825 & 229\,707 & 215\,168 & 223\,668 & 255\,179 & 272\,199 & 282\,750 \\ \hline
-		\mqiA Gastos financieros & 35\,514 & 35\,514 & 35\,514 & 31\,913 & 27\,602 & 22\,440 & 16\,260 & 8\,860 & 0 & 0 \\ \hline
-		\mqiT \mqiWhite{Costo y gasto total} & \mqiWhite{469\,562} & \mqiWhite{561\,692} & \mqiWhite{641\,991} & \mqiWhite{722\,549} & \mqiWhite{745\,459} & \mqiWhite{883\,750} & \mqiWhite{913\,614} & \mqiWhite{983\,978} & \mqiWhite{1\,125\,552} & \mqiWhite{1\,168\,828} \\ \hline
-	\end{tabular}%
-	}
-	\caption[Costos totales MuseIQ]{Costos y gastos totales del escenario base MuseIQ. Fuente: elaboración propia.}
-	\label{tab:costos-totales-museiq}
-\end{table}
-
-El costo total crece junto con el número de museos, pero su composición cambia: el financiamiento pierde peso y aumentan producción, soporte y actividad comercial. Esta transición es coherente con un servicio tecnológico que pasa de una fase de puesta en marcha a una fase de operación recurrente.
-
-\section{Proyección de la inversión}
-
-\subsection{Estimación de la inversión total}
-
-La inversión inicial asciende a S/300\,000. No corresponde a la compra de maquinaria pesada, sino a constituir una operación mínima capaz de vender, implementar y sostener MuseIQ: activos tangibles, activos intangibles y caja inicial. Los activos tangibles incluyen laptops, dispositivos de prueba, servidor local, red, herramientas de instalación y mobiliario. Los intangibles comprenden desarrollo base de la aplicación, API/RAG, documentación, formalización, marca, preventa y dossier comercial.
-
-\subsection{Depreciación y amortización}
-
-Los activos tangibles por S/118\,000 se deprecian en línea recta según vidas útiles de cuatro, cinco y diez años. La depreciación anual es S/24\,200 durante los primeros cuatro años, S/12\,200 en el quinto año y S/1\,800 entre los años 6 y 10. Los intangibles por S/132\,000 se amortizan en cinco años a razón de S/26\,400 anuales. Estas partidas no representan una salida de caja del periodo, pero se incorporan al costo de producción y a los gastos administrativos para evitar sobrestimar la utilidad.
-
-\subsection{Plan de inversión y capital de trabajo}
+La inversión total requerida asciende a S/300\,000. Esta inversión no corresponde a maquinaria pesada, sino a la estructura mínima para iniciar, vender, implementar y sostener el servicio tecnológico propuesto. Los activos fijos comprenden laptops, equipos de prueba, servidor/NAS, red local, herramientas de instalación y mobiliario. Los activos nominales incluyen constitución, formalización, desarrollo base de app/API/RAG, documentación, manuales, marca, preventa y dossier comercial. El capital de trabajo cubre el ciclo inicial de diagnóstico, contratación de insumos, entrega, conformidad y cobro institucional.
 
 \begin{table}[H]
 	\centering
 	\footnotesize
 	\mqiTableSetup
-	\begin{tabular}{|p{7.4cm}|r|p{4.8cm}|}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|p{6.2cm}|r|r|r|}
 		\hline
-		\mqiTitle{3}{PLAN DE INVERSIÓN Y FINANCIAMIENTO}
-		\mqiHead \mqiWhite{Concepto} & \mqiWhite{Monto} & \mqiWhite{Criterio} \\ \hline
-		\mqiA Activos tangibles & S/118\,000 & Equipos, servidor, herramientas y mobiliario \\ \hline
-		\mqiB Activos intangibles y diferidos & S/132\,000 & Desarrollo base, documentación, formalización y preventa \\ \hline
-		\mqiA Capital de trabajo inicial & S/50\,000 & Caja inicial para descalces operativos \\ \hline
-		\mqiT \mqiWhite{Inversión total} & \mqiWhite{S/300\,000} & \mqiWhite{Base del flujo de efectivo} \\ \hline
-		\mqiB Fondos propios & S/120\,000 & 40\% de la inversión \\ \hline
-		\mqiA Financiamiento & S/180\,000 & 60\% de la inversión \\ \hline
-	\end{tabular}
-	\caption[Plan de inversión MuseIQ]{Plan de inversión y financiamiento MuseIQ. Fuente: elaboración propia.}
-	\label{tab:plan-inversion-museiq}
+		\mqiTitle{4}{PLAN DE INVERSIÓN Y FINANCIAMIENTO}
+		\mqiHead \mqiWhite{Concepto} & \mqiWhite{Monto} & \mqiWhite{Fondos propios} & \mqiWhite{Financiamiento} \\ \hline
+		\mqiA Activos fijos tangibles & 118\,000 & 23\,600 & 94\,400 \\ \hline
+		\mqiB Capital de trabajo inicial & 50\,000 & 50\,000 & 0 \\ \hline
+		\mqiA Activos nominales e intangibles & 132\,000 & 46\,400 & 85\,600 \\ \hline
+		\mqiT \mqiWhite{Total inversión} & \mqiWhite{300\,000} & \mqiWhite{120\,000} & \mqiWhite{180\,000} \\ \hline
+		\mqiB Participación & 100\% & 40\% & 60\% \\ \hline
+	\end{tabular}%
+	}
+	\caption[Plan de inversión del proyecto]{Plan de inversión y fuentes de financiamiento del proyecto. Fuente: hoja \texttt{PLAN DE INVERSION}.}
+	\label{tab:plan-inversion-proyecto}
 \end{table}
-
-\subsection{Balance de apertura}
-
-El balance de apertura se deriva del plan de inversión. El activo está compuesto por S/118\,000 de bienes tangibles, S/132\,000 de intangibles y S/50\,000 de caja inicial. La fuente de financiamiento se divide en S/180\,000 de deuda y S/120\,000 de patrimonio, por lo que el balance inicial se encuentra cuadrado en S/300\,000.
-
-El préstamo se modela a una tasa de 19.73\% anual, equivalente al promedio de operaciones en moneda nacional para pequeñas empresas publicado por la SBS al 17 de junio de 2026~\cite{sbs_tasas_credito_2026}. Se mantienen dos años de gracia de capital y amortización posterior en seis cuotas anuales. Esta condición es exigente, pero evita presentar financiamiento subsidiado o una tasa bancaria sin sustento.
-
-La tasa de corte conserva la estructura metodológica del archivo del profesor, pero evita sumar inflación dos veces. El costo del capital propio se estima en 10\%, formado por una referencia macroeconómica de 4.25\% y una prima de riesgo de 5.75\%. El costo de deuda se incorpora después del escudo fiscal de 29.5\%~\cite{sunat_ir_tercera_categoria}. El WACC nominal resultante es 12.35\%; luego se convierte a términos reales con una inflación esperada de 2\%, punto medio del rango meta del BCRP, y se incorpora una prima específica de 2\% por riesgo tecnológico, comercial y de adopción institucional~\cite{bcrp_programa_monetario_2026}. La tasa real de corte resultante es 12.35\%.
 
 \begin{table}[H]
 	\centering
 	\footnotesize
 	\mqiTableSetup
-	\begin{tabular}{|p{5.0cm}|r|r|r|}
+	\begin{tabular}{|p{8.5cm}|r|}
 		\hline
-		\mqiTitle{4}{CÁLCULO DE LA TASA DE CORTE}
-		\mqiHead \mqiWhite{Componente} & \mqiWhite{Monto / base} & \mqiWhite{Costo / tasa} & \mqiWhite{Aporte} \\ \hline
-		\mqiA Fondos propios & S/120\,000 & 10.00\% & 4.00\% \\ \hline
-		\mqiB Financiamiento después de IR & S/180\,000 & 13.91\% & 8.35\% \\ \hline
-		\mqiT \mqiWhite{WACC nominal después de impuestos} & \mqiWhite{S/300\,000} & \mqiWhite{} & \mqiWhite{12.35\%} \\ \hline
-		\mqiA WACC real & $(1+12.35\%)/(1+2.00\%)-1$ & -- & 10.14\% \\ \hline
-		\mqiB Prima específica del proyecto & Riesgo tecnológico, comercial y de adopción & -- & 2.00\% \\ \hline
-		\mqiT \mqiWhite{Tasa de corte real} & $(1+10.14\%)(1+2.00\%)-1$ & \mqiWhite{} & \mqiWhite{12.35\%} \\ \hline
+		\mqiTitle{2}{DETALLE PRINCIPAL DE ACTIVOS}
+		\mqiHead \mqiWhite{Concepto} & \mqiWhite{Monto} \\ \hline
+		\mqiA Laptops y equipos de prueba & 48\,000 \\ \hline
+		\mqiB Servidor/NAS y red local & 32\,000 \\ \hline
+		\mqiA Herramientas de instalación y medición & 20\,000 \\ \hline
+		\mqiB Mobiliario y oficina & 18\,000 \\ \hline
+		\mqiT \mqiWhite{Total activos fijos} & \mqiWhite{118\,000} \\ \hline
+		\mqiA Constitución y formalización & 8\,000 \\ \hline
+		\mqiB Desarrollo base app/API/RAG & 90\,000 \\ \hline
+		\mqiA Documentación y manuales & 22\,000 \\ \hline
+		\mqiB Marca, preventa y dossier comercial & 12\,000 \\ \hline
+		\mqiT \mqiWhite{Total activos nominales} & \mqiWhite{132\,000} \\ \hline
 	\end{tabular}
-	\caption[Cálculo de tasa de corte MuseIQ]{Cálculo de la tasa de corte usada para VAN y TIR. Fuente: hoja \texttt{COSTO CAPITAL VAN TIR IR} del flujo de caja MuseIQ.}
-	\label{tab:tasa-corte-museiq}
+	\caption[Detalle de activos del proyecto]{Detalle principal de activos fijos y nominales del proyecto. Fuente: hoja \texttt{PLAN DE INVERSION}.}
+	\label{tab:detalle-activos-proyecto}
 \end{table}
 
-\section{Evaluación financiera}
+El balance de apertura se construye directamente desde el plan de inversión. La caja inicial corresponde al capital de trabajo aprobado, los activos fijos y diferidos se registran por su valor de adquisición, la deuda de largo plazo corresponde al financiamiento bancario y el patrimonio corresponde al aporte de los socios.
 
-\subsection{Estado de pérdidas y ganancias}
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\mqiTableSetup
+	\begin{tabular}{|p{5.6cm}|r|p{5.6cm}|r|}
+		\hline
+		\mqiTitle{4}{BALANCE DE APERTURA}
+		\mqiHead \mqiWhite{Activos} & \mqiWhite{Monto} & \mqiWhite{Pasivo y patrimonio} & \mqiWhite{Monto} \\ \hline
+		\mqiA Caja y bancos & 50\,000 & Deuda de largo plazo & 180\,000 \\ \hline
+		\mqiB Activo fijo & 118\,000 & Capital social aportado & 120\,000 \\ \hline
+		\mqiA Activo diferido & 132\,000 & & \\ \hline
+		\mqiT \mqiWhite{Total activos} & \mqiWhite{300\,000} & \mqiWhite{Total pasivo y patrimonio} & \mqiWhite{300\,000} \\ \hline
+	\end{tabular}
+	\caption[Balance de apertura del proyecto]{Balance de apertura del proyecto. Fuente: hoja \texttt{BALANCE DE APERTURA}.}
+	\label{tab:balance-apertura-proyecto}
+\end{table}
 
-El estado de resultados muestra una trayectoria gradual. Los dos primeros años presentan pérdidas netas por intereses, planilla y costos de despliegue; desde el tercer año aparece utilidad neta positiva y la recurrencia gana importancia. Esta evolución es más prudente que asumir utilidades elevadas desde el inicio.
+Las depreciaciones y amortizaciones se calculan en una hoja independiente, de forma análoga al archivo de referencia. La depreciación anual de activos tangibles asciende a S/23\,958 durante los primeros cuatro años, baja a S/12\,078 en el quinto año y luego a S/1\,782 anuales. La amortización de activos nominales es de S/26\,400 anuales durante los primeros cinco años. Estos importes se trasladan a producción y administración según la asignación contable del flujo.
+
+\section{Estados financieros proyectados}
+
+El estado de resultados muestra pérdidas netas en los dos primeros años, lo cual es consistente con una solución tecnológica institucional que todavía absorbe estructura, deuda y costos de implementación. A partir del tercer año la utilidad neta se vuelve positiva y se acelera cuando la base de museos activos genera ingresos recurrentes.
 
 \begin{table}[H]
 	\centering
@@ -330,22 +275,21 @@ El estado de resultados muestra una trayectoria gradual. Los dos primeros años 
 		\hline
 		\mqiTitle{11}{ESTADO DE RESULTADOS RESUMIDO}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Ventas totales & 440\,500 & 544\,500 & 658\,850 & 768\,850 & 773\,900 & 1\,128\,200 & 1\,170\,250 & 1\,189\,300 & 1\,510\,550 & 1\,558\,600 \\ \hline
-		\mqiB Costo de venta & 276\,139 & 361\,237 & 434\,066 & 483\,811 & 488\,150 & 646\,142 & 673\,686 & 719\,939 & 853\,353 & 886\,078 \\ \hline
-		\mqiA Utilidad bruta & 164\,361 & 183\,263 & 224\,784 & 285\,039 & 285\,750 & 482\,058 & 496\,564 & 469\,361 & 657\,197 & 672\,522 \\ \hline
-		\mqiB Gastos de operación & 157\,909 & 164\,942 & 172\,410 & 206\,824 & 229\,707 & 215\,167 & 223\,668 & 255\,179 & 272\,199 & 282\,749 \\ \hline
-		\mqiA Utilidad de operación & 6\,452 & 18\,321 & 52\,374 & 78\,215 & 56\,043 & 266\,890 & 272\,896 & 214\,182 & 384\,998 & 389\,773 \\ \hline
-		\mqiB Impuesto a la renta & 0 & 0 & 4\,974 & 13\,659 & 8\,390 & 72\,113 & 75\,708 & 60\,570 & 113\,574 & 114\,983 \\ \hline
-		\mqiT \mqiWhite{Utilidad neta} & \mqiWhite{-29\,062} & \mqiWhite{-17\,193} & \mqiWhite{11\,886} & \mqiWhite{32\,643} & \mqiWhite{20\,051} & \mqiWhite{172\,337} & \mqiWhite{180\,929} & \mqiWhite{144\,752} & \mqiWhite{271\,424} & \mqiWhite{274\,790} \\ \hline
+		\mqiA Ventas totales & 541\,920 & 686\,722 & 853\,167 & 1\,023\,002 & 1\,056\,907 & 1\,598\,646 & 1\,719\,842 & 1\,813\,402 & 2\,399\,807 & 2\,570\,010 \\ \hline
+		\mqiB Costo de venta & 393\,477 & 495\,816 & 571\,533 & 631\,304 & 618\,422 & 866\,569 & 888\,091 & 945\,304 & 1\,197\,928 & 1\,234\,333 \\ \hline
+		\mqiA Utilidad bruta & 148\,443 & 190\,905 & 281\,634 & 391\,698 & 438\,485 & 732\,077 & 831\,751 & 868\,097 & 1\,201\,879 & 1\,335\,677 \\ \hline
+		\mqiB Gastos de operación & 178\,261 & 187\,997 & 198\,568 & 224\,756 & 243\,878 & 235\,840 & 248\,238 & 275\,625 & 301\,343 & 317\,192 \\ \hline
+		\mqiA Utilidad de operación & -29\,818 & 2\,908 & 83\,067 & 166\,942 & 194\,607 & 496\,237 & 583\,512 & 592\,472 & 900\,536 & 1\,018\,486 \\ \hline
+		\mqiB Gastos financieros & 32\,400 & 32\,400 & 32\,400 & 28\,969 & 24\,919 & 20\,141 & 14\,503 & 7\,850 & 0 & 0 \\ \hline
+		\mqiA Impuesto a la renta & 0 & 0 & 14\,947 & 40\,702 & 50\,058 & 140\,448 & 167\,858 & 172\,463 & 265\,658 & 300\,453 \\ \hline
+		\mqiT \mqiWhite{Utilidad neta} & \mqiWhite{-62\,218} & \mqiWhite{-29\,492} & \mqiWhite{35\,720} & \mqiWhite{97\,271} & \mqiWhite{119\,630} & \mqiWhite{335\,648} & \mqiWhite{401\,151} & \mqiWhite{412\,158} & \mqiWhite{634\,878} & \mqiWhite{718\,032} \\ \hline
 	\end{tabular}%
 	}
-	\caption[Estado de resultados resumido MuseIQ]{Estado de resultados resumido del escenario base. Fuente: elaboración propia.}
-	\label{tab:estado-resultados-museiq}
+	\caption[Estado de resultados del proyecto]{Estado de resultados resumido del escenario base. Fuente: hoja \texttt{ESTADO DE RESULTADOS}.}
+	\label{tab:estado-resultados-proyecto}
 \end{table}
 
-\subsection{Presupuesto de caja y flujo de caja}
-
-El presupuesto de caja conserva saldo positivo durante todo el horizonte, pero con una holgura mínima de S/36\,029 al cierre del primer año. Esto significa que el capital de trabajo de S/50\,000 es suficiente en el escenario base, aunque una demora adicional de cobranza podría requerir anticipos contractuales o una línea temporal de liquidez.
+El presupuesto de caja permite observar la liquidez real del proyecto. Aunque el estado de resultados muestra pérdidas contables en los primeros años, el flujo mantiene saldo positivo gracias al capital de trabajo inicial y a la cobranza progresiva. El año más ajustado es el primero, con un saldo final de caja de S/69; por tanto, la operación no presenta déficit en el escenario base, pero sí exige disciplina en anticipos, cobranza y control de pagos.
 
 \begin{table}[H]
 	\centering
@@ -354,51 +298,23 @@ El presupuesto de caja conserva saldo positivo durante todo el horizonte, pero c
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{|l|rrrrrrrrrr|}
 		\hline
-		\mqiTitle{11}{PRESUPUESTO DE CAJA Y SALDO ACUMULADO}
+		\mqiTitle{11}{PRESUPUESTO DE CAJA}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Ingresos de efectivo & 387\,640 & 532\,020 & 645\,128 & 755\,650 & 773\,294 & 1\,085\,684 & 1\,165\,204 & 1\,187\,014 & 1\,472\,000 & 1\,552\,834 \\ \hline
-		\mqiB Egresos de efectivo & 401\,611 & 506\,893 & 604\,845 & 694\,258 & 746\,206 & 907\,631 & 1\,019\,434 & 1\,101\,686 & 1\,171\,394 & 1\,278\,289 \\ \hline
-		\mqiA Flujo de caja anual & -13\,971 & 25\,127 & 40\,283 & 61\,392 & 27\,088 & 178\,053 & 145\,770 & 85\,328 & 300\,606 & 274\,545 \\ \hline
-		\mqiT \mqiWhite{Saldo final de caja} & \mqiWhite{36\,029} & \mqiWhite{61\,157} & \mqiWhite{101\,439} & \mqiWhite{162\,831} & \mqiWhite{189\,919} & \mqiWhite{367\,972} & \mqiWhite{513\,742} & \mqiWhite{599\,070} & \mqiWhite{899\,676} & \mqiWhite{1\,174\,222} \\ \hline
+		\mqiA Total ingresos & 476\,890 & 669\,345 & 833\,194 & 1\,002\,622 & 1\,052\,838 & 1\,533\,637 & 1\,705\,299 & 1\,802\,174 & 2\,329\,438 & 2\,549\,586 \\ \hline
+		\mqiB Total egresos & 526\,820 & 661\,370 & 765\,770 & 866\,876 & 917\,681 & 1\,178\,185 & 1\,325\,477 & 1\,438\,503 & 1\,645\,066 & 1\,813\,297 \\ \hline
+		\mqiA Flujo del periodo & -49\,931 & 7\,976 & 67\,424 & 135\,746 & 135\,157 & 355\,452 & 379\,821 & 363\,672 & 684\,373 & 736\,288 \\ \hline
+		\mqiT \mqiWhite{Saldo final de caja} & \mqiWhite{69} & \mqiWhite{8\,045} & \mqiWhite{75\,469} & \mqiWhite{211\,215} & \mqiWhite{346\,372} & \mqiWhite{701\,825} & \mqiWhite{1\,081\,646} & \mqiWhite{1\,445\,318} & \mqiWhite{2\,129\,690} & \mqiWhite{2\,865\,979} \\ \hline
 	\end{tabular}%
 	}
-	\caption[Presupuesto de caja MuseIQ]{Presupuesto de caja y saldo acumulado del escenario base. Fuente: elaboración propia.}
-	\label{tab:presupuesto-caja-museiq}
+	\caption[Presupuesto de caja del proyecto]{Presupuesto de caja del escenario base. Fuente: hoja \texttt{PRESUPUESTO CAJA}.}
+	\label{tab:presupuesto-caja-proyecto}
 \end{table}
 
-La lectura financiera sigue siendo exigente: la caja positiva no elimina el riesgo de cobranza. Para protegerla, el contrato comercial debe exigir anticipos por implementación, entregables parciales facturables y reglas de sobreconsumo de IA/voz.
+El balance general proyectado cuadra en todos los años del modelo. Al año 10, los activos totales alcanzan S/3\,175\,560, de los cuales S/2\,865\,979 corresponden a caja y bancos y S/308\,401 a cuentas por cobrar. El pasivo total llega a S/392\,781, compuesto por cuentas por pagar e impuesto por pagar, mientras que el patrimonio alcanza S/2\,782\,779. Esta evolución confirma que el valor económico se concentra en la caja generada por la operación y en la acumulación de utilidades.
 
-\subsection{Balance general proyectado}
+\section{Flujo de efectivo e indicadores financieros}
 
-El balance general proyectado enlaza caja, cuentas por cobrar, activos netos, cuentas por pagar, deuda, impuestos y patrimonio. Durante la verificación se corrigió la clasificación de la deuda corriente para que cada año muestre el principal exigible en el periodo siguiente. Con esta corrección, la diferencia de cuadre es igual a cero en los diez años.
-
-\begin{table}[H]
-	\centering
-	\footnotesize
-	\mqiTableSetup
-	\begin{tabular}{|p{6.7cm}|r|r|r|}
-		\hline
-		\mqiTitle{4}{BALANCE GENERAL PROYECTADO RESUMIDO}
-		\mqiHead \mqiWhite{Concepto} & \mqiWhite{Año 1} & \mqiWhite{Año 5} & \mqiWhite{Año 10} \\ \hline
-		\mqiA Activo corriente & 88\,889 & 282\,787 & 1\,361\,254 \\ \hline
-		\mqiB Activo fijo neto & 93\,800 & 9\,000 & 0 \\ \hline
-		\mqiA Activo intangible neto & 105\,600 & 0 & 0 \\ \hline
-		\mqiT \mqiWhite{Total activo} & \mqiWhite{288\,289} & \mqiWhite{291\,787} & \mqiWhite{1\,361\,254} \\ \hline
-		\mqiA Pasivo corriente & 17\,351 & 71\,052 & 178\,697 \\ \hline
-		\mqiB Deuda de largo plazo & 180\,000 & 82\,410 & 0 \\ \hline
-		\mqiA Total pasivo & 197\,351 & 153\,462 & 178\,697 \\ \hline
-		\mqiB Patrimonio & 90\,938 & 138\,325 & 1\,182\,557 \\ \hline
-		\mqiT \mqiWhite{Pasivo más patrimonio} & \mqiWhite{288\,289} & \mqiWhite{291\,787} & \mqiWhite{1\,361\,254} \\ \hline
-	\end{tabular}
-	\caption[Balance general proyectado MuseIQ]{Balance general proyectado resumido de MuseIQ. Fuente: elaboración propia.}
-	\label{tab:balance-proyectado-museiq}
-\end{table}
-
-La composición del balance cambia de manera consistente con el ciclo del proyecto. Los activos tangibles e intangibles se consumen mediante depreciación y amortización, la deuda se cancela en el año 8 y el crecimiento posterior se concentra en activos corrientes y patrimonio acumulado.
-
-\subsection{Análisis de los indicadores financieros de rentabilidad: VAN, TIR e IR}
-
-El flujo de efectivo considera la inversión inicial, ingresos y egresos de caja, liquidación de cuentas por cobrar, valor de salvamento y pasivo circulante final. El primer año presenta una salida neta moderada y la recuperación se produce de forma gradual, sin los excedentes tempranos del modelo anterior.
+El flujo de efectivo económico considera la inversión inicial, el flujo anual de caja, la liquidación de cuentas por cobrar al cierre del horizonte, el valor de salvamento y la cancelación del pasivo circulante final. La inversión inicial se registra como salida en el año 0; luego se evalúan los flujos netos descontados con la tasa de corte calculada en el propio libro de trabajo.
 
 \begin{table}[H]
 	\centering
@@ -407,39 +323,60 @@ El flujo de efectivo considera la inversión inicial, ingresos y egresos de caja
 	\resizebox{\textwidth}{!}{%
 	\begin{tabular}{|l|r|rrrrrrrrrr|}
 		\hline
-		\mqiTitle{12}{FLUJO NETO DE EFECTIVO}
+		\mqiTitle{12}{FLUJO NETO DE EFECTIVO PARA EVALUACIÓN}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A0} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Flujo neto & -300\,000 & -13\,971 & 25\,127 & 40\,283 & 61\,392 & 27\,088 & 178\,053 & 145\,770 & 85\,328 & 300\,606 & 317\,880 \\ \hline
+		\mqiA Flujo para evaluación & -300\,000 & -49\,931 & 7\,976 & 67\,424 & 135\,746 & 135\,157 & 355\,452 & 379\,821 & 363\,672 & 684\,373 & 686\,909 \\ \hline
 	\end{tabular}%
 	}
-	\caption[Flujo neto de efectivo MuseIQ]{Flujo neto de efectivo usado para VAN, TIR e índice de rentabilidad. Fuente: elaboración propia.}
-	\label{tab:flujo-neto-museiq}
+	\caption[Flujo neto de efectivo del proyecto]{Flujo neto de efectivo usado para VAN, TIR e índice de rentabilidad. Fuente: hoja \texttt{FLUJO DE EFECTIVO}.}
+	\label{tab:flujo-neto-proyecto}
 \end{table}
 
-Los indicadores resultantes se muestran en la Tabla~\ref{tab:indicadores-financieros-museiq}. El VAN es positivo, pero no excesivo; la TIR supera la tasa real de corte por 7.62 puntos porcentuales; y el periodo de recuperación descontado se ubica alrededor del año 8.23. Esto confirma que el proyecto es defendible, pero no de recuperación inmediata.
+La tasa de corte se calcula con la misma lógica del archivo de referencia. Primero se obtiene el costo promedio ponderado del capital: 40\% de fondos propios con costo de 9\% y 60\% de deuda con costo de 18\%. Esto produce un costo de capital de 14.40\%. Luego se incorpora una inflación promedio de 3.55\% y una prima de riesgo equivalente a 0.51\%. La tasa de corte resultante es 18.46\%.
 
 \begin{table}[H]
 	\centering
 	\footnotesize
 	\mqiTableSetup
-	\begin{tabular}{|p{5.8cm}|r|p{5.8cm}|}
+	\begin{tabular}{|p{5.0cm}|r|r|r|}
+		\hline
+		\mqiTitle{4}{CÁLCULO DE LA TASA DE CORTE}
+		\mqiHead \mqiWhite{Componente} & \mqiWhite{Monto / base} & \mqiWhite{Costo / tasa} & \mqiWhite{Aporte} \\ \hline
+		\mqiA Fondos propios & S/120\,000 & 9.00\% & 3.60\% \\ \hline
+		\mqiB Financiamiento & S/180\,000 & 18.00\% & 10.80\% \\ \hline
+		\mqiT \mqiWhite{Costo de capital ponderado} & \mqiWhite{S/300\,000} & \mqiWhite{} & \mqiWhite{14.40\%} \\ \hline
+		\mqiA Inflación promedio proyectada & -- & 3.55\% & 3.55\% \\ \hline
+		\mqiB Riesgo de inversión & 14.40\% $\times$ 3.55\% & -- & 0.51\% \\ \hline
+		\mqiT \mqiWhite{Tasa de corte} & \mqiWhite{} & \mqiWhite{} & \mqiWhite{18.46\%} \\ \hline
+	\end{tabular}
+	\caption[Cálculo de tasa de corte del proyecto]{Cálculo de la tasa de corte usada para VAN y TIR. Fuente: hoja \texttt{COSTO CAPITAL VAN TIR IR}.}
+	\label{tab:tasa-corte-proyecto}
+\end{table}
+
+Con la tasa de corte de 18.46\%, el proyecto genera un VAN positivo de S/444\,585, una TIR de 33.99\% y un índice de rentabilidad de 2.48. El periodo de recuperación descontado es 6.35 años. En consecuencia, el proyecto se acepta en el escenario base, porque el VAN es mayor que cero, la TIR supera la tasa de corte y el índice de rentabilidad es mayor que uno.
+
+\begin{table}[H]
+	\centering
+	\footnotesize
+	\mqiTableSetup
+	\begin{tabular}{|p{5.9cm}|r|p{5.7cm}|}
 		\hline
 		\mqiTitle{3}{INDICADORES FINANCIEROS}
 		\mqiHead \mqiWhite{Indicador} & \mqiWhite{Resultado} & \mqiWhite{Lectura} \\ \hline
-		\mqiA Tasa de corte real & 12.35\% & WACC real más prima específica del proyecto \\ \hline
-		\mqiB Valor actual neto (VAN) & S/180\,940 & Positivo, pero sensible a ingresos y costos \\ \hline
-		\mqiA Tasa interna de retorno (TIR) & 19.96\% & Supera la tasa de corte por 7.62 puntos \\ \hline
-		\mqiB Índice de rentabilidad (IR) & 1.60 & Valor presente por encima de la inversión inicial \\ \hline
-		\mqiA Recuperación descontada & 8.23 años & Recuperación lenta; exige continuidad comercial \\ \hline
-		\mqiB Saldo mínimo de caja & S/36\,029 & Holgura reducida durante la fase inicial \\ \hline
+		\mqiA Tasa de corte & 18.46\% & Tasa mínima exigida para aceptar el proyecto \\ \hline
+		\mqiB Valor actual neto (VAN) & S/444\,585 & Genera valor económico positivo \\ \hline
+		\mqiA Tasa interna de retorno (TIR) & 33.99\% & Supera la tasa de corte en 15.53 puntos porcentuales \\ \hline
+		\mqiB Índice de rentabilidad (IR) & 2.48 & Por cada sol invertido se obtiene un valor presente superior al desembolso inicial \\ \hline
+		\mqiA Recuperación descontada & 6.35 años & La inversión se recupera durante el séptimo año de operación \\ \hline
+		\mqiB Resultado & Proyecto se acepta & Cumple VAN positivo, TIR mayor que tasa de corte e IR mayor que uno \\ \hline
 	\end{tabular}
-	\caption[Indicadores financieros MuseIQ]{Indicadores financieros del escenario base MuseIQ. Fuente: elaboración propia.}
-	\label{tab:indicadores-financieros-museiq}
+	\caption[Indicadores financieros del proyecto]{Indicadores financieros del escenario base. Fuente: hoja \texttt{COSTO CAPITAL VAN TIR IR}.}
+	\label{tab:indicadores-financieros-proyecto}
 \end{table}
 
-\subsection{Punto de equilibrio y razones financieras}
+\section{Punto de equilibrio y lectura operativa}
 
-El punto de equilibrio confirma que la etapa crítica corresponde a los primeros cinco años. El porcentaje sobre ventas se mantiene entre 72.8\% y 89.8\% en esa fase; desde el año 6 disminuye por el mayor peso de ingresos recurrentes, aunque vuelve a elevarse parcialmente cuando crecen soporte, planilla y actividad de campo.
+El punto de equilibrio permite evaluar si las ventas anuales cubren los costos variables y fijos. En los dos primeros años el punto de equilibrio supera las ventas, lo que refleja el peso de la estructura inicial y de la deuda. A partir del tercer año, las ventas superan el punto de equilibrio y el margen mejora de manera sostenida. En el año 10, el punto de equilibrio equivale a 28.6\% de las ventas, lo cual muestra una operación más estable.
 
 \begin{table}[H]
 	\centering
@@ -450,50 +387,53 @@ El punto de equilibrio confirma que la etapa crítica corresponde a los primeros
 		\hline
 		\mqiTitle{11}{PUNTO DE EQUILIBRIO}
 		\mqiHead \mqiWhite{Concepto} & \mqiWhite{A1} & \mqiWhite{A2} & \mqiWhite{A3} & \mqiWhite{A4} & \mqiWhite{A5} & \mqiWhite{A6} & \mqiWhite{A7} & \mqiWhite{A8} & \mqiWhite{A9} & \mqiWhite{A10} \\ \hline
-		\mqiA Punto de equilibrio en soles & 395\,455 & 469\,970 & 507\,616 & 559\,763 & 626\,550 & 624\,468 & 638\,509 & 743\,427 & 724\,791 & 758\,011 \\ \hline
-		\mqiB Porcentaje sobre ventas & 89.8\% & 86.3\% & 77.1\% & 72.8\% & 81.0\% & 55.4\% & 54.6\% & 62.5\% & 48.0\% & 48.6\% \\ \hline
+		\mqiA Punto de equilibrio en soles & 694\,448 & 762\,750 & 733\,133 & 724\,811 & 709\,553 & 655\,754 & 645\,076 & 698\,276 & 722\,579 & 735\,109 \\ \hline
+		\mqiB Porcentaje sobre ventas & 128.1\% & 111.1\% & 85.9\% & 70.9\% & 67.1\% & 41.0\% & 37.5\% & 38.5\% & 30.1\% & 28.6\% \\ \hline
 	\end{tabular}%
 	}
-	\caption[Punto de equilibrio MuseIQ]{Punto de equilibrio del escenario base. Fuente: elaboración propia.}
-	\label{tab:punto-equilibrio-museiq}
+	\caption[Punto de equilibrio del proyecto]{Punto de equilibrio del escenario base. Fuente: hoja \texttt{PUNTO DE EQUILIBRIO}.}
+	\label{tab:punto-equilibrio-proyecto}
 \end{table}
 
-Las razones financieras incluidas en el libro de trabajo muestran el mismo patrón. La liquidez inicial es débil por la cobranza diferida y el servicio de deuda; la rentabilidad mejora cuando aumenta la base recurrente; y la cobertura de intereses se fortalece después de los primeros años. Por tanto, el proyecto debe gestionarse con disciplina de caja, no solamente con enfoque de crecimiento comercial.
+La lectura operativa es clara: el proyecto necesita sostener la captación de paquetes Estándar y Avanzados para absorber costos fijos y mantener una base recurrente suficiente. La rentabilidad no proviene únicamente de vender implementaciones nuevas, sino de acumular museos activos que pagan soporte, IA, analítica y mantenimiento.
 
-\section{Sensibilidad y riesgos}
+\section{Análisis de sensibilidad}
 
-La evaluación de sensibilidad se diseñó para evitar conclusiones complacientes. En el escenario base, el proyecto se acepta; sin embargo, una reducción de 20\% en ingresos, un aumento de 10\% en gastos, una pérdida de 20\% en recuperación de cuentas por cobrar o una reducción de precio de 10\% vuelven negativo el VAN. La tasa de deuda de 24\% reduce la holgura, pero no destruye por sí sola la viabilidad.
+El análisis de sensibilidad permite identificar las condiciones bajo las cuales el proyecto deja de ser atractivo. El escenario base es viable, pero no debe interpretarse como garantía automática. La reducción de ingresos de 20\% vuelve negativo el VAN; la no recuperación del 20\% de cuentas por cobrar también vuelve inviable el proyecto; y una reducción de precios de 15\% destruye valor. En cambio, el incremento de costos y gastos de 10\%, el aumento de tasa de interés a 24\%, el incremento de gastos administrativos de 15\% y el escenario de precio -10\% aún mantienen viabilidad, aunque con menor holgura.
 
 \begin{table}[H]
 	\centering
 	\footnotesize
 	\mqiTableSetup
-	\begin{tabular}{|p{5.2cm}|r|r|p{5.0cm}|}
+	\resizebox{\textwidth}{!}{%
+	\begin{tabular}{|p{5.0cm}|r|r|r|p{4.7cm}|}
 		\hline
-		\mqiTitle{4}{ANÁLISIS DE SENSIBILIDAD}
-		\mqiHead \mqiWhite{Escenario} & \mqiWhite{VAN} & \mqiWhite{TIR} & \mqiWhite{Lectura} \\ \hline
-		\mqiA Base & S/180\,940 & 19.96\% & Viable con control de caja y cartera recurrente \\ \hline
-		\mqiB Ingresos -20\% & -S/581\,105 & -18.61\% & No viable; alta dependencia del cierre comercial \\ \hline
-		\mqiA Gastos +10\% & -S/135\,176 & 6.44\% & No cubre la tasa de corte \\ \hline
-		\mqiB Interés 24\% & S/102\,789 & 18.75\% & Viable con menor holgura financiera \\ \hline
-		\mqiA No recuperación CxC 20\% & -S/368\,179 & -8.69\% & Riesgo crítico de cobranza institucional \\ \hline
-		\mqiB Gastos administrativos +15\% & S/124\,260 & 17.56\% & Aún viable, pero con menor margen \\ \hline
-		\mqiA Precio -10\% & -S/191\,330 & 3.59\% & No recomendable bajar precio sin reducir alcance \\ \hline
-		\mqiB Optimista & S/504\,402 & 32.40\% & Mejora por mayor ingreso y eficiencia operativa \\ \hline
-	\end{tabular}
-	\caption[Análisis de sensibilidad MuseIQ]{Análisis de sensibilidad financiero de MuseIQ. Fuente: elaboración propia.}
-	\label{tab:sensibilidad-museiq}
+		\mqiTitle{5}{ANÁLISIS DE SENSIBILIDAD}
+		\mqiHead \mqiWhite{Escenario} & \mqiWhite{VAN} & \mqiWhite{TIR} & \mqiWhite{IR} & \mqiWhite{Resultado} \\ \hline
+		\mqiA Base & 444\,585 & 33.99\% & 2.48 & Viable \\ \hline
+		\mqiB Ingresos -20\% & -324\,974 & 6.29\% & -0.08 & No viable \\ \hline
+		\mqiA Costos y gastos +10\% & 141\,276 & 23.26\% & 1.47 & Viable, con menor margen \\ \hline
+		\mqiB Interés del financiamiento 24\% & 261\,962 & 32.64\% & 1.87 & Viable, pero con mayor tasa de corte \\ \hline
+		\mqiA No recuperación CxC 20\% & -126\,994 & 13.41\% & 0.58 & No viable \\ \hline
+		\mqiB Gastos administrativos +15\% & 378\,808 & 31.49\% & 2.26 & Viable \\ \hline
+		\mqiA Precio -10\% & 69\,017 & 20.93\% & 1.23 & Viable, con liquidez ajustada \\ \hline
+		\mqiB Precio -15\% & -123\,659 & 13.96\% & 0.59 & No viable \\ \hline
+		\mqiA Optimista & 793\,866 & 45.62\% & 3.65 & Viable con amplia holgura \\ \hline
+	\end{tabular}%
+	}
+	\caption[Análisis de sensibilidad del proyecto]{Análisis de sensibilidad financiero del proyecto. Fuente: hojas de sensibilidad del flujo de caja.}
+	\label{tab:sensibilidad-proyecto}
 \end{table}
 
-La sensibilidad permite extraer cuatro condiciones de viabilidad. Primero, MuseIQ no debe venderse por debajo del precio económico calculado salvo que se reduzca alcance o costo de soporte. Segundo, la cobranza debe pactarse con anticipos y entregables facturables, porque la no recuperación de cuentas por cobrar afecta más que un aumento moderado de gastos administrativos. Tercero, el consumo de IA y voz debe tener bolsas de uso y reglas de sobreconsumo. Cuarto, la expansión debe priorizar contratos Estándar y Avanzados con capacidad institucional, antes que volumen de clientes pequeños con bajo margen.
+La sensibilidad muestra tres riesgos críticos. El primero es comercial: si la captación o el precio efectivo caen demasiado, el proyecto no cubre el costo de capital. El segundo es financiero-operativo: la no recuperación de cuentas por cobrar afecta fuertemente el valor del proyecto, por lo que los contratos deben exigir anticipos, hitos de pago y conformidad documentada. El tercero es de alcance: una reducción de precio solo es sostenible si se reduce el alcance técnico, el consumo de IA o el soporte incluido. En particular, el precio -10\% aún resulta viable, pero el propio presupuesto de caja de ese escenario muestra una necesidad temporal de liquidez cercana a S/111\,946; por ello, no debería aplicarse sin capital de trabajo adicional o condiciones de cobro más estrictas.
 
-\section{Viabilidad económica y financiera}
+\section{Conclusión financiera}
 
-La evaluación económica financiera muestra que MuseIQ es viable bajo condiciones controladas, pero no bajo un escenario idealizado. El proyecto requiere S/300\,000 de inversión inicial, una mezcla de 40\% de fondos propios y 60\% de deuda, una cartera base de 35 museos en diez años y una política estricta de cobranza. Con esos supuestos, el VAN alcanza S/180\,940, la TIR llega a 19.96\% y el índice de rentabilidad es 1.60, superando la tasa real de corte de 12.35\%.
+La evaluación económica financiera muestra que el proyecto es viable en el escenario base. La propuesta requiere una inversión inicial de S/300\,000, financiada con S/120\,000 de fondos propios y S/180\,000 de deuda. Con una cartera acumulada de 35 museos en diez años, ventas institucionales al contado y al crédito, costos de implementación, soporte recurrente, planilla, gastos, depreciaciones, amortizaciones, impuestos y deuda, el flujo obtiene un VAN de S/444\,585, una TIR de 33.99\%, un índice de rentabilidad de 2.48 y una recuperación descontada de 6.35 años.
 
-La conclusión principal no es que el proyecto sea automáticamente rentable, sino que puede ser financieramente defendible si se gestiona como servicio institucional completo. MuseIQ debe monetizar diagnóstico, implementación, corpus curatorial, soporte, mantenimiento, IA y analítica; no puede sostenerse como simple venta de beacons o aplicación genérica. El saldo mínimo de caja de S/36\,029 muestra que existe poca holgura en la etapa inicial, por lo que siguen siendo necesarios anticipos contractuales y control de cobranza.
+La conclusión no es que la solución sea rentable bajo cualquier condición, sino que es financieramente defendible si se gestiona como un servicio institucional completo. La propuesta debe monetizar implementación, corpus curatorial, soporte, IA, analítica y mantenimiento, evitando competir como simple venta de beacons o aplicación genérica. Asimismo, la operación debe proteger la caja mediante anticipos, control de cuentas por cobrar y límites claros de uso de IA/voz.
 
-En consecuencia, el proyecto se acepta en el escenario base, pero queda condicionado a tres decisiones de gestión: asegurar contratos ancla de alta visibilidad, controlar el costo recurrente de IA/voz y proteger la cobranza institucional. Bajo esas condiciones, MuseIQ puede avanzar desde el prototipo técnico descrito en los capítulos previos hacia una operación comercial sostenible para museos peruanos.
+En consecuencia, el proyecto se acepta bajo el escenario base. Sin embargo, su viabilidad queda condicionada a mantener precios consistentes con el alcance, priorizar contratos Estándar y Avanzados, controlar costos recurrentes de nube e IA, y asegurar mecanismos de cobranza contractual. Bajo esas condiciones, el prototipo técnico desarrollado en los capítulos previos puede evolucionar hacia una operación sostenible para museos peruanos.
 
 \arrayrulecolor{black}
 \endgroup

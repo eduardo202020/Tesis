@@ -4,6 +4,7 @@
 .DS_Store
 Thumbs.db
 .idea/
+.venv/
 __pycache__/
 *.pyc
 
@@ -29,7 +30,7 @@ __pycache__/
 *.xdv
 
 # Generated thesis assets
-tesis/graficos/output/
+
 
 # Local work logs / non-repo deliverables
 tech-lab/

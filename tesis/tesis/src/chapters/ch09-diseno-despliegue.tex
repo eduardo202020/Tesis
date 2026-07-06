@@ -2,15 +2,15 @@
 
 \section{Propósito del capítulo}
 
-Luego de haber definido la base tecnológica del proyecto en el Capítulo 7, el contrato de datos de entrada en el Capítulo 8 y los paquetes comerciales en el Capítulo 5, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla el diseño del paquete de solución MuseIQ, la arquitectura general, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
+Luego de haber definido la base tecnológica del proyecto en el Capítulo 7, el contrato de datos de entrada en el Capítulo 8 y los paquetes comerciales en el Capítulo 5, corresponde precisar cómo esos insumos se convierten en una solución operativa. Por ello, este capítulo desarrolla el diseño del paquete de solución propuesto, la arquitectura general, el diseño de sus subsistemas, la integración entre componentes, la implementación del prototipo y el esquema de validación funcional del sistema.
 
 La finalidad metodológica del capítulo es doble. En primer lugar, demostrar que la propuesta puede traducirse a módulos concretos, entregables verificables y flujos de información trazables. En segundo lugar, evidenciar que el prototipo desarrollado ya materializa una parte sustantiva de esa arquitectura mediante tres componentes principales: una capa IoT de proximidad BLE basada en ESP32, una aplicación móvil orientada a la experiencia del visitante y un backend RAG encargado de recuperación y respuesta contextual.
 
-\section{Diseño del paquete de solución MuseIQ}
+\section{Diseño del paquete de solución propuesto}
 
 \subsection{Definición del paquete implementable}
 
-En coherencia con el Capítulo 5, MuseIQ no se diseña como una aplicación aislada, sino como un paquete institucional de interpretación cultural digital. El paquete combina componentes físicos, software, servicios profesionales y operación recurrente. Esta precisión es importante porque el valor entregado al museo no proviene únicamente de instalar beacons o habilitar un chat, sino de convertir el recorrido museográfico en una experiencia contextual, accesible y medible.
+En coherencia con el Capítulo 5, la solución no se diseña como una aplicación aislada, sino como un paquete institucional de interpretación cultural digital. El paquete combina componentes físicos, software, servicios profesionales y operación recurrente. Esta precisión es importante porque el valor entregado al museo no proviene únicamente de instalar beacons o habilitar un chat, sino de convertir el recorrido museográfico en una experiencia contextual, accesible y medible.
 
 El paquete implementable se compone de seis bloques. El primero es el diagnóstico museográfico y técnico, donde se identifican salas, recorridos, públicos prioritarios y condiciones de conectividad. El segundo es la infraestructura de proximidad, formada por beacons BLE, señalética QR y accesorios de instalación. El tercero es la experiencia digital del visitante, materializada en la aplicación móvil o PWA. El cuarto es la base curatorial estructurada, que transforma textos, fichas y guiones de sala en insumos consultables. El quinto es la capa de inteligencia contextual, responsable de recuperación aumentada, voz y analítica. El sexto es la operación institucional, compuesta por capacitación, soporte, mantenimiento y mejora continua.
 
@@ -30,7 +30,7 @@ El paquete implementable se compone de seis bloques. El primero es el diagnósti
         Operación institucional & Capacitación, soporte, mantenimiento y actualización de contenidos & Manual operativo, acta de puesta en marcha y plan de soporte \\
         \hline
     \end{tabular}
-    \caption[Diseño del paquete implementable MuseIQ]{Diseño del paquete implementable MuseIQ como solución institucional. Fuente: elaboración propia.}
+    \caption[Diseño del paquete implementable]{Diseño del paquete implementable como solución institucional. Fuente: elaboración propia.}
     \label{tab:diseno-paquete-museiq}
 \end{table}
 
@@ -38,7 +38,7 @@ La Tabla~\ref{tab:diseno-paquete-museiq} permite distinguir el diseño del paque
 
 \subsection{Relación entre paquetes comerciales y diseño técnico}
 
-Los paquetes Básico, Estándar y Avanzado definidos en el Capítulo 5 comparten una misma arquitectura base, pero difieren en cobertura, profundidad curatorial, nivel de automatización y soporte. Esta decisión evita mantener tres productos inconexos. En cambio, MuseIQ se diseña como una plataforma modular que puede activarse con mayor o menor alcance según la escala del museo.
+Los paquetes Básico, Estándar y Avanzado definidos en el Capítulo 5 comparten una misma arquitectura base, pero difieren en cobertura, profundidad curatorial, nivel de automatización y soporte. Esta decisión evita mantener tres productos inconexos. En cambio, la solución se diseña como una plataforma modular que puede activarse con mayor o menor alcance según la escala del museo.
 
 \begin{table}[h!]
     \centering
@@ -55,7 +55,7 @@ Los paquetes Básico, Estándar y Avanzado definidos en el Capítulo 5 comparten
         \hline
     \end{tabular}%
     }
-    \caption[Relación entre paquetes comerciales y diseño técnico]{Relación entre paquetes comerciales y diseño técnico de MuseIQ. Fuente: elaboración propia.}
+    \caption[Relación entre paquetes comerciales y diseño técnico]{Relación entre paquetes comerciales y diseño técnico de la solución propuesta. Fuente: elaboración propia.}
     \label{tab:paquetes-diseno-tecnico-museiq}
 \end{table}
 
@@ -63,7 +63,7 @@ Desde el punto de vista de ingeniería, la diferencia entre paquetes se controla
 
 \subsection{Flujo de implementación del paquete}
 
-El paquete MuseIQ se implementa mediante una secuencia de trabajo que conecta venta, diseño, despliegue y operación. Primero se realiza el diagnóstico del museo y se confirma el paquete aplicable. Luego se diseña la cobertura de salas y se prepara el inventario de beacons. En paralelo se organiza el corpus curatorial inicial, se normalizan metadatos y se definen rutas de visita. Después se configura la aplicación, el backend y la base local del recorrido. Finalmente se ejecutan pruebas funcionales, capacitación y puesta en marcha.
+El paquete de solución se implementa mediante una secuencia de trabajo que conecta venta, diseño, despliegue y operación. Primero se realiza el diagnóstico del museo y se confirma el paquete aplicable. Luego se diseña la cobertura de salas y se prepara el inventario de beacons. En paralelo se organiza el corpus curatorial inicial, se normalizan metadatos y se definen rutas de visita. Después se configura la aplicación, el backend y la base local del recorrido. Finalmente se ejecutan pruebas funcionales, capacitación y puesta en marcha.
 
 Esta secuencia convierte la propuesta comercial en un proceso técnico controlable. Cada etapa produce una evidencia: mapa de zonas, inventario de dispositivos, corpus estructurado, aplicación configurada, pruebas de consulta y acta de operación. Con ello, la aceptación del paquete no depende de una percepción general de funcionamiento, sino de entregables concretos que pueden revisarse con el personal del museo.
 
@@ -73,12 +73,12 @@ Esta secuencia convierte la propuesta comercial en un proceso técnico controlab
 
 La solución propuesta se organiza como un sistema distribuido de mediación cultural contextual. Su operación integra una infraestructura física ligera dentro del museo, una plataforma móvil que actúa como interfaz principal del visitante y una capa de conocimiento que procesa consultas situadas. Esta arquitectura responde a un criterio de bajo costo y modularidad: cada componente puede evolucionar de manera relativamente independiente sin exigir rediseño completo del sistema.
 
-En la práctica, la solución puede entenderse como la interacción de cinco bloques funcionales. El primero es la infraestructura de contexto, compuesta por beacons BLE basados en ESP32 y por las señales sensoriales del smartphone. El segundo es la capa de adquisición local, implementada en la aplicación móvil, que captura observaciones BLE, orientación, pasos, acciones de interfaz y consultas del usuario. El tercero es la capa de persistencia operativa del recorrido, que mantiene información estructurada de salas, piezas, rutas y configuraciones locales. El cuarto es la capa de inteligencia y recuperación, implementada en MuseRAG, que filtra, recupera y sintetiza información documental. El quinto es la capa de entrega, que devuelve texto, audio e imágenes de apoyo al visitante.
+En la práctica, la solución puede entenderse como la interacción de cinco bloques funcionales. El primero es la infraestructura de contexto, compuesta por beacons BLE basados en ESP32 y por las señales sensoriales del smartphone. El segundo es la capa de adquisición local, implementada en la aplicación móvil, que captura observaciones BLE, orientación, pasos, acciones de interfaz y consultas del usuario. El tercero es la capa de persistencia operativa del recorrido, que mantiene información estructurada de salas, piezas, rutas y configuraciones locales. El cuarto es la capa de inteligencia y recuperación, implementada como backend RAG, que filtra, recupera y sintetiza información documental. El quinto es la capa de entrega, que devuelve texto, audio e imágenes de apoyo al visitante.
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.98\textwidth]{arquitectura-flujo-museiq-ia.png}
-    \caption[Ilustración integradora del flujo de datos y módulos de la solución propuesta]{Ilustración integradora del flujo de datos, módulos y relaciones funcionales de la solución propuesta. La imagen resume, en una sola vista, la captura de contexto en sala, el procesamiento móvil, la persistencia local, la consulta contextual a MuseRAG, la recuperación documental y la entrega multimodal al visitante. Fuente: elaboración propia con apoyo de IA generativa.}
+    \caption[Ilustración integradora del flujo de datos y módulos de la solución propuesta]{Ilustración integradora del flujo de datos, módulos y relaciones funcionales de la solución propuesta. La imagen resume, en una sola vista, la captura de contexto en sala, el procesamiento móvil, la persistencia local, la consulta contextual al backend RAG, la recuperación documental y la entrega multimodal al visitante. Fuente: elaboración propia con apoyo de IA generativa.}
     \label{fig:arquitectura-flujo-museiq-ia}
 \end{figure}
 
@@ -93,9 +93,39 @@ La Figura~\ref{fig:arquitectura-flujo-museiq-ia} cumple una función introductor
 
 La Figura~\ref{fig:arquitectura-general-museiq} resume esta organización y muestra que la inteligencia del sistema no reside en un único módulo aislado, sino en la coordinación entre adquisición de contexto, estructura local de recorrido y recuperación documental.
 
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.98\textwidth]{arquitectura_tecnica_prototipo.png}
+    \caption[Arquitectura técnica del prototipo distribuido]{Arquitectura técnica del prototipo distribuido, mostrando los contratos entre módulo IoT BLE, aplicación móvil, backend RAG, corpus curatorial y visitante. Fuente: elaboración propia.}
+    \label{fig:arquitectura-tecnica-prototipo}
+\end{figure}
+
+Para evitar que la arquitectura quede como una descripción abstracta, la Tabla~\ref{tab:trazabilidad-prototipo} vincula cada componente con evidencias concretas del prototipo desarrollado. Esta trazabilidad permite sostener que el diseño propuesto ya cuenta con una base implementada y que las decisiones de arquitectura derivan de módulos reales, no solo de supuestos de documentación.
+
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{4.7cm} >{\raggedright\arraybackslash}p{4.8cm} >{\raggedright\arraybackslash}p{4.4cm}}
+        \hline
+        \textbf{Componente} & \textbf{Evidencia en el prototipo} & \textbf{Responsabilidad de dise\~no} & \textbf{Contrato principal} \\
+        \hline
+        M\'odulo IoT BLE & Firmware ESP32/ESP32-C3 con advertising cada 500 ms y \textit{service data} UUID \texttt{0xA00A} & Emitir identidad de sala, nodo, potencia y bater\'ia sin requerir conexi\'on permanente & \texttt{ROOM\_ID}, \texttt{BEACON\_NODE}, versi\'on, \texttt{TX\_POWER}, bater\'ia \\
+        Aplicaci\'on m\'ovil & Esc\'aner BLE, suavizado RSSI, sensores, QR, SQLite, voz y recorrido local & Integrar contexto f\'isico, estado del visitante y experiencia de mediaci\'on & \texttt{BeaconData}, sala activa, obra candidata, \texttt{artwork\_context} \\
+        Backend RAG & API HTTP con recuperaci\'on vectorial, filtros por sala/obra y metadatos de soporte & Recuperar evidencia curatorial y generar respuesta contextual trazable & \texttt{POST /api/preguntar}, fuentes, soporte y tiempos de ejecuci\'on \\
+        Simulador de ubicaci\'on & Servicio HTTP local para activar zonas, obra asociada y modo inmersivo sin hardware f\'isico & Validar flujos de sala, zona, QR y respuesta antes del despliegue en campo & \texttt{GET /state}, \texttt{GET/POST /set}, \texttt{zoneId}, \texttt{artworkId} \\
+        Corpus curatorial & PDF, fichas, datos de salas, obras, im\'agenes y preguntas sugeridas & Proveer conocimiento institucional recuperable y verificable & \texttt{museum\_id}, \texttt{room\_id}, \texttt{artwork\_id}, \texttt{kind}, \texttt{source} \\
+        \hline
+    \end{tabular}%
+    }
+    \caption[Trazabilidad de componentes del prototipo]{Trazabilidad entre componentes del prototipo, responsabilidades de dise\~no y contratos de integraci\'on. Fuente: elaboraci\'on propia.}
+    \label{tab:trazabilidad-prototipo}
+\end{table}
+
 \subsection{Secuencia operativa end-to-end}
 
-Desde una perspectiva funcional, el sistema sigue una secuencia de seis etapas. Primero, los beacons BLE emiten identificadores de sala o nodo, mientras el teléfono registra además señales del acelerómetro, magnetómetro y podómetro. Segundo, la aplicación interpreta ese conjunto para inferir sala probable, estado de movimiento y obra activa o cercana dentro del recorrido. Tercero, el visitante puede consumir contenido local o formular una consulta mediante texto o voz. Cuarto, la app construye una solicitud contextual y la envía a MuseRAG. Quinto, el backend recupera fragmentos relevantes desde el corpus indexado y genera una respuesta guiada por evidencia. Sexto, la respuesta se presenta al usuario como texto, voz e imágenes relacionadas cuando estas se encuentran disponibles.
+Desde una perspectiva funcional, el sistema sigue una secuencia de seis etapas. Primero, los beacons BLE emiten identificadores de sala o nodo, mientras el teléfono registra además señales del acelerómetro, magnetómetro y podómetro. Segundo, la aplicación interpreta ese conjunto para inferir sala probable, estado de movimiento y obra activa o cercana dentro del recorrido. Tercero, el visitante puede consumir contenido local o formular una consulta mediante texto o voz. Cuarto, la app construye una solicitud contextual y la envía al backend RAG. Quinto, el backend recupera fragmentos relevantes desde el corpus indexado y genera una respuesta guiada por evidencia. Sexto, la respuesta se presenta al usuario como texto, voz e imágenes relacionadas cuando estas se encuentran disponibles.
 
 \begin{figure}[!ht]
     \centering
@@ -114,10 +144,10 @@ La arquitectura se apoya en cuatro criterios principales. El primero es separaci
 
 \subsection{Subsistema de infraestructura BLE e IoT}
 
-El subsistema IoT cumple la función de producir señales de proximidad física interpretables por la aplicación móvil. Su implementación actual se basa en el repositorio \texttt{iot-museiq}, donde se define un beacon BLE sobre ESP32/ESP32-C3 que emite \textit{service data} con UUID \texttt{0xA00A}. Dentro de ese paquete se codifican el identificador de sala, el nodo del beacon, la versión del firmware, la potencia de transmisión y el nivel de batería. Esta decisión permite que el beacon actúe como emisor ligero y especializado, sin necesidad de asumir lógica de cómputo contextual compleja.
+El subsistema IoT cumple la función de producir señales de proximidad física interpretables por la aplicación móvil. Su implementación actual se basa en el módulo IoT BLE, donde se define un beacon BLE sobre ESP32/ESP32-C3 que emite \textit{service data} con UUID \texttt{0xA00A}. Dentro de ese paquete se codifican el identificador de sala, el nodo del beacon, la versión del firmware, la potencia de transmisión y el nivel de batería. Esta decisión permite que el beacon actúe como emisor ligero y especializado, sin necesidad de asumir lógica de cómputo contextual compleja.
 
 \begin{center}
-\textbf{Listado 9.1.} Empaquetado simplificado del \textit{payload} BLE en \texttt{iot-museiq}
+\textbf{Listado 9.1.} Empaquetado simplificado del \textit{payload} BLE en el módulo IoT BLE
 \end{center}
 
 \begin{lstlisting}[style=codebase,language=Python]
@@ -145,7 +175,7 @@ En la versión actual del prototipo, el subsistema también incluye una variante
 
 \subsection{Subsistema móvil de experiencia del visitante}
 
-La aplicación móvil constituye el centro operativo del recorrido. En el prototipo implementado sobre Expo y React Native, la app cumple simultáneamente funciones de captura, persistencia local, navegación entre piezas, presentación de contenido y envío de consultas a MuseRAG. Este diseño convierte al smartphone en una plataforma de integración, no solo en un terminal de visualización.
+La aplicación móvil constituye el centro operativo del recorrido. En el prototipo implementado sobre Expo y React Native, la app cumple simultáneamente funciones de captura, persistencia local, navegación entre piezas, presentación de contenido y envío de consultas al backend RAG. Este diseño convierte al smartphone en una plataforma de integración, no solo en un terminal de visualización.
 
 El subsistema móvil se estructura alrededor de cuatro componentes internos. El primero es el escáner BLE, responsable de descubrir dispositivos, parsear \textit{service data}, aplicar fallback por nombre y suavizar RSSI mediante ventanas cortas y promedio exponencial. El segundo es el módulo de sensores, que registra movimiento, orientación aproximada y pasos para enriquecer el contexto. El tercero es el proveedor de estado general del recorrido, encargado de manejar obra actual, sala activa, progreso de visita, narración y permisos. El cuarto es la interfaz de usuario, desde donde el visitante navega por obras, abre el panel de sensores, realiza preguntas y consume respuestas multimodales.
 
@@ -159,7 +189,7 @@ El esquema local implementado incluye tablas equivalentes a \texttt{museum\_prof
 
 \subsection{Subsistema de conocimiento y respuesta contextual}
 
-La capa de conocimiento se implementa mediante MuseRAG, un backend local construido con FastAPI, Chroma y LM Studio. Su función no consiste únicamente en responder preguntas, sino en hacerlo con conciencia del recorrido. Para ello, recibe contexto de museo, sala, obra y, opcionalmente, un bloque detallado de metadatos curatoriales de la pieza activa.
+La capa de conocimiento se implementa mediante un backend RAG local construido con FastAPI, Chroma y LM Studio. Su función no consiste únicamente en responder preguntas, sino en hacerlo con conciencia del recorrido. Para ello, recibe contexto de museo, sala, obra y, opcionalmente, un bloque detallado de metadatos curatoriales de la pieza activa.
 
 El subsistema RAG se diseñó con cuatro responsabilidades. La primera es gestionar el índice vectorial persistente. La segunda es orquestar la recuperación con filtros por obra o sala cuando estos están disponibles. La tercera es construir un \textit{prompt} enriquecido con memoria de sesión y contexto curatorial inmediato. La cuarta es devolver una respuesta estructurada junto con fragmentos fuente, puntajes de soporte y metadatos útiles para la capa móvil.
 
@@ -169,16 +199,16 @@ La separación entre aplicación móvil y backend RAG tiene una ventaja relevant
 
 \subsection{Arquitectura de software}
 
-Desde la perspectiva del software, la solución propuesta puede describirse como una arquitectura de tres niveles coordinados. El nivel de borde corresponde al beacon BLE y a los sensores disponibles en el dispositivo. El nivel de aplicación corresponde al cliente móvil, que mantiene estado del recorrido, persistencia local, captura de interacción y construcción del contexto operacional. El nivel de servicios corresponde a MuseRAG y a sus dependencias, donde se ejecutan recuperación, generación y exposición de contenido adicional.
+Desde la perspectiva del software, la solución propuesta puede describirse como una arquitectura de tres niveles coordinados. El nivel de borde corresponde al beacon BLE y a los sensores disponibles en el dispositivo. El nivel de aplicación corresponde al cliente móvil, que mantiene estado del recorrido, persistencia local, captura de interacción y construcción del contexto operacional. El nivel de servicios corresponde al backend RAG y a sus dependencias, donde se ejecutan recuperación, generación y exposición de contenido adicional.
 
 Esta organización tiene afinidad con una arquitectura cliente-servicio contextualizada. La app no es un cliente delgado: realiza una parte importante del procesamiento de proximidad, estado y experiencia. A su vez, el backend no es una simple base documental: actúa como capa de razonamiento guiado por recuperación.
 
 \subsection{Interfaces y protocolos}
 
-La solución utiliza dos interfaces principales de integración. La primera es la interfaz BLE entre beacons y aplicación móvil. En ella se combinan advertising, \textit{service data}, nombres locales de dispositivo y metadatos derivados como RSSI y \texttt{lastSeen}. La segunda es la interfaz HTTP entre la app y MuseRAG, materializada en el endpoint \texttt{POST /api/preguntar}. Sobre esta segunda interfaz viajan la pregunta del usuario, el museo, la sala, la obra, el identificador de sesión y el contexto curatorial de la pieza cuando está disponible.
+La solución utiliza dos interfaces principales de integración. La primera es la interfaz BLE entre beacons y aplicación móvil. En ella se combinan advertising, \textit{service data}, nombres locales de dispositivo y metadatos derivados como RSSI y \texttt{lastSeen}. La segunda es la interfaz HTTP entre la app y el backend RAG, materializada en el endpoint \texttt{POST /api/preguntar}. Sobre esta segunda interfaz viajan la pregunta del usuario, el museo, la sala, la obra, el identificador de sesión y el contexto curatorial de la pieza cuando está disponible.
 
 \begin{center}
-\textbf{Listado 9.2.} \textit{Payload} contextual enviado por la aplicación móvil a MuseRAG
+\textbf{Listado 9.2.} \textit{Payload} contextual enviado por la aplicación móvil al backend RAG
 \end{center}
 
 \begin{lstlisting}[style=codebase]
@@ -197,22 +227,119 @@ La solución utiliza dos interfaces principales de integración. La primera es l
 }
 \end{lstlisting}
 
-Adicionalmente, el backend expone interfaces auxiliares para reconstrucción del índice, verificación de salud, consulta por catálogo de obras y entrega de imágenes. Estas rutas no están dirigidas al visitante final en todos los casos, pero sí son relevantes para operación, depuración y validación del prototipo.
+Adicionalmente, el backend expone interfaces auxiliares para reconstrucción del índice, verificación de salud, consulta por catálogo de obras y entrega de imágenes. Estas rutas no están dirigidas al visitante final en todos los casos, pero sí son relevantes para operación, depuración y validación del prototipo. La Tabla~\ref{tab:interfaces-prototipo} resume los contratos de integración que sostienen la comunicación entre los módulos.
+
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{3.1cm} >{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{3.5cm}}
+        \hline
+        \textbf{Interfaz} & \textbf{Origen--destino} & \textbf{Datos principales} & \textbf{Uso operativo} & \textbf{Criterio de validaci\'on} \\
+        \hline
+        BLE advertising \texttt{0xA00A} & Beacon ESP32 -- app m\'ovil & Sala, nodo, versi\'on, potencia, bater\'ia, RSSI observado & Reconocimiento de sala, fila o zona probable & La app decodifica el payload y ordena beacons por RSSI suavizado \\
+        GATT opcional \texttt{0xA00B}/\texttt{0xA00C} & App m\'ovil -- beacon & Identificador de beacon y potencia de transmisi\'on & Diagn\'ostico, lectura puntual y extensi\'on futura & El dispositivo expone valores legibles al conectarse \\
+        Simulador HTTP \texttt{:8787} & Herramienta de validaci\'on -- app & \texttt{zoneId}, \texttt{artworkId}, \texttt{qrCodes}, RSSI simulado & Reproducir flujos sin hardware BLE f\'isico & Cambiar zona modifica sala/obra sugerida en la app \\
+        API RAG \texttt{/api/preguntar} & App m\'ovil -- backend RAG & Pregunta, sala, obra, sesi\'on y contexto curatorial & Recuperaci\'on de fuentes y respuesta contextual & La respuesta retorna fuentes, soporte y metadatos de ejecuci\'on \\
+        Medios est\'aticos & Backend RAG -- app m\'ovil & Im\'agenes de obras y figuras del corpus & Apoyo visual de la respuesta y ficha de obra & La app puede resolver URL asociadas a fuentes recuperadas \\
+        \hline
+    \end{tabular}%
+    }
+    \caption[Interfaces de integraci\'on del prototipo]{Interfaces de integraci\'on que conectan los componentes del prototipo. Fuente: elaboraci\'on propia.}
+    \label{tab:interfaces-prototipo}
+\end{table}
 
 \subsection{Flujo de integración entre módulos}
 
-La integración entre módulos no se basa en una única llamada remota, sino en una acumulación de contexto. El escáner BLE actualiza el conjunto de beacons observados. El proveedor de estado decide la sala y obra activas. El usuario interactúa con esa obra mediante interfaz gráfica o voz. El cliente \texttt{muserag-api} envía la consulta enriquecida. El backend evalúa primero filtros por \texttt{artwork\_id} y luego por \texttt{room\_id} para priorizar fuentes contextualmente más cercanas. Finalmente, el modelo genera una respuesta breve y estructurada, que la app devuelve en formato legible, audible y visual.
+La integración entre módulos no se basa en una única llamada remota, sino en una acumulación de contexto. El escáner BLE actualiza el conjunto de beacons observados. El proveedor de estado decide la sala y obra activas. El usuario interactúa con esa obra mediante interfaz gráfica o voz. El cliente HTTP de la aplicación envía la consulta enriquecida. El backend evalúa primero filtros por \texttt{artwork\_id} y luego por \texttt{room\_id} para priorizar fuentes contextualmente más cercanas. Finalmente, el modelo genera una respuesta breve y estructurada, que la app devuelve en formato legible, audible y visual.
 
 Este diseño es importante porque reduce una de las debilidades comunes de las interfaces conversacionales generales: la pérdida de contexto. En la solución propuesta, la consulta no empieza en cero; comienza con un entorno ya descrito por la propia app.
+
+\subsection{Dise\~no de inferencia indoor y activaci\'on de obra}
+
+El dise\~no de inferencia indoor se plantea como un proceso progresivo, no como una decisi\'on instant\'anea. La raz\'on es t\'ecnica y funcional: RSSI presenta ruido, la orientaci\'on del smartphone puede fluctuar y el visitante puede desplazarse sin intenci\'on de detenerse frente a una pieza. Por ello, la soluci\'on combina se\~nales y mantiene mecanismos de confirmaci\'on antes de asumir que una obra espec\'ifica es el foco de atenci\'on.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.98\textwidth]{pipeline_rssi_orientacion.png}
+    \caption[Pipeline de inferencia indoor para activaci\'on contextual]{Pipeline propuesto para inferir sala, sector y obra candidata combinando BLE/RSSI, sensores del smartphone y confirmaci\'on del visitante. Fuente: elaboraci\'on propia.}
+    \label{fig:pipeline-rssi-orientacion}
+\end{figure}
+
+Como se observa en la Figura~\ref{fig:pipeline-rssi-orientacion}, el primer paso es adquirir observaciones BLE y decodificar el \textit{service data} emitido por el beacon. La aplicaci\'on m\'ovil conserva una ventana corta de RSSI por beacon y aplica suavizado exponencial, de modo que el beacon dominante se determine por se\~nal filtrada y no por una lectura aislada. Adem\'as, los beacons se marcan como inactivos si dejan de observarse durante un periodo prolongado y se eliminan del conjunto cuando su lectura queda obsoleta.
+
+El segundo paso consiste en estimar sala o sector probable. En el prototipo actual, el beacon dominante actualiza la sala activa y el nodo del beacon se usa como referencia de fila o zona. Cuando existe un \texttt{artworkId} proveniente del simulador o de un QR, la obra se considera confirmada. Si no existe identificaci\'on directa de obra, la aplicaci\'on toma las obras de la sala activa, filtra candidatas por nodo o fila y usa la orientaci\'on del smartphone para preferir una columna o direcci\'on de observaci\'on.
+
+El tercer paso incorpora la l\'ogica del modelo RSSI--orientaci\'on descrito en el Cap\'itulo 7. La obra candidata no se selecciona solo por intensidad BLE, sino por compatibilidad entre el sector probable y el rumbo del dispositivo. En una versi\'on operacional, esta decisi\'on puede expresarse mediante el puntaje \(S(o_k \mid i)\), de modo que una pieza obtiene mayor prioridad cuando pertenece al sector estimado y se encuentra alineada con la orientaci\'on del visitante.
+
+\begin{table}[h!]
+    \centering
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{4.5cm} >{\raggedright\arraybackslash}p{4.2cm} >{\raggedright\arraybackslash}p{3.2cm}}
+        \hline
+        \textbf{Situaci\'on} & \textbf{Regla de decisi\'on} & \textbf{Acci\'on de la app} & \textbf{Nivel de confianza} \\
+        \hline
+        QR o selecci\'on manual disponible & Usar identificador confirmado de obra & Abrir ficha, narraci\'on o consulta contextual & Alto \\
+        Beacon con \texttt{artworkId} simulado o mapeado & Usar obra asociada al nodo detectado & Mostrar sugerencia de obra cercana & Alto--medio \\
+        Beacon dominante sin obra directa & Filtrar obras por sala y nodo; resolver con orientaci\'on & Sugerir obra probable sin bloquear correcci\'on & Medio \\
+        Varios beacons con RSSI similar & Mantener sala probable y pedir confirmaci\'on indirecta & Priorizar lista de obras cercanas o QR & Medio--bajo \\
+        Se\~nal ausente o sensores no disponibles & Usar navegaci\'on manual y contenido local & Permitir selecci\'on de sala/obra por interfaz & Bajo \\
+        \hline
+    \end{tabular}
+    \caption[Reglas de decisi\'on para obra activa]{Reglas de decisi\'on para pasar de observaciones BLE y orientaci\'on a obra activa o sugerida. Fuente: elaboraci\'on propia.}
+    \label{tab:reglas-obra-activa}
+\end{table}
+
+La Tabla~\ref{tab:reglas-obra-activa} muestra que la soluci\'on privilegia una activaci\'on prudente. Cuando la evidencia es fuerte, la app puede abrir o sugerir una obra concreta. Cuando la evidencia es parcial, el sistema mantiene una sugerencia corregible. Cuando la evidencia es insuficiente, se conserva navegaci\'on manual. Esta decisi\'on evita que la automatizaci\'on deteriore la experiencia del visitante por activaciones err\'oneas.
+
+\begin{center}
+\textbf{Listado 9.3.} Pseudocódigo de inferencia contextual de sala y obra activa
+\end{center}
+
+\begin{lstlisting}[style=codebase]
+Entrada:
+  observaciones_ble, rumbo_dispositivo, obra_qr, sala_manual
+  catalogo_salas, catalogo_obras, tiempo_actual
+
+Salida:
+  sala_activa, obra_sugerida, nivel_confianza
+
+1. descartar observaciones BLE vencidas por tiempo_actual
+2. para cada beacon observado:
+     decodificar sala, nodo, potencia y bateria
+     actualizar ventana corta de RSSI
+     calcular RSSI suavizado
+3. si existe sala_manual:
+     sala_activa <- sala_manual
+     nivel_confianza <- alto
+4. si no existe sala_manual:
+     seleccionar beacon dominante por RSSI suavizado
+     sala_activa <- sala asociada al beacon dominante
+     nivel_confianza <- medio
+5. si existe obra_qr:
+     obra_sugerida <- obra_qr
+     nivel_confianza <- alto
+6. si no existe obra_qr:
+     candidatas <- obras de sala_activa compatibles con nodo dominante
+     calcular puntaje por compatibilidad de sector y rumbo_dispositivo
+     obra_sugerida <- candidata con mayor puntaje
+7. si las mejores candidatas tienen puntajes similares:
+     mostrar lista breve de obras cercanas y solicitar confirmacion indirecta
+8. retornar sala_activa, obra_sugerida y nivel_confianza
+\end{lstlisting}
+
+El pseudocódigo anterior formaliza la lógica computacional aplicada por el prototipo y evita presentar la ubicación \textit{indoor} como una caja negra. La decisión no depende de una sola señal, sino de una jerarquía de evidencia: selección manual o QR cuando existe confirmación directa, BLE suavizado para sala o nodo cercano, orientación para priorizar obra candidata y navegación manual cuando la confianza es insuficiente.
 
 \section{Implementación del prototipo y despliegue}
 
 \subsection{Implementación lógica y física}
 
-El prototipo actual se materializa en tres frentes de implementación. El primero es una infraestructura física mínima de beacons ESP32 para pruebas de sala. El segundo es una aplicación Android en modo \textit{Development Build}, orientada a validación iterativa de BLE, sensores y experiencia de interacción. El tercero es un backend local MuseRAG ejecutado sobre un equipo servidor en red local, acompañado por LM Studio para modelos de chat y embeddings, y por Chroma como almacenamiento vectorial persistente.
+El prototipo actual se materializa en tres frentes de implementación. El primero es una infraestructura física mínima de beacons ESP32 para pruebas de sala. El segundo es una aplicación Android en modo \textit{Development Build}, orientada a validación iterativa de BLE, sensores y experiencia de interacción. El tercero es un backend RAG local ejecutado sobre un equipo servidor en red local, acompañado por LM Studio para modelos de chat y embeddings, y por Chroma como almacenamiento vectorial persistente.
 
 \begin{center}
-\textbf{Listado 9.3.} Endpoint principal de integración en el backend MuseRAG
+\textbf{Listado 9.4.} Endpoint principal de integración en el backend RAG
 \end{center}
 
 \begin{lstlisting}[style=codebase,language=Python]
@@ -237,7 +364,7 @@ def mobile_question(payload: MobileQuestionRequest):
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.96\textwidth]{despliegue_prototipo_museiq.png}
-    \caption[Despliegue del prototipo propuesto]{Esquema de despliegue del prototipo y del entorno de validación, integrando beacons BLE, app móvil, red local, backend MuseRAG, LM Studio y simulación web complementaria. Fuente: elaboración propia.}
+    \caption[Despliegue del prototipo propuesto]{Esquema de despliegue del prototipo y del entorno de validación, integrando beacons BLE, app móvil, red local, backend RAG, LM Studio y simulación web complementaria. Fuente: elaboración propia.}
     \label{fig:despliegue-prototipo-museiq}
 \end{figure}
 
@@ -264,9 +391,33 @@ En coherencia con el sílabo, la validación del prototipo no se limita a demost
 \begin{enumerate}
     \item ¿La infraestructura BLE permite reconocer sala o referencia próxima de manera operativamente útil?
     \item ¿La app mantiene una experiencia coherente de recorrido, contenido local y consulta contextual?
-    \item ¿MuseRAG devuelve respuestas mejor sustentadas cuando recibe contexto de sala y obra?
+    \item ¿El backend RAG devuelve respuestas mejor sustentadas cuando recibe contexto de sala y obra?
     \item ¿La integración completa resulta demostrable en un entorno de prueba reproducible?
 \end{enumerate}
+
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{>{\raggedright\arraybackslash}p{2.0cm} >{\raggedright\arraybackslash}p{3.0cm} >{\raggedright\arraybackslash}p{4.3cm} >{\raggedright\arraybackslash}p{4.0cm} >{\raggedright\arraybackslash}p{4.0cm}}
+        \hline
+        \textbf{Prueba} & \textbf{Módulo evaluado} & \textbf{Procedimiento} & \textbf{Evidencia esperada} & \textbf{Criterio de aceptación} \\
+        \hline
+        P-01 & Beacon BLE & Encender nodos de sala y registrar anuncios desde la app móvil. & Identificación de sala, nodo, potencia, batería y RSSI observado. & La app decodifica el \textit{payload} y mantiene beacons activos sin conexión GATT obligatoria. \\
+        P-02 & Inferencia de contexto & Ubicar el teléfono en tres posiciones de prueba y modificar orientación. & Cambio de beacon dominante, sala probable y obra sugerida. & La sala se mantiene estable luego del suavizado y la obra sugerida cambia solo con evidencia suficiente. \\
+        P-03 & Fallback por QR o selección manual & Activar una obra mediante QR o selección desde interfaz. & Obra activa confirmada y ficha local disponible. & El sistema prioriza la confirmación directa sobre la inferencia automática. \\
+        P-04 & Consulta contextual & Enviar una pregunta con sala, obra y contexto curatorial activo. & Respuesta, fuentes recuperadas y metadatos de soporte. & El backend devuelve fuentes relacionadas con la sala u obra indicada. \\
+        P-05 & Experiencia multimodal & Reproducir narración y ejecutar consulta por texto o voz según permisos. & Contenido textual, narración y estado de permisos visible. & La app conserva recorrido local aun cuando una función remota o permiso no esté disponible. \\
+        P-06 & Despliegue reproducible & Ejecutar app, backend, índice vectorial y simulador en red local. & Flujo completo desde contexto físico o simulado hasta respuesta. & El prototipo puede demostrarse de extremo a extremo bajo condiciones controladas. \\
+        \hline
+    \end{tabular}%
+    }
+    \caption[Protocolo de validación funcional del prototipo]{Protocolo de validación funcional del prototipo, con procedimiento, evidencia y criterio de aceptación. Fuente: elaboración propia.}
+    \label{tab:protocolo-validacion-prototipo}
+\end{table}
+
+La Tabla~\ref{tab:protocolo-validacion-prototipo} convierte la validación en un conjunto de pruebas revisables. De esta manera, el resultado no depende únicamente de afirmar que el prototipo funciona, sino de contrastar cada bloque con una evidencia observable y con un criterio de aceptación previamente definido.
 
 \subsection{Pruebas del reconocimiento de contexto}
 
@@ -276,7 +427,7 @@ La incorporación de suavizado RSSI y de temporizadores de actividad e inactivid
 
 \subsection{Pruebas de consulta contextual y respuesta}
 
-Las pruebas de la capa conversacional se centran en verificar que la app envíe correctamente el \textit{payload} contextual y que MuseRAG recupere fuentes alineadas con sala y obra cuando estos filtros están disponibles. El backend, además de la respuesta principal, devuelve metadatos de soporte, fuentes y tiempos de ejecución, lo que permite inspeccionar no solo el resultado visible sino también la trazabilidad del proceso.
+Las pruebas de la capa conversacional se centran en verificar que la app envíe correctamente el \textit{payload} contextual y que el backend RAG recupere fuentes alineadas con sala y obra cuando estos filtros están disponibles. El backend, además de la respuesta principal, devuelve metadatos de soporte, fuentes y tiempos de ejecución, lo que permite inspeccionar no solo el resultado visible sino también la trazabilidad del proceso.
 
 Este punto es especialmente importante para la tesis, porque la diferencia entre un chatbot general y la solución propuesta radica precisamente en la contextualización. La validación funcional no exige demostrar perfección semántica absoluta, pero sí que la arquitectura reduce la arbitrariedad de la respuesta y la ancla en evidencia recuperada.
 
@@ -286,9 +437,34 @@ El prototipo desarrollado permite validar la coherencia central de la propuesta,
 
 Estas restricciones no invalidan la propuesta. Más bien, definen con honestidad el nivel de madurez del sistema y trazan la ruta de evolución futura: ampliación del corpus, despliegue en red institucional, calibración física en más salas y formalización de protocolos de prueba con usuarios.
 
+\subsection{Trazabilidad metodológica del diseño}
+
+La Tabla~\ref{tab:trazabilidad-metodologica-diseno} resume cómo el diseño desarrollado en este capítulo cubre los aspectos requeridos para una solución tecnológica aplicada: arquitectura general, diseño modular, diseño computacional, integración, implementación y validación. Esta trazabilidad permite verificar que el capítulo no se limita a describir una maqueta, sino que documenta la relación entre requerimiento técnico, artefacto producido y evidencia de validación.
+
+\begin{table}[h!]
+    \centering
+    \scriptsize
+    \setlength{\tabcolsep}{4pt}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{>{\raggedright\arraybackslash}p{3.3cm} >{\raggedright\arraybackslash}p{5.0cm} >{\raggedright\arraybackslash}p{5.0cm} >{\raggedright\arraybackslash}p{3.5cm}}
+        \hline
+        \textbf{Aspecto de diseño} & \textbf{Evidencia en el capítulo} & \textbf{Artefacto o decisión técnica} & \textbf{Resultado verificable} \\
+        \hline
+        Arquitectura general & Vista de alto nivel, secuencia operativa y despliegue distribuido. & Diagramas de arquitectura, flujo de datos y despliegue del prototipo. & Relación explícita entre BLE, app móvil, persistencia local, backend RAG y corpus. \\
+        Diseño de subsistemas & Separación entre infraestructura BLE, app, persistencia local y capa de conocimiento. & Responsabilidades por módulo y contratos de integración. & Componentes desacoplados y mantenibles. \\
+        Diseño computacional & Algoritmo de inferencia indoor y activación de obra. & Pseudocódigo, reglas de decisión y uso de RSSI suavizado con orientación. & Selección de sala y obra candidata con niveles de confianza. \\
+        Integración e interfaces & Interfaces BLE, HTTP/JSON, simulador y medios estáticos. & Payload BLE, endpoint \texttt{/api/preguntar} y contratos de datos. & Flujo de consulta contextual reproducible. \\
+        Implementación del prototipo & Entorno móvil, módulo IoT, backend RAG y ejecución local. & Development Build, ESP32, FastAPI, Chroma y LM Studio. & Demostración funcional de extremo a extremo. \\
+        Validación funcional & Pruebas P-01 a P-06 con evidencia esperada. & Protocolo de pruebas y criterios de aceptación. & Contraste entre funcionamiento observado y objetivos del proyecto. \\
+        \hline
+    \end{tabular}%
+    }
+    \caption[Trazabilidad metodológica del diseño de la solución]{Trazabilidad metodológica entre requerimientos de diseño, artefactos técnicos y evidencias de validación. Fuente: elaboración propia.}
+    \label{tab:trazabilidad-metodologica-diseno}
+\end{table}
+
 \section{Síntesis del capítulo}
 
 El capítulo ha mostrado que la solución propuesta puede describirse como una arquitectura técnicamente coherente, compuesta por infraestructura BLE ligera, una aplicación móvil centrada en el visitante, persistencia local del recorrido y un backend RAG que transforma preguntas contextualizadas en respuestas sustentadas por evidencia curatorial. La arquitectura general, el diseño modular de subsistemas y la integración entre componentes responden de manera directa a los requerimientos planteados en el sílabo para arquitectura del sistema, diseño computacional, interfaces, implementación y validación.
 
 Asimismo, el prototipo ya desarrollado demuestra que la propuesta no se limita a una formulación conceptual. Existe una capa física de emisión BLE, una capa móvil de captura y experiencia, una capa de conocimiento documentado y un entorno de despliegue reproducible para pruebas. En consecuencia, la tesis cuenta ahora con una base arquitectónica explícita que enlaza el contrato de datos del capítulo anterior con la viabilidad técnica y operativa del sistema propuesto.
-
